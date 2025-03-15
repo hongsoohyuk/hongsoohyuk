@@ -2,7 +2,8 @@
 
 import {useEffect, useRef} from 'react';
 
-import {useTranslations} from 'next-intl';
+import {Bot} from 'lucide-react';
+
 import type {ChatMessage} from '../types';
 
 type ChatMessagesProps = {
@@ -28,14 +29,20 @@ export function ChatMessages({messages, isLoading}: ChatMessagesProps) {
   }, [messages]);
 
   return (
-    <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3">
-      {messages.length === 0 && <HelloMessage />}
-      <div className="space-y-3">
+    <div ref={scrollRef} className="scrollbar-thin flex-1 overflow-y-auto py-6">
+      <div className="space-y-6">
         {messages.map((message) => (
-          <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+          <div key={message.id} className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
+            {message.role === 'assistant' && (
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-background">
+                <Bot className="size-4" />
+              </div>
+            )}
             <div
-              className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap ${
-                message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground'
+              className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+                message.role === 'user'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted/50 text-foreground'
               }`}
             >
               {getTextContent(message)}
@@ -43,8 +50,11 @@ export function ChatMessages({messages, isLoading}: ChatMessagesProps) {
           </div>
         ))}
         {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
-          <div className="flex justify-start">
-            <div className="bg-muted rounded-2xl px-3 py-2 text-sm">
+          <div className="flex gap-3">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-background">
+              <Bot className="size-4" />
+            </div>
+            <div className="bg-muted/50 rounded-2xl px-4 py-3 text-sm">
               <span className="inline-flex gap-1">
                 <span className="animate-bounce">·</span>
                 <span className="animate-bounce [animation-delay:150ms]">·</span>
@@ -56,9 +66,4 @@ export function ChatMessages({messages, isLoading}: ChatMessagesProps) {
       </div>
     </div>
   );
-}
-
-function HelloMessage() {
-  const t = useTranslations('AiChat');
-  return <p className="text-muted-foreground text-center text-sm mt-8">{t('hello')}</p>;
 }

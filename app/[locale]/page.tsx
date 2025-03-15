@@ -2,7 +2,7 @@ import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {GitHubLogoIcon, InstagramLogoIcon, LinkedInLogoIcon} from '@radix-ui/react-icons';
-import {FileUser, FolderKanban, Mail, MessageCircle, MessageSquareText, PenLine, TerminalSquare} from 'lucide-react';
+import {Bot, FileUser, FolderKanban, Mail, MessageCircle, MessageSquareText, PenLine, TerminalSquare} from 'lucide-react';
 
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
@@ -17,6 +17,7 @@ const SECTION_ICONS = {
   blog: PenLine,
   cli: TerminalSquare,
   resume: FileUser,
+  chat: Bot,
 } as const;
 
 type Props = {
@@ -57,7 +58,7 @@ export default async function Home({params}: Props) {
       {/* Navigation Cards */}
       <section className="px-4 pb-8 md:pb-16">
         <div className="grid gap-3 md:gap-4 max-w-4xl mx-auto grid-cols-2 sm:grid-cols-3">
-          {(['guestbook', 'project', 'instagram', 'blog', 'cli', 'resume'] as const).map((key) => {
+          {(['guestbook', 'project', 'instagram', 'blog', 'cli', 'resume', 'chat'] as const).map((key) => {
             const href = key === 'cli' ? '/cli' : `/${key}`;
             const Icon = SECTION_ICONS[key];
             return (

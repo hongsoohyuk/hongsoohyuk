@@ -33,6 +33,11 @@
         "title": "Resume",
         "description": "View tech stack, career history, and education",
         "button": "View Resume"
+      },
+      "chat": {
+        "title": "AI Chat",
+        "description": "Ask the AI assistant anything about me",
+        "button": "Start Chat"
       }
     },
     "contact": {
@@ -93,8 +98,8 @@
       "description": "Explore Soohyuk Hong's portfolio through a terminal interface."
     },
     "chat": {
-      "title": "AI Chat - Ask About Soohyuk",
-      "description": "Ask the AI assistant anything about Soohyuk Hong."
+      "title": "AI Chat",
+      "description": "A nice and kind assistant for hongsoohyuk. Ask me anything :)"
     }
   },
   "Instagram": {
@@ -256,9 +261,17 @@
   },
   "AiChat": {
     "assistant": "AI Assistant",
-    "pageDescription": "Ask me anything about Soohyuk",
-    "hello": "Hello! Ask me anything about Soohyuk.",
-    "placeholder": "Enter your message..."
+    "pageDescription": "A nice and kind assistant for hongsoohyuk. Ask me anything :)",
+    "hello": "Hello! I'm a nice and kind assistant for hongsoohyuk. Ask me anything :)",
+    "placeholder": "Enter your message...",
+    "send": "Send",
+    "suggestions": {
+      "techStack": "What tech stack does Soohyuk use?",
+      "projects": "Tell me about his projects",
+      "contact": "How can I contact him?",
+      "experience": "What is his work experience?",
+      "music": "What songs does Soohyuk listen to lately?"
+    }
   },
   "Common": {
     "open": "Open",

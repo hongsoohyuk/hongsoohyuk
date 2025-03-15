@@ -1,8 +1,13 @@
-import type {Metadata} from 'next';
+import type {Metadata, Viewport} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {ChatPage} from '@/features/ai-chat';
 import {createPageMetadata} from '@/config';
+
+export const viewport: Viewport = {
+  maximumScale: 1,
+  userScalable: false,
+};
 
 type Props = {
   params: Promise<{locale: string}>;

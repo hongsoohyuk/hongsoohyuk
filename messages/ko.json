@@ -33,6 +33,11 @@
         "title": "이력서",
         "description": "기술 스택, 경력, 학력 정보를 확인하세요",
         "button": "이력서 보기"
+      },
+      "chat": {
+        "title": "AI 채팅",
+        "description": "AI 어시스턴트에게 저에 대해 물어보세요",
+        "button": "채팅 시작"
       }
     },
     "contact": {
@@ -93,8 +98,8 @@
       "description": "터미널 인터페이스로 홍수혁의 포트폴리오를 탐색해보세요."
     },
     "chat": {
-      "title": "AI 채팅 - 홍수혁에 대해 물어보세요",
-      "description": "AI 어시스턴트에게 홍수혁에 대해 무엇이든 물어보세요."
+      "title": "AI 채팅",
+      "description": "hongsoohyuk의 친절하고 다정한 어시스턴트예요. 무엇이든 물어보세요 :)"
     }
   },
   "Instagram": {
@@ -255,9 +260,17 @@
   },
   "AiChat": {
     "assistant": "AI 어시스턴트",
-    "pageDescription": "홍수혁에 대해 무엇이든 물어보세요",
-    "hello": "안녕하세요! 홍수혁에 대해 무엇이든 물어보세요.",
-    "placeholder": "메시지를 입력하세요..."
+    "pageDescription": "hongsoohyuk의 친절하고 다정한 어시스턴트예요. 무엇이든 물어보세요 :)",
+    "hello": "안녕하세요! hongsoohyuk의 친절하고 다정한 어시스턴트예요. 무엇이든 물어보세요 :)",
+    "placeholder": "메시지를 입력하세요...",
+    "send": "전송",
+    "suggestions": {
+      "techStack": "어떤 기술 스택을 사용하나요?",
+      "projects": "프로젝트 경험을 알려주세요",
+      "contact": "연락처가 궁금해요",
+      "experience": "경력이 어떻게 되나요?",
+      "music": "요즘 자주 듣는 노래는 뭐야?"
+    }
   },
   "Common": {
     "open": "열기",

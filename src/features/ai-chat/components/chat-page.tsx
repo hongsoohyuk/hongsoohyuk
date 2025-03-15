@@ -3,18 +3,17 @@
 import {useState} from 'react';
 
 import {useChat} from '@ai-sdk/react';
-import {Bot} from 'lucide-react';
-import {useTranslations} from 'next-intl';
 
 import {ChatInput} from './chat-input';
 import {ChatMessages} from './chat-messages';
+import {ChatSuggestions} from './chat-suggestions';
 
 export function ChatPage() {
-  const t = useTranslations('AiChat');
   const {messages, sendMessage, status} = useChat();
   const [input, setInput] = useState('');
 
   const isLoading = status === 'submitted' || status === 'streaming';
+  const isEmpty = messages.length === 0;
 
   const handleSubmit = (e?: {preventDefault?: () => void}) => {
     e?.preventDefault?.();
@@ -24,25 +23,23 @@ export function ChatPage() {
     sendMessage({text});
   };
 
-  return (
-    <main className="mx-auto flex h-[calc(100dvh-8rem)] w-full max-w-2xl flex-col px-4 py-6">
-      {/* Header */}
-      <div className="mb-4 flex items-center gap-3">
-        <div className="flex size-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
-          <Bot className="size-5" />
-        </div>
-        <div>
-          <h1 className="text-lg font-semibold">{t('assistant')}</h1>
-          <p className="text-sm text-muted-foreground">{t('pageDescription')}</p>
-        </div>
-      </div>
+  const handleSuggestionClick = (text: string) => {
+    if (isLoading) return;
+    sendMessage({text});
+  };
 
-      {/* Messages */}
-      <div className="min-h-0 flex-1 rounded-2xl border bg-background">
-        <div className="flex h-full flex-col">
-          <ChatMessages messages={messages} isLoading={isLoading} />
-          <ChatInput input={input} isLoading={isLoading} onInputChange={setInput} onSubmit={handleSubmit} />
+  return (
+    <main className="mx-auto flex h-[calc(100dvh-4rem)] w-full max-w-3xl flex-col px-4">
+      {isEmpty ? (
+        <div className="flex flex-1 flex-col items-center justify-center gap-8">
+          <ChatSuggestions onSuggestionClick={handleSuggestionClick} />
         </div>
+      ) : (
+        <ChatMessages messages={messages} isLoading={isLoading} />
+      )}
+
+      <div className="shrink-0 pb-4 pt-2">
+        <ChatInput input={input} isLoading={isLoading} onInputChange={setInput} onSubmit={handleSubmit} />
       </div>
     </main>
   );

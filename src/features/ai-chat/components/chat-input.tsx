@@ -1,11 +1,12 @@
 'use client';
 
 import type {KeyboardEvent} from 'react';
+import {useEffect, useRef} from 'react';
 
-import {SendHorizontal} from 'lucide-react';
+import {ArrowUp} from 'lucide-react';
+import {useTranslations} from 'next-intl';
 
 import {Button} from '@/components/ui/button';
-import {useTranslations} from 'next-intl';
 
 type ChatInputProps = {
   input: string;
@@ -14,8 +15,21 @@ type ChatInputProps = {
   onSubmit(e?: {preventDefault?: () => void}): void;
 };
 
+const MAX_ROWS = 5;
+
 export function ChatInput({input, isLoading, onInputChange, onSubmit}: ChatInputProps) {
-  const aiChatT = useTranslations('AiChat');
+  const t = useTranslations('AiChat');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+    const maxHeight = lineHeight * MAX_ROWS;
+    el.style.height = `${Math.min(el.scrollHeight, maxHeight)}px`;
+  }, [input]);
+
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -31,19 +45,26 @@ export function ChatInput({input, isLoading, onInputChange, onSubmit}: ChatInput
         e.preventDefault();
         onSubmit();
       }}
-      className="border-t p-3 flex gap-2 items-end"
+      className="relative flex items-end gap-2 rounded-2xl border bg-background px-4 py-3 shadow-sm"
     >
       <textarea
+        ref={textareaRef}
         value={input}
         onChange={(e) => onInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder={aiChatT('placeholder')}
+        placeholder={t('placeholder')}
         disabled={isLoading}
         rows={1}
-        className="flex-1 resize-none rounded-lg border bg-background px-3 py-2 text-base outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground disabled:opacity-50"
+        className="scrollbar-thin flex-1 resize-none bg-transparent text-base leading-relaxed outline-none placeholder:text-muted-foreground disabled:opacity-50"
       />
-      <Button type="submit" size="icon-sm" disabled={!input.trim() || isLoading} aria-label="전송">
-        <SendHorizontal className="size-4" />
+      <Button
+        type="submit"
+        size="icon"
+        className="size-8 shrink-0 rounded-full"
+        disabled={!input.trim() || isLoading}
+        aria-label={t('send')}
+      >
+        <ArrowUp className="size-4" />
       </Button>
     </form>
   );
