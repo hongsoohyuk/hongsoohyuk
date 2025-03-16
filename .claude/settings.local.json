@@ -57,7 +57,9 @@
       "Bash(cat:*)",
       "Bash(wc:*)",
       "Bash(find:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "mcp__claude_ai_context7__resolve-library-id",
+      "WebFetch(domain:developer.spotify.com)"
     ]
   }
 }

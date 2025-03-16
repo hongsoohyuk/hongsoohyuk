@@ -62,13 +62,10 @@ export default async function Home({params}: Props) {
             const Icon = SECTION_ICONS[key];
             return (
               <Link key={key} href={href} className="group">
-                <Card className="h-full transition-shadow duration-200 hover:shadow-md hover:border-foreground/20 group-focus-visible:ring-2 group-focus-visible:ring-ring">
+                <Card className="h-full transition-shadow duration-200 hover:shadow-md hover:border-foreground/20 dark:hover:bg-input/50 group-focus-visible:ring-2 group-focus-visible:ring-ring">
                   <CardHeader className="pb-2 md:pb-4">
                     <CardTitle className="flex items-center gap-3 text-base md:text-lg">
-                      <Icon
-                        className="size-5 md:size-6 shrink-0 text-muted-foreground group-hover:text-foreground transition-colors"
-                        aria-hidden="true"
-                      />
+                      <Icon className="size-5 md:size-6 shrink-0 text-foreground" aria-hidden="true" />
                       <span className="font-semibold">{t(`sections.${key}.title`)}</span>
                     </CardTitle>
                   </CardHeader>
