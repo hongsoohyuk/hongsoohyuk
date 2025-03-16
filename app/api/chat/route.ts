@@ -11,7 +11,14 @@ const MAX_MESSAGE_LENGTH = 500;
 const RATE_LIMIT = 10;
 const RATE_WINDOW_MS = 60_000;
 
-function jsonResponse(body: {error: string}, status: number, headers?: Record<string, string>) {
+const ALLOWED_MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro'] as const;
+type AllowedModel = (typeof ALLOWED_MODELS)[number];
+
+function isAllowedModel(model: unknown): model is AllowedModel {
+  return typeof model === 'string' && ALLOWED_MODELS.includes(model as AllowedModel);
+}
+
+function jsonResponse(body: {error: string; code?: string}, status: number, headers?: Record<string, string>) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {'Content-Type': 'application/json', ...headers},
@@ -19,16 +26,16 @@ function jsonResponse(body: {error: string}, status: number, headers?: Record<st
 }
 
 export async function POST(req: Request) {
-  // Rate limit by IP
   const ip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0].trim();
   const {success} = rateLimit(`chat:${ip}`, {limit: RATE_LIMIT, windowMs: RATE_WINDOW_MS});
 
   if (!success) {
-    return jsonResponse({error: 'Too many requests'}, 429, {'Retry-After': '60'});
+    return jsonResponse({error: 'Too many requests', code: 'RATE_LIMIT'}, 429, {'Retry-After': '60'});
   }
 
-  // Parse & validate request body
   let messages: UIMessage[];
+  const headerModel = req.headers.get('x-model');
+  const modelId: AllowedModel = isAllowedModel(headerModel) ? headerModel : 'gemini-2.5-flash';
 
   try {
     const body = await req.json();
@@ -45,7 +52,6 @@ export async function POST(req: Request) {
     return jsonResponse({error: `Too many messages (max ${MAX_MESSAGES})`}, 400);
   }
 
-  // Validate message content length
   for (const m of messages) {
     const text = m.parts?.find((p): p is {type: 'text'; text: string} => p.type === 'text')?.text ?? '';
     if (text.length > MAX_MESSAGE_LENGTH) {
@@ -53,24 +59,37 @@ export async function POST(req: Request) {
     }
   }
 
-  const lastUserMessage = messages.findLast(m => m.role === 'user');
+  const lastUserMessage = messages.findLast((m) => m.role === 'user');
   const userText =
-    (lastUserMessage?.parts?.find((p): p is {type: 'text'; text: string} => p.type === 'text'))?.text ?? '';
+    lastUserMessage?.parts?.find((p): p is {type: 'text'; text: string} => p.type === 'text')?.text ?? '';
 
-  // Build system prompt with dynamic context (projects, blog posts)
   const context = await fetchDynamicContext();
   const system = await buildSystemPrompt(context);
 
-  const result = streamText({
-    model: google('gemini-2.5-flash-lite'),
-    system,
-    messages: await convertToModelMessages(messages),
-    maxOutputTokens: 1024,
-  });
+  try {
+    const result = streamText({
+      model: google(modelId),
+      system,
+      messages: await convertToModelMessages(messages),
+      maxOutputTokens: 2048,
+    });
 
-  const response = result.toUIMessageStreamResponse();
+    const response = result.toUIMessageStreamResponse();
 
-  saveChatLog({userMessage: userText, assistantTextPromise: result.text, ip});
+    saveChatLog({userMessage: userText, assistantTextPromise: result.text, ip});
 
-  return response;
+    return response;
+  } catch (err: unknown) {
+    const status = (err as {status?: number})?.status;
+    const message = (err as {message?: string})?.message ?? 'Unknown error';
+
+    if (status === 429) {
+      return jsonResponse(
+        {error: `${modelId} 모델의 요청 한도에 도달했습니다. 다른 모델을 선택해주세요.`, code: 'MODEL_RATE_LIMIT'},
+        429,
+      );
+    }
+
+    return jsonResponse({error: `AI 응답 오류: ${message}`, code: 'AI_ERROR'}, 500);
+  }
 }

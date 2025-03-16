@@ -2,13 +2,14 @@
 
 import {useEffect, useRef} from 'react';
 
-import {Bot} from 'lucide-react';
+import {AlertCircle, Bot} from 'lucide-react';
 
 import type {ChatMessage} from '../types';
 
 type ChatMessagesProps = {
   messages: ChatMessage[];
   isLoading: boolean;
+  error?: string | null;
 };
 
 function getTextContent(message: ChatMessage): string {
@@ -18,7 +19,7 @@ function getTextContent(message: ChatMessage): string {
     .join('');
 }
 
-export function ChatMessages({messages, isLoading}: ChatMessagesProps) {
+export function ChatMessages({messages, isLoading, error}: ChatMessagesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export function ChatMessages({messages, isLoading}: ChatMessagesProps) {
     if (el) {
       el.scrollTop = el.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, error]);
 
   return (
     <div ref={scrollRef} className="scrollbar-thin flex-1 overflow-y-auto py-6">
@@ -60,6 +61,16 @@ export function ChatMessages({messages, isLoading}: ChatMessagesProps) {
                 <span className="animate-bounce [animation-delay:150ms]">·</span>
                 <span className="animate-bounce [animation-delay:300ms]">·</span>
               </span>
+            </div>
+          </div>
+        )}
+        {error && (
+          <div className="flex gap-3">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-destructive/30 bg-destructive/10">
+              <AlertCircle className="size-4 text-destructive" />
+            </div>
+            <div className="max-w-[75%] rounded-2xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm leading-relaxed text-destructive">
+              {error}
             </div>
           </div>
         )}
