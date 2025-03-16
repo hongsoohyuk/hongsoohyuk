@@ -1,5 +1,6 @@
 import {getBlogList} from '@/features/blog/api/get-blog-list';
 import {getProjectList} from '@/features/project/api/pages/get-project-list';
+import {getRecentlyPlayed, getTopArtists, getTopTracks, isSpotifyConfigured} from '@/lib/api/spotify';
 
 import type {DynamicContext} from './build-prompt';
 
@@ -12,25 +13,63 @@ export async function fetchDynamicContext(): Promise<DynamicContext> {
     return cached.data;
   }
 
-  const [projectRes, blogRes] = await Promise.allSettled([
+  const context: DynamicContext = {};
+  const spotifyEnabled = isSpotifyConfigured();
+
+  const fetchers: Array<Promise<unknown>> = [
     getProjectList(),
     getBlogList(),
-  ]);
+  ];
 
-  const context: DynamicContext = {};
+  if (spotifyEnabled) {
+    fetchers.push(
+      getTopTracks('short_term', 10),
+      getTopArtists('short_term', 5),
+      getRecentlyPlayed(5),
+    );
+  }
+
+  const results = await Promise.allSettled(fetchers);
+  const [projectRes, blogRes, topTracksRes, topArtistsRes, recentRes] = results;
 
   if (projectRes.status === 'fulfilled') {
-    context.projects = projectRes.value.items.map((p) => ({
+    const data = projectRes.value as Awaited<ReturnType<typeof getProjectList>>;
+    context.projects = data.items.map((p) => ({
       title: p.title,
       description: p.description,
     }));
   }
 
   if (blogRes.status === 'fulfilled') {
-    context.blogPosts = blogRes.value.items.slice(0, 10).map((b) => ({
+    const data = blogRes.value as Awaited<ReturnType<typeof getBlogList>>;
+    context.blogPosts = data.items.slice(0, 10).map((b) => ({
       title: b.title,
       description: b.description,
       categories: b.categories,
+    }));
+  }
+
+  if (spotifyEnabled && topTracksRes?.status === 'fulfilled') {
+    const tracks = topTracksRes.value as Awaited<ReturnType<typeof getTopTracks>>;
+    context.topTracks = tracks.map((t) => ({
+      name: t.name ?? '',
+      artist: (t.artists ?? []).map((a) => a.name ?? '').join(', '),
+    }));
+  }
+
+  if (spotifyEnabled && topArtistsRes?.status === 'fulfilled') {
+    const artists = topArtistsRes.value as Awaited<ReturnType<typeof getTopArtists>>;
+    context.topArtists = artists.map((a) => ({
+      name: a.name ?? '',
+      genres: (a.genres ?? []).slice(0, 3),
+    }));
+  }
+
+  if (spotifyEnabled && recentRes?.status === 'fulfilled') {
+    const recent = recentRes.value as Awaited<ReturnType<typeof getRecentlyPlayed>>;
+    context.recentlyPlayed = recent.map((r) => ({
+      name: r.track?.name ?? '',
+      artist: (r.track?.artists ?? []).map((a) => a.name ?? '').join(', '),
     }));
   }
 
