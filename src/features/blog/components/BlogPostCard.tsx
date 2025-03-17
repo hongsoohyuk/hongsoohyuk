@@ -1,10 +1,10 @@
 'use client';
 
-import {Badge} from '@/components/ui/badge';
 import {LocalDateTime} from '@/components/ui/local-date-time';
 import {Link} from '@/lib/i18n/routing';
 
 import type {BlogListItem} from '../types';
+import {CategoryBadges} from './CategoryBadges';
 
 type Props = {
   post: BlogListItem;
@@ -20,15 +20,9 @@ export function BlogPostCard({post}: Props) {
         <h3 className="font-medium text-foreground/90 group-hover:text-foreground transition-colors truncate">
           {post.title}
         </h3>
-        {post.categories.length > 0 && (
-          <div className="flex gap-1 shrink-0">
-            {post.categories.map((category) => (
-              <Badge key={category} variant="secondary" className="text-[11px] px-1.5 py-0">
-                {category}
-              </Badge>
-            ))}
-          </div>
-        )}
+        <div className="flex gap-1 shrink-0">
+          <CategoryBadges categories={post.categories} size="sm" />
+        </div>
       </div>
 
       {post.description && (

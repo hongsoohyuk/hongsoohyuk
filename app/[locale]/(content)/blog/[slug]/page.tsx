@@ -6,7 +6,7 @@ import {getBlogDetail, getBlogList} from '@/features/blog/api';
 import {ArrowLeftIcon} from 'lucide-react';
 
 import {NotionBlocks} from '@/components/notion/notion-blocks';
-import {Badge} from '@/components/ui/badge';
+import {CategoryBadges} from '@/features/blog/components/CategoryBadges';
 import {createPageMetadata} from '@/config';
 import {locales} from '@/lib/i18n/config';
 import {Link} from '@/lib/i18n/routing';
@@ -71,11 +71,7 @@ export default async function BlogDetailPage({params}: Props) {
         <h1 className="text-3xl font-bold tracking-tight">{data.meta.title}</h1>
         {data.meta.categories.length > 0 && (
           <div className="flex gap-1.5">
-            {data.meta.categories.map((category) => (
-              <Badge key={category} variant="secondary">
-                {category}
-              </Badge>
-            ))}
+            <CategoryBadges categories={data.meta.categories} />
           </div>
         )}
         <p className="text-sm text-muted-foreground">{t('lastEdited', {date: formattedDate})}</p>

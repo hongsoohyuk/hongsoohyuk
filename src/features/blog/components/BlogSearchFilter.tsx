@@ -1,77 +1,28 @@
 'use client';
 
+import {useRef} from 'react';
+
 import {SlidersHorizontal, X} from 'lucide-react';
 import {useTranslations} from 'next-intl';
-import {useRouter, useSearchParams} from 'next/navigation';
-import {startTransition, useEffect, useRef, useState} from 'react';
 
 import {Badge} from '@/components/ui/badge';
 import {SearchInput} from '@/components/ui/search-input';
 
 import {BLOG_CATEGORIES} from '../types';
+import {useSearchFilterParams} from '../hooks/use-search-filter-params';
+import {useStickyDetection} from '../hooks/use-sticky-detection';
 
-const HEADER_HEIGHT = 48; // h-12 = 3rem
+const HEADER_HEIGHT = 48;
 
 const CATEGORY_BUTTON_CLASS = 'shrink-0 focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-md outline-none';
 
 export function BlogSearchFilter(props: {disabled?: boolean}) {
   const t = useTranslations('Blog');
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
   const filterRef = useRef<HTMLDivElement>(null);
-  const [isSticky, setIsSticky] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const currentQuery = searchParams?.get('q') ?? '';
-  const currentCategory = searchParams?.get('category') ?? '';
-
-  useEffect(() => {
-    if (props.disabled) return;
-
-    const filter = filterRef.current;
-    if (!filter) return;
-
-    const initialTop = filter.offsetTop;
-
-    const handleScroll = () => {
-      const stuck = window.scrollY + HEADER_HEIGHT >= initialTop;
-      setIsSticky(stuck);
-      if (!stuck) setIsCollapsed(false);
-    };
-
-    window.addEventListener('scroll', handleScroll, {passive: true});
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [props.disabled]);
-
-  const updateParams = (updates: Record<string, string>) => {
-    const params = new URLSearchParams(searchParams?.toString() ?? '');
-
-    for (const [key, value] of Object.entries(updates)) {
-      if (value) params.set(key, value);
-      else params.delete(key);
-    }
-
-    const query = params.toString();
-    startTransition(() => {
-      router.push(query ? `?${query}` : '?', {scroll: false});
-    });
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.disabled) return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-    const value = e.target.value;
-    timerRef.current = setTimeout(() => {
-      updateParams({q: value});
-    }, 100);
-  };
-
-  const handleCategoryClick = (category: string) => {
-    if (props.disabled) return;
-    updateParams({category: currentCategory === category ? '' : category});
-  };
+  const {currentQuery, currentCategory, handleSearch, handleCategoryClick, clearCategory} =
+    useSearchFilterParams();
+  const {isSticky, isCollapsed, setIsCollapsed} = useStickyDetection(filterRef, HEADER_HEIGHT, props.disabled);
 
   const hasActiveFilter = currentQuery || currentCategory;
 
@@ -125,7 +76,7 @@ export function BlogSearchFilter(props: {disabled?: boolean}) {
             <div className="flex gap-1.5 overflow-x-auto scrollbar-hide" role="group" aria-label="Category filter">
               <button
                 type="button"
-                onClick={() => updateParams({category: ''})}
+                onClick={clearCategory}
                 disabled={props.disabled}
                 className={CATEGORY_BUTTON_CLASS}
               >
