@@ -5,12 +5,7 @@ import {useEffect, useRef} from 'react';
 import {AlertCircle, Bot} from 'lucide-react';
 
 import type {ChatMessage} from '../types';
-
-type ChatMessagesProps = {
-  messages: ChatMessage[];
-  isLoading: boolean;
-  error?: string | null;
-};
+import {useChatStore} from '../stores/chat-provider';
 
 function getTextContent(message: ChatMessage): string {
   return message.parts
@@ -19,7 +14,10 @@ function getTextContent(message: ChatMessage): string {
     .join('');
 }
 
-export function ChatMessages({messages, isLoading, error}: ChatMessagesProps) {
+export function ChatMessages() {
+  const messages = useChatStore((s) => s.messages);
+  const isLoading = useChatStore((s) => s.isLoading);
+  const error = useChatStore((s) => s.error);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

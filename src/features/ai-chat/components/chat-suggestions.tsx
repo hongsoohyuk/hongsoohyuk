@@ -3,9 +3,7 @@
 import {Bot, Briefcase, Code, Mail, Music} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
-type ChatSuggestionsProps = {
-  onSuggestionClick: (text: string) => void;
-};
+import {useChatStore} from '../stores/chat-provider';
 
 const SUGGESTION_KEYS = [
   {key: 'techStack', icon: Code},
@@ -15,8 +13,9 @@ const SUGGESTION_KEYS = [
   {key: 'music', icon: Music},
 ] as const;
 
-export function ChatSuggestions({onSuggestionClick}: ChatSuggestionsProps) {
+export function ChatSuggestions() {
   const t = useTranslations('AiChat');
+  const sendMessage = useChatStore((s) => s.sendMessage);
 
   return (
     <>
@@ -33,7 +32,7 @@ export function ChatSuggestions({onSuggestionClick}: ChatSuggestionsProps) {
           <button
             key={key}
             type="button"
-            onClick={() => onSuggestionClick(t(`suggestions.${key}`))}
+            onClick={() => sendMessage(t(`suggestions.${key}`))}
             className="flex items-start gap-2 rounded-xl border bg-background p-3 text-left text-sm transition-colors hover:bg-muted/50 sm:p-4"
           >
             <Icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
