@@ -2,11 +2,10 @@
 
 import React, {useState} from 'react';
 import {GuestbookItemDto, GuestbookListResponse} from '@/features/guestbook/types';
-import {Badge} from '@/components/ui/badge';
 import {Item, ItemContent, ItemDescription, ItemFooter, ItemSeparator, ItemTitle} from '@/components/ui/item';
 import {LocalDateTime} from '@/components/ui/local-date-time';
 import {ScrollArea} from '@/components/ui/scroll-area';
-import {useEmotionEnum} from '../emotion';
+import {EmotionBadges} from './EmotionBadges';
 import {GuestbookDetailDialog} from './GuestbookDetailDialog';
 
 export function GuestbookList({data}: {data?: GuestbookListResponse}) {
@@ -38,7 +37,6 @@ type GuestbookItemProps = {
 };
 
 function GuestbookItem({item, onClick}: GuestbookItemProps) {
-  const {getLabel, getEmoji} = useEmotionEnum();
   return (
     <Item
       className="px-0 cursor-pointer hover:bg-accent/50 transition-colors rounded-md"
@@ -55,11 +53,7 @@ function GuestbookItem({item, onClick}: GuestbookItemProps) {
       <ItemContent>
         <ItemTitle>
           {item.author_name}
-          {item.emotions?.map((emotion) => (
-            <Badge key={`${item.id}-${emotion}`} variant="secondary" className="gap-1 shrink-0">
-              {getEmoji(emotion)} {getLabel(emotion)}
-            </Badge>
-          ))}
+          {item.emotions && <EmotionBadges emotions={item.emotions} />}
         </ItemTitle>
         <p className="text-ellipsis line-clamp-2">{item.message}</p>
       </ItemContent>

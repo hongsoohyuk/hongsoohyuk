@@ -30,6 +30,8 @@ import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
 
 import {EmotionButtonGroup} from './EmotionButtonGroup';
 import {submit} from '../api/actions';
+import {useTurnstileValidation} from '../hooks/use-turnstile-validation';
+import {useFieldError} from '../hooks/use-field-error';
 
 export function GuestbookFormDialog() {
   const t = useTranslations();
@@ -38,45 +40,26 @@ export function GuestbookFormDialog() {
   const formRef = useRef<HTMLFormElement>(null);
   const [authorName, setAuthorName] = useState('');
   const [message, setMessage] = useState('');
-  const [turnstileToken, setTurnstileToken] = useState('');
 
-  const turnstileValid = turnstileToken.length > 0;
+  const {turnstileToken, turnstileValid, turnstileHandlers, resetTurnstile} = useTurnstileValidation();
+  const {getFieldError} = useFieldError(actionState);
 
   const isFormValid = authorName.trim().length > 0 && message.trim().length > 0 && turnstileValid;
-
-  const fieldError = (field: string) => {
-    if (actionState.status !== 'error') return null;
-    const issue = actionState.issues.find((issue) => issue.path.includes(field));
-    if (!issue) return null;
-
-    // Translate error message key
-    const messageKey = issue.message;
-
-    // Handle parameterized messages (e.g., maxLength)
-    if (messageKey === 'Common.validation.maxLength') {
-      const maxLength = field === 'author_name' ? 12 : 40;
-      return t(messageKey, {maxLength});
-    }
-
-    return t(messageKey);
-  };
 
   useEffect(() => {
     if (actionState.status === 'success') {
       setIsOpen(false);
-      formRef.current?.reset();
     }
-  }, [actionState.status]);
+    if (!isOpen) {
+      formRef.current?.reset();
+      setAuthorName('');
+      setMessage('');
+      resetTurnstile();
+    }
+  }, [actionState.status, isOpen, resetTurnstile]);
 
-  useEffect(() => {
-    formRef.current?.reset();
-    setAuthorName('');
-    setMessage('');
-    setTurnstileToken('');
-  }, [isOpen]);
-
-  const authorNameError = fieldError('author_name');
-  const messageError = fieldError('message');
+  const authorNameError = getFieldError('author_name');
+  const messageError = getFieldError('message');
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -132,12 +115,7 @@ export function GuestbookFormDialog() {
                 <FieldLabel>{t('Guestbook.formSection.securityTitle')}</FieldLabel>
                 <FieldDescription>{t('Guestbook.formSection.securityHelper')}</FieldDescription>
                 <input type="hidden" name="turnstile_token" value={turnstileToken} />
-                <Turnstile
-                  onSuccess={(token) => setTurnstileToken(token)}
-                  onExpired={() => setTurnstileToken('')}
-                  onError={() => setTurnstileToken('')}
-                  onTimeout={() => setTurnstileToken('')}
-                />
+                <Turnstile {...turnstileHandlers} />
               </Field>
             </FieldSet>
 

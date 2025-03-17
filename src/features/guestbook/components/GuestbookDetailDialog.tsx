@@ -3,9 +3,8 @@
 import {useFormatter} from 'next-intl';
 
 import {GuestbookItemDto} from '@/features/guestbook/types';
-import {Badge} from '@/components/ui/badge';
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from '@/components/ui/dialog';
-import {useEmotionEnum} from '../emotion';
+import {EmotionBadges} from './EmotionBadges';
 
 
 type Props = {
@@ -16,7 +15,6 @@ type Props = {
 
 export function GuestbookDetailDialog({item, open, onOpenChange}: Props) {
   const format = useFormatter();
-  const {getLabel, getEmoji} = useEmotionEnum();
 
   if (!item) return null;
 
@@ -26,11 +24,7 @@ export function GuestbookDetailDialog({item, open, onOpenChange}: Props) {
         <DialogHeader className="shrink-0">
           <DialogTitle className="flex items-center gap-2 flex-wrap">
             {item.author_name}
-            {item.emotions?.map((emotion) => (
-              <Badge key={`detail-${item.id}-${emotion}`} variant="secondary" className="gap-1 shrink-0">
-                {getEmoji(emotion)} {getLabel(emotion)}
-              </Badge>
-            ))}
+            {item.emotions && <EmotionBadges emotions={item.emotions} />}
           </DialogTitle>
           <DialogDescription>
             {format.dateTime(new Date(item.created_at), {dateStyle: 'full', timeStyle: 'short'})}
