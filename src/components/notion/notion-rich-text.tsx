@@ -1,6 +1,7 @@
 import React from 'react';
 
 export type NotionRichTextItem = {
+  type?: string;
   plain_text?: string;
   href?: string | null;
   text?: {link?: {url?: string | null} | null} | null;
@@ -12,7 +13,6 @@ export type NotionRichTextItem = {
     code?: boolean;
     color?: string;
   };
-  [key: string]: any;
 };
 
 type Props = {
