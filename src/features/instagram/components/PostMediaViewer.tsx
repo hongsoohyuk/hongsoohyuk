@@ -10,6 +10,44 @@ import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
 import {InstagramMedia, InstagramMediaChild} from '../types';
 
+interface MediaDisplayProps {
+  media: Pick<InstagramMediaChild, 'id' | 'media_type' | 'media_url' | 'thumbnail_url'>;
+  alt: string;
+}
+
+function MediaDisplay({media, alt}: MediaDisplayProps) {
+  if (media.media_type === 'VIDEO') {
+    const poster = media.thumbnail_url || media.media_url;
+    return (
+      <video
+        key={media.id}
+        controls
+        playsInline
+        loop
+        autoPlay
+        muted
+        poster={poster}
+        className="h-full w-full object-contain"
+        preload="metadata"
+      >
+        <source src={media.media_url} />
+        {alt}
+      </video>
+    );
+  }
+
+  return (
+    <Image
+      key={media.id}
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 600px"
+      src={media.media_url}
+      alt={alt}
+      className="object-cover"
+    />
+  );
+}
+
 interface PostMediaViewerProps {
   post: InstagramMedia;
 }
@@ -25,35 +63,11 @@ export function PostMediaViewer({post}: PostMediaViewerProps) {
 }
 
 function SingleMediaViewer({post}: {post: InstagramMedia}) {
-  const isVideo = post.media_type === 'VIDEO';
   const mediaAlt = post.caption || `Instagram post by ${post.username ?? 'user'}`;
-  const thumbnail = post.thumbnail_url || post.media_url;
 
   return (
     <AspectRatio ratio={4 / 5} className="relative w-full bg-muted">
-      {isVideo ? (
-        <video
-          controls
-          playsInline
-          loop
-          autoPlay
-          muted
-          poster={thumbnail}
-          className="h-full w-full object-contain"
-          preload="metadata"
-        >
-          <source src={post.media_url} />
-          {mediaAlt}
-        </video>
-      ) : (
-        <Image
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 600px"
-          src={post.media_url}
-          alt={mediaAlt}
-          className="object-cover"
-        />
-      )}
+      <MediaDisplay media={post} alt={mediaAlt} />
     </AspectRatio>
   );
 }
@@ -77,37 +91,13 @@ function CarouselViewer({post, children}: CarouselViewerProps) {
     setCurrentIndex((prev) => (prev === totalItems - 1 ? 0 : prev + 1));
   };
 
-  const isVideo = currentItem.media_type === 'VIDEO';
-  const thumbnail = currentItem.thumbnail_url || currentItem.media_url;
-
   return (
     <div className="relative">
       <AspectRatio ratio={4 / 5} className="relative w-full bg-muted">
-        {isVideo ? (
-          <video
-            key={currentItem.id}
-            controls
-            playsInline
-            loop
-            autoPlay
-            muted
-            poster={thumbnail}
-            className="h-full w-full object-contain"
-            preload="metadata"
-          >
-            <source src={currentItem.media_url} />
-            {mediaAlt}
-          </video>
-        ) : (
-          <Image
-            key={currentItem.id}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 600px"
-            src={currentItem.media_url}
-            alt={`${mediaAlt} - ${currentIndex + 1}/${totalItems}`}
-            className="object-cover"
-          />
-        )}
+        <MediaDisplay
+          media={currentItem}
+          alt={`${mediaAlt} - ${currentIndex + 1}/${totalItems}`}
+        />
 
         {/* Navigation Arrows */}
         <Button
