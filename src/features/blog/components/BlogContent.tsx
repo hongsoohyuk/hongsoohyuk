@@ -1,10 +1,6 @@
-'use client';
-
-import {useSearchParams} from 'next/navigation';
-
 import {BlogPostCard} from './BlogPostCard';
 
-import type {BlogCategory, BlogListItem} from '../types';
+import type {BlogListItem} from '../types';
 
 type Props = {
   posts: BlogListItem[];
@@ -12,22 +8,13 @@ type Props = {
 };
 
 export function BlogContent({posts, emptyText}: Props) {
-  const searchParams = useSearchParams();
-  const q = searchParams?.get('q') ?? '';
-  const category = searchParams?.get('category') ?? '';
-
-  let filtered = posts;
-  if (q) {
-    const lower = q.toLowerCase();
-    filtered = filtered.filter((p) => p.title.toLowerCase().includes(lower));
-  }
-  if (category) {
-    filtered = filtered.filter((p) => p.categories.includes(category as BlogCategory));
+  if (posts.length === 0) {
+    return <p className="text-center text-muted-foreground py-8">{emptyText}</p>;
   }
 
   return (
     <div className="flex flex-col">
-      {filtered.map((post) => (
+      {posts.map((post) => (
         <BlogPostCard key={post.id} post={post} />
       ))}
     </div>

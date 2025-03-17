@@ -3,7 +3,8 @@ import {cache} from 'react';
 import {notion} from '@/lib/api/notion';
 
 import type {PageObjectResponse} from '@notionhq/client/build/src/api-endpoints';
-import type {BlogCategory, BlogListItem, BlogListResponse} from '../types';
+import type {BlogListItem, BlogListResponse} from '../types';
+import {extractCategories, extractDescription, extractKeywords, extractTitle} from '../utils/notion-extractors';
 
 const BLOG_DATA_SOURCE_ID = '300cc5be-a79e-8080-a666-000b11188276';
 
@@ -32,40 +33,6 @@ function buildFilter(params: GetBlogListParams) {
   if (conditions.length === 0) return undefined;
   if (conditions.length === 1) return conditions[0];
   return {and: conditions};
-}
-
-function extractTitle(page: PageObjectResponse): string {
-  const props = page.properties;
-  for (const value of Object.values(props)) {
-    if (value.type === 'title') {
-      return (value.title ?? []).map((t) => t.plain_text).join('');
-    }
-  }
-  return 'Untitled';
-}
-
-function extractCategories(page: PageObjectResponse): BlogCategory[] {
-  const prop = page.properties['Category'];
-  if (prop?.type === 'multi_select') {
-    return prop.multi_select.map((s) => s.name) as BlogCategory[];
-  }
-  return [];
-}
-
-function extractDescription(page: PageObjectResponse): string {
-  const prop = page.properties['Description'];
-  if (prop?.type === 'rich_text') {
-    return prop.rich_text.map((t) => t.plain_text).join('');
-  }
-  return '';
-}
-
-function extractKeywords(page: PageObjectResponse): string[] {
-  const prop = page.properties['Keywords'];
-  if (prop?.type === 'multi_select') {
-    return prop.multi_select.map((s) => s.name);
-  }
-  return [];
 }
 
 export const getBlogList = cache(async function getBlogList(params: GetBlogListParams = {}): Promise<BlogListResponse> {
