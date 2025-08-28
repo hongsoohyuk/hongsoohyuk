@@ -1,103 +1,168 @@
-import Image from "next/image";
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/shared/ui";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="container mx-auto px-4 py-8">
+      {/* 히어로 섹션 */}
+      <section className="text-center py-12 md:py-20">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+            안녕하세요! 👋
+            <br />
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              홍수혁
+            </span>
+            입니다
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+            프론트엔드 개발자를 꿈꾸며 Next.js와 React를 공부하고 있습니다.
+            이 사이트는 저의 학습 여정을 기록하고 여러분과 소통하기 위해 만들어졌어요.
+          </p>
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            <Badge variant="secondary">Next.js 15</Badge>
+            <Badge variant="secondary">React 19</Badge>
+            <Badge variant="secondary">TypeScript</Badge>
+            <Badge variant="secondary">Tailwind CSS</Badge>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* 기능 소개 섹션 */}
+      <section className="py-12">
+        <h2 className="text-3xl font-bold text-center mb-12">사이트 기능</h2>
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {/* 방명록 카드 */}
+          <Card className="group hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="text-4xl mb-4">📝</div>
+              <CardTitle>방명록</CardTitle>
+              <CardDescription>
+                방문자들이 남겨주신 소중한 메시지들을 확인하고 답글을 남길 수 있어요
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/guestbook">
+                <Button className="w-full group-hover:bg-primary/90">
+                  방명록 보기
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* 포트폴리오 카드 */}
+          <Card className="group hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="text-4xl mb-4">💼</div>
+              <CardTitle>포트폴리오</CardTitle>
+              <CardDescription>
+                Google Docs에 작성된 저의 자기소개서와 프로젝트 경험을 만나보세요
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/portfolio">
+                <Button className="w-full group-hover:bg-primary/90">
+                  포트폴리오 보기
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* 인스타그램 카드 */}
+          <Card className="group hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="text-4xl mb-4">📸</div>
+              <CardTitle>인스타그램</CardTitle>
+              <CardDescription>
+                일상 속 소소한 순간들과 개발 관련 사진들을 공유합니다
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/instagram">
+                <Button className="w-full group-hover:bg-primary/90">
+                  인스타그램 보기
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* 현재 학습 중 섹션 */}
+      <section className="py-12 bg-muted/30 rounded-lg">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center mb-8">🚀 현재 공부하고 있는 것들</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-4">📚 기술 스택</h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Next.js 15의 새로운 App Router</li>
+                <li>• React 19의 Server Components</li>
+                <li>• TypeScript 고급 패턴</li>
+                <li>• Tailwind CSS v4</li>
+                <li>• Feature-Sliced Design 아키텍처</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-4">🎯 목표</h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• 프론트엔드 개발 실력 향상</li>
+                <li>• 현대적인 웹 개발 패턴 습득</li>
+                <li>• 클린 코드 작성 능력 기르기</li>
+                <li>• 사용자 경험 개선</li>
+                <li>• 지속적인 학습과 성장</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 연락처 섹션 */}
+      <section className="py-12 text-center">
+        <h2 className="text-3xl font-bold mb-8">💬 연락하기</h2>
+        <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+          프로젝트에 관심이 있으시거나, 함께 공부하고 싶으시거나,
+          그냥 인사하고 싶으시면 언제든 연락주세요!
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Button variant="outline" asChild>
+            <a href="mailto:contact@example.com" className="flex items-center gap-2">
+              📧 이메일
+            </a>
+          </Button>
+          <Button variant="outline" asChild>
+            <a
+              href="https://github.com/hongsoohyuk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+              GitHub
+            </a>
+          </Button>
+          <Button variant="outline" asChild>
+            <a
+              href="https://linkedin.com/in/hongsoohyuk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+            >
+              💼 LinkedIn
+            </a>
+          </Button>
+        </div>
+      </section>
     </div>
   );
 }
