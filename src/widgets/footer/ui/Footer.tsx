@@ -1,4 +1,4 @@
-import { SITE_CONFIG } from '@/shared/constants';
+import {SITE_CONFIG} from '@/shared/constants';
 import Link from 'next/link';
 
 export function Footer() {
