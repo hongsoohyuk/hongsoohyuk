@@ -3,6 +3,7 @@
 ## App Router vs Pages Router
 
 ### App Router (사용 중 ✅)
+
 - **파일 기반 라우팅**: `app/` 디렉토리 사용
 - **React Server Components**: 기본적으로 서버 컴포넌트
 - **레이아웃 시스템**: 중첩된 레이아웃 지원
@@ -11,6 +12,7 @@
 ### 주요 개념
 
 #### 1. **Server Components**
+
 ```tsx
 // 기본적으로 모든 컴포넌트는 Server Component
 export default function Page() {
@@ -22,10 +24,11 @@ export default function Page() {
 ```
 
 #### 2. **Client Components**
+
 ```tsx
 'use client'; // 클라이언트 컴포넌트 선언
 
-import { useState } from 'react';
+import {useState} from 'react';
 
 export default function ClientComponent() {
   const [state, setState] = useState('');
@@ -35,13 +38,10 @@ export default function ClientComponent() {
 ```
 
 #### 3. **Layout System**
+
 ```tsx
 // app/layout.tsx - 루트 레이아웃
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="ko">
       <body>{children}</body>
@@ -50,11 +50,7 @@ export default function RootLayout({
 }
 
 // app/dashboard/layout.tsx - 중첩 레이아웃
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({children}: {children: React.ReactNode}) {
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -65,6 +61,7 @@ export default function DashboardLayout({
 ```
 
 #### 4. **Loading & Error Boundaries**
+
 ```tsx
 // app/loading.tsx
 export default function Loading() {
@@ -72,13 +69,7 @@ export default function Loading() {
 }
 
 // app/error.tsx
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function Error({error, reset}: {error: Error; reset: () => void}) {
   return (
     <div>
       <h2>Something went wrong!</h2>
@@ -89,6 +80,7 @@ export default function Error({
 ```
 
 #### 5. **Route Groups**
+
 ```tsx
 // app/(auth)/login/page.tsx - 그룹 라우팅
 // app/(auth)/register/page.tsx
@@ -97,19 +89,21 @@ export default function Error({
 ```
 
 #### 6. **Dynamic Routes**
+
 ```tsx
 // app/posts/[id]/page.tsx
-export default function Post({ params }: { params: { id: string } }) {
+export default function Post({params}: {params: {id: string}}) {
   return <div>Post ID: {params.id}</div>;
 }
 
 // app/posts/[...slug]/page.tsx - Catch-all routes
-export default function CatchAll({ params }: { params: { slug: string[] } }) {
+export default function CatchAll({params}: {params: {slug: string[]}}) {
   return <div>Slug: {params.slug.join('/')}</div>;
 }
 ```
 
 #### 7. **Parallel Routes**
+
 ```tsx
 // app/dashboard/@modal/page.tsx - 모달용 병렬 라우트
 // app/dashboard/@sidebar/page.tsx - 사이드바용 병렬 라우트
@@ -119,6 +113,7 @@ export default function CatchAll({ params }: { params: { slug: string[] } }) {
 ## 데이터 Fetching 전략
 
 ### Server Components에서의 데이터 가져오기
+
 ```tsx
 // 서버 컴포넌트에서 직접 API 호출
 async function getPosts() {
@@ -140,10 +135,11 @@ export default async function PostsPage() {
 ```
 
 ### Client Components에서의 데이터 가져오기
+
 ```tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 export default function PostsClient() {
   const [posts, setPosts] = useState([]);
@@ -151,8 +147,8 @@ export default function PostsClient() {
 
   useEffect(() => {
     fetch('/api/posts')
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setPosts(data);
         setLoading(false);
       });
@@ -176,15 +172,15 @@ export default function PostsClient() {
 // app/actions.ts
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import {revalidatePath} from 'next/cache';
+import {redirect} from 'next/navigation';
 
 export async function createPost(formData: FormData) {
   const title = formData.get('title') as string;
   const content = formData.get('content') as string;
 
   // 데이터베이스에 저장
-  await db.posts.create({ title, content });
+  await db.posts.create({title, content});
 
   // 캐시 무효화 및 리다이렉트
   revalidatePath('/posts');
@@ -192,9 +188,9 @@ export async function createPost(formData: FormData) {
 }
 
 // 컴포넌트에서 사용
-'use client';
+('use client');
 
-import { createPost } from './actions';
+import {createPost} from './actions';
 
 export default function CreatePostForm() {
   return (
@@ -228,8 +224,8 @@ const dbUrl = process.env.DATABASE_URL;
 
 ```tsx
 // middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import {NextResponse} from 'next/server';
+import type {NextRequest} from 'next/server';
 
 export function middleware(request: NextRequest) {
   // 인증 체크
@@ -250,6 +246,7 @@ export const config = {
 ## 최적화 기법
 
 ### 1. **Image Optimization**
+
 ```tsx
 import Image from 'next/image';
 
@@ -268,8 +265,9 @@ export default function OptimizedImage() {
 ```
 
 ### 2. **Font Optimization**
+
 ```tsx
-import { Inter } from 'next/font/google';
+import {Inter} from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -277,15 +275,12 @@ const inter = Inter({
 });
 
 export default function Layout() {
-  return (
-    <div className={inter.className}>
-      {children}
-    </div>
-  );
+  return <div className={inter.className}>{children}</div>;
 }
 ```
 
 ### 3. **Bundle Analysis**
+
 ```bash
 # 번들 크기 분석
 npm install --save-dev @next/bundle-analyzer
@@ -297,6 +292,7 @@ npm install --save-dev @next/bundle-analyzer
 ## 배포 및 프로덕션 고려사항
 
 ### 1. **Build Optimization**
+
 ```tsx
 // next.config.ts
 module.exports = {
@@ -308,6 +304,7 @@ module.exports = {
 ```
 
 ### 2. **Static Generation vs SSR**
+
 ```tsx
 // 정적 생성 (빌드 시점)
 export async function generateStaticParams() {
@@ -323,12 +320,13 @@ export const dynamic = 'force-dynamic'; // 매 요청마다 SSR
 ```
 
 ### 3. **Caching 전략**
+
 ```tsx
 // ISR (Incremental Static Regeneration)
 export const revalidate = 60; // 60초마다 재생성
 
 // 캐시 제어
-export async function generateMetadata({ params }) {
+export async function generateMetadata({params}) {
   const post = await getPost(params.id);
 
   return {
@@ -343,11 +341,13 @@ export async function generateMetadata({ params }) {
 ## 디버깅 및 개발 도구
 
 ### 1. **React DevTools**
+
 - 컴포넌트 트리 분석
 - Props 및 State 검사
 - Performance 프로파일링
 
 ### 2. **Next.js DevTools**
+
 ```bash
 # 개발 서버에서 제공되는 도구들
 # /_next/static/chunks/webpack.js 분석
@@ -355,6 +355,7 @@ export async function generateMetadata({ params }) {
 ```
 
 ### 3. **Console Debugging**
+
 ```tsx
 // 서버 컴포넌트 디버깅
 console.log('Server component rendered');

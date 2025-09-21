@@ -1,16 +1,16 @@
 import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-    Badge,
-    Button,
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from "@/shared/ui";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/shared/ui';
 
 export default function PortfolioPage() {
   return (
@@ -19,9 +19,7 @@ export default function PortfolioPage() {
         {/* 페이지 헤더 */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">💼 포트폴리오</h1>
-          <p className="text-xl text-muted-foreground">
-            저의 개발 여정과 프로젝트 경험을 소개합니다
-          </p>
+          <p className="text-xl text-muted-foreground">저의 개발 여정과 프로젝트 경험을 소개합니다</p>
         </div>
 
         {/* 자기소개 섹션 */}
@@ -31,17 +29,15 @@ export default function PortfolioPage() {
               👤 자기소개
               <Badge variant="outline">Google Docs 연동 예정</Badge>
             </CardTitle>
-            <CardDescription>
-              Google Docs에 작성된 상세한 자기소개서를 확인하실 수 있습니다
-            </CardDescription>
+            <CardDescription>Google Docs에 작성된 상세한 자기소개서를 확인하실 수 있습니다</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="bg-muted/30 p-6 rounded-lg">
                 <h3 className="font-semibold mb-2">프론트엔드 개발자를 꿈꾸는 홍수혁입니다</h3>
                 <p className="text-muted-foreground">
-                  Next.js와 React를 중심으로 현대적인 웹 개발을 공부하고 있으며,
-                  사용자 경험을 중요시하는 개발자가 되기 위해 노력하고 있습니다.
+                  Next.js와 React를 중심으로 현대적인 웹 개발을 공부하고 있으며, 사용자 경험을 중요시하는 개발자가 되기
+                  위해 노력하고 있습니다.
                 </p>
               </div>
               <Button variant="outline" className="w-full">
@@ -100,9 +96,7 @@ export default function PortfolioPage() {
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-3">
-                    <p className="text-muted-foreground">
-                      Next.js 15와 React 19를 활용한 개인 포트폴리오 사이트 개발
-                    </p>
+                    <p className="text-muted-foreground">Next.js 15와 React 19를 활용한 개인 포트폴리오 사이트 개발</p>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="outline">Next.js 15</Badge>
                       <Badge variant="outline">React 19</Badge>
@@ -128,9 +122,7 @@ export default function PortfolioPage() {
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-3">
-                    <p className="text-muted-foreground">
-                      React와 Next.js의 다양한 개념을 학습하기 위한 프로젝트들
-                    </p>
+                    <p className="text-muted-foreground">React와 Next.js의 다양한 개념을 학습하기 위한 프로젝트들</p>
                     <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                       <li>Server Components와 Client Components 활용</li>
                       <li>커스텀 훅 개발 및 상태 관리</li>
@@ -181,8 +173,7 @@ export default function PortfolioPage() {
                     프론트엔드 시니어 개발자
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="text-gray-400">⭕</span>
-                    팀 리딩 경험
+                    <span className="text-gray-400">⭕</span>팀 리딩 경험
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="text-gray-400">⭕</span>
@@ -203,9 +194,7 @@ export default function PortfolioPage() {
           <CardContent className="py-8 text-center">
             <div className="text-4xl mb-4">🚧</div>
             <h3 className="text-lg font-semibold mb-2">포트폴리오 기능 개발 중</h3>
-            <p className="text-muted-foreground">
-              Google Docs API 연동과 콘텐츠 관리 기능을 구현하고 있습니다.
-            </p>
+            <p className="text-muted-foreground">Google Docs API 연동과 콘텐츠 관리 기능을 구현하고 있습니다.</p>
           </CardContent>
         </Card>
       </div>
