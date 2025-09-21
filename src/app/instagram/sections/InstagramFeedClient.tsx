@@ -1,0 +1,74 @@
+'use client';
+
+import {IG_FEED_STYLES} from '@/features/instagram/constants';
+import {useInstagramFeed} from '@/features/instagram/hooks/useInstagramFeed';
+import {InstagramMedia} from '@/features/instagram/types';
+import Image from 'next/image';
+import {useCallback, useEffect, useRef} from 'react';
+
+interface Props {
+  initialItems: InstagramMedia[];
+  initialAfter?: string;
+}
+
+export default function InstagramFeedClient({initialItems, initialAfter}: Props) {
+  const {items, isLoading, error, hasMore, loadMore} = useInstagramFeed({
+    initialItems,
+    initialAfter,
+    pageSize: 3,
+  });
+
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  const onIntersect = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const first = entries[0];
+      if (first.isIntersecting && hasMore && !isLoading) {
+        loadMore();
+      }
+    },
+    [hasMore, isLoading, loadMore],
+  );
+
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+    const observer = new IntersectionObserver(onIntersect, {rootMargin: '200px'});
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [onIntersect]);
+
+  return (
+    <>
+      <div className={`grid ${IG_FEED_STYLES.gridColsClass}`}>
+        {items.map((post) => (
+          <div key={post.id} className="group relative cursor-pointer overflow-hidden">
+            <div className={`${IG_FEED_STYLES.itemAspectClass} bg-muted relative w-full`}>
+              <Image
+                src={post.media_type === 'VIDEO' ? post.thumbnail_url! : post.media_url}
+                alt={post.caption || 'Instagram post'}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-black/0 opacity-0 transition-opacity duration-200 group-hover:bg-black/40 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                <div className="flex items-center gap-4 text-white font-semibold text-sm">
+                  <span>❤️ {post.like_count ?? 0}</span>
+                  <span>💬 {post.comments_count ?? 0}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div ref={sentinelRef} className="h-10" />
+
+      {isLoading && <div className="text-center py-4 text-sm text-muted-foreground">불러오는 중...</div>}
+      {error && <div className="text-center py-4 text-sm text-destructive">오류: {error}</div>}
+      {!hasMore && items.length > 0 && (
+        <div className="text-center py-4 text-sm text-muted-foreground">모든 게시물을 불러왔습니다</div>
+      )}
+    </>
+  );
+}
