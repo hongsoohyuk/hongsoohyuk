@@ -1,9 +1,9 @@
 'use client';
 
-import {NAVIGATION_ITEMS, SITE_CONFIG} from '@/shared/constants';
-import {cn} from '@/shared/lib/utils';
-import {Button} from '@/shared/ui/button';
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/shared/ui/dropdown-menu';
+import {Button} from '@/component/ui/button';
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/component/ui/dropdown-menu';
+import {NAVIGATION_ITEMS, SITE_CONFIG} from '@/lib/constants';
+import {cn} from '@/lib/utils';
 import {ChevronDownIcon} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';

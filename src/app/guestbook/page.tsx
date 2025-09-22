@@ -1,4 +1,4 @@
-import {Card, CardContent} from '@/shared/ui';
+import {Card, CardContent} from '@/component/ui';
 
 export default function GuestbookPage() {
   return (
