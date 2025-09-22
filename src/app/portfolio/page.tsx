@@ -1,29 +1,17 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-  Badge,
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui';
+import {Card, CardContent} from '@/shared/ui';
 
 export default function PortfolioPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         {/* 페이지 헤더 */}
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">💼 포트폴리오</h1>
           <p className="text-xl text-muted-foreground">저의 개발 여정과 프로젝트 경험을 소개합니다</p>
-        </div>
+        </div> */}
 
         {/* 자기소개 섹션 */}
-        <Card className="mb-8">
+        {/* <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               👤 자기소개
@@ -45,10 +33,10 @@ export default function PortfolioPage() {
               </Button>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* 기술 스택 */}
-        <Card className="mb-8">
+        {/* <Card className="mb-8">
           <CardHeader>
             <CardTitle>🛠️ 기술 스택</CardTitle>
             <CardDescription>현재 공부하고 있는 기술들</CardDescription>
@@ -77,10 +65,10 @@ export default function PortfolioPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* 프로젝트 경험 */}
-        <Card className="mb-8">
+        {/* <Card className="mb-8">
           <CardHeader>
             <CardTitle>🚀 프로젝트 경험</CardTitle>
             <CardDescription>참여한 프로젝트와 학습 프로젝트들</CardDescription>
@@ -134,10 +122,10 @@ export default function PortfolioPage() {
               </AccordionItem>
             </Accordion>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* 학습 목표 및 성장 */}
-        <Card className="mb-8">
+        {/* <Card className="mb-8">
           <CardHeader>
             <CardTitle>🎯 학습 목표</CardTitle>
             <CardDescription>단기 및 장기 목표</CardDescription>
@@ -187,10 +175,10 @@ export default function PortfolioPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* 개발 중 안내 */}
-        <Card className="border-dashed">
+        <Card className="mt-12 border-dashed">
           <CardContent className="py-8 text-center">
             <div className="text-4xl mb-4">🚧</div>
             <h3 className="text-lg font-semibold mb-2">포트폴리오 기능 개발 중</h3>
