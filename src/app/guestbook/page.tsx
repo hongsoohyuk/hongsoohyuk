@@ -1,12 +1,4 @@
-import {
-    Badge,
-    Button,
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from "@/shared/ui";
+import {Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui';
 
 export default function GuestbookPage() {
   return (
@@ -15,18 +7,14 @@ export default function GuestbookPage() {
         {/* 페이지 헤더 */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">📝 방명록</h1>
-          <p className="text-xl text-muted-foreground">
-            방문해주셔서 감사합니다! 소중한 메시지를 남겨주세요
-          </p>
+          <p className="text-xl text-muted-foreground">방문해주셔서 감사합니다! 소중한 메시지를 남겨주세요</p>
         </div>
 
         {/* 방명록 작성 폼 */}
         <Card className="mb-12">
           <CardHeader>
             <CardTitle>새로운 메시지 작성</CardTitle>
-            <CardDescription>
-              여러분의 생각과 응원을 공유해주세요
-            </CardDescription>
+            <CardDescription>여러분의 생각과 응원을 공유해주세요</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -56,9 +44,7 @@ export default function GuestbookPage() {
                   className="w-full px-3 py-2 border border-input rounded-md bg-background resize-none"
                 />
               </div>
-              <Button className="w-full md:w-auto">
-                메시지 남기기
-              </Button>
+              <Button className="w-full md:w-auto">메시지 남기기</Button>
             </div>
           </CardContent>
         </Card>
@@ -75,12 +61,8 @@ export default function GuestbookPage() {
             <CardContent className="py-12 text-center">
               <div className="text-6xl mb-4">💭</div>
               <h3 className="text-xl font-semibold mb-2">아직 메시지가 없어요</h3>
-              <p className="text-muted-foreground mb-6">
-                첫 번째 메시지를 남겨주세요!
-              </p>
-              <Button variant="outline">
-                첫 메시지 작성하기
-              </Button>
+              <p className="text-muted-foreground mb-6">첫 번째 메시지를 남겨주세요!</p>
+              <Button variant="outline">첫 메시지 작성하기</Button>
             </CardContent>
           </Card>
 
@@ -112,9 +94,7 @@ export default function GuestbookPage() {
           <CardContent className="py-8 text-center">
             <div className="text-4xl mb-4">🚧</div>
             <h3 className="text-lg font-semibold mb-2">방명록 기능 개발 중</h3>
-            <p className="text-muted-foreground">
-              데이터베이스 연결과 메시지 관리 기능을 구현하고 있습니다.
-            </p>
+            <p className="text-muted-foreground">데이터베이스 연결과 메시지 관리 기능을 구현하고 있습니다.</p>
           </CardContent>
         </Card>
       </div>

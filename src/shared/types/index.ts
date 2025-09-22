@@ -26,12 +26,12 @@ export interface PortfolioItem extends BaseEntity {
 }
 
 export interface InstagramPost extends BaseEntity {
-  instagramId: string;
-  imageUrl: string;
+  id: string;
+  media_type: string;
+  media_url: string;
+  username: string;
   caption: string;
-  likes: number;
-  comments: number;
-  postedAt: Date;
+  timestamp: string;
 }
 
 // API Response types

@@ -1,6 +1,6 @@
 // Application constants
 export const SITE_CONFIG = {
-  name: '홍수혁의 개인 사이트',
+  name: 'hongsoohyuk',
   description: '개인 포트폴리오와 방명록이 있는 개인 사이트',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   ogImage: 'og.jpg',
@@ -12,10 +12,10 @@ export const SITE_CONFIG = {
 } as const;
 
 export const NAVIGATION_ITEMS = [
-  { name: '홈', href: '/' },
-  { name: '포트폴리오', href: '/portfolio' },
-  { name: '방명록', href: '/guestbook' },
-  { name: '인스타그램', href: '/instagram' },
+  {name: '홈', href: '/'},
+  {name: '포트폴리오', href: '/portfolio'},
+  {name: '방명록', href: '/guestbook'},
+  {name: '인스타그램', href: '/instagram'},
 ] as const;
 
 export const API_ENDPOINTS = {

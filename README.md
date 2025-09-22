@@ -58,12 +58,14 @@ src/
 ### 설치 및 실행
 
 1. **레포지토리 클론**
+
 ```bash
 git clone <repository-url>
 cd hongsoohyuk
 ```
 
 2. **의존성 설치**
+
 ```bash
 npm install
 # 또는
@@ -73,6 +75,7 @@ pnpm install
 ```
 
 3. **개발 서버 실행**
+
 ```bash
 npm run dev
 # 또는
@@ -82,6 +85,7 @@ pnpm dev
 ```
 
 4. **브라우저에서 접속**
+
 ```
 http://localhost:3000
 ```
@@ -102,17 +106,21 @@ npm run analyze
 ## 🎨 디자인 시스템
 
 ### 색상 팔레트
+
 - **Primary**: Tailwind CSS 기본 색상
 - **Background**: 어두운 테마 지원
 - **Accent**: 강조를 위한 색상
 
 ### 타이포그래피
+
 - **본문**: Geist Sans
 - **코드**: Geist Mono
 - **크기**: Tailwind CSS 기본 스케일
 
 ### 컴포넌트
+
 shadcn/ui 컴포넌트를 기반으로 한 일관된 디자인 시스템:
+
 - Button, Card, Input, Textarea
 - Table, Accordion, Badge
 - 반응형 및 접근성 지원
@@ -129,12 +137,14 @@ shadcn/ui 컴포넌트를 기반으로 한 일관된 디자인 시스템:
 ## 🔧 개발 환경 설정
 
 ### VS Code 확장 프로그램 (권장)
+
 - **Tailwind CSS IntelliSense**: 클래스 자동 완성
 - **TypeScript Importer**: 자동 import
 - **ESLint**: 코드 품질 검사
 - **Prettier**: 코드 포맷팅
 
 ### 환경 변수
+
 ```bash
 # .env.local 파일 생성
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
@@ -145,18 +155,21 @@ NEXT_PUBLIC_GOOGLE_DOCS_ID=your_google_docs_id
 ## 📱 기능 구현 계획
 
 ### Phase 1: 기본 구조 ✅
+
 - [x] 프로젝트 설정
 - [x] FSD 아키텍처 구축
 - [x] shadcn/ui 컴포넌트 설치
 - [x] 기본 타입 및 유틸리티 정의
 
 ### Phase 2: 핵심 기능 (진행 중)
+
 - [ ] 메인 레이아웃 및 네비게이션
 - [ ] 방명록 기능 (CRUD)
 - [ ] 포트폴리오 기능 (Google Docs 연동)
 - [ ] 인스타그램 기능 (API 연동)
 
 ### Phase 3: 고급 기능
+
 - [ ] 사용자 인증
 - [ ] 관리자 패널
 - [ ] SEO 최적화
@@ -178,11 +191,13 @@ npm run test:coverage
 ## 🚀 배포
 
 ### Vercel (권장)
+
 1. [Vercel](https://vercel.com)에서 프로젝트 연결
 2. 자동 배포 설정
 3. 환경 변수 설정
 
 ### 기타 플랫폼
+
 - **Netlify**: `npm run build` 후 dist 폴더 배포
 - **Railway**: Docker 지원
 - **AWS Amplify**: 풀스택 배포
