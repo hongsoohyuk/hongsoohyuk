@@ -1,4 +1,4 @@
-import {Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui';
+import {Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/component/ui';
 import Link from 'next/link';
 
 export default function Home() {
