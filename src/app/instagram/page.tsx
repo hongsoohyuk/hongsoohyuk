@@ -5,7 +5,7 @@ import Image from 'next/image';
 import InstagramFeedClient from './sections/InstagramFeedClient';
 
 export default async function InstagramPage() {
-  const initial = await fetchInstagramMediaServer({limit: 12});
+  const initial = await fetchInstagramMediaServer({limit: 3});
   const posts: InstagramMedia[] = initial.data ?? [];
   const after = initial.paging?.cursors?.after;
   const profile = await fetchInstagramProfileServer();
