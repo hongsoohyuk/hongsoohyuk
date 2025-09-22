@@ -5,8 +5,8 @@ export const SITE_CONFIG = {
   url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   ogImage: 'og.jpg',
   links: {
-    github: 'https://github.com/hongsoohyuk',
-    linkedin: 'https://linkedin.com/in/hongsoohyuk',
+    github: 'https://github.com/hong-soohyuk',
+    linkedin: 'https://linkedin.com/in/hong-soohyuk',
     instagram: 'https://instagram.com/hongsoohyuk',
   },
 } as const;
