@@ -1,17 +1,17 @@
-import {Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui';
+import {Card, CardContent} from '@/shared/ui';
 
 export default function GuestbookPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         {/* 페이지 헤더 */}
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">📝 방명록</h1>
           <p className="text-xl text-muted-foreground">방문해주셔서 감사합니다! 소중한 메시지를 남겨주세요</p>
-        </div>
+        </div> */}
 
         {/* 방명록 작성 폼 */}
-        <Card className="mb-12">
+        {/* <Card className="mb-12">
           <CardHeader>
             <CardTitle>새로운 메시지 작성</CardTitle>
             <CardDescription>여러분의 생각과 응원을 공유해주세요</CardDescription>
@@ -47,27 +47,27 @@ export default function GuestbookPage() {
               <Button className="w-full md:w-auto">메시지 남기기</Button>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* 방명록 목록 */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
+        {/* <div className="space-y-6"> */}
+        {/* <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">남겨주신 메시지들</h2>
             <Badge variant="secondary">총 0개</Badge>
-          </div>
+          </div> */}
 
-          {/* 빈 상태 */}
-          <Card>
+        {/* 빈 상태 */}
+        {/* <Card>
             <CardContent className="py-12 text-center">
               <div className="text-6xl mb-4">💭</div>
               <h3 className="text-xl font-semibold mb-2">아직 메시지가 없어요</h3>
               <p className="text-muted-foreground mb-6">첫 번째 메시지를 남겨주세요!</p>
               <Button variant="outline">첫 메시지 작성하기</Button>
             </CardContent>
-          </Card>
+          </Card> */}
 
-          {/* 메시지 목록 (추후 구현) */}
-          {/*
+        {/* 메시지 목록 (추후 구현) */}
+        {/*
           {messages.map((message) => (
             <Card key={message.id}>
               <CardHeader>
@@ -87,7 +87,7 @@ export default function GuestbookPage() {
             </Card>
           ))}
           */}
-        </div>
+        {/* </div> */}
 
         {/* 개발 중 안내 */}
         <Card className="mt-12 border-dashed">

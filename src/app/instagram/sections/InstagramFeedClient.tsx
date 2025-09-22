@@ -3,6 +3,7 @@
 import {IG_FEED_STYLES} from '@/features/instagram/constants';
 import {useInstagramFeed} from '@/features/instagram/hooks/useInstagramFeed';
 import {InstagramMedia} from '@/features/instagram/types';
+import {Skeleton} from '@/shared/ui/skeleton';
 import Image from 'next/image';
 import {useCallback, useEffect, useRef} from 'react';
 
@@ -15,7 +16,7 @@ export default function InstagramFeedClient({initialItems, initialAfter}: Props)
   const {items, isLoading, error, hasMore, loadMore} = useInstagramFeed({
     initialItems,
     initialAfter,
-    pageSize: 3,
+    pageSize: 12,
   });
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -44,9 +45,9 @@ export default function InstagramFeedClient({initialItems, initialAfter}: Props)
           <div key={post.id} className="group relative cursor-pointer overflow-hidden">
             <div className={`${IG_FEED_STYLES.itemAspectClass} bg-muted relative w-full`}>
               <Image
+                fill
                 src={post.media_type === 'VIDEO' ? post.thumbnail_url! : post.media_url}
                 alt={post.caption || 'Instagram post'}
-                fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
@@ -64,7 +65,13 @@ export default function InstagramFeedClient({initialItems, initialAfter}: Props)
 
       <div ref={sentinelRef} className="h-10" />
 
-      {isLoading && <div className="text-center py-4 text-sm text-muted-foreground">불러오는 중...</div>}
+      {isLoading && (
+        <div className={`grid ${IG_FEED_STYLES.gridColsClass}`}>
+          {Array.from({length: 3}).map((_, index) => (
+            <Skeleton key={index} className={`${IG_FEED_STYLES.itemAspectClass}`} />
+          ))}
+        </div>
+      )}
       {error && <div className="text-center py-4 text-sm text-destructive">오류: {error}</div>}
       {!hasMore && items.length > 0 && (
         <div className="text-center py-4 text-sm text-muted-foreground">모든 게시물을 불러왔습니다</div>
