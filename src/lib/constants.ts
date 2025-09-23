@@ -7,7 +7,6 @@ export const SITE_CONFIG = {
   links: {
     github: 'https://github.com/hong-soohyuk',
     linkedin: 'https://linkedin.com/in/hong-soohyuk',
-    instagram: 'https://instagram.com/hongsoohyuk',
   },
 } as const;
 
@@ -24,15 +23,8 @@ export const API_ENDPOINTS = {
   instagram: '/api/instagram',
 } as const;
 
-// Pagination defaults
 export const PAGINATION = {
   DEFAULT_PAGE: 1,
   DEFAULT_LIMIT: 10,
   MAX_LIMIT: 100,
-} as const;
-
-// Social media links (to be configured)
-export const SOCIAL_LINKS = {
-  instagram: process.env.NEXT_PUBLIC_INSTAGRAM_USERNAME || 'hongsoohyuk',
-  googleDocs: process.env.NEXT_PUBLIC_GOOGLE_DOCS_ID || '',
 } as const;

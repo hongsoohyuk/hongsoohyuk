@@ -1,6 +1,6 @@
 'use client';
 
-import {Button} from '@/shared/ui';
+import {Button} from '@/component/ui';
 
 export default function OpenInInstagramButton({username}: {username?: string}) {
   const handleOpen = () => {

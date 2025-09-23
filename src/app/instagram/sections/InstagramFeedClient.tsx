@@ -1,9 +1,9 @@
 'use client';
 
-import {IG_FEED_STYLES} from '@/features/instagram/constants';
-import {useInstagramFeed} from '@/features/instagram/hooks/useInstagramFeed';
-import {InstagramMedia} from '@/features/instagram/types';
-import {Skeleton} from '@/shared/ui/skeleton';
+import {Skeleton} from '@/component/ui/skeleton';
+import {IG_FEED_STYLES} from '@/lib/constants/instagram';
+import {useInstagramFeed} from '@/lib/hooks/instagram';
+import {InstagramMedia} from '@/lib/types/instagram';
 import Image from 'next/image';
 import {useCallback, useEffect, useRef} from 'react';
 

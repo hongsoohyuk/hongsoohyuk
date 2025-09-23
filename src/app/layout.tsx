@@ -1,10 +1,10 @@
-import {SITE_CONFIG} from '@/shared/constants';
-import {Footer} from '@/widgets/footer';
-import {Header} from '@/widgets/header';
+import {Footer} from '@/component/layout/footer';
+import {Header} from '@/component/layout/header';
+import {SITE_CONFIG} from '@/lib/constants';
 import type {Metadata} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import './globals.css';
-import QueryProvider from './providers/QueryProvider';
+import QueryProvider from '../component/common/providers/query-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

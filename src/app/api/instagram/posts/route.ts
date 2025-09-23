@@ -1,8 +1,9 @@
-import {InstagramListResponse} from '@/features/instagram/types';
+import {InstagramListResponse} from '@/lib/types';
 import {NextResponse} from 'next/server';
 
 export async function GET(request: Request) {
   const {searchParams} = new URL(request.url);
+
   const after = searchParams.get('after') || undefined;
   const limitParam = searchParams.get('limit');
   const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 12, 1), 50) : 12;

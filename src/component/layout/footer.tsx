@@ -1,4 +1,4 @@
-import {SITE_CONFIG} from '@/shared/constants';
+import {SITE_CONFIG} from '@/lib/constants';
 import Link from 'next/link';
 
 export function Footer() {
@@ -29,14 +29,14 @@ export function Footer() {
           >
             LinkedIn
           </Link>
-          <Link
+          {/* <Link
             href={SITE_CONFIG.links.instagram}
             target="_blank"
             rel="noreferrer"
             className="text-sm text-muted-foreground hover:text-foreground"
           >
             Instagram
-          </Link>
+          </Link> */}
         </div>
       </div>
     </footer>
