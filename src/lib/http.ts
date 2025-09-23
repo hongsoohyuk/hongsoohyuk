@@ -167,6 +167,6 @@ export class HttpClient {
 
 // Default singleton instance for app-wide use
 export const http = new HttpClient({
-  baseUrl: process.env.NEXT_PUBLIC_SITE_URL,
+  baseUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   timeoutMs: 15000,
 });
