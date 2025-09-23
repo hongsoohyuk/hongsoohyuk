@@ -1,4 +1,4 @@
-import {http} from '../http';
+import {http, httpServer} from '../http';
 import {InstagramListResponse, InstagramProfile} from '../types';
 
 // Client-side API functions
@@ -18,13 +18,13 @@ export async function getInstagramProfile(): Promise<InstagramProfile | null> {
 // Server-side API functions
 export async function getInstagramMediaServer(params: {after?: string; limit?: number} = {}) {
   const {after, limit = 12} = params;
-  const data = await http.get<InstagramListResponse>(`/api/instagram/posts`, {
+  const data = await httpServer.get<InstagramListResponse>('/api/instagram/posts', {
     query: {after, limit},
   });
   return data;
 }
 
 export async function getInstagramProfileServer(): Promise<InstagramProfile | null> {
-  const data = await http.get<InstagramProfile | null>(`/api/instagram/me`);
+  const data = await httpServer.get<InstagramProfile | null>('/api/instagram/me');
   return data;
 }
