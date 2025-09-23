@@ -6,7 +6,6 @@ import InstagramFeedClient from './sections/InstagramFeedClient';
 
 export default async function InstagramPage() {
   try {
-    // Use HTTP module through server functions
     const [initial, profile] = await Promise.all([getInstagramMediaServer({limit: 12}), getInstagramProfileServer()]);
 
     const posts: InstagramMedia[] = initial.data ?? [];
