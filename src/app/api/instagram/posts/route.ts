@@ -9,9 +9,7 @@ export async function GET(request: Request) {
   const limit = limitParam ? Math.min(Math.max(parseInt(limitParam, 10) || 12, 1), 50) : 12;
 
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
-  if (!accessToken) {
-    return NextResponse.json<InstagramListResponse>({data: []}, {status: 200});
-  }
+  if (!accessToken) return NextResponse.json(null, {status: 401});
 
   const fields = [
     'id',
@@ -33,12 +31,12 @@ export async function GET(request: Request) {
 
   try {
     const res = await fetch(url.toString(), {cache: 'no-store'});
-    if (!res.ok) {
-      return NextResponse.json<InstagramListResponse>({data: []}, {status: 200});
-    }
+    if (!res.ok)
+      return NextResponse.json(null, {status: 500});
+
     const json = (await res.json()) as InstagramListResponse;
     return NextResponse.json<InstagramListResponse>(json, {status: 200});
   } catch {
-    return NextResponse.json<InstagramListResponse>({data: []}, {status: 200});
+    return NextResponse.json(null, {status: 500});
   }
 }
