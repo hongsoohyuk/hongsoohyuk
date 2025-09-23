@@ -165,8 +165,13 @@ export class HttpClient {
   }
 }
 
-// Default singleton instance for app-wide use
-export const http = new HttpClient({
-  baseUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+// Client-side HTTP instance (uses relative URLs)
+export const http = new HttpClient({timeoutMs: 15000});
+
+// Server-side HTTP instance (uses absolute URLs)
+export const httpServer = new HttpClient({
+  baseUrl:
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
   timeoutMs: 15000,
 });
