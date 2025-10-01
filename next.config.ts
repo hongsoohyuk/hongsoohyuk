@@ -6,8 +6,11 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: '**.cdninstagram.com',
+        port: '',
+        pathname: '/**',
       },
     ],
+    unoptimized: process.env.NODE_ENV === 'production',
   },
 };
 
