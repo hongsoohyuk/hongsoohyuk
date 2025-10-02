@@ -7,8 +7,8 @@ import InstagramFeedClient from './sections/InstagramFeedClient';
 export default async function InstagramPage() {
   const [initial, profile] = await Promise.all([getInstagramMediaServer({limit: 12}), getInstagramProfileServer()]);
 
-  const posts: InstagramMedia[] = initial.data ?? [];
-  const after = initial.paging?.cursors?.after;
+  const posts: InstagramMedia[] = initial?.data ?? [];
+  const after = initial?.paging?.cursors?.after;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -16,19 +16,25 @@ export default async function InstagramPage() {
         <Card className="mb-8">
           <CardContent>
             <div className="flex items-center gap-6">
-              <Image
-                src={profile?.profile_picture_url ?? ''}
-                alt={profile?.username ?? ''}
-                width={96}
-                height={96}
-                className="rounded-full "
-              />
+              {profile?.profile_picture_url ? (
+                <Image
+                  src={profile.profile_picture_url}
+                  alt={profile?.username ?? 'Instagram Profile'}
+                  width={96}
+                  height={96}
+                  className="rounded-full"
+                />
+              ) : (
+                <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center">
+                  <span className="text-2xl">👤</span>
+                </div>
+              )}
               <div className="space-y-2">
-                <h3 className="text-xl font-semibold">{profile?.username ?? 'instagram'}</h3>
+                <h3 className="text-xl font-semibold">{'$&((%$#@#^$%#'}</h3>
                 <p className="text-muted-foreground">{profile?.biography ?? ''}</p>
                 <div className="flex gap-4 text-sm">
                   <span>
-                    <strong>{profile?.media_count}</strong> posts
+                    <strong>{profile?.media_count ?? 0}</strong> posts
                   </span>
                   <span>
                     <strong>{profile?.followers_count ?? 0}</strong> followers

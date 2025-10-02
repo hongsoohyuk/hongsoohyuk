@@ -12,7 +12,6 @@ interface Props {
   initialAfter?: string;
 }
 
-// Instagram 이미지 컴포넌트 with error handling - 메모이제이션으로 불필요한 리렌더링 방지
 const InstagramImage = memo(function InstagramImage({src, alt}: {src: string; alt: string}) {
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +26,6 @@ const InstagramImage = memo(function InstagramImage({src, alt}: {src: string; al
     setIsLoading(false);
   };
 
-  // src가 변경될 때만 상태 리셋
   useEffect(() => {
     setImageError(false);
     setIsLoading(true);
@@ -66,7 +64,6 @@ const InstagramImage = memo(function InstagramImage({src, alt}: {src: string; al
   );
 });
 
-// 개별 Instagram 포스트 아이템 - 메모이제이션으로 불필요한 리렌더링 방지
 const InstagramPostItem = memo(function InstagramPostItem({post}: {post: InstagramMedia}) {
   const imageSrc = post.media_type === 'VIDEO' ? post.thumbnail_url! : post.media_url;
   const imageAlt = post.caption || 'Instagram post';
