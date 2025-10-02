@@ -4,7 +4,8 @@ import {SITE_CONFIG} from '@/lib/constants';
 import type {Metadata} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import './globals.css';
-import QueryProvider from '../component/common/providers/query-provider';
+import {ClientProviders} from '../component/common/providers/client-providers';
+import {ThemeScript} from '../component/common/theme-script';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -59,14 +60,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background font-sans`}>
-        <div className="relative flex min-h-screen flex-col">
-          <Header />
-          <QueryProvider>
+        <ClientProviders>
+          <div className="relative flex min-h-screen flex-col">
+            <Header />
             <main className="flex-1">{children}</main>
-          </QueryProvider>
-          <Footer />
-        </div>
+            <Footer />
+          </div>
+        </ClientProviders>
       </body>
     </html>
   );

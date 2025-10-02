@@ -2,6 +2,7 @@
 
 import {Button} from '@/component/ui/button';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/component/ui/dropdown-menu';
+import {ThemeSwitch} from '@/component/ui/theme-switch';
 import {NAVIGATION_ITEMS, SITE_CONFIG} from '@/lib/constants';
 import {cn} from '@/lib/utils';
 import {ChevronDownIcon} from 'lucide-react';
@@ -62,6 +63,7 @@ export function Header() {
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">{/* 검색 기능은 추후 구현 */}</div>
           <nav className="flex items-center">
+            <ThemeSwitch />
             <Link href={SITE_CONFIG.links.linkedin} target="_blank" rel="noreferrer">
               <Button variant="ghost" size="sm">
                 <Image src={'/icon/linkedin.png'} alt="LinkedIn" width={20} height={20} />
