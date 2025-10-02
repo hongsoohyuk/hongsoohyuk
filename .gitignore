@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+id_hongsoohyuk
+id_hongsoohyuk.pub
 
 # debug
 npm-debug.log*
