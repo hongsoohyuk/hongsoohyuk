@@ -8,16 +8,13 @@ export default function Home() {
       <section className="text-center py-12 md:py-20">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            안녕하세요! 👋
-            <br />
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">홍수혁</span>
+            안녕하세요,
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> 홍수혁</span>
             입니다
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            프론트엔드 개발자를 꿈꾸며 Next.js와 React를 공부하고 있습니다. 이 사이트는 저의 학습 여정을 기록하고
-            여러분과 소통하기 위해 만들어졌어요.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {/* <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+          </p> */}
+          <div className="flex flex-wrap justify-center gap-2">
             <Badge variant="secondary">Next.js 15</Badge>
             <Badge variant="secondary">React 19</Badge>
             <Badge variant="secondary">TypeScript</Badge>
@@ -28,7 +25,6 @@ export default function Home() {
 
       {/* 기능 소개 섹션 */}
       <section className="py-12">
-        <h2 className="text-3xl font-bold text-center mb-12">사이트 기능</h2>
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {/* 방명록 카드 */}
           <Card className="group hover:shadow-lg transition-shadow">
@@ -63,7 +59,7 @@ export default function Home() {
             <CardHeader>
               <div className="text-4xl mb-4">📸</div>
               <CardTitle>인스타그램</CardTitle>
-              <CardDescription>일상 속 소소한 순간들과 개발 관련 사진들을 공유합니다</CardDescription>
+              <CardDescription>일상 속 소소한 순간들을 공유합니다</CardDescription>
             </CardHeader>
             <CardContent>
               <Link href="/instagram">
@@ -82,17 +78,17 @@ export default function Home() {
             <div>
               <h3 className="text-xl font-semibold mb-4">📚 기술 스택</h3>
               <ul className="space-y-2 text-muted-foreground">
-                <li>• Next.js 15의 새로운 App Router</li>
-                <li>• React 19의 Server Components</li>
+                <li>• Next.js App Router</li>
+                <li>• React 19</li>
                 <li>• TypeScript 고급 패턴</li>
                 <li>• Tailwind CSS v4</li>
-                <li>• Feature-Sliced Design 아키텍처</li>
+                <li>• 운영체제 소프트웨어 개발</li>
               </ul>
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-4">🎯 목표</h3>
               <ul className="space-y-2 text-muted-foreground">
-                <li>• 프론트엔드 개발 실력 향상</li>
+                <li>• 개발 실력 향상</li>
                 <li>• 현대적인 웹 개발 패턴 습득</li>
                 <li>• 클린 코드 작성 능력 기르기</li>
                 <li>• 사용자 경험 개선</li>
@@ -107,7 +103,7 @@ export default function Home() {
       <section className="py-12 text-center">
         <h2 className="text-3xl font-bold mb-8">💬 연락하기</h2>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-          프로젝트에 관심이 있으시거나, 함께 공부하고 싶으시거나, 그냥 인사하고 싶으시면 언제든 연락주세요!
+          함께 공부하고 싶으시거나, 그냥 인사하고 싶으시면 언제든 연락주세요!
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Button variant="outline" asChild>
