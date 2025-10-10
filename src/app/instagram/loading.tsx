@@ -1,5 +1,6 @@
 import {Card, CardContent} from '@/component/ui';
 import {Skeleton} from '@/component/ui/skeleton';
+import {IG_FEED_STYLES} from '@/lib/constants/instagram';
 
 export default function InstagramLoading() {
   return (
@@ -11,7 +12,6 @@ export default function InstagramLoading() {
               <Skeleton className="w-24 h-24 rounded-full" />
               <div className="space-y-3 flex-1">
                 <Skeleton className="h-6 w-32" />
-                <Skeleton className="h-4 w-64" />
                 <div className="flex gap-4">
                   <Skeleton className="h-4 w-16" />
                   <Skeleton className="h-4 w-20" />
@@ -21,16 +21,9 @@ export default function InstagramLoading() {
             </div>
           </CardContent>
         </Card>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={`grid ${IG_FEED_STYLES.gridColsClass} gap-0.5`}>
           {Array.from({length: 9}).map((_, index) => (
-            <Card key={index} className="overflow-hidden">
-              <Skeleton className="aspect-square w-full" />
-              <CardContent className="p-4">
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-3/4" />
-              </CardContent>
-            </Card>
+            <Skeleton key={index} className={`${IG_FEED_STYLES.itemAspectClass} rounded-none `} />
           ))}
         </div>
       </div>
