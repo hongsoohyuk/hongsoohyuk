@@ -1,6 +1,5 @@
 'use client';
 
-import {Skeleton} from '@/component/ui/skeleton';
 import {IG_FEED_STYLES} from '@/lib/constants/instagram';
 import {useInstagramFeed} from '@/lib/hooks/instagram';
 import {InstagramMedia} from '@/lib/types/instagram';
@@ -71,17 +70,7 @@ export default function InstagramFeed({initialItems, initialAfter}: Props) {
           <InstagramPostItem key={post.id} post={post} />
         ))}
       </div>
-
       <div ref={sentinelRef} className="h-10" />
-
-      {isLoading && (
-        <div className={`grid ${IG_FEED_STYLES.gridColsClass}`}>
-          {Array.from({length: 3}).map((_, index) => (
-            <Skeleton key={`loading-${index}`} className={`${IG_FEED_STYLES.itemAspectClass}`} />
-          ))}
-        </div>
-      )}
-      {error && <div className="text-center py-4 text-sm text-destructive">오류: {error}</div>}
       {!hasMore && items.length > 0 && (
         <div className="text-center py-4 text-sm text-muted-foreground">모든 게시물을 불러왔습니다</div>
       )}
