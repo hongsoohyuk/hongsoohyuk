@@ -20,11 +20,14 @@ export async function getInstagramMediaServer(params: {after?: string; limit?: n
   const {after, limit = 12} = params;
   const data = await httpServer.get<InstagramListResponse>('/api/instagram/posts', {
     query: {after, limit},
+    cache: 'no-store',
   });
   return data;
 }
 
 export async function getInstagramProfileServer(): Promise<InstagramProfile | null> {
-  const data = await httpServer.get<InstagramProfile | null>('/api/instagram/me');
+  const data = await httpServer.get<InstagramProfile | null>('/api/instagram/me', {
+    cache: 'no-store',
+  });
   return data;
 }

@@ -5,64 +5,12 @@ import {IG_FEED_STYLES} from '@/lib/constants/instagram';
 import {useInstagramFeed} from '@/lib/hooks/instagram';
 import {InstagramMedia} from '@/lib/types/instagram';
 import Image from 'next/image';
-import {memo, useCallback, useEffect, useRef, useState} from 'react';
+import {memo, useCallback, useEffect, useRef} from 'react';
 
 interface Props {
   initialItems: InstagramMedia[];
   initialAfter?: string;
 }
-
-const InstagramImage = memo(function InstagramImage({src, alt}: {src: string; alt: string}) {
-  const [imageError, setImageError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleImageError = () => {
-    console.warn(`Instagram 이미지 로딩 실패: ${src}`);
-    setImageError(true);
-    setIsLoading(false);
-  };
-
-  const handleImageLoad = () => {
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    setImageError(false);
-    setIsLoading(true);
-  }, [src]);
-
-  if (imageError) {
-    return (
-      <div className="flex h-full w-full items-center justify-center bg-muted">
-        <div className="text-center text-muted-foreground">
-          <div className="text-2xl mb-2">📷</div>
-          <div className="text-xs">이미지를 불러올 수 없습니다</div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-muted">
-          <div className="animate-pulse text-muted-foreground">로딩 중...</div>
-        </div>
-      )}
-      <Image
-        fill
-        src={src}
-        alt={alt}
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        className="object-cover transition-transform duration-300 group-hover:scale-105"
-        onError={handleImageError}
-        onLoad={handleImageLoad}
-        priority={false}
-        quality={75}
-      />
-    </>
-  );
-});
 
 const InstagramPostItem = memo(function InstagramPostItem({post}: {post: InstagramMedia}) {
   const imageSrc = post.media_type === 'VIDEO' ? post.thumbnail_url! : post.media_url;
@@ -71,7 +19,15 @@ const InstagramPostItem = memo(function InstagramPostItem({post}: {post: Instagr
   return (
     <div className="group relative cursor-pointer overflow-hidden">
       <div className={`${IG_FEED_STYLES.itemAspectClass} bg-muted relative w-full`}>
-        <InstagramImage src={imageSrc} alt={imageAlt} />
+        <Image
+          fill
+          src={imageSrc}
+          alt={imageAlt}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          priority={false}
+          quality={75}
+        />
         <div className="pointer-events-none absolute inset-0 bg-black/0 opacity-0 transition-opacity duration-200 group-hover:bg-black/40 group-hover:opacity-100" />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
           <div className="flex items-center gap-4 text-white font-semibold text-sm">
@@ -84,7 +40,7 @@ const InstagramPostItem = memo(function InstagramPostItem({post}: {post: Instagr
   );
 });
 
-export default function InstagramFeedClient({initialItems, initialAfter}: Props) {
+export default function InstagramFeed({initialItems, initialAfter}: Props) {
   const {items, isLoading, error, hasMore, loadMore} = useInstagramFeed({
     initialItems,
     initialAfter,
@@ -96,9 +52,7 @@ export default function InstagramFeedClient({initialItems, initialAfter}: Props)
   const onIntersect = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const first = entries[0];
-      if (first.isIntersecting && hasMore && !isLoading) {
-        loadMore();
-      }
+      if (first.isIntersecting && hasMore && !isLoading) loadMore();
     },
     [hasMore, isLoading, loadMore],
   );
