@@ -1,5 +1,6 @@
 'use client';
 
+import {Skeleton} from '@/component/ui/skeleton';
 import {IG_FEED_STYLES} from '@/lib/constants/instagram';
 import {useInstagramFeed} from '@/lib/hooks/instagram';
 import {InstagramMedia} from '@/lib/types/instagram';
@@ -22,10 +23,8 @@ const InstagramPostItem = memo(function InstagramPostItem({post}: {post: Instagr
           fill
           src={imageSrc}
           alt={imageAlt}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading="eager"
           className="object-cover transition-transform duration-300 group-hover:scale-105"
-          priority={false}
-          quality={75}
         />
         <div className="pointer-events-none absolute inset-0 bg-black/0 opacity-0 transition-opacity duration-200 group-hover:bg-black/40 group-hover:opacity-100" />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
@@ -69,6 +68,14 @@ export default function InstagramFeed({initialItems, initialAfter}: Props) {
         {items.map((post) => (
           <InstagramPostItem key={post.id} post={post} />
         ))}
+        {isLoading &&
+          Array.from({length: 3}).map((_, index) => (
+            <div key={`loading-${index}`} className="group relative cursor-pointer overflow-hidden">
+              <div className={`${IG_FEED_STYLES.itemAspectClass} relative w-full`}>
+                <Skeleton aria-hidden className="absolute inset-0 h-full w-full pointer-events-none" />
+              </div>
+            </div>
+          ))}
       </div>
       <div ref={sentinelRef} className="h-10" />
       {!hasMore && items.length > 0 && (
