@@ -12,8 +12,7 @@ export default function Home() {
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> 홍수혁</span>
             입니다
           </h1>
-          {/* <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-          </p> */}
+
           <div className="flex flex-wrap justify-center gap-2">
             <Badge variant="secondary">Next.js 15</Badge>
             <Badge variant="secondary">React 19</Badge>
@@ -31,7 +30,7 @@ export default function Home() {
             <CardHeader>
               <div className="text-4xl mb-4">📝</div>
               <CardTitle>방명록</CardTitle>
-              <CardDescription>방문자들이 남겨주신 소중한 메시지들을 확인하고 답글을 남길 수 있어요</CardDescription>
+              <CardDescription>방문자들이 남겨주신 소중한 메시지들을 확인할 수 있어요</CardDescription>
             </CardHeader>
             <CardContent>
               <Link href="/guestbook">
@@ -45,7 +44,7 @@ export default function Home() {
             <CardHeader>
               <div className="text-4xl mb-4">💼</div>
               <CardTitle>포트폴리오</CardTitle>
-              <CardDescription>Google Docs에 작성된 저의 자기소개서와 프로젝트 경험을 만나보세요</CardDescription>
+              <CardDescription>자기소개서와 프로젝트 경험을 만나보세요</CardDescription>
             </CardHeader>
             <CardContent>
               <Link href="/portfolio">
@@ -67,35 +66,6 @@ export default function Home() {
               </Link>
             </CardContent>
           </Card>
-        </div>
-      </section>
-
-      {/* 현재 학습 중 섹션 */}
-      <section className="py-12 bg-muted/30 rounded-lg">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-8">🚀 현재 공부하고 있는 것들</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-semibold mb-4">📚 기술 스택</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>• Next.js App Router</li>
-                <li>• React 19</li>
-                <li>• TypeScript 고급 패턴</li>
-                <li>• Tailwind CSS v4</li>
-                <li>• 운영체제 소프트웨어 개발</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-4">🎯 목표</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>• 개발 실력 향상</li>
-                <li>• 현대적인 웹 개발 패턴 습득</li>
-                <li>• 클린 코드 작성 능력 기르기</li>
-                <li>• 사용자 경험 개선</li>
-                <li>• 지속적인 학습과 성장</li>
-              </ul>
-            </div>
-          </div>
         </div>
       </section>
 
