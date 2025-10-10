@@ -33,7 +33,7 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {NAVIGATION_ITEMS.map((item) => (
-                <DropdownMenuItem key={item.href}>
+                <DropdownMenuItem key={item.href} asChild>
                   <Link key={item.href} href={item.href} className="w-full">
                     {item.name}
                   </Link>
