@@ -1,14 +1,16 @@
-import {Button, Card, CardContent} from '@/component/ui';
+import {Card, CardContent} from '@/component/ui';
 import {getInstagramMediaServer, getInstagramProfileServer} from '@/lib/api/instagram';
 import {InstagramMedia} from '@/lib/types';
 import Image from 'next/image';
-import InstagramFeedClient from './sections/InstagramFeedClient';
+import InstagramFeed from './sections/InstagramFeed';
+
+export const dynamic = 'force-dynamic';
 
 export default async function InstagramPage() {
   const [initial, profile] = await Promise.all([getInstagramMediaServer({limit: 12}), getInstagramProfileServer()]);
 
-  const posts: InstagramMedia[] = initial?.data ?? [];
-  const after = initial?.paging?.cursors?.after;
+  const posts: InstagramMedia[] = initial.data ?? [];
+  const after = initial.paging?.cursors?.after;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -16,25 +18,19 @@ export default async function InstagramPage() {
         <Card className="mb-8">
           <CardContent>
             <div className="flex items-center gap-6">
-              {profile?.profile_picture_url ? (
-                <Image
-                  src={profile.profile_picture_url}
-                  alt={profile?.username ?? 'Instagram Profile'}
-                  width={96}
-                  height={96}
-                  className="rounded-full"
-                />
-              ) : (
-                <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center">
-                  <span className="text-2xl">👤</span>
-                </div>
-              )}
+              <Image
+                src={profile?.profile_picture_url ?? ''}
+                alt={profile?.username ?? 'alternate'}
+                width={96}
+                height={96}
+                className="rounded-full "
+              />
               <div className="space-y-2">
-                <h3 className="text-xl font-semibold">{'$&((%$#@#^$%#'}</h3>
-                <p className="text-muted-foreground">{profile?.biography ?? ''}</p>
+                <h3 className="text-xl font-semibold">{profile?.username}</h3>
+                <p className="text-muted-foreground">{profile?.biography}</p>
                 <div className="flex gap-4 text-sm">
                   <span>
-                    <strong>{profile?.media_count ?? 0}</strong> posts
+                    <strong>{profile?.media_count}</strong> posts
                   </span>
                   <span>
                     <strong>{profile?.followers_count ?? 0}</strong> followers
@@ -48,19 +44,19 @@ export default async function InstagramPage() {
           </CardContent>
         </Card>
 
-        {posts.length === 0 ? (
-          <Card>
-            <CardContent className="py-16 text-center">
-              <div className="text-6xl mb-4">📷</div>
-              <h3 className="text-xl font-semibold mb-2">게시물이 없습니다</h3>
-
-              <Button variant="outline">Instagram 방문하기</Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <InstagramFeedClient initialItems={posts} initialAfter={after} />
-        )}
+        {posts.length === 0 ? <EmptyFallback /> : <InstagramFeed initialItems={posts} initialAfter={after} />}
       </div>
     </div>
   );
 }
+
+const EmptyFallback = () => {
+  return (
+    <Card>
+      <CardContent className="py-16 text-center">
+        <div className="text-6xl mb-4">📷</div>
+        <h3 className="text-xl font-semibold mb-2">게시물이 없습니다</h3>
+      </CardContent>
+    </Card>
+  );
+};

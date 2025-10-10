@@ -3,7 +3,7 @@
 import {getInstagramMedia} from '@/lib/api/instagram';
 import {InstagramMedia} from '@/lib/types';
 import {useInfiniteQuery} from '@tanstack/react-query';
-import {useEffect, useMemo} from 'react';
+import {useMemo} from 'react';
 
 interface UseInstagramFeedOptions {
   initialItems?: InstagramMedia[];
@@ -40,10 +40,6 @@ export function useInstagramFeed(options: UseInstagramFeedOptions = {}) {
   const items = useMemo(() => query.data?.pages.flatMap((p) => p.data ?? []) ?? [], [query.data]);
 
   const hasMore = Boolean(query.data?.pages.at(-1)?.paging?.cursors?.after);
-
-  useEffect(() => {
-    // If there are no initial items but we have initialAfter, hydrate first page to avoid extra request
-  }, []);
 
   return {
     items,
