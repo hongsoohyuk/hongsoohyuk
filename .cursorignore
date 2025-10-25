@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+dist
+build
+wasm/build
+wasm/build_native
+*.wasm
+*.o
+*.a
+
