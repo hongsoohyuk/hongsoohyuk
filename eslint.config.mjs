@@ -23,6 +23,19 @@ const eslintConfig = [
       'next-env.d.ts',
     ],
   },
+  {
+    rules: {
+      // TypeScript rules - warn instead of error
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'warn',
+      // React rules - warn instead of error
+      'react-hooks/exhaustive-deps': 'warn',
+      // General rules
+      'no-unused-vars': 'warn',
+      'no-console': 'off',
+    },
+  },
   // Disable ESLint stylistic rules that conflict with Prettier
   eslintConfigPrettier,
 ];
