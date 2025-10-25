@@ -1,6 +1,6 @@
 import {Card, CardContent} from '@/component/ui';
 import Image from 'next/image';
-import {ProfileStats} from '@/app/instagram/_components/ProfileStats';
+import {ProfileStats} from './ProfileStats';
 
 interface ProfileCardProps {
   profilePictureUrl: string;

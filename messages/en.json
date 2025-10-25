@@ -1,0 +1,109 @@
+{
+  "HomePage": {
+    "title": "Hello,",
+    "name": "I'm Soohyuk Hong",
+    "suffix": "",
+    "sections": {
+      "guestbook": {
+        "emoji": "📝",
+        "title": "Guestbook",
+        "description": "View precious messages left by visitors",
+        "button": "View Guestbook"
+      },
+      "portfolio": {
+        "emoji": "💼",
+        "title": "Portfolio",
+        "description": "Discover my introduction and project experiences",
+        "button": "View Portfolio"
+      },
+      "instagram": {
+        "emoji": "📸",
+        "title": "Instagram",
+        "description": "Sharing small moments from daily life",
+        "button": "View Instagram"
+      },
+      "pokemon": {
+        "emoji": "🎮",
+        "title": "Pokémon Town Walk",
+        "description": "Walk around the town and encounter wild Pokémon",
+        "button": "Start Game"
+      }
+    },
+    "contact": {
+      "title": "💬 Get in Touch",
+      "description": "Feel free to reach out if you want to study together or just say hi!",
+      "email": "Email",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    }
+  },
+  "Header": {
+    "nav": {
+      "home": "Home",
+      "guestbook": "Guestbook",
+      "portfolio": "Portfolio",
+      "instagram": "Instagram",
+      "pokemon": "Pokémon"
+    },
+    "theme": {
+      "light": "Light Mode",
+      "dark": "Dark Mode",
+      "system": "System"
+    },
+    "language": "Language"
+  },
+  "Footer": {
+    "copyright": "© {year} Soohyuk Hong. All rights reserved.",
+    "madeWith": "Made with ❤️ using Next.js"
+  },
+  "Instagram": {
+    "title": "Instagram",
+    "description": "Small moments from daily life",
+    "loading": "Loading posts...",
+    "loadingMore": "Loading more posts...",
+    "endOfFeed": "You've seen all posts",
+    "empty": {
+      "title": "No posts yet",
+      "description": "No posts have been shared yet"
+    },
+    "post": {
+      "likes": "likes",
+      "comments": "comments",
+      "engagement": "Engagement",
+      "reelNotice": "This post is a Reel. Turn on sound to enjoy it.",
+      "viewPost": "View Post",
+      "close": "Close"
+    }
+  },
+  "Pokemon": {
+    "title": "Pokémon Town Walk",
+    "description": "Walk around the town and encounter wild Pokémon",
+    "controls": {
+      "title": "Controls",
+      "move": "Move: Arrow Keys or WASD",
+      "action": "Talk/Interact: Space or Enter"
+    },
+    "start": "Start Game"
+  },
+  "Guestbook": {
+    "title": "Guestbook",
+    "description": "Leave a precious message",
+    "form": {
+      "name": "Name",
+      "message": "Message",
+      "submit": "Submit"
+    }
+  },
+  "Portfolio": {
+    "title": "Portfolio",
+    "description": "Introduction to Developer Soohyuk Hong"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  }
+}

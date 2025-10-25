@@ -16,6 +16,10 @@ export {Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, Table
 
 // Interactive components
 export {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from './accordion';
+export {Modal, ModalBody, ModalFooter, ModalHeader} from './modal';
 
 // Feedback components
 export {Badge, badgeVariants} from './badge';
+
+// Locale components
+export {LocaleSwitcher} from './locale-switcher';
