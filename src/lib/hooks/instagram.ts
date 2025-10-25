@@ -1,18 +1,15 @@
 'use client';
 
 import {getInstagramMedia} from '@/lib/api/instagram';
-import {InstagramMedia} from '@/lib/types';
+import {InstagramFeedOptions} from '@/lib/types/instagram';
 import {useInfiniteQuery} from '@tanstack/react-query';
 import {useMemo} from 'react';
 
-interface UseInstagramFeedOptions {
-  initialItems?: InstagramMedia[];
-  initialAfter?: string;
-  pageSize?: number;
-}
+const DEFAULT_PAGE_SIZE = 12;
+const STALE_TIME = 60 * 1000; // 1 minute
 
-export function useInstagramFeed(options: UseInstagramFeedOptions = {}) {
-  const {initialItems = [], initialAfter, pageSize = 12} = options;
+export function useInstagramFeed(options: InstagramFeedOptions = {}) {
+  const {initialItems = [], initialAfter, pageSize = DEFAULT_PAGE_SIZE} = options;
 
   const query = useInfiniteQuery({
     queryKey: ['instagram', pageSize],
@@ -30,14 +27,13 @@ export function useInstagramFeed(options: UseInstagramFeedOptions = {}) {
           ],
         }
       : undefined,
-    // Prevent replacing SSR data on mount
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    staleTime: 60 * 1000,
+    staleTime: STALE_TIME,
   });
 
-  const items = useMemo(() => query.data?.pages.flatMap((p) => p.data ?? []) ?? [], [query.data]);
+  const items = useMemo(() => query.data?.pages.flatMap((page) => page.data ?? []) ?? [], [query.data]);
 
   const hasMore = Boolean(query.data?.pages.at(-1)?.paging?.cursors?.after);
 
