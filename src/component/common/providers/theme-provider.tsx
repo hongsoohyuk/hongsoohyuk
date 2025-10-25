@@ -1,6 +1,6 @@
 'use client';
 
-import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState, useCallback} from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -8,7 +8,7 @@ interface ThemeContextType {
   clientMounted: boolean;
   theme: Theme;
   toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -20,54 +20,66 @@ interface ThemeProviderProps {
 export function ThemeProvider({children}: ThemeProviderProps) {
   const [clientMounted, setClientMounted] = useState(false);
 
-  // 서버에서는 기본값, 클라이언트에서는 DOM 상태 사용
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'light';
-    return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-  });
-
-  const updateTheme = (newTheme: Theme) => {
+  const applyTheme = useCallback((newTheme: Theme) => {
+    if (typeof document === 'undefined') return;
     const root = document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(newTheme);
     root.style.colorScheme = newTheme;
     localStorage.setItem('theme', newTheme);
-  };
-
-  // 테마 변경 시에만 DOM과 localStorage 업데이트 (초기화 시에는 실행되지 않음)
-  const isFirstRender = useRef(true);
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      console.log('ThemeProvider initialized with theme:', theme);
-      return; // 첫 렌더링에서는 localStorage 업데이트하지 않음
-    }
-
-    updateTheme(theme);
-  }, [theme]);
-
-  useEffect(() => {
-    setClientMounted(true);
   }, []);
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-  };
+  const getStoredTheme = useCallback((): Theme => {
+    if (typeof window === 'undefined') return 'light';
 
-  const toggleTheme = () => {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light' || stored === 'dark') {
+      return stored;
+    }
+
+    if (document.documentElement.classList.contains('dark')) {
+      return 'dark';
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }, []);
+
+  // 서버에서는 기본값, 클라이언트에서는 저장된 상태 사용
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'light';
+    return getStoredTheme();
+  });
+
+  // 초기 마운트 시 DOM 클래스와 상태를 동기화
+  useEffect(() => {
+    const initialTheme = getStoredTheme();
+    setThemeState(initialTheme);
+    applyTheme(initialTheme);
+    setClientMounted(true);
+  }, [applyTheme, getStoredTheme]);
+
+  // 테마 변경 시 DOM + localStorage 반영
+  useEffect(() => {
+    if (!clientMounted) return;
+    applyTheme(theme);
+  }, [applyTheme, clientMounted, theme]);
+
+  const toggleTheme = useCallback(() => {
     setThemeState((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
+  }, []);
 
   if (!clientMounted) {
     return (
-      <ThemeContext.Provider value={{clientMounted: false, theme: 'light', toggleTheme: () => {}, setTheme: () => {}}}>
+      <ThemeContext.Provider
+        value={{clientMounted: false, theme: 'light', toggleTheme: () => {}, setTheme: () => undefined}}
+      >
         {children}
       </ThemeContext.Provider>
     );
   }
 
   return (
-    <ThemeContext.Provider value={{clientMounted: true, theme, toggleTheme, setTheme}}>
+    <ThemeContext.Provider value={{clientMounted: true, theme, toggleTheme, setTheme: setThemeState}}>
       {children}
     </ThemeContext.Provider>
   );
