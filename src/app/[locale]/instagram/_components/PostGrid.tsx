@@ -1,5 +1,5 @@
-import {IG_FEED_STYLES} from '@/lib/constants/instagram';
 import {ReactNode} from 'react';
+import clsx from 'clsx';
 
 interface PostGridProps {
   children: ReactNode;
@@ -13,8 +13,10 @@ const GRID_COLUMNS = {
 } as const;
 
 export function PostGrid({children, columns = 3}: PostGridProps) {
+  const columnClass = GRID_COLUMNS[columns] ?? GRID_COLUMNS[3];
+
   return (
-    <div className={IG_FEED_STYLES.gridColsClass} role="feed">
+    <div className={clsx('grid gap-0.5', columnClass)} role="feed">
       {children}
     </div>
   );

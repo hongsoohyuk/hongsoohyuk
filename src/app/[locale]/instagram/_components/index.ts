@@ -5,5 +5,7 @@ export {LoadingSkeleton} from './LoadingSkeleton';
 export {PostGrid} from './PostGrid';
 export {PostItem} from './PostItem';
 export {PostOverlay} from './PostOverlay';
+export {PostDetailModal} from './PostDetailModal';
+export {PostMediaViewer} from './PostMediaViewer';
 export {ProfileCard} from './ProfileCard';
 export {ProfileStats} from './ProfileStats';

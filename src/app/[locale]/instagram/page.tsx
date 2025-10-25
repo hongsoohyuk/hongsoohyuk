@@ -1,17 +1,30 @@
-import {EmptyState, ProfileCard} from '@/app/instagram/_components';
+import {EmptyState, ProfileCard} from './_components';
 import {getInstagramMediaServer, getInstagramProfileServer} from '@/lib/api/instagram';
 import {InstagramMedia} from '@/lib/types/instagram';
 import {Metadata} from 'next';
+import {getTranslations, setRequestLocale} from 'next-intl/server';
 import InstagramFeed from './sections/InstagramFeed';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'Instagram Feed | Portfolio',
-  description: 'View my Instagram posts and updates',
+type Props = {
+  params: Promise<{locale: string}>;
 };
 
-export default async function InstagramPage() {
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params;
+  const t = await getTranslations({locale, namespace: 'Instagram'});
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
+
+export default async function InstagramPage({params}: Props) {
+  const {locale} = await params;
+  setRequestLocale(locale);
+
   const [mediaResponse, profile] = await Promise.all([
     getInstagramMediaServer({limit: 12}),
     getInstagramProfileServer(),

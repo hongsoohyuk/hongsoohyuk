@@ -1,0 +1,109 @@
+{
+  "HomePage": {
+    "title": "안녕하세요,",
+    "name": "홍수혁",
+    "suffix": "입니다",
+    "sections": {
+      "guestbook": {
+        "emoji": "📝",
+        "title": "방명록",
+        "description": "방문자들이 남겨주신 소중한 메시지들을 확인할 수 있어요",
+        "button": "방명록 보기"
+      },
+      "portfolio": {
+        "emoji": "💼",
+        "title": "포트폴리오",
+        "description": "자기소개서와 프로젝트 경험을 만나보세요",
+        "button": "포트폴리오 보기"
+      },
+      "instagram": {
+        "emoji": "📸",
+        "title": "인스타그램",
+        "description": "일상 속 소소한 순간들을 공유합니다",
+        "button": "인스타그램 보기"
+      },
+      "pokemon": {
+        "emoji": "🎮",
+        "title": "포켓몬 마을 산책",
+        "description": "마을을 돌아다니며 야생 포켓몬을 만나보세요",
+        "button": "미니게임 시작"
+      }
+    },
+    "contact": {
+      "title": "💬 연락하기",
+      "description": "함께 공부하고 싶으시거나, 그냥 인사하고 싶으시면 언제든 연락주세요!",
+      "email": "이메일",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    }
+  },
+  "Header": {
+    "nav": {
+      "home": "홈",
+      "guestbook": "방명록",
+      "portfolio": "포트폴리오",
+      "instagram": "인스타그램",
+      "pokemon": "포켓몬"
+    },
+    "theme": {
+      "light": "라이트 모드",
+      "dark": "다크 모드",
+      "system": "시스템 설정"
+    },
+    "language": "언어"
+  },
+  "Footer": {
+    "copyright": "© {year} 홍수혁. All rights reserved.",
+    "madeWith": "Made with ❤️ using Next.js"
+  },
+  "Instagram": {
+    "title": "인스타그램",
+    "description": "일상 속 소소한 순간들",
+    "loading": "게시물을 불러오는 중...",
+    "loadingMore": "더 많은 게시물 불러오는 중...",
+    "endOfFeed": "모든 게시물을 확인했습니다",
+    "empty": {
+      "title": "게시물이 없습니다",
+      "description": "아직 공유된 게시물이 없어요"
+    },
+    "post": {
+      "likes": "좋아요",
+      "comments": "댓글",
+      "engagement": "상호작용",
+      "reelNotice": "이 게시물은 릴(Reel) 입니다. 사운드를 켜고 감상해 보세요.",
+      "viewPost": "게시물 보기",
+      "close": "닫기"
+    }
+  },
+  "Pokemon": {
+    "title": "포켓몬 마을 산책",
+    "description": "마을을 돌아다니며 야생 포켓몬을 만나보세요",
+    "controls": {
+      "title": "조작법",
+      "move": "이동: 화살표 키 또는 WASD",
+      "action": "대화/조사: Space 또는 Enter"
+    },
+    "start": "게임 시작"
+  },
+  "Guestbook": {
+    "title": "방명록",
+    "description": "소중한 메시지를 남겨주세요",
+    "form": {
+      "name": "이름",
+      "message": "메시지",
+      "submit": "작성하기"
+    }
+  },
+  "Portfolio": {
+    "title": "포트폴리오",
+    "description": "개발자 홍수혁을 소개합니다"
+  },
+  "Common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "retry": "다시 시도",
+    "close": "닫기",
+    "confirm": "확인",
+    "cancel": "취소"
+  }
+}

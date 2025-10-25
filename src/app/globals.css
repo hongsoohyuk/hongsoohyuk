@@ -120,3 +120,37 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Pokémon Gold Game Asset Styles */
+@layer utilities {
+  .pixelated {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  .pixel-perfect {
+    image-rendering: pixelated;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+  }
+
+  /* Game Boy retro animation */
+  @keyframes grass-rustle {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+  }
+
+  .grass-rustle {
+    animation: grass-rustle 0.3s ease-in-out;
+  }
+
+  /* Pixel font style for retro feel */
+  .pixel-text {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    text-rendering: optimizeSpeed;
+  }
+}
