@@ -9,6 +9,12 @@ echo "🎮 Building Pokemon Game Engine (C++ → WASM)..."
 
 # Check if emscripten is available
 if ! command -v emcc &> /dev/null; then
+    if [[ "${CI:-}" == "true" || -n "${VERCEL:-}" ]]; then
+        echo "⚠️  Emscripten (emcc) not found in CI environment – skipping WASM rebuild."
+        echo "    Using precompiled artifacts committed under public/wasm/."
+        exit 0
+    fi
+
     echo "❌ Error: Emscripten (emcc) not found!"
     echo "Please install Emscripten SDK from: https://emscripten.org/docs/getting_started/downloads.html"
     echo ""
@@ -37,4 +43,3 @@ emmake make
 # Files are already output to the correct location via CMakeLists.txt
 echo "✅ Build complete! WASM files are in public/wasm/"
 ls -lh ../../public/wasm/pokemon-game.*
-
