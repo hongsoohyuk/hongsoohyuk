@@ -2,10 +2,13 @@ import {Footer} from '@/component/layout/footer';
 import {Header} from '@/component/layout/header';
 import {SITE_CONFIG} from '@/lib/constants';
 import type {Metadata} from 'next';
+import {NextIntlClientProvider} from 'next-intl';
+import {getMessages, setRequestLocale} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
-import './globals.css';
-import {ClientProviders} from '../component/common/providers/client-providers';
-import {ThemeScript} from '../component/common/theme-script';
+import {routing} from '@/i18n/routing';
+import '../globals.css';
+import {ClientProviders} from '../../component/common/providers/client-providers';
+import {ThemeScript} from '../../component/common/theme-script';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -23,7 +26,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_CONFIG.name}`,
   },
   description: SITE_CONFIG.description,
-  keywords: ['포트폴리오', '개인사이트', '개발자', '프론트엔드', 'Next.js'],
+  keywords: ['포트폴리오', '개인사이트', '개발자', '프론트엔드', 'Next.js', 'Portfolio', 'Developer'],
   authors: [{name: '홍수혁'}],
   creator: '홍수혁',
   openGraph: {
@@ -53,24 +56,40 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({locale}));
+}
+
+type Props = {
   children: React.ReactNode;
-}>) {
+  params: Promise<{locale: string}>;
+};
+
+export default async function LocaleLayout({children, params}: Props) {
+  const {locale} = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
+
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background font-sans`}>
-        <ClientProviders>
-          <div className="relative flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </ClientProviders>
+        <NextIntlClientProvider messages={messages}>
+          <ClientProviders>
+            <div className="relative flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </ClientProviders>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
