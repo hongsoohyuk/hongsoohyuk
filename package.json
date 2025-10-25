@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "npm run build:wasm && next build --turbopack",
+    "build:wasm": "cd wasm && ./build.sh",
+    "build:native": "cd wasm && ./build_native.sh",
+    "game": "cd wasm && ./build_native.sh && ./build_native/pokemon-game-native",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",

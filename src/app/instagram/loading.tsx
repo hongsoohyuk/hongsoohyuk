@@ -21,7 +21,7 @@ export default function InstagramLoading() {
             </div>
           </CardContent>
         </Card>
-        <div className={`grid ${IG_FEED_STYLES.gridColsClass} gap-0.5`}>
+        <div className={IG_FEED_STYLES.gridColsClass}>
           {Array.from({length: 9}).map((_, index) => (
             <Skeleton key={index} className={`${IG_FEED_STYLES.itemAspectClass} rounded-none `} />
           ))}

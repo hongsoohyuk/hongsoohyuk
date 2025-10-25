@@ -1,11 +1,18 @@
-export interface InstagramMedia {
-  id: string;
-  media_type: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
-  media_url: string;
-  thumbnail_url?: string;
-  like_count?: number;
-  comments_count?: number;
-  username?: string;
-  caption?: string;
-  timestamp?: string;
+// Re-export types from main types file
+export type {
+  InstagramMedia,
+  InstagramProfile,
+  InstagramListResponse,
+  InstagramPaging,
+  InstagramPagingCursors,
+} from '../types';
+
+// Import InstagramMedia for use in this file
+import type {InstagramMedia} from '../types';
+
+// Additional types for Instagram feed
+export interface InstagramFeedOptions {
+  initialItems?: InstagramMedia[];
+  initialAfter?: string;
+  pageSize?: number;
 }

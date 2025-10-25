@@ -14,7 +14,7 @@ export default function Home() {
           </h1>
 
           <div className="flex flex-wrap justify-center gap-2">
-            <Badge variant="secondary">Next.js 15</Badge>
+            {/* <Badge variant="secondary">Next.js 15</Badge>
             <Badge variant="secondary">React 19</Badge>
             <Badge variant="secondary">TypeScript</Badge>
             <Badge variant="secondary">Tailwind CSS</Badge>
