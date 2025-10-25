@@ -1,0 +1,9 @@
+# Native build artifacts
+build_native/
+
+# CMake build artifacts
+build/
+
+# Keep the final WASM outputs (committed to repo)
+!../public/wasm/pokemon-game.js
+!../public/wasm/pokemon-game.wasm
