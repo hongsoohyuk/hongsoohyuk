@@ -1,4 +1,4 @@
-import {Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/component/ui';
+import {Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/component/ui';
 import {Link} from '@/i18n/routing';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
@@ -14,7 +14,6 @@ export default async function Home({params}: Props) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* 히어로 섹션 */}
       <section className="text-center py-12 md:py-20">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
@@ -28,10 +27,8 @@ export default async function Home({params}: Props) {
         </div>
       </section>
 
-      {/* 기능 소개 섹션 */}
       <section className="py-12">
         <div className="grid gap-6 max-w-6xl mx-auto md:grid-cols-2 xl:grid-cols-4">
-          {/* 방명록 카드 */}
           <Card className="group hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="text-4xl mb-4">{t('sections.guestbook.emoji')}</div>
@@ -45,7 +42,6 @@ export default async function Home({params}: Props) {
             </CardContent>
           </Card>
 
-          {/* 포트폴리오 카드 */}
           <Card className="group hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="text-4xl mb-4">{t('sections.portfolio.emoji')}</div>
@@ -59,7 +55,6 @@ export default async function Home({params}: Props) {
             </CardContent>
           </Card>
 
-          {/* 인스타그램 카드 */}
           <Card className="group hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="text-4xl mb-4">{t('sections.instagram.emoji')}</div>
@@ -73,7 +68,6 @@ export default async function Home({params}: Props) {
             </CardContent>
           </Card>
 
-          {/* 포켓몬 미니게임 카드 */}
           <Card className="group hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="text-4xl mb-4">{t('sections.pokemon.emoji')}</div>
@@ -89,7 +83,6 @@ export default async function Home({params}: Props) {
         </div>
       </section>
 
-      {/* 연락처 섹션 */}
       <section className="py-12 text-center">
         <h2 className="text-3xl font-bold mb-8">{t('contact.title')}</h2>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">{t('contact.description')}</p>
