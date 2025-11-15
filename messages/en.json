@@ -53,8 +53,7 @@
     "language": "Language"
   },
   "Footer": {
-    "copyright": "© {year} Soohyuk Hong. All rights reserved.",
-    "madeWith": "Made with ❤️ using Next.js"
+    "copyright": "© {year} hongsoohyuk. All rights reserved."
   },
   "Instagram": {
     "title": "Instagram",
@@ -88,6 +87,135 @@
   "Guestbook": {
     "title": "Guestbook",
     "description": "Leave a precious message",
+    "hero": {
+      "badge": "Design preview",
+      "subtitle": "Preview what the guestbook will feel like once it goes live.",
+      "cta": "Browse the stream",
+      "note": "Sample copy stands in until the database is wired."
+    },
+    "stats": {
+      "totalMessages": {
+        "label": "Total messages",
+        "helper": "last 12 months"
+      },
+      "newMessages": {
+        "label": "New this week",
+        "helper": "updated today"
+      },
+      "returnVisitors": {
+        "label": "Returning visitors",
+        "helper": "share of total"
+      },
+      "avgResponse": {
+        "label": "Reply prep time",
+        "helper": "goal under 5 min"
+      }
+    },
+    "entries": {
+      "title": "Recent messages",
+      "subtitle": "Approved notes appear here in reverse chronological order.",
+      "filters": {
+        "latest": "Latest",
+        "warm": "Warm hellos",
+        "career": "Career notes",
+        "study": "Study invites"
+      },
+      "newVisitor": "First visit",
+      "returningVisitor": "Came back",
+      "channelInfo": "Arrived via {channel}",
+      "locationTime": "{location} • {time}",
+      "empty": "No messages have been approved yet.",
+      "fetchError": "We couldn’t load the guestbook right now.",
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next",
+        "summary": "Page {page} of {totalPages}"
+      }
+    },
+    "topics": {
+      "title": "Topics mentioned the most",
+      "subtitle": "Based on 20 sample notes",
+      "items": {
+        "careerPivot": "Career pivot",
+        "studyBuddy": "Study partner",
+        "teamCulture": "Team culture"
+      }
+    },
+    "mood": {
+      "title": "Mood temperature today",
+      "subtitle": "Sentiment across sample notes",
+      "joyful": "Joyful energy",
+      "curious": "Curious minds",
+      "encouraging": "Cheering squad"
+    },
+    "formPreview": {
+      "title": "Message form preview",
+      "subtitle": "Once the database is wired you can write right here.",
+      "helper": "Short hellos, questions, collaboration ideas—everything is welcome.",
+      "button": "Leave a message (coming soon)"
+    },
+    "formSection": {
+      "title": "Leave a note",
+      "subtitle": "Every note is reviewed briefly before it goes live.",
+      "placeholder": "Share what you loved, learned, or just say hi.",
+      "emotionTitle": "Tag the vibe",
+      "emotionHint": "Sample pick",
+      "emotionHelper": "Combine up to two feelings.",
+      "securityTitle": "Human check",
+      "securityHelper": "Complete the verification before submitting.",
+      "button": "Submit",
+      "buttonPending": "Sending...",
+      "trigger": "Write a note",
+      "note": "IP and UA values are hashed before storing, and notes are published after review.",
+      "status": {
+        "success": "Thanks! Your note is queued for review.",
+        "error": "We couldn’t save your note. Try again in a moment."
+      },
+      "validation": {
+        "name": "Please enter your name.",
+        "message": "Please enter a message.",
+        "emotions": "Pick at least one vibe.",
+        "emotionLimit": "You can attach up to two vibes.",
+        "turnstile": "Please complete the verification."
+      }
+    },
+    "emotions": {
+      "LIKE": {
+        "label": "I like this",
+        "description": "This space really resonates."
+      },
+      "INSPIRATION": {
+        "label": "Inspired",
+        "description": "Sparked new ideas for me."
+      },
+      "NICE": {
+        "label": "So kind",
+        "description": "It feels warm and welcoming."
+      },
+      "HELLO": {
+        "label": "Just saying hi",
+        "description": "Dropping a quick hello."
+      },
+      "FUN": {
+        "label": "Fun energy",
+        "description": "The content made me smile."
+      }
+    },
+    "sampleEntries": {
+      "entry1": "Loved how you documented the design system journey—especially the trade-offs section. Would enjoy a behind-the-scenes write-up someday!",
+      "entry2": "I lead frontend for a remote team and your web performance checklist saved our latest release. Just dropping by to say thanks.",
+      "entry3": "Running an iOS study circle in Busan and would like to host a joint web/mobile session. Interested in co-hosting a tiny meetup?",
+      "entry4": "Product manager at a climate tech startup here. Really into your data visualization approach—down for a quick coffee chat soon?"
+    },
+    "tags": {
+      "designSystem": "Design systems",
+      "mentoring": "Mentoring",
+      "studyBuddy": "Study buddy",
+      "careerChange": "Career change",
+      "remoteWork": "Remote work",
+      "openSource": "Open source",
+      "coffeeChat": "Coffee chat"
+    },
     "form": {
       "name": "Name",
       "message": "Message",
