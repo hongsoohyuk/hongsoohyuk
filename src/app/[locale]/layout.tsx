@@ -1,14 +1,14 @@
 import {Footer} from '@/component/layout/footer';
 import {Header} from '@/component/layout/header';
+import {routing} from '@/i18n/routing';
 import {SITE_CONFIG} from '@/lib/constants';
 import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
-import {routing} from '@/i18n/routing';
-import '../globals.css';
 import {ClientProviders} from '../../component/common/providers/client-providers';
 import {ThemeScript} from '../../component/common/theme-script';
+import '../globals.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   keywords: ['포트폴리오', '개인사이트', '개발자', '프론트엔드', 'Next.js', 'Portfolio', 'Developer'],
   authors: [{name: '홍수혁'}],
   creator: '홍수혁',
+  icons: {
+    icon: '/favicon.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'ko_KR',

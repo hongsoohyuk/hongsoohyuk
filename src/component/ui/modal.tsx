@@ -1,8 +1,8 @@
 'use client';
 
-import {createPortal} from 'react-dom';
-import {MouseEvent, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
+import {MouseEvent, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 
 interface ModalProps {
   open: boolean;
@@ -21,10 +21,10 @@ const OVERLAY_STYLES =
   'fixed inset-0 z-40 bg-black/70 backdrop-blur-sm transition-opacity data-[state=open]:opacity-100 data-[state=closed]:opacity-0';
 
 const CONTENT_STYLES =
-  'fixed inset-0 z-50 mx-auto flex max-h-[90vh] w-full max-w-5xl items-center justify-center p-4 sm:p-6';
+  'fixed inset-0 z-50 mx-auto flex max-h-[100dvh] sm:max-h-[90vh] w-full max-w-2xl items-end sm:items-center justify-center p-0 sm:p-4 md:p-6';
 
 const PANEL_STYLES =
-  'relative w-full transform rounded-2xl bg-background shadow-2xl outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background';
+  'relative w-full max-h-[92dvh] sm:max-h-[90vh] overflow-y-auto transform rounded-t-3xl sm:rounded-2xl bg-background shadow-2xl outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background safe-area-inset-bottom';
 
 function useAnimationState(dep: boolean) {
   const [state, setState] = useState<'open' | 'closed'>(dep ? 'open' : 'closed');
@@ -109,12 +109,7 @@ export function Modal({open, onClose, children, labelledBy, describedBy}: ModalP
 
   return createPortal(
     <>
-      <div
-        data-state={animationState}
-        className={OVERLAY_STYLES}
-        aria-hidden="true"
-        onClick={handleOverlayClick}
-      />
+      <div data-state={animationState} className={OVERLAY_STYLES} aria-hidden="true" onClick={handleOverlayClick} />
       <div data-state={animationState} className={CONTENT_STYLES}>
         <div
           ref={panelRef}
@@ -124,10 +119,7 @@ export function Modal({open, onClose, children, labelledBy, describedBy}: ModalP
           aria-labelledby={labelledBy}
           aria-describedby={describedBy}
           data-state={animationState}
-          className={clsx(
-            PANEL_STYLES,
-            animationState === 'open' ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
-          )}
+          className={clsx(PANEL_STYLES, animationState === 'open' ? 'scale-100 opacity-100' : 'scale-95 opacity-0')}
         >
           {children}
         </div>
@@ -137,14 +129,65 @@ export function Modal({open, onClose, children, labelledBy, describedBy}: ModalP
   );
 }
 
-export function ModalHeader({children, className}: ModalSectionProps) {
-  return <header className={clsx('border-b border-border px-6 py-4', className)}>{children}</header>;
+interface ModalHeaderProps extends ModalSectionProps {
+  onClose?: () => void;
+  showCloseButton?: boolean;
+}
+
+export function ModalHeader({children, className, onClose, showCloseButton = false}: ModalHeaderProps) {
+  return (
+    <header
+      className={clsx(
+        'sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur-sm px-4 py-3 sm:px-6 sm:py-4',
+        className,
+      )}
+    >
+      {/* Mobile: Handle for drag-to-close gesture indication */}
+      <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-muted sm:hidden" />
+
+      <div className="flex items-start justify-between gap-3 sm:gap-4">
+        <div className="flex-1">{children}</div>
+        {showCloseButton && onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-shrink-0 rounded-lg p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:scale-95"
+            aria-label="Close dialog"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        )}
+      </div>
+    </header>
+  );
 }
 
 export function ModalBody({children, className}: ModalSectionProps) {
-  return <div className={clsx('px-6 py-4', className)}>{children}</div>;
+  return <div className={clsx('px-4 py-3 sm:px-6 sm:py-4', className)}>{children}</div>;
 }
 
 export function ModalFooter({children, className}: ModalSectionProps) {
-  return <footer className={clsx('border-t border-border px-6 py-4', className)}>{children}</footer>;
+  return (
+    <footer
+      className={clsx(
+        'sticky bottom-0 z-10 border-t border-border bg-background/95 backdrop-blur-sm px-4 py-3 pb-safe sm:px-6 sm:py-4',
+        className,
+      )}
+    >
+      {children}
+    </footer>
+  );
 }
