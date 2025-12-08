@@ -71,11 +71,8 @@ type Props = {
 export default async function LocaleLayout({children, params}: Props) {
   const {locale} = await params;
 
-  // Enable static rendering
   setRequestLocale(locale);
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages();
 
   return (
