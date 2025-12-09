@@ -28,7 +28,7 @@ export default async function Home({params}: Props) {
       </section>
 
       <section className="py-12">
-        <div className="grid gap-6 max-w-6xl mx-auto md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-6 max-w-6xl mx-auto lg:grid-cols-3">
           <Card className="group hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="text-4xl mb-4">{t('sections.guestbook.emoji')}</div>
@@ -64,19 +64,6 @@ export default async function Home({params}: Props) {
             <CardContent>
               <Link href="/instagram">
                 <Button className="w-full group-hover:bg-primary/90">{t('sections.instagram.button')}</Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          <Card className="group hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="text-4xl mb-4">{t('sections.pokemon.emoji')}</div>
-              <CardTitle>{t('sections.pokemon.title')}</CardTitle>
-              <CardDescription>{t('sections.pokemon.description')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/pokemon">
-                <Button className="w-full group-hover:bg-primary/90">{t('sections.pokemon.button')}</Button>
               </Link>
             </CardContent>
           </Card>

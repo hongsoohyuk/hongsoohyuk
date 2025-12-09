@@ -5,6 +5,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {Link, usePathname} from '@/i18n/routing';
 import {cn} from '@/lib/utils';
 import {ChevronDownIcon} from 'lucide-react';
+import {useTranslations} from 'next-intl';
 
 type NavigationItem = {
   name: string;
@@ -13,11 +14,18 @@ type NavigationItem = {
 
 interface HeaderNavProps {
   siteName: string;
-  navigationItems: NavigationItem[];
 }
 
-export function HeaderNav({siteName, navigationItems}: HeaderNavProps) {
+export function HeaderNav({siteName}: HeaderNavProps) {
+  const t = useTranslations('Header');
   const pathname = usePathname();
+
+  const navigationItems = [
+    {name: t('nav.home'), href: '/' as const},
+    {name: t('nav.guestbook'), href: '/guestbook' as const},
+    {name: t('nav.portfolio'), href: '/portfolio' as const},
+    {name: t('nav.instagram'), href: '/instagram' as const},
+  ];
 
   return (
     <>
