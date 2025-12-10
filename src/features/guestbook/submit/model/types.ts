@@ -1,6 +1,6 @@
 import {EmotionCode, EmotionOption} from '@/entities/guestbook';
 
-export type FormCopy = {
+export type FormText = {
   title: string;
   subtitle: string;
   placeholder: string;
@@ -38,6 +38,6 @@ export type FormValues = {
 
 export type StatusMessage = {type: 'success' | 'error'; message: string} | null;
 
-export type SubmissionCopy = FormCopy;
+export type SubmissionText = FormText;
 
 export type SubmissionEmotionOption = EmotionOption;
