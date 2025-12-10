@@ -1,6 +1,6 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
-import {GuestbookPreview} from './_components/guestbook-preview';
+import {GuestbookList} from './_components/GuestbookList';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -58,6 +58,7 @@ export default async function GuestbookPage({params}: Props) {
       turnstile: t('formSection.validation.turnstile'),
     },
     nameLabel: t('form.name'),
+    namePlaceholder: t('formSection.namePlaceholder'),
     messageLabel: t('form.message'),
     triggerLabel: t('formSection.trigger'),
   };
@@ -65,7 +66,6 @@ export default async function GuestbookPage({params}: Props) {
   const entriesCopy = {
     headerTitle: t('title'),
     headerSubtitle: t('description'),
-    listTitle: t('entries.title'),
     empty: t('entries.empty'),
     fetchError: t('entries.fetchError'),
     pagination: {
@@ -84,7 +84,7 @@ export default async function GuestbookPage({params}: Props) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto flex max-w-3xl flex-col gap-8">
-        <GuestbookPreview
+        <GuestbookList
           locale={locale}
           entriesCopy={entriesCopy}
           formCopy={formCopy}
