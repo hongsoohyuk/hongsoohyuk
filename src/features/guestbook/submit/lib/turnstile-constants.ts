@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export type TurnstileRenderOptions = {
   sitekey: string;
   theme?: 'light' | 'dark' | 'auto';
@@ -17,7 +16,6 @@ declare global {
     };
   }
 }
-/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
 export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;

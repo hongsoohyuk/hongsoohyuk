@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {UseFormClearErrors, UseFormSetError, UseFormSetValue} from 'react-hook-form';
-import {FormValues} from './guestbook-types';
-import {TURNSTILE_SITE_KEY, TURNSTILE_SRC} from './turnstile-types';
+import {TURNSTILE_SITE_KEY, TURNSTILE_SRC} from '../lib/turnstile-constants';
+import {FormValues, StatusMessage} from '../model/types';
 
 type UseTurnstileOptions = {
   open: boolean;
@@ -9,7 +9,7 @@ type UseTurnstileOptions = {
   clearErrors: UseFormClearErrors<FormValues>;
   setError: UseFormSetError<FormValues>;
   errorMessage: string;
-  onStatusChange?: (status: {type: 'success' | 'error'; message: string} | null) => void;
+  onStatusChange?: (status: StatusMessage) => void; // eslint-disable-line no-unused-vars
 };
 
 export function useTurnstile({
@@ -49,7 +49,6 @@ export function useTurnstile({
   // Memoized callbacks to prevent infinite re-renders
   const handleSuccess = useCallback(
     (token: string) => {
-      console.log('[Turnstile] Token received successfully');
       setValue('turnstileToken', token, {shouldValidate: true});
       clearErrors('turnstileToken');
       onStatusChange?.(null);
@@ -58,13 +57,11 @@ export function useTurnstile({
   );
 
   const handleExpired = useCallback(() => {
-    console.warn('[Turnstile] Token expired');
     setValue('turnstileToken', '');
     setError('turnstileToken', {type: 'expired', message: errorMessage});
   }, [setValue, setError, errorMessage]);
 
   const handleError = useCallback(() => {
-    console.error('[Turnstile] Error occurred - check site key and domain configuration');
     setValue('turnstileToken', '');
     setError('turnstileToken', {type: 'manual', message: errorMessage});
   }, [setValue, setError, errorMessage]);
@@ -78,10 +75,8 @@ export function useTurnstile({
 
   // Render Turnstile widget only when modal opens
   useEffect(() => {
-    // Clean up when modal closes
     if (!open) {
       if (widgetIdRef.current && window.turnstile?.remove) {
-        console.log('[Turnstile] Modal closed, removing widget:', widgetIdRef.current);
         window.turnstile.remove(widgetIdRef.current);
         widgetIdRef.current = null;
         isRenderingRef.current = false;
@@ -89,32 +84,21 @@ export function useTurnstile({
       return;
     }
 
-    // Prevent rendering if conditions not met
     if (!scriptReady || !containerRef.current || !TURNSTILE_SITE_KEY) {
       return;
     }
 
     if (!window.turnstile) {
-      console.error('[Turnstile] Turnstile API not available');
       return;
     }
 
-    // Prevent duplicate rendering - widget already exists
-    if (widgetIdRef.current) {
-      console.log('[Turnstile] Widget already rendered, skipping');
-      return;
-    }
-
-    // Prevent concurrent rendering attempts
-    if (isRenderingRef.current) {
-      console.log('[Turnstile] Widget rendering in progress, skipping');
+    if (widgetIdRef.current || isRenderingRef.current) {
       return;
     }
 
     isRenderingRef.current = true;
 
     try {
-      console.log('[Turnstile] Rendering widget with site key:', TURNSTILE_SITE_KEY);
       widgetIdRef.current = window.turnstile.render(containerRef.current, {
         sitekey: TURNSTILE_SITE_KEY,
         theme: 'auto',
@@ -122,9 +106,7 @@ export function useTurnstile({
         'expired-callback': () => callbacksRef.current.handleExpired(),
         'error-callback': () => callbacksRef.current.handleError(),
       });
-      console.log('[Turnstile] Widget rendered with ID:', widgetIdRef.current);
-    } catch (error) {
-      console.error('[Turnstile] Failed to render widget:', error);
+    } catch {
       isRenderingRef.current = false;
     }
   }, [open, scriptReady]);

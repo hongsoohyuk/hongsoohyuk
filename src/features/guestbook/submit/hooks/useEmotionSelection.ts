@@ -1,5 +1,5 @@
 import {UseFormClearErrors, UseFormGetValues, UseFormSetError, UseFormSetValue} from 'react-hook-form';
-import {FormValues} from './guestbook-types';
+import {FormValues, StatusMessage} from '../model/types';
 
 type UseEmotionSelectionOptions = {
   getValues: UseFormGetValues<FormValues>;
@@ -10,7 +10,7 @@ type UseEmotionSelectionOptions = {
     emotions: string;
     emotionLimit: string;
   };
-  onStatusChange?: (status: {type: 'success' | 'error'; message: string} | null) => void;
+  onStatusChange?: (status: StatusMessage) => void;
 };
 
 const MAX_EMOTIONS = 2;

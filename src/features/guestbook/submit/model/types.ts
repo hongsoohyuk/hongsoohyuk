@@ -1,8 +1,4 @@
-export type EmotionOption = {
-  code: string;
-  emoji: string;
-  label: string;
-};
+import {EmotionCode, EmotionOption} from '@/entities/guestbook';
 
 export type FormCopy = {
   title: string;
@@ -36,19 +32,12 @@ export type FormCopy = {
 export type FormValues = {
   name: string;
   message: string;
-  emotions: string[];
+  emotions: EmotionCode[];
   turnstileToken: string;
 };
 
-export type EntriesCopy = {
-  headerTitle: string;
-  headerSubtitle: string;
-  empty: string;
-  fetchError: string;
-  pagination: {
-    previous: string;
-    next: string;
-    summary: string;
-  };
-  retry: string;
-};
+export type StatusMessage = {type: 'success' | 'error'; message: string} | null;
+
+export type SubmissionCopy = FormCopy;
+
+export type SubmissionEmotionOption = EmotionOption;
