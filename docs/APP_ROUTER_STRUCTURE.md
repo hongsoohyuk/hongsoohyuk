@@ -508,26 +508,20 @@ app/
         └── route.ts
 
 src/
-├── component/                 # 공통 컴포넌트
-│   ├── ui/                    # UI 컴포넌트 (shadcn/ui)
-│   │   ├── button.tsx
-│   │   ├── card.tsx
-│   │   └── input.tsx
-│   │
-│   ├── layout/                # 레이아웃 컴포넌트
-│   │   ├── header.tsx
-│   │   ├── footer.tsx
-│   │   └── sidebar.tsx
-│   │
-│   └── common/                # 공통 기능 컴포넌트
-│       └── providers/
-│           ├── query-provider.tsx
-│           └── theme-provider.tsx
+├── shared/                    # 공통 인프라/컴포넌트
+│   ├── ui/                    # UI 컴포넌트 (shadcn/ui, 레이아웃 조각)
+│   ├── i18n/                  # next-intl 설정 (config/request/routing)
+│   ├── config/                # 사이트 상수, 엔드포인트
+│   ├── api/                   # HttpClient, supabase 등 인프라
+│   └── lib/                   # 포맷터/헬퍼/공용 훅
 │
-├── lib/                       # 유틸리티 & 비즈니스 로직
-│   ├── api/                   # API 클라이언트
-│   │   ├── blog.ts
-│   │   └── portfolio.ts
+├── app/                       # FSD app layer (providers, api-routes 어댑터)
+│   └── providers/             # Query/Theme 등 전역 Provider
+│
+├── entities/                  # 도메인 모델, API
+├── features/                  # 사용자 가치 단위 기능
+├── widgets/                   # 페이지 섹션 단위 UI
+├── pages/                     # FSD page layer (App Router와 분리)
 │   │
 │   ├── hooks/                 # 커스텀 훅
 │   │   ├── use-blog.ts
@@ -780,10 +774,9 @@ app/
     └── [slug]/
         └── page.tsx
 
-src/component/                # 공통 컴포넌트
-└── ui/
-    ├── button.tsx
-    └── card.tsx
+src/shared/ui/                # 공통 컴포넌트
+└── button.tsx
+└── card.tsx
 ```
 
 ---

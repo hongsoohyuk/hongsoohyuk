@@ -1,4 +1,4 @@
-import {Card, CardContent} from '@/component/ui';
+import {Card, CardContent} from '@/shared/ui';
 import Image from 'next/image';
 import {ProfileStats} from './ProfileStats';
 

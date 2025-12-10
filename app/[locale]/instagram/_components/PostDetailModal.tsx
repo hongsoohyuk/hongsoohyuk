@@ -1,7 +1,7 @@
 'use client';
 
-import {Button, Modal} from '@/component/ui';
-import {InstagramMedia} from '@/lib/types/instagram';
+import {Button, Modal} from '@/shared/ui';
+import {InstagramMedia} from '@/entities/instagram';
 import clsx from 'clsx';
 import {Heart, MessageCircle, PlayCircle, X} from 'lucide-react';
 import {useTranslations} from 'next-intl';

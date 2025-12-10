@@ -1,0 +1,39 @@
+---
+alwaysApply: true
+---
+
+## Feature-Sliced Design (Next.js + Locale)
+
+### 기본 철학
+
+- 도메인/기능 단위로 슬라이스를 나누고, 의존성은 항상 아래 레이어로만 흐르게 한다.
+- 레이어 흐름: `app → pages → widgets → features → entities → shared`.
+- 같은 레이어 내 다른 슬라이스로의 직접 import 금지. 외부 노출은 public API 파일로 제한.
+
+### Layer 가이드
+
+- shared: 공통 인프라/유틸(HTTP, cache, formatters, i18n config). 비즈니스 로직 금지.
+- entities: 도메인 모델, 스키마, 엔티티 UI. `shared`만 참조.
+- features: 사용자 가치 있는 단일 기능(폼, 액션). `entities`/`shared` 참조만.
+- widgets: 여러 feature/entity 조합 UI. 비즈니스 로직 최소화.
+- pages: 라우트 단위 화면 조립(데이터 프리패치, 레이아웃). 아래 레이어만 참조.
+- app: 진입점/프로바이더/전역 스타일. 비즈니스 로직 없음.
+
+### Next.js 적용
+
+- `app/` 폴더는 라우팅 전용의 얇은 파일만 두고, 실제 UI/로직은 `src` FSD 레이어에 둔다.
+- App Router 페이지는 `app/.../page.tsx`에서 `export { Page as default, metadata } from '@/pages/example';`처럼 `src`에서 재노출한다.
+- API Route는 `app/api`에 두되 도메인/헬퍼는 `src/shared`·`entities` 등에 둔다.
+- 필요 시 루트 `pages/`는 빈 README만 둬 App/Pages 충돌을 방지하고, 기능 코드는 넣지 않는다.
+- 미들웨어/Instrumentation은 리포 루트에 두고, 내부 로직은 `src/shared` 헬퍼로 분리한다.
+
+### Locale 고려
+
+- Locale 경로(`app/[locale]/...`)는 라우팅 전용. 화면/로직은 `src` 슬라이스에서 가져오고, `locale`, copy, formatter를 props로 전달해 재사용한다.
+- 번역 리소스는 `messages/{locale}.json` 등 한 곳에 모으고 키는 전 로케일 공통으로 유지. 슬라이스 내부 하드코딩 문자열 금지.
+- 날짜/숫자 포맷 등 locale 헬퍼는 `shared/lib`에 배치하고, 페이지·위젯은 이를 주입받아 사용한다.
+
+### Public API & Import
+
+- 슬라이스 외부 노출은 `index.ts` 등 public API로 한정하고, 내부 경로 깊은 import를 금지한다.
+- `export *` 남용 대신 필요한 항목만 명시적으로 export 해 리팩터링 안전성을 확보한다.

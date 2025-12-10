@@ -71,7 +71,7 @@ function InstagramFeed() {
 
 ### 2. IntersectionObserver 커스텀 훅 분리
 
-#### 📄 `src/lib/hooks/use-intersection-observer.ts`
+#### 📄 `src/shared/lib/hooks/use-intersection-observer.ts`
 
 **Before:** IntersectionObserver 로직이 컴포넌트 안에 직접 구현
 
@@ -201,7 +201,7 @@ export default function InstagramFeed({initialItems, initialAfter, pageSize = 12
 
 ### 5. 타입 정의 개선
 
-#### 📄 `src/lib/types/instagram.ts`
+#### 📄 `src/entities/instagram/types.ts`
 
 **변경 사항:**
 
@@ -231,7 +231,7 @@ export interface InstagramFeedOptions {
 
 ### 6. API 레이어 개선
 
-#### 📄 `src/lib/api/instagram.ts`
+#### 📄 `src/entities/instagram/api.ts`
 
 **개선 사항:**
 
@@ -261,7 +261,7 @@ export async function getInstagramMediaServer(params: GetMediaParams = {}) {
 
 ### 7. 상수 개선
 
-#### 📄 `src/lib/constants/instagram.ts`
+#### 📄 `src/entities/instagram/constants.ts`
 
 **추가된 설정:**
 

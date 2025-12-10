@@ -1,6 +1,6 @@
-import {Card, CardContent} from '@/component/ui';
-import {Skeleton} from '@/component/ui/skeleton';
-import {IG_FEED_STYLES} from '@/lib/constants/instagram';
+import {Card, CardContent} from '@/shared/ui';
+import {Skeleton} from '@/shared/ui/skeleton';
+import {IG_FEED_STYLES} from '@/entities/instagram';
 
 export default function InstagramLoading() {
   return (
