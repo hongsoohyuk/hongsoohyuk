@@ -156,7 +156,7 @@
     "formSection": {
       "title": "메시지 남기기",
       "subtitle": "남겨주신 메시지는 빠르게 검토한 뒤 방명록에 공개됩니다.",
-      "namePlaceholder": "이름이 뭐에요?",
+      "namePlaceholder": "이름이 뭐예요?",
       "placeholder": "오늘 느낀 점이나 하고 싶은 이야기를 적어주세요.",
       "emotionTitle": "지금 느낌",
       "emotionHint": "샘플 선택",

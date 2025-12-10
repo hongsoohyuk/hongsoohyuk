@@ -1,7 +1,7 @@
 'use client';
 
 import {Button} from '@/component/ui';
-import {EmotionOption} from './guestbook-types';
+import {EmotionOption} from '@/entities/guestbook';
 
 type EmotionButtonProps = {
   option: EmotionOption;
