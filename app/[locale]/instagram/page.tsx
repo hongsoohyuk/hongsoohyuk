@@ -1,6 +1,5 @@
 import {EmptyState, ProfileCard} from './_components';
-import {getInstagramMediaServer, getInstagramProfileServer} from '@/lib/api/instagram';
-import {InstagramMedia} from '@/lib/types/instagram';
+import {getInstagramMediaServer, getInstagramProfileServer, InstagramMedia} from '@/entities/instagram';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import InstagramFeed from './sections/InstagramFeed';

@@ -1,6 +1,6 @@
 'use client';
 
-import {Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Textarea} from '@/component/ui';
+import {Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Textarea} from '@/shared/ui';
 import {EmotionOption} from '@/entities/guestbook';
 import {useEffect} from 'react';
 import {useForm} from 'react-hook-form';

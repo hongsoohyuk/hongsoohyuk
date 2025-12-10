@@ -1,6 +1,6 @@
 'use client';
 
-import {Button, Card, CardContent} from '@/component/ui';
+import {Button, Card, CardContent} from '@/shared/ui';
 import {useEffect} from 'react';
 
 interface InstagramErrorProps {

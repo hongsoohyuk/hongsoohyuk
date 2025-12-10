@@ -1,4 +1,6 @@
-import {useIntersectionObserver} from '@/lib/hooks/use-intersection-observer';
+'use client';
+
+import {useIntersectionObserver} from '@/shared/lib/hooks/use-intersection-observer';
 
 interface InfiniteFeedSentinelProps {
   onLoadMore: () => void;

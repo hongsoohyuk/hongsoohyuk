@@ -1,4 +1,4 @@
-import {supabase, supabaseAdmin} from '@/lib/database/supabase';
+import {supabase, supabaseAdmin} from '@/shared/api/supabase';
 import crypto from 'crypto';
 import {NextRequest, NextResponse} from 'next/server';
 

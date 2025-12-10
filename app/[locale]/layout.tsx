@@ -1,13 +1,13 @@
-import {Footer} from '@/component/layout/footer';
-import {Header} from '@/component/layout/header';
-import {routing} from '@/i18n/routing';
-import {SITE_CONFIG} from '@/lib/constants';
+import {Footer} from '@/shared/ui/layout/footer';
+import {Header} from '@/shared/ui/layout/header';
+import {routing} from '@/shared/i18n/routing';
+import {SITE_CONFIG} from '@/shared/config/site';
 import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
-import {ClientProviders} from '@/component/common/providers/client-providers';
-import {ThemeScript} from '@/component/common/theme-script';
+import {ClientProviders} from '@/app/providers/client-providers';
+import {ThemeScript} from '@/shared/ui/theme-script';
 import '../globals.css';
 
 const geistSans = Geist({

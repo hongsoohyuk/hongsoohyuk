@@ -20,27 +20,23 @@
 
 ```
 src/
-├── app/
-│   ├── [locale]/              # 모든 페이지는 [locale] 하위에 위치
-│   │   ├── layout.tsx         # 언어별 레이아웃
-│   │   ├── page.tsx           # 홈 페이지
-│   │   ├── instagram/
-│   │   ├── portfolio/
-│   │   └── ...
-│   ├── api/                   # API는 locale 밖에 위치 (다국어 불필요)
-│   └── layout.tsx             # 루트 레이아웃 (리다이렉트용)
-│
-├── i18n/
-│   ├── config.ts              # 언어 설정
-│   ├── request.ts             # 메시지 로딩 설정
-│   └── routing.ts             # 라우팅 설정
-│
-├── component/
-│   ├── layout/
-│   │   ├── header.tsx         # 번역 적용된 헤더
-│   │   └── footer.tsx         # 번역 적용된 푸터
-│   └── ui/
-│       └── locale-switcher.tsx # 언어 전환기
+app/
+├── [locale]/              # 모든 페이지는 [locale] 하위에 위치
+│   ├── layout.tsx         # 언어별 레이아웃
+│   ├── page.tsx           # 홈 페이지
+│   ├── instagram/
+│   ├── portfolio/
+│   └── ...
+├── api/                   # API는 locale 밖에 위치 (다국어 불필요)
+└── layout.tsx             # 루트 레이아웃 (리다이렉트용)
+
+src/
+├── shared/
+│   ├── i18n/              # 언어 설정 (config/request/routing)
+│   └── ui/                # 공용 UI (LocaleSwitcher 등)
+├── features/              # 도메인별 기능
+├── entities/              # 도메인 모델/API
+└── pages/                 # FSD 페이지 조립 레이어
 │
 └── middleware.ts              # 언어 감지 및 리다이렉트
 
@@ -142,7 +138,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 ### 4. 번역된 링크 사용
 
 ```typescript
-import {Link} from '@/i18n/routing';
+import {Link} from '@/shared/i18n/routing';
 
 export function Navigation() {
   return (
@@ -154,14 +150,14 @@ export function Navigation() {
 }
 ```
 
-`@/i18n/routing`의 `Link`를 사용하면 자동으로 현재 언어가 URL에 포함됩니다.
+`@/shared/i18n/routing`의 `Link`를 사용하면 자동으로 현재 언어가 URL에 포함됩니다.
 
 ### 5. 프로그래밍 방식 네비게이션
 
 ```typescript
 'use client';
 
-import {useRouter, usePathname} from '@/i18n/routing';
+import {useRouter, usePathname} from '@/shared/i18n/routing';
 
 export function MyComponent() {
   const router = useRouter();
@@ -199,7 +195,7 @@ return <span>{t('engagement', {default: '상호작용'})}</span>;
 `LocaleSwitcher` 컴포넌트를 사용하여 언어를 전환할 수 있습니다:
 
 ```typescript
-import {LocaleSwitcher} from '@/component/ui/locale-switcher';
+import {LocaleSwitcher} from '@/shared/ui/locale-switcher';
 
 export function Header() {
   return (

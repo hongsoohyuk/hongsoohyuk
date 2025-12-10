@@ -1,6 +1,6 @@
 'use client';
 
-import {InstagramMedia} from '@/lib/types/instagram';
+import {InstagramMedia} from '@/entities/instagram';
 import Image from 'next/image';
 import {memo, useCallback} from 'react';
 import {PostOverlay} from './PostOverlay';

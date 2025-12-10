@@ -1,16 +1,20 @@
 'use client';
 
 import {EndOfFeed, InfiniteFeedSentinel, LoadingSkeleton, PostDetailModal, PostGrid, PostItem} from '../_components';
-import {IG_FEED_STYLES} from '@/lib/constants/instagram';
-import {useInstagramFeed} from '@/lib/hooks/instagram';
-import {InstagramFeedOptions, InstagramMedia} from '@/lib/types/instagram';
+import {IG_FEED_CONFIG, IG_FEED_STYLES, InstagramFeedOptions, InstagramMedia} from '@/entities/instagram';
+import {useInstagramFeed} from '@/features/instagram/feed';
 import {useCallback, useEffect, useState} from 'react';
 
 interface InstagramFeedProps extends InstagramFeedOptions {
   columns?: 2 | 3 | 4;
 }
 
-export default function InstagramFeed({initialItems, initialAfter, pageSize = 12, columns = 3}: InstagramFeedProps) {
+export default function InstagramFeed({
+  initialItems,
+  initialAfter,
+  pageSize = IG_FEED_CONFIG.defaultPageSize,
+  columns = 3,
+}: InstagramFeedProps) {
   const {items, isLoading, hasMore, loadMore} = useInstagramFeed({
     initialItems,
     initialAfter,

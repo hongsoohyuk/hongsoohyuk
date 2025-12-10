@@ -1,4 +1,4 @@
-import {Skeleton} from '@/component/ui/skeleton';
+import {Skeleton} from '@/shared/ui/skeleton';
 
 interface LoadingSkeletonProps {
   count?: number;
