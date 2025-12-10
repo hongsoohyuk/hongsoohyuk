@@ -1,19 +1,18 @@
 'use client';
 
+import {EmotionCode, EmotionOption} from '@/entities/guestbook';
+import {EmotionButtonGroup} from '@/features/guestbook/submit/ui/EmotionButtonGroup';
 import {Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Textarea} from '@/shared/ui';
-import {EmotionOption} from '@/entities/guestbook';
 import {useEffect} from 'react';
-import {useForm} from 'react-hook-form';
-import {useEmotionSelection} from '../hooks/useEmotionSelection';
+import {useController, useForm} from 'react-hook-form';
 import {useGuestbookSubmit} from '../hooks/useGuestbookSubmit';
 import {useTurnstile} from '../hooks/useTurnstile';
-import {FormCopy, FormValues} from '../model/types';
-import {EmotionButton} from './EmotionButton';
+import {FormText, FormValues} from '../model/types';
 
-type GuestbookFormDialogProps = {
+type Props = {
   open: boolean;
   onClose: () => void;
-  formCopy: FormCopy;
+  formText: FormText;
   emotionOptions: EmotionOption[];
   onSubmitted?: () => void;
 };
@@ -24,12 +23,11 @@ const GLASS_PANEL_CLASS =
 const GLASS_CARD_CLASS =
   'rounded-2xl border border-white/50 bg-white/70 p-4 shadow-[0_12px_32px_-18px_rgba(15,23,42,0.4)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_12px_32px_-18px_rgba(0,0,0,0.6)]';
 
-export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, onSubmitted}: GuestbookFormDialogProps) {
+export function GuestbookFormDialog({open, onClose, formText, emotionOptions, onSubmitted}: Props) {
   const {
     register,
     handleSubmit,
-    watch,
-    getValues,
+    control,
     setValue,
     setError,
     clearErrors,
@@ -39,7 +37,11 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
     defaultValues: {name: '', message: '', emotions: [], turnstileToken: ''},
   });
 
-  const selectedEmotions = watch('emotions');
+  const {field: emotionsField} = useController({
+    name: 'emotions',
+    control,
+    defaultValue: [],
+  });
 
   // Turnstile integration
   const {scriptReady, containerRef, siteKey} = useTurnstile({
@@ -47,33 +49,27 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
     setValue,
     clearErrors,
     setError,
-    errorMessage: formCopy.validation.turnstile,
+    errorMessage: formText.validation.turnstile,
     onStatusChange: (status) => setFormStatus(status),
   });
 
-  // Emotion selection logic
-  const {handleEmotionToggle} = useEmotionSelection({
-    getValues,
-    setValue,
-    setError,
-    clearErrors,
-    validationMessages: {
-      emotions: formCopy.validation.emotions,
-      emotionLimit: formCopy.validation.emotionLimit,
-    },
-    onStatusChange: (status) => setFormStatus(status),
-  });
+  const selectedEmotions = (emotionsField.value as EmotionCode[] | undefined) ?? [];
+
+  const handleEmotionsChange = (next: EmotionCode[]) => {
+    setFormStatus(null);
+    emotionsField.onChange(next);
+  };
 
   // Form submission logic
   const {mutation, formStatus, setFormStatus} = useGuestbookSubmit({
     onSuccess: () => {
-      setFormStatus({type: 'success', message: formCopy.status.success});
+      setFormStatus({type: 'success', message: formText.status.success});
       reset({name: '', message: '', emotions: [], turnstileToken: ''});
       clearErrors();
       onSubmitted?.();
       onClose();
     },
-    errorMessage: formCopy.status.error,
+    errorMessage: formText.status.error,
   });
 
   // Reset form when modal closes
@@ -88,7 +84,7 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
     setFormStatus(null);
     clearErrors();
     if (!values.turnstileToken) {
-      setError('turnstileToken', {type: 'required', message: formCopy.validation.turnstile});
+      setError('turnstileToken', {type: 'required', message: formText.validation.turnstile});
       return;
     }
     mutation.mutate(values);
@@ -102,7 +98,7 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
         className="border-b border-white/40 bg-white/70 backdrop-blur-xl dark:border-white/10 dark:bg-white/5"
       >
         <h2 id="guestbook-form-title" className="text-xl sm:text-2xl font-semibold leading-snug text-foreground">
-          {formCopy.title}
+          {formText.title}
         </h2>
       </ModalHeader>
       <form onSubmit={onSubmit}>
@@ -114,47 +110,47 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
           <div className={`${GLASS_PANEL_CLASS} space-y-4 p-5`}>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-base font-semibold text-foreground">{formCopy.subtitle}</p>
-                <p className="text-xs text-muted-foreground">{formCopy.note}</p>
+                <p className="text-base font-semibold text-foreground">{formText.subtitle}</p>
+                <p className="text-xs text-muted-foreground">{formText.note}</p>
               </div>
             </div>
 
             <div className="space-y-3">
               <div className="flex flex-col space-y-2">
                 <label htmlFor="guestbook-name" className="text-sm font-medium">
-                  {formCopy.nameLabel}
+                  {formText.nameLabel}
                 </label>
                 <Input
                   id="guestbook-name"
                   maxLength={40}
                   aria-invalid={errors.name ? 'true' : undefined}
                   {...register('name', {
-                    required: formCopy.validation.name,
-                    minLength: {value: 1, message: formCopy.validation.name},
-                    maxLength: {value: 40, message: formCopy.validation.name},
+                    required: formText.validation.name,
+                    minLength: {value: 1, message: formText.validation.name},
+                    maxLength: {value: 40, message: formText.validation.name},
                   })}
                   className="border-white/60 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10"
-                  placeholder={formCopy.namePlaceholder}
+                  placeholder={formText.namePlaceholder}
                 />
                 {errors.name ? <p className="text-xs text-rose-500">{errors.name.message}</p> : null}
               </div>
 
               <div className="flex flex-col space-y-2">
                 <label htmlFor="guestbook-message" className="text-sm font-medium">
-                  {formCopy.messageLabel}
+                  {formText.messageLabel}
                 </label>
                 <Textarea
                   id="guestbook-message"
                   maxLength={500}
                   aria-invalid={errors.message ? 'true' : undefined}
                   {...register('message', {
-                    required: formCopy.validation.message,
-                    minLength: {value: 1, message: formCopy.validation.message},
-                    maxLength: {value: 500, message: formCopy.validation.message},
+                    required: formText.validation.message,
+                    minLength: {value: 1, message: formText.validation.message},
+                    maxLength: {value: 500, message: formText.validation.message},
                   })}
                   rows={3}
                   className="sm:rows-4 border-white/60 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10"
-                  placeholder={formCopy.placeholder}
+                  placeholder={formText.placeholder}
                 />
                 {errors.message ? <p className="text-xs text-rose-500">{errors.message.message}</p> : null}
               </div>
@@ -163,25 +159,21 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
 
           <div className={`${GLASS_CARD_CLASS} space-y-3`}>
             <div className="flex flex-wrap items-center gap-3">
-              <p className="text-sm font-medium">{formCopy.emotionTitle}</p>
+              <p className="text-sm font-medium">{formText.emotionTitle}</p>
             </div>
-            <p className="text-xs text-muted-foreground">{formCopy.emotionHelper}</p>
-            <div className="grid grid-cols-3 gap-2">
-              {emotionOptions.map((option) => (
-                <EmotionButton
-                  key={option.code}
-                  option={option}
-                  isSelected={selectedEmotions.includes(option.code)}
-                  disabled={mutation.isPending}
-                  onToggle={() => handleEmotionToggle(option.code)}
-                />
-              ))}
-            </div>
-            {errors.emotions ? <p className="text-xs text-rose-500">{errors.emotions.message}</p> : null}
+            <p className="text-xs text-muted-foreground">{formText.emotionHelper}</p>
+            <EmotionButtonGroup
+              options={emotionOptions}
+              value={selectedEmotions}
+              onChange={handleEmotionsChange}
+              onMaxSelected={() => setError('emotions', {type: 'maxLength', message: formText.validation.emotionLimit})}
+              maxSelected={2}
+              disabled={mutation.isPending}
+            />
           </div>
 
           <div className={`${GLASS_CARD_CLASS} space-y-2`}>
-            <p className="text-sm font-medium">{formCopy.securityTitle}</p>
+            <p className="text-sm font-medium">{formText.securityTitle}</p>
             <div
               ref={containerRef}
               className="flex min-h-24 items-center justify-center rounded-xl border border-dashed border-white/60 bg-white/50 px-4 py-6 text-xs text-muted-foreground backdrop-blur-md dark:border-white/20 dark:bg-white/5"
@@ -189,11 +181,11 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
               {!siteKey ? (
                 <span>Set NEXT_PUBLIC_TURNSTILE_SITE_KEY to enable verification.</span>
               ) : !scriptReady ? (
-                <span>{formCopy.securityHelper}</span>
+                <span>{formText.securityHelper}</span>
               ) : null}
             </div>
-            <input type="hidden" {...register('turnstileToken', {required: formCopy.validation.turnstile})} />
-            <p className="text-xs text-muted-foreground">{formCopy.securityHelper}</p>
+            <input type="hidden" {...register('turnstileToken', {required: formText.validation.turnstile})} />
+            <p className="text-xs text-muted-foreground">{formText.securityHelper}</p>
             {errors.turnstileToken ? <p className="text-xs text-rose-500">{errors.turnstileToken.message}</p> : null}
           </div>
 
@@ -210,13 +202,13 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
           ) : null}
         </ModalBody>
         <ModalFooter className="flex flex-col-reverse gap-2 border-t border-white/40 bg-white/70 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-white/5">
-          <p className="text-center text-xs text-muted-foreground sm:text-left">{formCopy.note}</p>
+          <p className="text-center text-xs text-muted-foreground sm:text-left">{formText.note}</p>
           <Button
             className="w-full rounded-full border border-white/60 bg-white/80 text-blue-700 backdrop-blur-md hover:bg-white sm:w-auto dark:border-white/20 dark:bg-white/10 dark:text-white"
             type="submit"
             disabled={mutation.isPending}
           >
-            {mutation.isPending ? formCopy.buttonPending : formCopy.button}
+            {mutation.isPending ? formText.buttonPending : formText.button}
           </Button>
         </ModalFooter>
       </form>

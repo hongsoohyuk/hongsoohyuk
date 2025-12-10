@@ -1,7 +1,4 @@
-import {EmotionOption} from '@/entities/guestbook';
-import {FormCopy} from '@/features/guestbook/submit';
-
-export type EntriesCopy = {
+export type EntriesText = {
   headerTitle: string;
   headerSubtitle: string;
   empty: string;
@@ -12,11 +9,4 @@ export type EntriesCopy = {
     summary: string;
   };
   retry: string;
-};
-
-export type GuestbookWidgetProps = {
-  locale: string;
-  entriesCopy: EntriesCopy;
-  formCopy: FormCopy;
-  emotionOptions: EmotionOption[];
 };
