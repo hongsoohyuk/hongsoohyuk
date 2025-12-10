@@ -1,5 +1,5 @@
-import {Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/component/ui';
-import {Link} from '@/i18n/routing';
+import {Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui';
+import {Link} from '@/shared/i18n/routing';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 type Props = {

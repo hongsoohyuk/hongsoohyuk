@@ -1,6 +1,6 @@
 'use client';
 
-import {Card, CardContent} from '@/component/ui';
+import {Card, CardContent} from '@/shared/ui';
 import {useTranslations} from 'next-intl';
 
 interface EmptyStateProps {

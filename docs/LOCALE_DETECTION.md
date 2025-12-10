@@ -90,7 +90,7 @@ Set-Cookie: NEXT_LOCALE=ko; Path=/; SameSite=lax
 ### 구현 코드
 
 ```typescript
-// src/component/common/theme-script.tsx
+// src/shared/ui/theme-script.tsx
 export function ThemeScript() {
   const themeScript = `
     (function() {
@@ -124,7 +124,7 @@ export function ThemeScript() {
 ### 테마 전환
 
 ```typescript
-// src/component/common/providers/theme-provider.tsx
+// src/app/providers/theme-provider.tsx
 const toggleTheme = () => {
   const newTheme = theme === 'dark' ? 'light' : 'dark';
   setTheme(newTheme);

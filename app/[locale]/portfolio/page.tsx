@@ -1,5 +1,5 @@
-import {Card, CardContent} from '@/component/ui';
-import {getCVServer} from '@/lib/api/portfolio';
+import {Card, CardContent} from '@/shared/ui';
+import {getCVServer} from '@/entities/portfolio';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Metadata} from 'next';
 

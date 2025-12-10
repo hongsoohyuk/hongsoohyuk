@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import {InstagramMedia} from '@/lib/types/instagram';
+import {InstagramMedia} from '@/entities/instagram';
 import clsx from 'clsx';
 
 interface PostMediaViewerProps {
