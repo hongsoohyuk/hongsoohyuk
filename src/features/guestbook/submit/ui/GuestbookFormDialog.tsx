@@ -1,13 +1,14 @@
 'use client';
 
 import {Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Textarea} from '@/component/ui';
+import {EmotionOption} from '@/entities/guestbook';
 import {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
+import {useEmotionSelection} from '../hooks/useEmotionSelection';
+import {useGuestbookSubmit} from '../hooks/useGuestbookSubmit';
+import {useTurnstile} from '../hooks/useTurnstile';
+import {FormCopy, FormValues} from '../model/types';
 import {EmotionButton} from './EmotionButton';
-import {EmotionOption, FormCopy, FormValues} from './guestbook-types';
-import {useEmotionSelection} from './useEmotionSelection';
-import {useGuestbookSubmit} from './useGuestbookSubmit';
-import {useTurnstile} from './useTurnstile';
 
 type GuestbookFormDialogProps = {
   open: boolean;
@@ -81,7 +82,7 @@ export function GuestbookFormDialog({open, onClose, formCopy, emotionOptions, on
       setFormStatus(null);
       reset({name: '', message: '', emotions: [], turnstileToken: ''});
     }
-  }, [open, reset]);
+  }, [open, reset, setFormStatus]);
 
   const onSubmit = handleSubmit((values) => {
     setFormStatus(null);

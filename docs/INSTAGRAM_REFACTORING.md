@@ -20,7 +20,7 @@ Instagram 기능을 **SOLID 원칙**을 적용하여 리팩토링했습니다. �
 
 ### 1. 재사용 가능한 UI 컴포넌트 생성
 
-#### 📁 `src/app/instagram/_components/`
+#### 📁 `app/[locale]/instagram/_components/`
 
 새로 생성된 컴포넌트들:
 
@@ -104,7 +104,7 @@ export function useIntersectionObserver<T extends HTMLElement>({
 
 ### 3. 페이지 컴포넌트 리팩토링
 
-#### 📄 `src/app/instagram/page.tsx`
+#### 📄 `app/[locale]/instagram/page.tsx`
 
 **Before:**
 
@@ -152,7 +152,7 @@ export function useIntersectionObserver<T extends HTMLElement>({
 
 ### 4. InstagramFeed 컴포넌트 간소화
 
-#### 📄 `src/app/instagram/sections/InstagramFeed.tsx`
+#### 📄 `app/[locale]/instagram/sections/InstagramFeed.tsx`
 
 **Before (87줄):**
 
@@ -466,7 +466,7 @@ function InstagramPage() {
 
 ## 📝 참고 문서
 
-- [컴포넌트 문서](../src/app/instagram/_components/README.md)
+- [컴포넌트 문서](../app/[locale]/instagram/_components/README.md)
 - [SOLID 원칙 가이드](../.cursor/rules/solid.mdc)
 - [Next.js 가이드](../.cursor/rules/nextjs.mdc)
 

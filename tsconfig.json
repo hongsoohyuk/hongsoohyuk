@@ -19,6 +19,7 @@
       }
     ],
     "paths": {
+      "@/pages/*": ["./src/pages/*"],
       "@/*": ["./src/*"]
     },
     // Allow unused variables and parameters (warnings only in IDE)

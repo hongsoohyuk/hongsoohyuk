@@ -1,12 +1,12 @@
+import {EmotionCode, EmotionOption} from '@/entities/guestbook';
+import {FormCopy} from '@/features/guestbook/submit';
+import {EntriesCopy, GuestbookWidget} from '@/widgets/guestbook';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
-import {GuestbookList} from './_components/GuestbookList';
 
 type Props = {
   params: Promise<{locale: string}>;
 };
-
-type EmotionCode = 'LIKE' | 'INSPIRATION' | 'NICE' | 'HELLO' | 'FUN' | 'THANK';
 
 const emotionOptions: {code: EmotionCode; emoji: string}[] = [
   {code: 'LIKE', emoji: '🖤'},
@@ -27,14 +27,14 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   };
 }
 
-export default async function GuestbookPage({params}: Props) {
+export async function Page({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations('Guestbook');
   const common = await getTranslations('Common');
 
-  const formCopy = {
+  const formCopy: FormCopy = {
     title: t('formSection.title'),
     subtitle: t('formSection.subtitle'),
     placeholder: t('formSection.placeholder'),
@@ -63,7 +63,7 @@ export default async function GuestbookPage({params}: Props) {
     triggerLabel: t('formSection.trigger'),
   };
 
-  const entriesCopy = {
+  const entriesCopy: EntriesCopy = {
     headerTitle: t('title'),
     headerSubtitle: t('description'),
     empty: t('entries.empty'),
@@ -76,7 +76,7 @@ export default async function GuestbookPage({params}: Props) {
     retry: common('retry'),
   };
 
-  const localizedEmotionOptions = emotionOptions.map((option) => ({
+  const localizedEmotionOptions: EmotionOption[] = emotionOptions.map((option) => ({
     ...option,
     label: t(`emotions.${option.code}.label`),
   }));
@@ -84,7 +84,7 @@ export default async function GuestbookPage({params}: Props) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto flex max-w-3xl flex-col gap-8">
-        <GuestbookList
+        <GuestbookWidget
           locale={locale}
           entriesCopy={entriesCopy}
           formCopy={formCopy}
