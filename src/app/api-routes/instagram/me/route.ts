@@ -1,4 +1,4 @@
-import {InstagramProfile} from '@/lib/types';
+import {InstagramProfile} from '@/entities/instagram';
 import {NextResponse} from 'next/server';
 
 export const dynamic = 'force-dynamic';

@@ -1,7 +1,7 @@
 'use client';
 
-import {Badge, Button} from '@/component/ui';
-import {Skeleton} from '@/component/ui/skeleton';
+import {Badge, Button} from '@/shared/ui';
+import {Skeleton} from '@/shared/ui/skeleton';
 import {
   EmotionOption,
   fetchGuestbookEntries,

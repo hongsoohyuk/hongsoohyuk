@@ -23,10 +23,7 @@ src/
 ├── widgets/
 ├── features/
 ├── entities/
-├── shared/
-├── component/             # 공용 UI/레이아웃
-├── lib/                   # API, 상수, 타입, 유틸
-├── i18n/                  # next-intl 설정
+├── shared/                # 공용 인프라/리소스 (ui, lib, api, i18n, config)
 └── middleware.ts
 ```
 
@@ -44,8 +41,8 @@ src/
 
 #### Phase 3: 공용 모듈 통합
 
-- API 함수/타입/상수: `src/lib`에 도메인별로 통합.
-- i18n: `src/i18n`에서 next-intl 라우팅/메시지 관리.
+- API 함수/타입/상수: `src/shared`(인프라)와 `src/entities`(도메인)로 정리.
+- i18n: `src/shared/i18n`에서 next-intl 라우팅/메시지 관리.
 
 ### 🎯 각 디렉토리의 역할
 
@@ -65,34 +62,26 @@ src/
 
 - 프로바이더, API 라우트 어댑터, 루트 서비스 집합
 
-#### 4. **src/component/** - 컴포넌트
+#### 4. **src/shared/** - 공용 리소스
 
-- **ui/**: shadcn/ui 기본 컴포넌트
-- **layout/**: Header, Footer 등 레이아웃 컴포넌트
-- **common/**: 테마/Provider 등 공통 컴포넌트
+- **ui/**: shadcn 기반 공용 UI + 레이아웃 조각
+- **i18n/**: next-intl 라우팅/설정
+- **config/**: 사이트 상수, 엔드포인트
+- **api/**: 공용 인프라(HttpClient, supabase 등)
+- **lib/**: 포맷터/헬퍼/훅
 
-#### 5. **src/lib/** - 비즈니스 로직 & 유틸리티
-
-- **api/**: 도메인별 API 함수
-- **hooks/**: 커스텀 훅
-- **types/**: TypeScript 타입 정의
-- **constants/**: 상수 정의
-- **utils.ts**: 유틸리티 함수
-- **http.ts**: HTTP 클라이언트
-
-#### 6. **src/widgets/features/entities/shared/** - FSD 도메인 레이어
+#### 5. **src/widgets/features/entities/** - FSD 도메인 레이어
 
 - **widgets**: 페이지 단위 UI 블록
 - **features**: 사용 시나리오 단위
 - **entities**: 핵심 도메인 모델
-- **shared**: 공통 리소스, 토큰, 스타일
 
 ### 🚀 HTTP 클라이언트 아키텍처
 
 프로젝트에서 사용하는 HTTP 클라이언트는 다음 기능을 제공합니다:
 
 ```typescript
-// src/lib/http.ts
+// src/shared/api/http.ts
 export class HttpClient {
   // 타임아웃 설정
   // 재시도 로직 (지수 백오프)
@@ -159,9 +148,9 @@ const data = await http.get<InstagramListResponse>('/api/instagram/posts', {
 
 ```typescript
 // 절대 경로 사용
-import {Button} from '@/components/ui';
-import {getInstagramMedia} from '@/lib/api/instagram';
-import {InstagramMedia} from '@/lib/types';
+import {Button} from '@/shared/ui';
+import {getInstagramMedia} from '@/entities/instagram';
+import {InstagramMedia} from '@/entities/instagram';
 ```
 
 #### 3. **API 함수 패턴**
