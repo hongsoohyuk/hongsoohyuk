@@ -6,8 +6,8 @@ import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
-import {ClientProviders} from '../../component/common/providers/client-providers';
-import {ThemeScript} from '../../component/common/theme-script';
+import {ClientProviders} from '@/component/common/providers/client-providers';
+import {ThemeScript} from '@/component/common/theme-script';
 import '../globals.css';
 
 const geistSans = Geist({

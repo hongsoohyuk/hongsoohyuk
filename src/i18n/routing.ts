@@ -8,7 +8,7 @@ export const routing = defineRouting({
   // Used when no locale matches
   defaultLocale: 'ko',
 
-  // Prefix strategy: always show locale in URL
+  // Prefix strategy: always show locale in URL (e.g., `/ko`, `/en`)
   localePrefix: 'always',
 
   // Enable locale detection based on browser language

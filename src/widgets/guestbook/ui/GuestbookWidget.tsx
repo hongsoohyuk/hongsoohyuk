@@ -2,58 +2,31 @@
 
 import {Badge, Button} from '@/component/ui';
 import {Skeleton} from '@/component/ui/skeleton';
+import {
+  EmotionOption,
+  fetchGuestbookEntries,
+  GUESTBOOK_PAGE_SIZE,
+  GuestbookEntriesResponse,
+} from '@/entities/guestbook';
+import {GuestbookFormDialog} from '@/features/guestbook/submit';
 import {keepPreviousData, useQuery} from '@tanstack/react-query';
 import {useMemo, useState} from 'react';
-import {GuestbookFormDialog} from './GuestbookFormDialog';
-import {EmotionOption, EntriesCopy, FormCopy} from './guestbook-types';
+import {EntriesCopy, GuestbookWidgetProps} from '../model/types';
 
-type ApiGuestbookEntry = {
-  id: string;
-  author_name: string;
-  message: string;
-  emotions: string[] | null;
-  created_at: string;
-};
-
-type GuestbookResponse = {
-  entries: ApiGuestbookEntry[];
-  pagination: {
-    page: number;
-    pageSize: number;
-    total: number;
-    totalPages: number;
-    hasMore: boolean;
-  };
-};
-
-type GuestbookPreviewProps = {
-  locale: string;
-  entriesCopy: EntriesCopy;
-  formCopy: FormCopy;
-  emotionOptions: EmotionOption[];
-};
-
-const PAGE_SIZE = 5;
 const GLASS_PANEL_CLASS =
   'relative overflow-hidden rounded-3xl border border-white/50 bg-white/60 px-6 py-5 shadow-[0_20px_60px_-25px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.6)]';
 
-async function fetchGuestbookEntries(page: number): Promise<GuestbookResponse> {
-  const params = new URLSearchParams({page: String(page), pageSize: String(PAGE_SIZE)});
-  const res = await fetch(`/api/guestbook?${params.toString()}`, {
-    headers: {'Content-Type': 'application/json'},
-    cache: 'no-store',
-  });
+const DEFAULT_PAGINATION = {
+  page: 1,
+  totalPages: 1,
+  hasMore: false,
+};
 
-  if (!res.ok) {
-    const payload = await res.json().catch(() => ({}));
-    const message = payload?.error ?? 'Failed to load guestbook.';
-    throw new Error(message);
-  }
-
-  return res.json();
+function buildSummary(copy: EntriesCopy['pagination'], page: number, totalPages: number) {
+  return copy.summary.replace('{page}', String(page)).replace('{totalPages}', String(totalPages));
 }
 
-export function GuestbookList({locale, entriesCopy, formCopy, emotionOptions}: GuestbookPreviewProps) {
+export function GuestbookWidget({locale, entriesCopy, formCopy, emotionOptions}: GuestbookWidgetProps) {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
 
@@ -74,18 +47,16 @@ export function GuestbookList({locale, entriesCopy, formCopy, emotionOptions}: G
     return map;
   }, [emotionOptions]);
 
-  const {data, isLoading, isFetching, isError, refetch} = useQuery<GuestbookResponse>({
+  const {data, isLoading, isError, refetch} = useQuery<GuestbookEntriesResponse>({
     queryKey: ['guestbookEntries', page],
-    queryFn: () => fetchGuestbookEntries(page),
+    queryFn: () => fetchGuestbookEntries(page, GUESTBOOK_PAGE_SIZE),
     placeholderData: keepPreviousData,
   });
 
-  const entries: ApiGuestbookEntry[] = data?.entries ?? [];
-  const pagination = data?.pagination ?? {page, totalPages: 1, hasMore: false};
+  const entries = data?.entries ?? [];
+  const pagination = data?.pagination ?? DEFAULT_PAGINATION;
   const totalPages = Math.max(1, pagination.totalPages ?? 1);
-  const summaryText = entriesCopy.pagination.summary
-    .replace('{page}', String(page))
-    .replace('{totalPages}', String(totalPages));
+  const summaryText = buildSummary(entriesCopy.pagination, page, totalPages);
 
   const canGoPrev = page > 1;
   const canGoNext = pagination.hasMore ?? page < totalPages;
