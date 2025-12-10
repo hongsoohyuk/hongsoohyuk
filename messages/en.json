@@ -112,7 +112,6 @@
       }
     },
     "entries": {
-      "title": "Recent messages",
       "subtitle": "Approved notes appear here in reverse chronological order.",
       "filters": {
         "latest": "Latest",
@@ -157,6 +156,7 @@
     "formSection": {
       "title": "Leave a note",
       "subtitle": "Every note is reviewed briefly before it goes live.",
+      "namePlaceholder": "What's your name?",
       "placeholder": "Share what you loved, learned, or just say hi.",
       "emotionTitle": "Tag the vibe",
       "emotionHint": "Sample pick",
@@ -180,32 +180,12 @@
       }
     },
     "emotions": {
-      "LIKE": {
-        "label": "I like this",
-        "description": "This space really resonates."
-      },
-      "INSPIRATION": {
-        "label": "Inspired",
-        "description": "Sparked new ideas for me."
-      },
-      "NICE": {
-        "label": "So kind",
-        "description": "It feels warm and welcoming."
-      },
-      "HELLO": {
-        "label": "Just saying hi",
-        "description": "Dropping a quick hello."
-      },
-      "FUN": {
-        "label": "Fun energy",
-        "description": "The content made me smile."
-      }
-    },
-    "sampleEntries": {
-      "entry1": "Loved how you documented the design system journey—especially the trade-offs section. Would enjoy a behind-the-scenes write-up someday!",
-      "entry2": "I lead frontend for a remote team and your web performance checklist saved our latest release. Just dropping by to say thanks.",
-      "entry3": "Running an iOS study circle in Busan and would like to host a joint web/mobile session. Interested in co-hosting a tiny meetup?",
-      "entry4": "Product manager at a climate tech startup here. Really into your data visualization approach—down for a quick coffee chat soon?"
+      "LIKE": {"label": "I like this"},
+      "INSPIRATION": {"label": "Inspired"},
+      "NICE": {"label": "So kind"},
+      "HELLO": {"label": "Just saying hi"},
+      "FUN": {"label": "Fun energy"},
+      "THANK": {"label": "Thank you"}
     },
     "tags": {
       "designSystem": "Design systems",

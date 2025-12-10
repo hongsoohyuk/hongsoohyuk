@@ -8,6 +8,7 @@ export type FormCopy = {
   title: string;
   subtitle: string;
   placeholder: string;
+  namePlaceholder: string;
   emotionTitle: string;
   emotionHint: string;
   emotionHelper: string;
@@ -42,7 +43,6 @@ export type FormValues = {
 export type EntriesCopy = {
   headerTitle: string;
   headerSubtitle: string;
-  listTitle: string;
   empty: string;
   fetchError: string;
   pagination: {
