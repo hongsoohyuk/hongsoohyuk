@@ -1,13 +1,14 @@
+import {ClientProviders} from '@/app/providers/client-providers';
+import {SITE_CONFIG} from '@/shared/config/site';
+import {routing} from '@/shared/i18n/routing';
 import {Footer} from '@/shared/ui/layout/footer';
 import {Header} from '@/shared/ui/layout/header';
-import {routing} from '@/shared/i18n/routing';
-import {SITE_CONFIG} from '@/shared/config/site';
+import {SilkBackground} from '@/shared/ui/silk-background';
+import {ThemeScript} from '@/shared/ui/theme-script';
 import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
-import {ClientProviders} from '@/app/providers/client-providers';
-import {ThemeScript} from '@/shared/ui/theme-script';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -83,7 +84,8 @@ export default async function LocaleLayout({children, params}: Props) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background font-sans`}>
         <NextIntlClientProvider messages={messages}>
           <ClientProviders>
-            <div className="relative flex min-h-screen flex-col">
+            <SilkBackground />
+            <div className="relative z-10 flex min-h-screen flex-col">
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />
