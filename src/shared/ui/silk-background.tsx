@@ -14,7 +14,7 @@ type Props = {
 
 export function SilkBackground({
   className,
-  color = '#404040',
+  color = '#505050',
   speed = 3,
   scale = 1,
   noiseIntensity = 10,
