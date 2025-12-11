@@ -1,5 +1,6 @@
-import {Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui';
 import {Link} from '@/shared/i18n/routing';
+import {Button} from '@/shared/ui';
+import {GlassCard} from '@/shared/ui/glass-card';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 type Props = {
@@ -29,44 +30,38 @@ export default async function Home({params}: Props) {
 
       <section className="py-12">
         <div className="grid gap-6 max-w-6xl mx-auto lg:grid-cols-3">
-          <Card className="group hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="text-4xl mb-4">{t('sections.guestbook.emoji')}</div>
-              <CardTitle>{t('sections.guestbook.title')}</CardTitle>
-              <CardDescription>{t('sections.guestbook.description')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/guestbook">
-                <Button className="w-full group-hover:bg-primary/90">{t('sections.guestbook.button')}</Button>
-              </Link>
-            </CardContent>
-          </Card>
+          <GlassCard paddingClassName="p-6" className="group transition-all">
+            <div className="text-4xl mb-4">{t('sections.guestbook.emoji')}</div>
+            <h3 className="text-xl font-semibold text-foreground">{t('sections.guestbook.title')}</h3>
+            <p className="text-sm text-muted-foreground mb-6">{t('sections.guestbook.description')}</p>
+            <Link href="/guestbook">
+              <Button variant="glass" className="w-full">
+                {t('sections.guestbook.button')}
+              </Button>
+            </Link>
+          </GlassCard>
 
-          <Card className="group hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="text-4xl mb-4">{t('sections.portfolio.emoji')}</div>
-              <CardTitle>{t('sections.portfolio.title')}</CardTitle>
-              <CardDescription>{t('sections.portfolio.description')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/portfolio">
-                <Button className="w-full group-hover:bg-primary/90">{t('sections.portfolio.button')}</Button>
-              </Link>
-            </CardContent>
-          </Card>
+          <GlassCard paddingClassName="p-6" className="group transition-all">
+            <div className="text-4xl mb-4">{t('sections.portfolio.emoji')}</div>
+            <h3 className="text-xl font-semibold text-foreground">{t('sections.portfolio.title')}</h3>
+            <p className="text-sm text-muted-foreground mb-6">{t('sections.portfolio.description')}</p>
+            <Link href="/portfolio">
+              <Button variant="glass" className="w-full">
+                {t('sections.portfolio.button')}
+              </Button>
+            </Link>
+          </GlassCard>
 
-          <Card className="group hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="text-4xl mb-4">{t('sections.instagram.emoji')}</div>
-              <CardTitle>{t('sections.instagram.title')}</CardTitle>
-              <CardDescription>{t('sections.instagram.description')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/instagram">
-                <Button className="w-full group-hover:bg-primary/90">{t('sections.instagram.button')}</Button>
-              </Link>
-            </CardContent>
-          </Card>
+          <GlassCard paddingClassName="p-6" className="group transition-all">
+            <div className="text-4xl mb-4">{t('sections.instagram.emoji')}</div>
+            <h3 className="text-xl font-semibold text-foreground">{t('sections.instagram.title')}</h3>
+            <p className="text-sm text-muted-foreground mb-6">{t('sections.instagram.description')}</p>
+            <Link href="/instagram">
+              <Button variant="glass" className="w-full">
+                {t('sections.instagram.button')}
+              </Button>
+            </Link>
+          </GlassCard>
         </div>
       </section>
 
