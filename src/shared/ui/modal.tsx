@@ -1,5 +1,6 @@
 'use client';
 
+import GlassSurface from '@/shared/ui/GlassSurface';
 import clsx from 'clsx';
 import {MouseEvent, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
@@ -17,14 +18,10 @@ interface ModalSectionProps {
   className?: string;
 }
 
-const OVERLAY_STYLES =
-  'fixed inset-0 z-40 bg-black/70 backdrop-blur-sm transition-opacity data-[state=open]:opacity-100 data-[state=closed]:opacity-0';
+const OVERLAY_STYLES = 'glass-overlay transition-opacity data-[state=open]:opacity-100 data-[state=closed]:opacity-0';
 
 const CONTENT_STYLES =
   'fixed inset-0 z-50 mx-auto flex max-h-[100dvh] sm:max-h-[90vh] w-full max-w-2xl items-end sm:items-center justify-center p-0 sm:p-4 md:p-6';
-
-const PANEL_STYLES =
-  'relative w-full max-h-[92dvh] sm:max-h-[90vh] overflow-y-auto transform rounded-t-3xl sm:rounded-2xl bg-background shadow-2xl outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background safe-area-inset-bottom';
 
 function useAnimationState(dep: boolean) {
   const [state, setState] = useState<'open' | 'closed'>(dep ? 'open' : 'closed');
@@ -119,9 +116,24 @@ export function Modal({open, onClose, children, labelledBy, describedBy}: ModalP
           aria-labelledby={labelledBy}
           aria-describedby={describedBy}
           data-state={animationState}
-          className={clsx(PANEL_STYLES, animationState === 'open' ? 'scale-100 opacity-100' : 'scale-95 opacity-0')}
+          className="w-full"
         >
-          {children}
+          <GlassSurface
+            width="100%"
+            height="100%"
+            borderRadius={20}
+            backgroundOpacity={0.08}
+            blur={14}
+            saturation={1.2}
+            brightness={55}
+            className={clsx(
+              'w-full overflow-hidden shadow-2xl outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background safe-area-inset-bottom',
+              animationState === 'open' ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
+            )}
+            style={{minHeight: 'min(92dvh, 90vh)', maxHeight: 'min(92dvh, 90vh)'}}
+          >
+            {children}
+          </GlassSurface>
         </div>
       </div>
     </>,

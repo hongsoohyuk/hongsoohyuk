@@ -7,14 +7,14 @@ import {
   GuestbookEntriesResponse,
 } from '@/entities/guestbook';
 import {FormText, GuestbookFormDialog} from '@/features/guestbook/submit';
+import {cn} from '@/shared/lib/utils';
 import {Badge, Button} from '@/shared/ui';
+import {glass} from '@/shared/ui/glass';
+import {GlassCard} from '@/shared/ui/glass-card';
 import {Skeleton} from '@/shared/ui/skeleton';
 import {useQueryClient, useSuspenseQuery} from '@tanstack/react-query';
 import {Dispatch, SetStateAction, Suspense, useMemo, useState} from 'react';
 import {EntriesText} from '../model/types';
-
-const GLASS_PANEL_CLASS =
-  'relative overflow-hidden rounded-3xl border border-white/50 bg-white/60 px-6 py-5 shadow-[0_20px_60px_-25px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.6)]';
 
 const DEFAULT_PAGINATION = {
   page: 1,
@@ -59,23 +59,14 @@ export function GuestbookWidget({locale, entriesText, formText, emotionOptions, 
 
   return (
     <div className="relative">
-      <div className="pointer-events-none absolute -left-16 top-10 h-48 w-48 rounded-full bg-blue-300/30 blur-3xl dark:bg-blue-500/20" />
-      <div className="pointer-events-none absolute right-2 top-0 h-56 w-56 rounded-full bg-purple-300/25 blur-3xl dark:bg-indigo-500/25" />
-      <div className="pointer-events-none absolute left-1/3 top-20 h-32 w-32 rounded-full bg-white/60 blur-3xl dark:bg-white/10" />
-
       <div className="relative space-y-5">
-        <div className={GLASS_PANEL_CLASS}>
+        <GlassCard paddingClassName="px-6 py-5" surfaceProps={{backgroundOpacity: 0.1, blur: 16, saturation: 1.3}}>
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="text-xl font-semibold text-foreground">{entriesText.headerTitle}</h1>
               <p className="text-sm text-muted-foreground">{entriesText.headerSubtitle}</p>
             </div>
-            <Button
-              size="sm"
-              variant="secondary"
-              className="w-full rounded-full border border-white/60 bg-white/70 text-blue-700 backdrop-blur-md hover:bg-white md:w-auto dark:border-white/20 dark:bg-white/10 dark:text-white"
-              onClick={() => setOpen(true)}
-            >
+            <Button size="sm" variant="glass" className="w-full rounded-full md:w-auto" onClick={() => setOpen(true)}>
               ✍️ {formText.triggerLabel}
             </Button>
           </div>
@@ -91,7 +82,7 @@ export function GuestbookWidget({locale, entriesText, formText, emotionOptions, 
               onPageChange={setPage}
             />
           </Suspense>
-        </div>
+        </GlassCard>
 
         <GuestbookFormDialog
           open={open}
@@ -162,7 +153,10 @@ function GuestbookEntriesContent({
         {entries.map((entry) => (
           <div
             key={entry.id}
-            className="group rounded-2xl border border-white/40 bg-white/70 p-4 shadow-[0_12px_32px_-18px_rgba(15,23,42,0.4)] backdrop-blur-md transition hover:border-white hover:bg-white/80 dark:border-white/10 dark:bg-white/5 dark:shadow-[0_12px_32px_-18px_rgba(0,0,0,0.6)] dark:hover:border-white/40"
+            className={cn(
+              glass.card,
+              'group p-4 transition hover:border-white/40 hover:shadow-[0_14px_36px_-20px_rgba(59,130,246,0.4)]',
+            )}
           >
             <div className="flex flex-wrap items-start justify-between gap-2 text-sm">
               <div className="flex items-center gap-2">
@@ -216,8 +210,8 @@ function GuestbookEntriesContent({
         <div className="flex gap-2">
           <Button
             size="sm"
-            variant="outline"
-            className="border-white/60 bg-white/70 backdrop-blur-md hover:border-white hover:bg-white/80 dark:border-white/20 dark:bg-white/10"
+            variant="glass"
+            className="rounded-full"
             disabled={!canGoPrev || isFetching}
             onClick={() => onPageChange((prev) => Math.max(1, prev - 1))}
           >
@@ -225,8 +219,8 @@ function GuestbookEntriesContent({
           </Button>
           <Button
             size="sm"
-            variant="outline"
-            className="border-white/60 bg-white/70 backdrop-blur-md hover:border-white hover:bg-white/80 dark:border-white/20 dark:bg-white/10"
+            variant="glass"
+            className="rounded-full"
             disabled={!canGoNext || isFetching}
             onClick={() => onPageChange((prev) => prev + 1)}
           >
@@ -261,20 +255,10 @@ function GuestbookEntriesSkeleton({entriesText}: {entriesText: EntriesText}) {
           <Skeleton className="h-4 w-24" />
         </div>
         <div className="flex gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            className="border-white/60 bg-white/70 backdrop-blur-md hover:border-white hover:bg-white/80 dark:border-white/20 dark:bg-white/10"
-            disabled
-          >
+          <Button size="sm" variant="glass" className="rounded-full" disabled>
             {entriesText.pagination.previous}
           </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            className="border-white/60 bg-white/70 backdrop-blur-md hover:border-white hover:bg-white/80 dark:border-white/20 dark:bg-white/10"
-            disabled
-          >
+          <Button size="sm" variant="glass" className="rounded-full" disabled>
             {entriesText.pagination.next}
           </Button>
         </div>

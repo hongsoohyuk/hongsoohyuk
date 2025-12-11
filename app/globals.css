@@ -121,12 +121,95 @@
   }
 }
 
+@layer components {
+  .bg-galaxy {
+    @apply fixed inset-0 -z-10 overflow-hidden bg-[#01030a];
+  }
+  .bg-galaxy::before {
+    content: '';
+    @apply absolute inset-[-25%];
+    background:
+      radial-gradient(circle at 20% 25%, rgba(99, 102, 241, 0.24), transparent 32%),
+      radial-gradient(circle at 70% 20%, rgba(236, 72, 153, 0.18), transparent 30%),
+      radial-gradient(circle at 30% 75%, rgba(59, 130, 246, 0.22), transparent 34%),
+      radial-gradient(circle at 82% 72%, rgba(14, 165, 233, 0.16), transparent 28%);
+    filter: blur(110px);
+    opacity: 0.85;
+  }
+  .bg-galaxy::after {
+    content: '';
+    @apply absolute inset-0;
+    background:
+      linear-gradient(140deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06), transparent 50%);
+    mix-blend-mode: screen;
+    opacity: 0.22;
+  }
+
+  .glass-panel {
+    @apply relative overflow-hidden rounded-3xl border border-white/12 bg-white/12 shadow-[0_20px_70px_-35px_rgba(0,0,0,0.8)] backdrop-blur-2xl dark:border-white/10 dark:bg-white/8;
+  }
+  .glass-panel::before {
+    content: '';
+    @apply pointer-events-none absolute inset-[-20%];
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.16), transparent 45%),
+      radial-gradient(circle at 80% 0%, rgba(94, 234, 212, 0.12), transparent 40%),
+      radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.18), transparent 42%);
+    filter: blur(50px);
+    opacity: 0.9;
+  }
+  .glass-panel::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 rounded-[inherit];
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    mix-blend-mode: screen;
+  }
+
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-white/10 shadow-[0_14px_40px_-25px_rgba(0,0,0,0.8)] backdrop-blur-xl dark:border-white/10 dark:bg-white/6;
+  }
+  .glass-card::before {
+    content: '';
+    @apply pointer-events-none absolute inset-[-25%];
+    background:
+      radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.08), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.12), transparent 35%);
+    filter: blur(40px);
+  }
+  .glass-card::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 rounded-[inherit];
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+  }
+
+  .glass-button {
+    @apply relative overflow-hidden rounded-xl border border-white/15 bg-white/12 text-foreground shadow-[0_14px_36px_-18px_rgba(59,130,246,0.4)] backdrop-blur-xl transition;
+  }
+  .glass-button::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0)),
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18), transparent 32%);
+    opacity: 0.9;
+  }
+  .glass-button:hover {
+    @apply border-white/40 bg-white/18;
+  }
+  .glass-button:active {
+    @apply scale-[0.99];
+  }
+  .glass-overlay {
+    @apply fixed inset-0 z-40 bg-[radial-gradient(circle_at_30%_20%,rgba(94,92,255,0.35),transparent_40%),radial-gradient(circle_at_80%_10%,rgba(236,72,153,0.25),transparent_35%),radial-gradient(circle_at_50%_70%,rgba(56,189,248,0.22),transparent_40%)] bg-[#04050c]/85 backdrop-blur-2xl;
+  }
+}
 /* Safe Area Insets for Mobile Browsers */
 @supports (padding: env(safe-area-inset-bottom)) {
   .pb-safe {
     padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
   }
-  
+
   .safe-area-inset-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
@@ -148,9 +231,16 @@
 
   /* Game Boy retro animation */
   @keyframes grass-rustle {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-2px); }
-    75% { transform: translateX(2px); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-2px);
+    }
+    75% {
+      transform: translateX(2px);
+    }
   }
 
   .grass-rustle {
