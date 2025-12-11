@@ -1,5 +1,5 @@
-import {defineRouting} from 'next-intl/routing';
 import {createNavigation} from 'next-intl/navigation';
+import {defineRouting} from 'next-intl/routing';
 
 export const routing = defineRouting({
   // A list of all locales that are supported
@@ -8,11 +8,15 @@ export const routing = defineRouting({
   // Used when no locale matches
   defaultLocale: 'ko',
 
-  // Prefix strategy: always show locale in URL (e.g., `/ko`, `/en`)
-  localePrefix: 'always',
+  // Prefix strategy:
+  // - Default locale(ko): no prefix (e.g., `/instagram`)
+  // - Other locales: prefixed (e.g., `/en/instagram`)
+  // - Requests to `/ko/...` will be normalized (typically redirected) to `/...`
+  localePrefix: 'as-needed',
 
-  // Enable locale detection based on browser language
-  localeDetection: true,
+  // Keep default locale stable for unprefixed routes.
+  // (So `/instagram` always means ko, not browser-dependent.)
+  localeDetection: false,
 });
 
 // Lightweight wrappers around Next.js' navigation APIs
