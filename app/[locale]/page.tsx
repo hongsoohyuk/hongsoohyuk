@@ -29,39 +29,39 @@ export default async function Home({params}: Props) {
       </section>
 
       <section className="py-12">
-        <div className="grid gap-6 max-w-6xl mx-auto lg:grid-cols-3">
-          <GlassCard paddingClassName="p-6" className="group transition-all">
-            <div className="text-4xl mb-4">{t('sections.guestbook.emoji')}</div>
-            <h3 className="text-xl font-semibold text-foreground">{t('sections.guestbook.title')}</h3>
-            <p className="text-sm text-muted-foreground mb-6">{t('sections.guestbook.description')}</p>
-            <Link href="/guestbook">
-              <Button variant="glass" className="w-full">
-                {t('sections.guestbook.button')}
-              </Button>
-            </Link>
-          </GlassCard>
+        <div className="grid gap-4 sm:gap-6 max-w-6xl mx-auto lg:grid-cols-3">
+          <Link
+            href="/guestbook"
+            className="block rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <GlassCard paddingClassName="p-4 sm:p-6" className="group transition-all">
+              <div className="text-3xl sm:text-4xl mb-2 sm:mb-4">{t('sections.guestbook.emoji')}</div>
+              <h3 className="hidden sm:block text-xl font-semibold text-foreground">{t('sections.guestbook.title')}</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('sections.guestbook.description')}</p>
+            </GlassCard>
+          </Link>
 
-          <GlassCard paddingClassName="p-6" className="group transition-all">
-            <div className="text-4xl mb-4">{t('sections.portfolio.emoji')}</div>
-            <h3 className="text-xl font-semibold text-foreground">{t('sections.portfolio.title')}</h3>
-            <p className="text-sm text-muted-foreground mb-6">{t('sections.portfolio.description')}</p>
-            <Link href="/portfolio">
-              <Button variant="glass" className="w-full">
-                {t('sections.portfolio.button')}
-              </Button>
-            </Link>
-          </GlassCard>
+          <Link
+            href="/portfolio"
+            className="block rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <GlassCard paddingClassName="p-4 sm:p-6" className="group transition-all">
+              <div className="text-3xl sm:text-4xl mb-2 sm:mb-4">{t('sections.portfolio.emoji')}</div>
+              <h3 className="hidden sm:block text-xl font-semibold text-foreground">{t('sections.portfolio.title')}</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('sections.portfolio.description')}</p>
+            </GlassCard>
+          </Link>
 
-          <GlassCard paddingClassName="p-6" className="group transition-all">
-            <div className="text-4xl mb-4">{t('sections.instagram.emoji')}</div>
-            <h3 className="text-xl font-semibold text-foreground">{t('sections.instagram.title')}</h3>
-            <p className="text-sm text-muted-foreground mb-6">{t('sections.instagram.description')}</p>
-            <Link href="/instagram">
-              <Button variant="glass" className="w-full">
-                {t('sections.instagram.button')}
-              </Button>
-            </Link>
-          </GlassCard>
+          <Link
+            href="/instagram"
+            className="block rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <GlassCard paddingClassName="p-4 sm:p-6" className="group transition-all">
+              <div className="text-3xl sm:text-4xl mb-2 sm:mb-4">{t('sections.instagram.emoji')}</div>
+              <h3 className="hidden sm:block text-xl font-semibold text-foreground">{t('sections.instagram.title')}</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('sections.instagram.description')}</p>
+            </GlassCard>
+          </Link>
         </div>
       </section>
 
