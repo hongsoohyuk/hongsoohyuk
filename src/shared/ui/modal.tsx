@@ -4,6 +4,7 @@ import GlassSurface from '@/shared/ui/GlassSurface';
 import clsx from 'clsx';
 import {MouseEvent, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
+import {useDomReady} from '@/shared/lib/hooks/use-dom-ready';
 
 interface ModalProps {
   open: boolean;
@@ -40,13 +41,9 @@ function useAnimationState(dep: boolean) {
 }
 
 export function Modal({open, onClose, children, labelledBy, describedBy}: ModalProps) {
-  const [mounted, setMounted] = useState(false);
+  const domReady = useDomReady();
   const panelRef = useRef<HTMLDivElement>(null);
   const animationState = useAnimationState(open);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!open) {
@@ -96,7 +93,7 @@ export function Modal({open, onClose, children, labelledBy, describedBy}: ModalP
     [onClose],
   );
 
-  if (!mounted) {
+  if (!domReady) {
     return null;
   }
 
