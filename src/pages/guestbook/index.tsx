@@ -1,8 +1,9 @@
-import {EmotionCode, EmotionOption} from '@/entities/guestbook';
-import {FormCopy} from '@/features/guestbook/submit';
-import {EntriesCopy, GuestbookWidget} from '@/widgets/guestbook';
+import {EmotionCode, GUESTBOOK_PAGE_SIZE, GuestbookEntriesResponse} from '@/entities/guestbook';
+import {GuestbookWidget} from '@/widgets/guestbook';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {headers} from 'next/headers';
+import {buildGuestbookText} from './lib/buildGuestbookText';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -33,64 +34,41 @@ export async function Page({params}: Props) {
 
   const t = await getTranslations('Guestbook');
   const common = await getTranslations('Common');
+  const initialEntries = await fetchInitialGuestbook();
 
-  const formCopy: FormCopy = {
-    title: t('formSection.title'),
-    subtitle: t('formSection.subtitle'),
-    placeholder: t('formSection.placeholder'),
-    emotionTitle: t('formSection.emotionTitle'),
-    emotionHint: t('formSection.emotionHint'),
-    emotionHelper: t('formSection.emotionHelper'),
-    securityTitle: t('formSection.securityTitle'),
-    securityHelper: t('formSection.securityHelper'),
-    button: t('formSection.button'),
-    buttonPending: t('formSection.buttonPending'),
-    note: t('formSection.note'),
-    status: {
-      success: t('formSection.status.success'),
-      error: t('formSection.status.error'),
-    },
-    validation: {
-      name: t('formSection.validation.name'),
-      message: t('formSection.validation.message'),
-      emotions: t('formSection.validation.emotions'),
-      emotionLimit: t('formSection.validation.emotionLimit'),
-      turnstile: t('formSection.validation.turnstile'),
-    },
-    nameLabel: t('form.name'),
-    namePlaceholder: t('formSection.namePlaceholder'),
-    messageLabel: t('form.message'),
-    triggerLabel: t('formSection.trigger'),
-  };
-
-  const entriesCopy: EntriesCopy = {
-    headerTitle: t('title'),
-    headerSubtitle: t('description'),
-    empty: t('entries.empty'),
-    fetchError: t('entries.fetchError'),
-    pagination: {
-      previous: t('entries.pagination.previous'),
-      next: t('entries.pagination.next'),
-      summary: t('entries.pagination.summary', {page: 1, totalPages: 1}),
-    },
-    retry: common('retry'),
-  };
-
-  const localizedEmotionOptions: EmotionOption[] = emotionOptions.map((option) => ({
-    ...option,
-    label: t(`emotions.${option.code}.label`),
-  }));
+  const {formText, entriesText, localizedEmotionOptions} = buildGuestbookText({
+    tGuestbook: t,
+    tCommon: common,
+    emotionOptions,
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto flex max-w-3xl flex-col gap-8">
         <GuestbookWidget
           locale={locale}
-          entriesCopy={entriesCopy}
-          formCopy={formCopy}
           emotionOptions={localizedEmotionOptions}
+          initialData={initialEntries ?? undefined}
+          initialPage={1}
+          entriesText={entriesText}
+          formText={formText}
         />
       </div>
     </div>
   );
+}
+
+async function fetchInitialGuestbook(): Promise<GuestbookEntriesResponse | null> {
+  const headerList = await headers();
+  const host = headerList.get('host');
+  const protocol = headerList.get('x-forwarded-proto') ?? 'http';
+  if (!host) return null;
+
+  const baseUrl = `${protocol}://${host}`;
+  const res = await fetch(`${baseUrl}/api/guestbook?page=1&pageSize=${GUESTBOOK_PAGE_SIZE}`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) return null;
+  return res.json();
 }
