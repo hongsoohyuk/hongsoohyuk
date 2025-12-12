@@ -1,7 +1,7 @@
 'use client';
 
 import {Canvas, RootState, useFrame, useThree} from '@react-three/fiber';
-import React, {forwardRef, useLayoutEffect, useMemo, useRef} from 'react';
+import React, {forwardRef, useLayoutEffect, useRef} from 'react';
 import {Color, IUniform, Mesh, ShaderMaterial} from 'three';
 
 type NormalizedRGB = [number, number, number];
@@ -128,18 +128,30 @@ export interface SilkProps {
 
 const Silk: React.FC<SilkProps> = ({speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0}) => {
   const meshRef = useRef<Mesh>(null);
-
-  const uniforms = useMemo<SilkUniforms>(
-    () => ({
+  // Keep uniforms stable for r3f; mutate values on prop changes.
+  const uniformsRef = useRef<SilkUniforms | null>(null);
+  if (!uniformsRef.current) {
+    const [r, g, b] = hexToNormalizedRGB(color);
+    uniformsRef.current = {
       uSpeed: {value: speed},
       uScale: {value: scale},
       uNoiseIntensity: {value: noiseIntensity},
-      uColor: {value: new Color(...hexToNormalizedRGB(color))},
+      uColor: {value: new Color(r, g, b)},
       uRotation: {value: rotation},
       uTime: {value: 0},
-    }),
-    [speed, scale, noiseIntensity, color, rotation],
-  );
+    };
+  }
+  const uniforms = uniformsRef.current;
+
+  useLayoutEffect(() => {
+    uniforms.uSpeed.value = speed;
+    uniforms.uScale.value = scale;
+    uniforms.uNoiseIntensity.value = noiseIntensity;
+    uniforms.uRotation.value = rotation;
+
+    const [r, g, b] = hexToNormalizedRGB(color);
+    uniforms.uColor.value.setRGB(r, g, b);
+  }, [uniforms, speed, scale, noiseIntensity, rotation, color]);
 
   return (
     <Canvas dpr={[1, 2]} frameloop="always">

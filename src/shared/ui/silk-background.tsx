@@ -1,52 +1,26 @@
 'use client';
 
-import {cn} from '@/shared/lib/utils';
+import {useDarkMode} from '@/shared/lib/hooks/use-dark-mode';
 import Silk from '@/shared/ui/Silk';
-import {useEffect, useState} from 'react';
 
-type Props = {
-  className?: string;
-  color?: string;
-  speed?: number;
-  scale?: number;
-  noiseIntensity?: number;
-  rotation?: number;
-};
+const DEFAULT_SCALE = 0.8;
+const DEFAULT_NOISE_INTENSITY = 10;
+const DEFAULT_SPEED = 3;
+const DEFAULT_ROTATION = 0.08;
 
-export function SilkBackground({
-  className,
-  color,
-  speed,
-  scale = 1,
-  noiseIntensity,
-  rotation = 0.08,
-}: Props) {
-  const [isDark, setIsDark] = useState(false);
+export function SilkBackground() {
+  const isDark = useDarkMode();
 
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    const root = document.documentElement;
-    const read = () => root.classList.contains('dark');
-    setIsDark(read());
-
-    const observer = new MutationObserver(() => setIsDark(read()));
-    observer.observe(root, {attributes: true, attributeFilter: ['class']});
-    return () => observer.disconnect();
-  }, []);
-
-  // Light theme only: brighten the background. Dark theme keeps the previous look.
-  const resolvedColor = color ?? (isDark ? '#505050' : '#e9e9f2');
-  const resolvedSpeed = speed ?? (isDark ? 3 : 1.8);
-  const resolvedNoise = noiseIntensity ?? (isDark ? 10 : 6);
+  const resolvedColor = isDark ? '#505050' : '#e9e9e9';
 
   return (
-    <div className={cn('pointer-events-none fixed inset-0 -z-20', className)}>
+    <div className="pointer-events-none fixed inset-0 -z-20">
       <Silk
         color={resolvedColor}
-        speed={resolvedSpeed}
-        scale={scale}
-        noiseIntensity={resolvedNoise}
-        rotation={rotation}
+        speed={DEFAULT_SPEED}
+        scale={DEFAULT_SCALE}
+        noiseIntensity={DEFAULT_NOISE_INTENSITY}
+        rotation={DEFAULT_ROTATION}
       />
     </div>
   );

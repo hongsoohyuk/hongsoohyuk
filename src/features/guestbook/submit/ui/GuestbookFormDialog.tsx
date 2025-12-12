@@ -98,8 +98,8 @@ export function GuestbookFormDialog({open, onClose, formText, emotionOptions, on
           {formText.title}
         </h2>
       </ModalHeader>
-      <form onSubmit={onSubmit} className="flex min-h-0 flex-col">
-        <ModalBody className="relative min-h-0 flex-1 space-y-5 overflow-y-auto sm:space-y-6">
+      <form onSubmit={onSubmit} className="flex h-full min-h-0 flex-col">
+        <ModalBody className="relative space-y-5 sm:space-y-6">
           <div className="pointer-events-none absolute -left-10 top-4 h-32 w-32 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/20" />
           <div className="pointer-events-none absolute right-0 top-16 h-40 w-40 rounded-full bg-purple-400/12 blur-3xl dark:bg-indigo-500/25" />
           <div className="pointer-events-none absolute left-1/4 bottom-6 h-28 w-28 rounded-full bg-black/10 blur-3xl dark:bg-white/10" />
@@ -200,12 +200,7 @@ export function GuestbookFormDialog({open, onClose, formText, emotionOptions, on
         </ModalBody>
         <ModalFooter className="flex flex-col-reverse gap-2 border-t border-black/15 bg-background/70 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-white/5">
           <p className="text-center text-xs text-muted-foreground sm:text-left">{formText.note}</p>
-          <Button
-            variant="glass"
-            className="w-full rounded-full sm:w-auto"
-            type="submit"
-            disabled={mutation.isPending}
-          >
+          <Button variant="glass" className="w-full rounded-full sm:w-auto" type="submit" disabled={mutation.isPending}>
             {mutation.isPending ? formText.buttonPending : formText.button}
           </Button>
         </ModalFooter>
