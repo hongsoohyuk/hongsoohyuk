@@ -170,7 +170,8 @@
     @apply scale-[0.99];
   }
   .glass-overlay {
-    @apply fixed inset-0 z-40 bg-[radial-gradient(circle_at_30%_20%,rgba(94,92,255,0.35),transparent_40%),radial-gradient(circle_at_80%_10%,rgba(236,72,153,0.25),transparent_35%),radial-gradient(circle_at_50%_70%,rgba(56,189,248,0.22),transparent_40%)] bg-[#04050c]/85 backdrop-blur-2xl;
+    /* Keep the silk background visible; use a simple dim overlay with blur. */
+    @apply fixed inset-0 z-40 bg-black/60 dark:bg-black/70 backdrop-blur-md;
   }
 }
 /* Safe Area Insets for Mobile Browsers */

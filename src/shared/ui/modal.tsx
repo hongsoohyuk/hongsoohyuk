@@ -1,10 +1,10 @@
 'use client';
 
+import { useDomReady } from '@/shared/lib/hooks/use-dom-ready';
 import GlassSurface from '@/shared/ui/GlassSurface';
 import clsx from 'clsx';
-import {MouseEvent, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
-import {createPortal} from 'react-dom';
-import {useDomReady} from '@/shared/lib/hooks/use-dom-ready';
+import { MouseEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   open: boolean;
@@ -123,11 +123,14 @@ export function Modal({open, onClose, children, labelledBy, describedBy}: ModalP
             blur={14}
             saturation={1.2}
             brightness={55}
+            contentClassName="relative z-10 flex h-full w-full flex-col rounded-[inherit] p-0"
             className={clsx(
-              'w-full overflow-hidden shadow-2xl outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background safe-area-inset-bottom',
+              // Use a flex column layout so header/footer stay put and only the body scrolls.
+              'flex w-full flex-col overflow-hidden shadow-2xl outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background safe-area-inset-bottom',
               animationState === 'open' ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
             )}
-            style={{minHeight: 'min(92dvh, 90vh)', maxHeight: 'min(92dvh, 90vh)'}}
+            // Make the panel height deterministic so children can use `flex-1 min-h-0`.
+            style={{height: 'min(92dvh, 90vh)', maxHeight: 'min(92dvh, 90vh)'}}
           >
             {children}
           </GlassSurface>
@@ -146,10 +149,7 @@ interface ModalHeaderProps extends ModalSectionProps {
 export function ModalHeader({children, className, onClose, showCloseButton = false}: ModalHeaderProps) {
   return (
     <header
-      className={clsx(
-        'sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur-sm px-4 py-3 sm:px-6 sm:py-4',
-        className,
-      )}
+      className={clsx('border-b border-border bg-background/95 backdrop-blur-sm px-4 py-3 sm:px-6 sm:py-4', className)}
     >
       {/* Mobile: Handle for drag-to-close gesture indication */}
       <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-muted sm:hidden" />
@@ -185,14 +185,14 @@ export function ModalHeader({children, className, onClose, showCloseButton = fal
 }
 
 export function ModalBody({children, className}: ModalSectionProps) {
-  return <div className={clsx('px-4 py-3 sm:px-6 sm:py-4', className)}>{children}</div>;
+  return <div className={clsx('flex-1 min-h-0 overflow-y-auto px-4 py-3 sm:px-6 sm:py-4', className)}>{children}</div>;
 }
 
 export function ModalFooter({children, className}: ModalSectionProps) {
   return (
     <footer
       className={clsx(
-        'sticky bottom-0 z-10 border-t border-border bg-background/95 backdrop-blur-sm px-4 py-3 pb-safe sm:px-6 sm:py-4',
+        'border-t border-border bg-background/95 backdrop-blur-sm px-4 py-3 pb-safe sm:px-6 sm:py-4',
         className,
       )}
     >
