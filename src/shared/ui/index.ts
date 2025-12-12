@@ -2,24 +2,26 @@
 // This follows FSD principles by providing a clean interface to shared UI components
 
 // Button components
-export {Button, buttonVariants} from './button';
+export { Button, buttonVariants } from './button';
 
 // Form components
-export {Input} from './input';
-export {Textarea} from './textarea';
+export { Input } from './input';
+export { Textarea } from './textarea';
 
 // Layout components
-export {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from './card';
+export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
 
 // Data display components
-export {Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow} from './table';
+export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './table';
 
 // Interactive components
-export {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from './accordion';
-export {Modal, ModalBody, ModalFooter, ModalHeader} from './modal';
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './accordion';
+export { Modal, ModalBody, ModalFooter, ModalHeader } from './modal';
 
 // Feedback components
-export {Badge, badgeVariants} from './badge';
+export { Badge, badgeVariants } from './badge';
+export { Pagination } from './pagination';
 
 // Locale components
-export {LocaleSwitcher} from './locale-switcher';
+export { LocaleSwitcher } from './locale-switcher';
+
