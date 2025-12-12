@@ -48,14 +48,14 @@ const useDarkMode = () => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof document === 'undefined') return;
+    const root = document.documentElement;
+    const read = () => root.classList.contains('dark');
+    setIsDark(read());
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDark(mediaQuery.matches);
-
-    const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
+    const observer = new MutationObserver(() => setIsDark(read()));
+    observer.observe(root, {attributes: true, attributeFilter: ['class']});
+    return () => observer.disconnect();
   }, []);
 
   return isDark;
@@ -245,12 +245,11 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
           }
         : {
             ...baseStyles,
-            background: 'rgba(255, 255, 255, 0.25)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            boxShadow: `0 8px 32px 0 rgba(31, 38, 135, 0.2),
-                        0 2px 16px 0 rgba(31, 38, 135, 0.1),
-                        inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
-                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.2)`,
+            // Light theme: dark-tinted glass (sunglasses look)
+            background: 'rgba(0, 0, 0, 0.18)',
+            border: '1px solid rgba(0, 0, 0, 0.22)',
+            boxShadow: `inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.08)`,
           };
     }
 
@@ -260,7 +259,8 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
     if (svgSupported) {
       return {
         ...baseStyles,
-        background: isDarkMode ? `hsl(0 0% 0% / ${backgroundOpacity})` : `hsl(0 0% 100% / ${backgroundOpacity})`,
+        // Light theme also uses dark tint; dark theme stays the same.
+        background: `hsl(0 0% 0% / ${backgroundOpacity})`,
         backdropFilter: `url(#${filterId}) saturate(${saturation})`,
         boxShadow: isDarkMode
           ? `0 0 2px 1px color-mix(in oklch, white, transparent 65%) inset,
@@ -305,22 +305,22 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
         if (!backdropFilterSupported) {
           return {
             ...baseStyles,
-            background: 'rgba(255, 255, 255, 0.4)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            boxShadow: `inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
-                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.3)`,
+            background: 'rgba(0, 0, 0, 0.22)',
+            border: '1px solid rgba(0, 0, 0, 0.22)',
+            boxShadow: `inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.08)`,
           };
         } else {
           return {
             ...baseStyles,
-            background: 'rgba(255, 255, 255, 0.25)',
-            backdropFilter: 'blur(12px) saturate(1.8) brightness(1.1)',
-            WebkitBackdropFilter: 'blur(12px) saturate(1.8) brightness(1.1)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            boxShadow: `0 8px 32px 0 rgba(31, 38, 135, 0.2),
-                        0 2px 16px 0 rgba(31, 38, 135, 0.1),
-                        inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
-                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.2)`,
+            background: 'rgba(0, 0, 0, 0.18)',
+            backdropFilter: 'blur(12px) saturate(1.6) brightness(1.05)',
+            WebkitBackdropFilter: 'blur(12px) saturate(1.6) brightness(1.05)',
+            border: '1px solid rgba(0, 0, 0, 0.22)',
+            boxShadow: `0 8px 24px 0 rgba(0, 0, 0, 0.12),
+                        0 2px 12px 0 rgba(0, 0, 0, 0.08),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+                        inset 0 -1px 0 0 rgba(255, 255, 255, 0.08)`,
           };
         }
       }
