@@ -1,7 +1,8 @@
 'use client';
 
+import {useDarkMode} from '@/shared/lib/hooks/use-dark-mode';
 import {useDomReady} from '@/shared/lib/hooks/use-dom-ready';
-import React, {useEffect, useId, useRef, useState} from 'react';
+import React, {useEffect, useId, useRef} from 'react';
 
 export interface GlassSurfaceProps {
   children?: React.ReactNode;
@@ -41,25 +42,13 @@ export interface GlassSurfaceProps {
     | 'plus-darker'
     | 'plus-lighter';
   className?: string;
+  /**
+   * Classes for the inner content wrapper.
+   * Default centers children (good for cards). Override for layouts like Modals.
+   */
+  contentClassName?: string;
   style?: React.CSSProperties;
 }
-
-const useDarkMode = () => {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    const root = document.documentElement;
-    const read = () => root.classList.contains('dark');
-    setIsDark(read());
-
-    const observer = new MutationObserver(() => setIsDark(read()));
-    observer.observe(root, {attributes: true, attributeFilter: ['class']});
-    return () => observer.disconnect();
-  }, []);
-
-  return isDark;
-};
 
 const GlassSurface: React.FC<GlassSurfaceProps> = ({
   children,
@@ -81,6 +70,7 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   yChannel = 'G',
   mixBlendMode = 'difference',
   className = '',
+  contentClassName,
   style = {},
 }) => {
   const uniqueId = useId().replace(/:/g, '-');
@@ -394,7 +384,11 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
         </defs>
       </svg>
 
-      <div className="w-full h-full flex items-center justify-center p-2 rounded-[inherit] relative z-10">
+      <div
+        className={
+          contentClassName ?? 'w-full h-full flex items-center justify-center p-2 rounded-[inherit] relative z-10'
+        }
+      >
         {children}
       </div>
     </div>
