@@ -155,7 +155,7 @@ function GuestbookEntriesContent({
             key={entry.id}
             className={cn(
               glass.card,
-              'group p-4 transition hover:border-white/40 hover:shadow-[0_14px_36px_-20px_rgba(59,130,246,0.4)]',
+              'group p-4 transition hover:border-black/30 hover:shadow-[0_14px_36px_-20px_rgba(0,0,0,0.18)] dark:hover:border-white/40 dark:hover:shadow-[0_14px_36px_-20px_rgba(59,130,246,0.4)]',
             )}
           >
             <div className="flex flex-wrap items-start justify-between gap-2 text-sm">
