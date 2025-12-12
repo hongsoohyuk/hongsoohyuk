@@ -17,11 +17,8 @@ type Props = {
   onSubmitted?: () => void;
 };
 
-const GLASS_PANEL_CLASS =
-  'rounded-3xl border border-white/50 bg-white/70 shadow-[0_20px_60px_-25px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.6)]';
-
-const GLASS_CARD_CLASS =
-  'rounded-2xl border border-white/50 bg-white/70 p-4 shadow-[0_12px_32px_-18px_rgba(15,23,42,0.4)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_12px_32px_-18px_rgba(0,0,0,0.6)]';
+const GLASS_SECTION_CLASS =
+  'rounded-2xl border border-black/20 bg-black/10 shadow-[0_18px_50px_-30px_rgba(0,0,0,0.18)] backdrop-blur-xl dark:border-white/10 dark:bg-white/6 dark:shadow-[0_18px_50px_-30px_rgba(0,0,0,0.6)]';
 
 export function GuestbookFormDialog({open, onClose, formText, emotionOptions, onSubmitted}: Props) {
   const {
@@ -95,19 +92,19 @@ export function GuestbookFormDialog({open, onClose, formText, emotionOptions, on
       <ModalHeader
         onClose={onClose}
         showCloseButton
-        className="border-b border-white/40 bg-white/70 backdrop-blur-xl dark:border-white/10 dark:bg-white/5"
+        className="border-b border-black/15 bg-background/70 backdrop-blur-xl dark:border-white/10 dark:bg-white/5"
       >
         <h2 id="guestbook-form-title" className="text-xl sm:text-2xl font-semibold leading-snug text-foreground">
           {formText.title}
         </h2>
       </ModalHeader>
-      <form onSubmit={onSubmit}>
-        <ModalBody className="relative space-y-5 overflow-hidden sm:space-y-6">
-          <div className="pointer-events-none absolute -left-10 top-4 h-32 w-32 rounded-full bg-blue-300/25 blur-3xl dark:bg-blue-500/20" />
-          <div className="pointer-events-none absolute right-0 top-16 h-40 w-40 rounded-full bg-purple-300/20 blur-3xl dark:bg-indigo-500/25" />
-          <div className="pointer-events-none absolute left-1/4 bottom-6 h-28 w-28 rounded-full bg-white/60 blur-3xl dark:bg-white/10" />
+      <form onSubmit={onSubmit} className="flex min-h-0 flex-col">
+        <ModalBody className="relative min-h-0 flex-1 space-y-5 overflow-y-auto sm:space-y-6">
+          <div className="pointer-events-none absolute -left-10 top-4 h-32 w-32 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/20" />
+          <div className="pointer-events-none absolute right-0 top-16 h-40 w-40 rounded-full bg-purple-400/12 blur-3xl dark:bg-indigo-500/25" />
+          <div className="pointer-events-none absolute left-1/4 bottom-6 h-28 w-28 rounded-full bg-black/10 blur-3xl dark:bg-white/10" />
 
-          <div className={`${GLASS_PANEL_CLASS} space-y-4 p-5`}>
+          <div className={`${GLASS_SECTION_CLASS} space-y-4 p-5`}>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="text-base font-semibold text-foreground">{formText.subtitle}</p>
@@ -129,7 +126,7 @@ export function GuestbookFormDialog({open, onClose, formText, emotionOptions, on
                     minLength: {value: 1, message: formText.validation.name},
                     maxLength: {value: 40, message: formText.validation.name},
                   })}
-                  className="border-white/60 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10"
+                  className="border-black/20 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10"
                   placeholder={formText.namePlaceholder}
                 />
                 {errors.name ? <p className="text-xs text-rose-500">{errors.name.message}</p> : null}
@@ -149,7 +146,7 @@ export function GuestbookFormDialog({open, onClose, formText, emotionOptions, on
                     maxLength: {value: 500, message: formText.validation.message},
                   })}
                   rows={3}
-                  className="sm:rows-4 border-white/60 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10"
+                  className="border-black/20 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10 sm:min-h-28"
                   placeholder={formText.placeholder}
                 />
                 {errors.message ? <p className="text-xs text-rose-500">{errors.message.message}</p> : null}
@@ -157,7 +154,7 @@ export function GuestbookFormDialog({open, onClose, formText, emotionOptions, on
             </div>
           </div>
 
-          <div className={`${GLASS_CARD_CLASS} space-y-3`}>
+          <div className={`${GLASS_SECTION_CLASS} space-y-3 p-4`}>
             <div className="flex flex-wrap items-center gap-3">
               <p className="text-sm font-medium">{formText.emotionTitle}</p>
             </div>
@@ -172,11 +169,11 @@ export function GuestbookFormDialog({open, onClose, formText, emotionOptions, on
             />
           </div>
 
-          <div className={`${GLASS_CARD_CLASS} space-y-2`}>
+          <div className={`${GLASS_SECTION_CLASS} space-y-2 p-4`}>
             <p className="text-sm font-medium">{formText.securityTitle}</p>
             <div
               ref={containerRef}
-              className="flex min-h-24 items-center justify-center rounded-xl border border-dashed border-white/60 bg-white/50 px-4 py-6 text-xs text-muted-foreground backdrop-blur-md dark:border-white/20 dark:bg-white/5"
+              className="flex min-h-24 items-center justify-center rounded-xl border border-dashed border-black/25 bg-black/5 px-4 py-6 text-xs text-muted-foreground backdrop-blur-md dark:border-white/20 dark:bg-white/5"
             >
               {!siteKey ? (
                 <span>Set NEXT_PUBLIC_TURNSTILE_SITE_KEY to enable verification.</span>
@@ -201,10 +198,11 @@ export function GuestbookFormDialog({open, onClose, formText, emotionOptions, on
             </div>
           ) : null}
         </ModalBody>
-        <ModalFooter className="flex flex-col-reverse gap-2 border-t border-white/40 bg-white/70 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-white/5">
+        <ModalFooter className="flex flex-col-reverse gap-2 border-t border-black/15 bg-background/70 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-white/5">
           <p className="text-center text-xs text-muted-foreground sm:text-left">{formText.note}</p>
           <Button
-            className="w-full rounded-full border border-white/60 bg-white/80 text-blue-700 backdrop-blur-md hover:bg-white sm:w-auto dark:border-white/20 dark:bg-white/10 dark:text-white"
+            variant="glass"
+            className="w-full rounded-full sm:w-auto"
             type="submit"
             disabled={mutation.isPending}
           >

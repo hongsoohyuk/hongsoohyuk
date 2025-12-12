@@ -34,7 +34,7 @@ export function EmotionButtonGroup({options, value, onChange, onMaxSelected, max
   };
 
   return (
-    <div className={cn('grid grid-cols-3 gap-2', className)}>
+    <div className={cn('grid grid-cols-2 gap-2 sm:grid-cols-3', className)}>
       {options.map((option) => (
         <EmotionButton
           key={option.code}
