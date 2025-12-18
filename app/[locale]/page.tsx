@@ -1,6 +1,6 @@
 import {Link} from '@/shared/i18n/routing';
-import {Button} from '@/shared/ui';
-import {GlassCard} from '@/shared/ui/glass-card';
+import {Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui';
+import {HeroTitle} from '@/widgets/home';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 type Props = {
@@ -15,62 +15,65 @@ export default async function Home({params}: Props) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <section className="text-center py-12 md:py-20">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            {t('title')}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {' '}
-              {t('name')}
-            </span>
-            {t('suffix') && ` ${t('suffix')}`}
-          </h1>
-        </div>
+      <section className="text-center py-8 md:py-10">
+        <HeroTitle />
       </section>
 
       <section className="py-12">
         <div className="grid gap-4 sm:gap-6 max-w-6xl mx-auto lg:grid-cols-3">
-          <Link
-            href="/guestbook"
-            className="block rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            <GlassCard paddingClassName="p-4 sm:p-6" className="group transition-all">
-              <div className="text-3xl sm:text-4xl mb-2 sm:mb-4">{t('sections.guestbook.emoji')}</div>
-              <h3 className="hidden sm:block text-xl font-semibold text-foreground">{t('sections.guestbook.title')}</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">{t('sections.guestbook.description')}</p>
-            </GlassCard>
+          <Link href="/guestbook">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <span className="text-2xl">{t('sections.guestbook.emoji')}</span>
+                  {t('sections.guestbook.title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>{t('sections.guestbook.description')}</CardDescription>
+              </CardContent>
+            </Card>
           </Link>
 
-          <Link
-            href="/portfolio"
-            className="block rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            <GlassCard paddingClassName="p-4 sm:p-6" className="group transition-all">
-              <div className="text-3xl sm:text-4xl mb-2 sm:mb-4">{t('sections.portfolio.emoji')}</div>
-              <h3 className="hidden sm:block text-xl font-semibold text-foreground">{t('sections.portfolio.title')}</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">{t('sections.portfolio.description')}</p>
-            </GlassCard>
+          <Link href="/portfolio">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <span className="text-2xl">{t('sections.portfolio.emoji')}</span>
+                  {t('sections.portfolio.title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>{t('sections.portfolio.description')}</CardDescription>
+              </CardContent>
+            </Card>
           </Link>
 
           <Link
             href="/instagram"
             className="block rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            <GlassCard paddingClassName="p-4 sm:p-6" className="group transition-all">
-              <div className="text-3xl sm:text-4xl mb-2 sm:mb-4">{t('sections.instagram.emoji')}</div>
-              <h3 className="hidden sm:block text-xl font-semibold text-foreground">{t('sections.instagram.title')}</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">{t('sections.instagram.description')}</p>
-            </GlassCard>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <span className="text-2xl">{t('sections.instagram.emoji')}</span>
+                  {t('sections.instagram.title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>{t('sections.instagram.description')}</CardDescription>
+              </CardContent>
+            </Card>
           </Link>
         </div>
       </section>
 
-      <section className="py-12 text-center">
-        <h2 className="text-3xl font-bold mb-8">{t('contact.title')}</h2>
+      <section className="py-6 text-center">
+        <h2 className="text-2xl font-bold mb-8">{t('contact.title')}</h2>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">{t('contact.description')}</p>
         <div className="flex flex-wrap justify-center gap-4">
           <Button variant="outline" asChild>
-            <a href="mailto:contact@example.com" className="flex items-center gap-2">
+            <a href="mailto:hongsoohyuk@icloud.com" className="flex items-center gap-2">
               📧 {t('contact.email')}
             </a>
           </Button>

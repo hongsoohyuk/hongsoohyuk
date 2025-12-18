@@ -1,38 +1,19 @@
 'use client';
-import {cn} from '@/shared/lib/utils';
-import {Button} from '@/shared/ui/button';
+
+import {cn} from '@/shared/lib/style';
 import Link from 'next/link';
 import {usePathname, useSearchParams} from 'next/navigation';
+import {Button} from './button';
 
 type PaginationProps = {
-  currentPage: number;
   totalPages: number;
-  prevLabel: string;
-  nextLabel: string;
-  summary?: string;
-  disabledPrev?: boolean;
-  disabledNext?: boolean;
-  className?: string;
-  onNavigate?: (page: number) => void;
 };
 
-/**
- * URL-based pagination control with previous/next buttons and optional summary text.
- * Reads and updates the 'page' query parameter automatically.
- */
-export function Pagination({
-  currentPage,
-  totalPages,
-  prevLabel,
-  nextLabel,
-  summary,
-  disabledPrev,
-  disabledNext,
-  className,
-  onNavigate,
-}: PaginationProps) {
+export function Pagination({totalPages}: PaginationProps) {
+  // const t = useTranslations('Pagination');
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const currentPage = Number(searchParams?.get('page')) || 1;
 
   const createPageURL = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams?.toString() ?? '');
@@ -43,45 +24,38 @@ export function Pagination({
     return params.toString() ? `${path}?${params.toString()}` : path;
   };
 
-  const prevPageURL = currentPage > 1 ? createPageURL(currentPage - 1) : '#';
-  const nextPageURL = currentPage < totalPages ? createPageURL(currentPage + 1) : '#';
+  //   const handleSearch = useDebouncedCallback((term) => {
+  //   const params = new URLSearchParams(searchParams);
+  //   params.set('page', '1');
+  //   if (term) {
+  //     params.set('query', term);
+  //   } else {
+  //     params.delete('query');
+  //   }
+  //   replace(`${pathname}?${params.toString()}`);
+  // }, 300);
 
-  const handleClick = (page: number) => {
-    onNavigate?.(page);
-  };
+  const prevHref = createPageURL(Math.max(1, currentPage - 1));
+  const nextHref = createPageURL(Math.min(totalPages, currentPage + 1));
 
   return (
     <div
-      className={cn(
-        'flex flex-wrap items-center justify-between gap-3 border-t border-white/40 pt-4 text-sm text-muted-foreground dark:border-white/10',
-        className,
-      )}
+      className={cn('flex items-center justify-between text-sm text-muted-foreground gap-3')}
       aria-label="pagination"
     >
-      <div className="text-xs md:text-sm">{summary ?? `${currentPage} / ${Math.max(1, totalPages)}`}</div>
+      <div className="text-xs md:text-sm">{`${currentPage} / ${Math.max(1, totalPages)}`}</div>
       <div className="flex gap-2">
-        {disabledPrev || currentPage <= 1 ? (
-          <Button size="sm" variant="glass" className="rounded-full" disabled>
-            {prevLabel}
-          </Button>
-        ) : (
-          <Button size="sm" variant="glass" className="rounded-full" asChild>
-            <Link href={prevPageURL} scroll={false} onClick={() => handleClick(currentPage - 1)}>
-              {prevLabel}
-            </Link>
-          </Button>
-        )}
-        {disabledNext || currentPage >= totalPages ? (
-          <Button size="sm" variant="glass" className="rounded-full" disabled>
-            {nextLabel}
-          </Button>
-        ) : (
-          <Button size="sm" variant="glass" className="rounded-full" asChild>
-            <Link href={nextPageURL} scroll={false} onClick={() => handleClick(currentPage + 1)}>
-              {nextLabel}
-            </Link>
-          </Button>
-        )}
+        <Button size="sm" variant={'secondary'} className="rounded-full" disabled={currentPage <= 1} asChild>
+          <Link aria-disabled={currentPage <= 1} href={prevHref}>
+            prev
+          </Link>
+        </Button>
+
+        <Button size="sm" variant={'secondary'} className="rounded-full" disabled={currentPage >= totalPages} asChild>
+          <Link aria-disabled={currentPage >= totalPages} href={nextHref}>
+            next
+          </Link>
+        </Button>
       </div>
     </div>
   );
