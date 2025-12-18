@@ -1,10 +1,8 @@
+import {EmotionCode, normalizeGuestbookEmotions} from '@/entities/guestbook';
+import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
 import {supabase, supabaseAdmin} from '@/shared/api/supabase';
 import crypto from 'crypto';
 import {NextRequest, NextResponse} from 'next/server';
-
-const ALLOWED_EMOTIONS = new Set(['LIKE', 'INSPIRATION', 'NICE', 'HELLO', 'FUN']);
-const DEFAULT_PAGE_SIZE = 5;
-const MAX_PAGE_SIZE = 20;
 
 export async function GET(req: NextRequest) {
   try {
@@ -12,9 +10,7 @@ export async function GET(req: NextRequest) {
     const parsedPage = Number.parseInt(searchParams.get('page') ?? '1', 10);
     const parsedPageSize = Number.parseInt(searchParams.get('pageSize') ?? `${DEFAULT_PAGE_SIZE}`, 10);
     const page = Number.isNaN(parsedPage) || parsedPage < 1 ? 1 : parsedPage;
-    const pageSize = Number.isNaN(parsedPageSize)
-      ? DEFAULT_PAGE_SIZE
-      : Math.min(Math.max(parsedPageSize, 1), MAX_PAGE_SIZE);
+    const pageSize = Number.isNaN(parsedPageSize) ? DEFAULT_PAGE_SIZE : Math.max(parsedPageSize, 1);
 
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
@@ -62,12 +58,9 @@ export async function POST(req: Request) {
     if (message.length < 1 || message.length > 500)
       return NextResponse.json({error: 'invalid message length'}, {status: 400});
 
-    let normalizedEmotions: string[] = [];
+    let normalizedEmotions: EmotionCode[] = [];
     if (Array.isArray(emotions)) {
-      normalizedEmotions = emotions
-        .map((emotion) => String(emotion).toUpperCase())
-        .filter((emotion, index, arr) => ALLOWED_EMOTIONS.has(emotion) && arr.indexOf(emotion) === index)
-        .slice(0, 2);
+      normalizedEmotions = normalizeGuestbookEmotions(emotions, 2);
     }
 
     const ip = (req.headers.get('x-forwarded-for') ?? '').split(',')[0].trim();

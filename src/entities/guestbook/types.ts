@@ -1,10 +1,4 @@
-export type EmotionCode = 'LIKE' | 'INSPIRATION' | 'NICE' | 'HELLO' | 'FUN' | 'THANK';
-
-export type EmotionOption = {
-  code: EmotionCode;
-  emoji: string;
-  label: string;
-};
+import type {EmotionCode} from './model/emotions';
 
 export type GuestbookEntryDto = {
   id: string;

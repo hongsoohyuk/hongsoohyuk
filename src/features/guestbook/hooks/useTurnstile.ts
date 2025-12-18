@@ -4,21 +4,21 @@ import {TURNSTILE_SITE_KEY, TURNSTILE_SRC} from '../lib/turnstile-constants';
 import {FormValues, StatusMessage} from '../model/types';
 
 type UseTurnstileOptions = {
-  open: boolean;
   setValue: UseFormSetValue<FormValues>;
   clearErrors: UseFormClearErrors<FormValues>;
   setError: UseFormSetError<FormValues>;
   errorMessage: string;
   onStatusChange?: (status: StatusMessage) => void; // eslint-disable-line no-unused-vars
+  enabled?: boolean;
 };
 
 export function useTurnstile({
-  open,
   setValue,
   clearErrors,
   setError,
   errorMessage,
   onStatusChange,
+  enabled = true,
 }: UseTurnstileOptions) {
   const [scriptReady, setScriptReady] = useState(false);
   const widgetIdRef = useRef<string | null>(null);
@@ -53,18 +53,17 @@ export function useTurnstile({
       clearErrors('turnstileToken');
       onStatusChange?.(null);
     },
-    [setValue, clearErrors, onStatusChange],
+    [clearErrors, onStatusChange, setValue],
   );
 
   const handleExpired = useCallback(() => {
     setValue('turnstileToken', '');
     setError('turnstileToken', {type: 'expired', message: errorMessage});
-  }, [setValue, setError, errorMessage]);
-
+  }, [errorMessage, setError, setValue]);
   const handleError = useCallback(() => {
     setValue('turnstileToken', '');
     setError('turnstileToken', {type: 'manual', message: errorMessage});
-  }, [setValue, setError, errorMessage]);
+  }, [errorMessage, setError, setValue]);
 
   // Store callbacks in ref to avoid dependency issues
   const callbacksRef = useRef({handleSuccess, handleExpired, handleError});
@@ -74,27 +73,22 @@ export function useTurnstile({
   }, [handleSuccess, handleExpired, handleError]);
 
   // Render Turnstile widget only when modal opens
+  // Render / tear down Turnstile widget based on `enabled` (e.g., dialog open state)
   useEffect(() => {
-    if (!open) {
+    if (!enabled) {
       if (widgetIdRef.current && window.turnstile?.remove) {
         window.turnstile.remove(widgetIdRef.current);
-        widgetIdRef.current = null;
-        isRenderingRef.current = false;
       }
+      widgetIdRef.current = null;
+      isRenderingRef.current = false;
+      setValue('turnstileToken', '');
+      clearErrors('turnstileToken');
       return;
     }
 
-    if (!scriptReady || !containerRef.current || !TURNSTILE_SITE_KEY) {
-      return;
-    }
-
-    if (!window.turnstile) {
-      return;
-    }
-
-    if (widgetIdRef.current || isRenderingRef.current) {
-      return;
-    }
+    if (!scriptReady || !containerRef.current || !TURNSTILE_SITE_KEY) return;
+    if (!window.turnstile) return;
+    if (widgetIdRef.current || isRenderingRef.current) return;
 
     isRenderingRef.current = true;
 
@@ -109,7 +103,18 @@ export function useTurnstile({
     } catch {
       isRenderingRef.current = false;
     }
-  }, [open, scriptReady]);
+  }, [clearErrors, enabled, scriptReady, setValue]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (widgetIdRef.current && window.turnstile?.remove) {
+        window.turnstile.remove(widgetIdRef.current);
+      }
+      widgetIdRef.current = null;
+      isRenderingRef.current = false;
+    };
+  }, []);
 
   return {
     scriptReady,

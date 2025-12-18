@@ -1,18 +1,27 @@
-import {EmotionCode, EmotionOption} from '@/entities/guestbook';
-import {cn} from '@/shared/lib/utils';
+import {BASE_EMOTIONS, EMOTION_LABEL_KEYS, EmotionCode, EmotionOption} from '@/entities/guestbook';
+import {useTranslations} from 'next-intl';
+import {useMemo} from 'react';
 import {EmotionButton} from './EmotionButton';
 
 type Props = {
-  options: EmotionOption[];
   value: EmotionCode[];
   onChange: (next: EmotionCode[]) => void;
   onMaxSelected?: (current: EmotionCode[]) => void;
   maxSelected?: number;
   disabled?: boolean;
-  className?: string;
 };
 
-export function EmotionButtonGroup({options, value, onChange, onMaxSelected, maxSelected, disabled, className}: Props) {
+export function EmotionButtonGroup({value, onChange, onMaxSelected, maxSelected, disabled}: Props) {
+  const tGuestbook = useTranslations('Guestbook');
+  const options = useMemo<EmotionOption[]>(
+    () =>
+      BASE_EMOTIONS.map((emotion) => ({
+        ...emotion,
+        label: tGuestbook(EMOTION_LABEL_KEYS[emotion.code]),
+      })),
+    [tGuestbook],
+  );
+
   const handleToggle = (code: EmotionCode) => {
     if (disabled) return;
     const current = value ?? [];
@@ -34,7 +43,7 @@ export function EmotionButtonGroup({options, value, onChange, onMaxSelected, max
   };
 
   return (
-    <div className={cn('grid grid-cols-2 gap-2 sm:grid-cols-3', className)}>
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
       {options.map((option) => (
         <EmotionButton
           key={option.code}

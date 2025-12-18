@@ -78,6 +78,34 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
+  --silk-bg-base: #f5f7fb;
+  --silk-bg-layers:
+    radial-gradient(
+      68% 48% at 18% 12%,
+      rgba(238, 196, 116, 0.36) 0%,
+      rgba(238, 196, 116, 0.18) 32%,
+      rgba(238, 196, 116, 0) 58%
+    ),
+    radial-gradient(
+      122% 90% at 52% 56%,
+      rgba(150, 158, 175, 0.3) 0%,
+      rgba(150, 158, 175, 0.16) 52%,
+      rgba(150, 158, 175, 0) 78%
+    ),
+    radial-gradient(
+      68% 50% at 22% 86%,
+      rgba(196, 86, 82, 0.26) 0%,
+      rgba(196, 86, 82, 0.12) 36%,
+      rgba(196, 86, 82, 0) 64%
+    ),
+    radial-gradient(
+      54% 52% at 88% 30%,
+      rgba(112, 160, 172, 0.24) 0%,
+      rgba(112, 160, 172, 0.12) 36%,
+      rgba(112, 160, 172, 0) 62%
+    );
+  --silk-bg-overlay: rgba(255, 255, 255, 0.24);
+  --silk-bg-saturation: 1.08;
 }
 
 .dark {
@@ -112,6 +140,17 @@
   --sidebar-accent-foreground: oklch(0.96 0.01 285.823);
   --sidebar-border: oklch(0.965 0.01 285.823 / 12%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+  --silk-bg-base: #05070f;
+  --silk-bg-layers:
+    radial-gradient(32% 30% at 10% 70%, rgba(121, 101, 192, 0.8) 0%, rgba(83, 65, 146, 0.4) 40%, rgba(0, 0, 0, 0) 80%),
+    radial-gradient(
+      52% 50% at 90% 32%,
+      rgba(65, 126, 136, 0.36) 0%,
+      rgba(65, 126, 136, 0.18) 38%,
+      rgba(65, 126, 136, 0) 66%
+    );
+  --silk-bg-overlay: rgba(0, 0, 0, 0.4);
+  --silk-bg-saturation: 0.8;
 }
 
 @layer base {
@@ -130,48 +169,67 @@
 
 @layer components {
   .glass-card {
-    /* Light theme: dark-tinted "sunglasses" glass */
-    @apply relative overflow-hidden rounded-2xl border border-black/20 bg-black/15 shadow-[0_14px_40px_-25px_rgba(0,0,0,0.18)] backdrop-blur-xl;
-    /* Dark theme: keep previous look */
-    @apply dark:border-white/10 dark:bg-white/6 dark:shadow-[0_14px_40px_-25px_rgba(0,0,0,0.8)];
+    /* Frosted, translucent surface */
+    @apply relative overflow-hidden rounded-2xl border border-white/15 bg-white/10 backdrop-blur-2xl text-foreground shadow-[0_18px_48px_-28px_rgba(0,0,0,0.45)];
+    @apply dark:border-white/12 dark:bg-white/8 dark:shadow-[0_18px_48px_-28px_rgba(0,0,0,0.65)];
   }
   .glass-card::before {
     content: '';
-    @apply pointer-events-none absolute inset-[-25%];
+    @apply pointer-events-none absolute inset-[-15%];
     background:
-      radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.12), transparent 40%),
-      radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.08), transparent 35%);
-    filter: blur(40px);
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.2), transparent 45%),
+      radial-gradient(circle at 80% 15%, rgba(255, 255, 255, 0.12), transparent 40%);
+    filter: blur(30px);
+    opacity: 0.7;
   }
   .glass-card::after {
     content: '';
     @apply pointer-events-none absolute inset-0 rounded-[inherit];
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
   }
 
   .glass-button {
-    /* Light theme: dark-tinted button glass */
-    @apply relative overflow-hidden rounded-xl border border-black/25 bg-black/18 text-foreground shadow-[0_14px_36px_-18px_rgba(0,0,0,0.18)] backdrop-blur-xl transition;
-    /* Dark theme: keep previous look */
-    @apply dark:border-white/15 dark:bg-white/12 dark:text-foreground dark:shadow-[0_14px_36px_-18px_rgba(59,130,246,0.4)];
+    /* Simplified button surface without glass/blur */
+    @apply relative overflow-hidden rounded-xl border border-border bg-card text-foreground shadow-sm transition;
   }
   .glass-button::before {
-    content: '';
-    @apply pointer-events-none absolute inset-0;
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0)),
-      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.16), transparent 32%);
-    opacity: 0.9;
+    content: none;
   }
   .glass-button:hover {
-    @apply border-black/35 bg-black/22 dark:border-white/40 dark:bg-white/18;
+    @apply border-border bg-accent/40;
   }
   .glass-button:active {
     @apply scale-[0.99];
   }
-  .glass-overlay {
-    /* Keep the silk background visible; use a simple dim overlay with blur. */
-    @apply fixed inset-0 z-40 bg-black/60 dark:bg-black/70 backdrop-blur-md;
+
+  /* Text Ellipsis Utilities */
+  .ellipsis {
+    @apply overflow-hidden whitespace-nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .ellipsis-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    word-break: break-word;
+  }
+
+  .ellipsis-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    word-break: break-word;
+  }
+
+  .ellipsis-4 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    word-break: break-word;
   }
 }
 /* Safe Area Insets for Mobile Browsers */
