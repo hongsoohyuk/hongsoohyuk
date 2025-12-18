@@ -1,2 +1,2 @@
 export type {EntriesText} from './model/types';
-export {GuestbookWidget} from './ui/GuestbookWidget';
+export {GuestbookWidget as GuestbookWidget} from './ui/GuestbookWidget';

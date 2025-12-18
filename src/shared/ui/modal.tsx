@@ -1,10 +1,9 @@
 'use client';
 
-import { useDomReady } from '@/shared/lib/hooks/use-dom-ready';
-import GlassSurface from '@/shared/ui/GlassSurface';
+import {useDomReady} from '@/shared/lib/hooks/use-dom-ready';
 import clsx from 'clsx';
-import { MouseEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
+import {MouseEvent, ReactNode, useCallback, useEffect, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 
 interface ModalProps {
   open: boolean;
@@ -115,25 +114,7 @@ export function Modal({open, onClose, children, labelledBy, describedBy}: ModalP
           data-state={animationState}
           className="w-full"
         >
-          <GlassSurface
-            width="100%"
-            height="100%"
-            borderRadius={20}
-            backgroundOpacity={0.08}
-            blur={14}
-            saturation={1.2}
-            brightness={55}
-            contentClassName="relative z-10 flex h-full w-full flex-col rounded-[inherit] p-0"
-            className={clsx(
-              // Use a flex column layout so header/footer stay put and only the body scrolls.
-              'flex w-full flex-col overflow-hidden shadow-2xl outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background safe-area-inset-bottom',
-              animationState === 'open' ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
-            )}
-            // Make the panel height deterministic so children can use `flex-1 min-h-0`.
-            style={{height: 'min(92dvh, 90vh)', maxHeight: 'min(92dvh, 90vh)'}}
-          >
-            {children}
-          </GlassSurface>
+          {children}
         </div>
       </div>
     </>,
