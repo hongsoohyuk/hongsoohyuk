@@ -1,1 +1,1 @@
-export {Page as default, generateMetadata} from '@/pages/guestbook';
+export {GuestbookPage as default, generateMetadata} from '@/pages/guestbook/page';

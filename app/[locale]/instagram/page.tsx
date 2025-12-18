@@ -1,7 +1,7 @@
-import {EmptyState, ProfileCard} from './_components';
 import {getInstagramMediaServer, getInstagramProfileServer, InstagramMedia} from '@/entities/instagram';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {ProfileCard} from './_components';
 import InstagramFeed from './sections/InstagramFeed';
 
 export const dynamic = 'force-dynamic';
@@ -33,25 +33,19 @@ export default async function InstagramPage({params}: Props) {
   const after = mediaResponse.paging?.cursors?.after;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        {profile && (
-          <ProfileCard
-            profilePictureUrl={profile.profile_picture_url ?? ''}
-            username={profile.username ?? 'User'}
-            biography={profile.biography}
-            mediaCount={profile.media_count}
-            followersCount={profile.followers_count}
-            followsCount={profile.follows_count}
-          />
-        )}
+    <div className="container mx-auto px-4 py-8 max-w-4xl mx-auto flex flex-col gap-8">
+      {profile && (
+        <ProfileCard
+          profilePictureUrl={profile.profile_picture_url ?? ''}
+          username={profile.username ?? 'User'}
+          biography={profile.biography}
+          mediaCount={profile.media_count}
+          followersCount={profile.followers_count}
+          followsCount={profile.follows_count}
+        />
+      )}
 
-        {posts.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <InstagramFeed initialItems={posts} initialAfter={after} pageSize={12} />
-        )}
-      </div>
+      <InstagramFeed initialItems={posts} initialAfter={after} pageSize={12} />
     </div>
   );
 }

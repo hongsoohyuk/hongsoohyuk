@@ -9,6 +9,7 @@ import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
+import {cookies} from 'next/headers';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -75,9 +76,12 @@ export default async function LocaleLayout({children, params}: Props) {
   setRequestLocale(locale);
 
   const messages = await getMessages();
+  const cookieStore = await cookies();
+  const themeCookie = cookieStore.get('theme')?.value;
+  const initialThemeClass = themeCookie === 'dark' ? 'dark' : themeCookie === 'light' ? 'light' : undefined;
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} className={initialThemeClass} suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>
