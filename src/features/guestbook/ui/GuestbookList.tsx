@@ -1,11 +1,5 @@
-import {
-  EMOTION_LABEL_KEYS,
-  EMOTION_MAP,
-  EmotionCode,
-  fetchGuestbookList,
-  GuestbookEntriesResponse,
-  QueryKeyFactory,
-} from '@/entities/guestbook';
+import {useEmotionEnum} from '@/entities/emotion/lib/useEmotionEnum';
+import {fetchGuestbookList, GuestbookEntriesResponse, QueryKeyFactory} from '@/entities/guestbook';
 import {parsePositiveInt} from '@/shared/lib/number';
 import {Badge} from '@/shared/ui/badge';
 import {Item, ItemContent, ItemHeader, ItemSeparator, ItemTitle} from '@/shared/ui/item';
@@ -41,7 +35,7 @@ export function GuestbookList({initialData}: {initialData?: GuestbookEntriesResp
 function GuestbookItem({entry}: {entry: GuestbookEntriesResponse['entries'][number]}) {
   const t = useTranslations('Guestbook');
   const format = useFormatter();
-
+  const {getLabel, getEmoji} = useEmotionEnum();
   return (
     <Item className="px-0">
       <ItemHeader className="flex items-center justify-between">
@@ -50,17 +44,14 @@ function GuestbookItem({entry}: {entry: GuestbookEntriesResponse['entries'][numb
           {
             <div className="flex flex-wrap gap-2">
               {entry.emotions?.map((emotion) => {
-                const option = EMOTION_MAP[emotion as EmotionCode];
-                const labelKey = EMOTION_LABEL_KEYS[emotion as EmotionCode];
-                if (!option || !labelKey) return null;
-                const label = t(labelKey);
+                const label = getLabel(emotion);
                 return (
                   <Badge
                     key={`${entry.id}-${emotion}`}
                     variant="secondary"
                     className="bg-white/60 text-blue-700 shadow-sm backdrop-blur-sm dark:bg-white/10 dark:text-blue-100"
                   >
-                    <span className="mr-1">{option.emoji}</span>
+                    <span className="mr-1">{getEmoji(emotion)}</span>
                     {label}
                   </Badge>
                 );

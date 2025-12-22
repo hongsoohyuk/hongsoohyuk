@@ -179,28 +179,19 @@
         "turnstile": "Please complete the verification."
       }
     },
-    "emotions": {
-      "LIKE": {"label": "I like this"},
-      "INSPIRATION": {"label": "Inspired"},
-      "NICE": {"label": "So kind"},
-      "HELLO": {"label": "Just saying hi"},
-      "FUN": {"label": "Fun energy"},
-      "THANK": {"label": "Thank you"}
-    },
-    "tags": {
-      "designSystem": "Design systems",
-      "mentoring": "Mentoring",
-      "studyBuddy": "Study buddy",
-      "careerChange": "Career change",
-      "remoteWork": "Remote work",
-      "openSource": "Open source",
-      "coffeeChat": "Coffee chat"
-    },
     "form": {
       "name": "Name",
       "message": "Message",
       "submit": "Submit"
     }
+  },
+  "Emotion": {
+    "like": {"label": "I like this"},
+    "inspiration": {"label": "Inspired"},
+    "nice": {"label": "So kind"},
+    "hello": {"label": "Just saying hi"},
+    "fun": {"label": "Fun energy"},
+    "thank": {"label": "Thank you"}
   },
   "Portfolio": {
     "title": "Portfolio",
