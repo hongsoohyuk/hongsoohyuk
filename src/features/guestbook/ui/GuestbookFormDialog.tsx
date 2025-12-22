@@ -2,6 +2,7 @@
 
 import {EmotionCode} from '@/entities/guestbook';
 import {EmotionButtonGroup} from '@/features/guestbook/ui/EmotionButtonGroup';
+import {useTurnstile} from '@/shared/turnstile';
 import {Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Textarea} from '@/shared/ui';
 import {
   Dialog,
@@ -14,18 +15,15 @@ import {
 } from '@/shared/ui/dialog';
 import {Label} from '@/shared/ui/label';
 import {useTranslations} from 'next-intl';
+import {useCallback, useState} from 'react';
 import {useController, useForm} from 'react-hook-form';
-import {useState} from 'react';
 import {useGuestbookSubmit} from '../hooks/useGuestbookSubmit';
-import {useTurnstile} from '../hooks/useTurnstile';
+import {TURNSTILE_SITE_KEY} from '../lib/turnstile-constants';
 import {FormValues} from '../model/types';
 
 type Props = {
   onSubmitted?: () => void;
 };
-
-const GLASS_SECTION_CLASS =
-  'rounded-2xl border border-black/20 bg-black/10 shadow-[0_18px_50px_-30px_rgba(0,0,0,0.18)] backdrop-blur-xl dark:border-white/10 dark:bg-white/6 dark:shadow-[0_18px_50px_-30px_rgba(0,0,0,0.6)]';
 
 export function GuestbookFormDialog({onSubmitted}: Props) {
   const t = useTranslations('Guestbook');
@@ -60,14 +58,33 @@ export function GuestbookFormDialog({onSubmitted}: Props) {
     errorMessage: t('formSection.status.error'),
   });
 
-  // Turnstile integration
-  const {scriptReady, containerRef, siteKey} = useTurnstile({
-    setValue,
-    clearErrors,
-    setError,
-    errorMessage: t('formSection.validation.turnstile'),
-    onStatusChange: (status) => setFormStatus(status),
+  // Turnstile integration - directly using shared hook
+  const handleTurnstileSuccess = useCallback(
+    (token: string) => {
+      setValue('turnstileToken', token, {shouldValidate: true});
+      clearErrors('turnstileToken');
+      setFormStatus(null);
+    },
+    [clearErrors, setValue, setFormStatus],
+  );
+
+  const handleTurnstileExpired = useCallback(() => {
+    setValue('turnstileToken', '');
+    setError('turnstileToken', {type: 'expired', message: t('formSection.validation.turnstile')});
+  }, [setError, setValue, t]);
+
+  const handleTurnstileError = useCallback(() => {
+    setValue('turnstileToken', '');
+    setError('turnstileToken', {type: 'manual', message: t('formSection.validation.turnstile')});
+  }, [setError, setValue, t]);
+
+  const {scriptReady, containerRef} = useTurnstile({
+    sitekey: TURNSTILE_SITE_KEY || '',
     enabled: open,
+    theme: 'auto',
+    onSuccess: handleTurnstileSuccess,
+    onExpired: handleTurnstileExpired,
+    onError: handleTurnstileError,
   });
 
   const selectedEmotions = (emotionsField.value as EmotionCode[] | undefined) ?? [];
@@ -169,7 +186,7 @@ export function GuestbookFormDialog({onSubmitted}: Props) {
             </CardHeader>
             <CardContent>
               <div ref={containerRef} className="min-h-16">
-                {!siteKey ? (
+                {!TURNSTILE_SITE_KEY ? (
                   <span>Set NEXT_PUBLIC_TURNSTILE_SITE_KEY to enable verification.</span>
                 ) : !scriptReady ? (
                   <span>{t('formSection.securityHelper')}</span>

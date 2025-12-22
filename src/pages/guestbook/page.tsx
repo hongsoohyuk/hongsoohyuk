@@ -1,24 +1,13 @@
 import {GuestbookEntriesResponse} from '@/entities/guestbook';
 import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
 import {GuestbookWidget} from '@/widgets/guestbook';
-import {Metadata} from 'next';
-import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {setRequestLocale} from 'next-intl/server';
 import {headers} from 'next/headers';
 
 type Props = {
   params: Promise<{locale: string}>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
-
-export async function generateMetadata({params}: Props): Promise<Metadata> {
-  const {locale} = await params;
-  const t = await getTranslations({locale, namespace: 'Guestbook'});
-
-  return {
-    title: t('title'),
-    description: t('description'),
-  };
-}
 
 export async function GuestbookPage({params, searchParams}: Props) {
   const {locale} = await params;
@@ -30,10 +19,8 @@ export async function GuestbookPage({params, searchParams}: Props) {
   const totalPages = Math.max(1, initialData?.pagination.totalPages ?? 1);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto flex max-w-3xl flex-col gap-8">
-        <GuestbookWidget initialData={initialData} totalPages={totalPages} />
-      </div>
+    <div className="mx-auto flex max-w-3xl flex-col gap-8">
+      <GuestbookWidget initialData={initialData} totalPages={totalPages} />
     </div>
   );
 }

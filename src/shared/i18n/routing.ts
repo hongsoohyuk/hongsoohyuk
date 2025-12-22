@@ -15,7 +15,6 @@ export const routing = defineRouting({
   localePrefix: 'as-needed',
 
   // Keep default locale stable for unprefixed routes.
-  // (So `/instagram` always means ko, not browser-dependent.)
   localeDetection: false,
 });
 
