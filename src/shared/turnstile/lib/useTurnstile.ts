@@ -1,245 +1,200 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+'use client';
 
-/**
- * Turnstile Render Options
- * Based on Cloudflare Turnstile API
- * @see https://developers.cloudflare.com/turnstile/
- */
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {TURNSTILE_SITE_KEY} from '../config/constant';
+
 export type TurnstileRenderOptions = {
   sitekey: string;
   theme?: 'light' | 'dark' | 'auto';
   size?: 'normal' | 'compact' | 'flexible';
-  action?: string;
-  cData?: string;
-  callback?: (token: string) => void; // eslint-disable-line no-unused-vars
-  'expired-callback'?: () => void;
-  'error-callback'?: (errorCode?: string) => void; // eslint-disable-line no-unused-vars
-  'timeout-callback'?: () => void;
-  'before-interactive-callback'?: () => void;
-  'after-interactive-callback'?: () => void;
-  'unsupported-callback'?: () => void;
+  callback?(token: string): void;
+  'expired-callback'?(): void;
+  'error-callback'?(errorCode?: string): void;
+  'timeout-callback'?(): void;
 };
 
-/**
- * Turnstile API Global Interface
- */
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (element: HTMLElement | string, options: TurnstileRenderOptions) => string; // eslint-disable-line no-unused-vars
-      reset: (widgetId: string) => void; // eslint-disable-line no-unused-vars
-      remove: (widgetId: string) => void; // eslint-disable-line no-unused-vars
-      getResponse: (widgetId: string) => string | undefined; // eslint-disable-line no-unused-vars
-      isExpired: (widgetId: string) => boolean; // eslint-disable-line no-unused-vars
-      execute: (container: HTMLElement | string, options?: Partial<TurnstileRenderOptions>) => void; // eslint-disable-line no-unused-vars
-      ready: (callback: () => void) => void; // eslint-disable-line no-unused-vars
-    };
-  }
-}
-
-/**
- * Turnstile Script Source
- */
-export const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-export const TURNSTILE_SCRIPT_ID = 'cf-turnstile-script';
-
-/**
- * useTurnstile Hook Options
- */
 export type UseTurnstileOptions = {
-  sitekey: string;
-  enabled?: boolean;
   theme?: 'light' | 'dark' | 'auto';
   size?: 'normal' | 'compact' | 'flexible';
-  action?: string;
-  cData?: string;
-  onSuccess?: (token: string) => void; // eslint-disable-line no-unused-vars
-  onExpired?: () => void;
-  onError?: (errorCode?: string) => void; // eslint-disable-line no-unused-vars
-  onTimeout?: () => void;
+  onSuccess?(token: string): void;
+  onExpired?(): void;
+  onError?(errorCode?: string): void;
+  onTimeout?(): void;
 };
 
-/**
- * useTurnstile Hook
- *
- * Manages Turnstile widget lifecycle following FSD principles.
- * Handles script loading, widget rendering, and cleanup.
- *
- * Based on Cloudflare Turnstile documentation:
- * @see https://developers.cloudflare.com/turnstile/
- *
- * @param options - Configuration options for Turnstile
- * @returns Object containing containerRef, scriptReady state, and widget management functions
- *
- * @example
- * ```tsx
- * const { containerRef, scriptReady, reset } = useTurnstile({
- *   sitekey: 'your-site-key',
- *   onSuccess: (token) => console.log('Token:', token),
- *   enabled: true
- * });
- *
- * return <div ref={containerRef} />;
- * ```
- */
+export const TURNSTILE_SCRIPT_ID = 'cf-turnstile-script';
+export const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+
+interface TurnstileWindow extends Window {
+  turnstile?: {
+    render: (container: HTMLElement, options: TurnstileRenderOptions) => string;
+    reset: (widgetId: string) => void;
+    remove: (widgetId: string) => void;
+    getResponse: (widgetId?: string) => string | undefined;
+    isExpired: (widgetId?: string) => boolean;
+  };
+}
+
+export type TurnstileError = {
+  code?: string;
+  message: string;
+} | null;
+
 export function useTurnstile({
-  sitekey,
-  enabled = true,
   theme = 'auto',
-  size = 'normal',
-  action,
-  cData,
+  size = 'flexible',
   onSuccess,
   onExpired,
   onError,
   onTimeout,
 }: UseTurnstileOptions) {
-  const [scriptReady, setScriptReady] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
-  const isRenderingRef = useRef(false);
-
-  // Memoize callbacks to prevent unnecessary re-renders
-  const callbacksRef = useRef({onSuccess, onExpired, onError, onTimeout});
+  const [scriptReady, setScriptReady] = useState(false);
+  const [error, setError] = useState<TurnstileError>(null);
 
   useEffect(() => {
-    callbacksRef.current = {onSuccess, onExpired, onError, onTimeout};
-  }, [onSuccess, onExpired, onError, onTimeout]);
+    if (!TURNSTILE_SITE_KEY) return;
 
-  /**
-   * Load Turnstile script
-   * Follows the pattern from Cloudflare documentation for explicit rendering
-   */
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    // Check if script already loaded
-    if (window.turnstile) {
-      setScriptReady(true);
+    const existingScript = document.getElementById(TURNSTILE_SCRIPT_ID);
+    if (existingScript) {
+      if ((window as TurnstileWindow).turnstile) {
+        setScriptReady(true);
+      }
       return;
     }
 
-    // Check if script element already exists
-    const existing = document.getElementById(TURNSTILE_SCRIPT_ID) as HTMLScriptElement | null;
-    if (existing) {
-      existing.addEventListener('load', () => setScriptReady(true), {once: true});
-      return;
-    }
-
-    // Create and load script
     const script = document.createElement('script');
+    script.id = TURNSTILE_SCRIPT_ID;
     script.src = TURNSTILE_SCRIPT_SRC;
     script.async = true;
     script.defer = true;
-    script.id = TURNSTILE_SCRIPT_ID;
-    script.addEventListener('load', () => setScriptReady(true));
-    script.addEventListener('error', () => {
-      console.error('[Turnstile] Failed to load script');
-    });
 
-    document.body.appendChild(script);
+    script.onload = () => {
+      setScriptReady(true);
+      setError(null);
+    };
+
+    script.onerror = () => {
+      const scriptError: TurnstileError = {
+        code: 'script_load_failed',
+        message: 'Failed to load Turnstile script. Please check your internet connection.',
+      };
+      setError(scriptError);
+      onError?.('script_load_failed');
+    };
+
+    document.head.appendChild(script);
 
     return () => {
-      // Don't remove script on unmount as it may be used by other components
+      document.head.removeChild(script);
     };
-  }, []);
+  }, [onError]);
 
-  /**
-   * Render Turnstile widget
-   * Implements explicit rendering pattern from Cloudflare documentation
-   */
   useEffect(() => {
-    // Don't render if disabled
-    if (!enabled) {
-      if (widgetIdRef.current && window.turnstile?.remove) {
-        window.turnstile.remove(widgetIdRef.current);
-        widgetIdRef.current = null;
-      }
-      isRenderingRef.current = false;
-      return;
-    }
+    if (!scriptReady || !TURNSTILE_SITE_KEY || !ref.current) return;
 
-    // Wait for prerequisites
-    if (!scriptReady || !containerRef.current || !sitekey) return;
-    if (!window.turnstile) return;
-    if (widgetIdRef.current || isRenderingRef.current) return;
+    const turnstile = (window as TurnstileWindow).turnstile;
+    if (!turnstile) return;
 
-    isRenderingRef.current = true;
+    setError(null);
 
     try {
-      // Render widget with callbacks
-      widgetIdRef.current = window.turnstile.render(containerRef.current, {
-        sitekey,
+      const widgetId = turnstile.render(ref.current, {
+        sitekey: TURNSTILE_SITE_KEY,
         theme,
         size,
-        action,
-        cData,
         callback: (token: string) => {
-          callbacksRef.current.onSuccess?.(token);
+          setError(null);
+          onSuccess?.(token);
         },
         'expired-callback': () => {
-          callbacksRef.current.onExpired?.();
+          const expiredError: TurnstileError = {
+            code: 'expired',
+            message: 'Verification expired. Please try again.',
+          };
+          setError(expiredError);
+          onExpired?.();
         },
         'error-callback': (errorCode?: string) => {
-          callbacksRef.current.onError?.(errorCode);
+          const errorMessages: Record<string, string> = {
+            'invalid-input-response': 'Invalid verification response. Please try again.',
+            'invalid-input-secret': 'Invalid site key. Please contact support.',
+            'timeout-or-duplicate': 'Verification timeout or duplicate. Please try again.',
+            'internal-error': 'Internal error occurred. Please try again later.',
+          };
+
+          const errorMessage =
+            errorCode && errorMessages[errorCode] ? errorMessages[errorCode] : 'Verification failed. Please try again.';
+
+          const turnstileError: TurnstileError = {
+            code: errorCode,
+            message: errorMessage,
+          };
+          setError(turnstileError);
+          onError?.(errorCode);
         },
         'timeout-callback': () => {
-          callbacksRef.current.onTimeout?.();
+          const timeoutError: TurnstileError = {
+            code: 'timeout',
+            message: 'Verification timeout. Please try again.',
+          };
+          setError(timeoutError);
+          onTimeout?.();
         },
       });
-    } catch (error) {
-      console.error('[Turnstile] Render error:', error);
-      isRenderingRef.current = false;
-    }
-  }, [enabled, scriptReady, sitekey, theme, size, action, cData]);
 
-  /**
-   * Cleanup on unmount
-   */
-  useEffect(() => {
+      widgetIdRef.current = widgetId;
+    } catch (renderError) {
+      const renderErrorState: TurnstileError = {
+        code: 'render_failed',
+        message: 'Failed to render Turnstile widget. Please refresh the page.',
+      };
+      setError(renderErrorState);
+      onError?.('render_failed');
+    }
+
     return () => {
-      if (widgetIdRef.current && window.turnstile?.remove) {
-        window.turnstile.remove(widgetIdRef.current);
+      if (widgetIdRef.current && turnstile) {
+        try {
+          turnstile.remove(widgetIdRef.current);
+        } catch (removeError) {
+          console.error('Failed to remove Turnstile widget:', removeError);
+        }
         widgetIdRef.current = null;
       }
-      isRenderingRef.current = false;
     };
+  }, [scriptReady, ref]);
+
+  const resetError = useCallback(() => {
+    setError(null);
   }, []);
 
-  /**
-   * Reset widget
-   * Useful for form resubmission scenarios
-   */
   const reset = useCallback(() => {
-    if (widgetIdRef.current && window.turnstile?.reset) {
-      window.turnstile.reset(widgetIdRef.current);
+    const turnstile = (window as TurnstileWindow).turnstile;
+    if (turnstile && widgetIdRef.current) {
+      turnstile.reset(widgetIdRef.current);
+      setError(null);
     }
   }, []);
 
-  /**
-   * Get current token without callback
-   */
-  const getResponse = useCallback(() => {
-    if (widgetIdRef.current && window.turnstile?.getResponse) {
-      return window.turnstile.getResponse(widgetIdRef.current);
-    }
-    return undefined;
+  const getResponse = useCallback((widgetId?: string) => {
+    const turnstile = (window as TurnstileWindow).turnstile;
+    if (!turnstile) return undefined;
+    return turnstile.getResponse(widgetId || widgetIdRef.current || undefined);
   }, []);
 
-  /**
-   * Check if token is expired
-   */
-  const isExpired = useCallback(() => {
-    if (widgetIdRef.current && window.turnstile?.isExpired) {
-      return window.turnstile.isExpired(widgetIdRef.current);
-    }
-    return false;
+  const isExpired = useCallback((widgetId?: string) => {
+    const turnstile = (window as TurnstileWindow).turnstile;
+    if (!turnstile) return true;
+    return turnstile.isExpired(widgetId || widgetIdRef.current || undefined);
   }, []);
 
   return {
-    containerRef,
+    ref,
     scriptReady,
-    widgetId: widgetIdRef.current,
+    error,
+    resetError,
     reset,
     getResponse,
     isExpired,
