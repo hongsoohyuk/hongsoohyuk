@@ -1,65 +1,19 @@
 import {ClientProviders} from '@/app/providers/client-providers';
-import {SITE_CONFIG} from '@/shared/config/site';
+import {baseMetadata, getFontClassNames} from '@/shared/config';
 import {routing} from '@/shared/i18n/routing';
+import {ThemeScript} from '@/shared/theme/config/theme-script';
+import {TURNSTILE_SCRIPT_ID, TURNSTILE_SCRIPT_SRC} from '@/shared/turnstile';
 import {Footer} from '@/shared/ui/layout/footer';
 import {Header} from '@/shared/ui/layout/header';
 import {SilkBackground} from '@/shared/ui/silk-background';
-import {ThemeScript} from '@/shared/ui/theme-script';
 import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
-import {Geist, Geist_Mono} from 'next/font/google';
 import {cookies} from 'next/headers';
+import Script from 'next/script';
 import '../globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
-export const metadata: Metadata = {
-  title: {
-    default: SITE_CONFIG.name,
-    template: `%s | ${SITE_CONFIG.name}`,
-  },
-  description: SITE_CONFIG.description,
-  keywords: ['포트폴리오', '개인사이트', '개발자', '프론트엔드', 'Next.js', 'Portfolio', 'Developer'],
-  authors: [{name: '홍수혁'}],
-  creator: '홍수혁',
-  icons: {
-    icon: '/favicon.png',
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'ko_KR',
-    url: SITE_CONFIG.url,
-    title: SITE_CONFIG.name,
-    description: SITE_CONFIG.description,
-    siteName: SITE_CONFIG.name,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: SITE_CONFIG.name,
-    description: SITE_CONFIG.description,
-    creator: '@hongsoohyuk',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-};
+export const metadata: Metadata = baseMetadata;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
@@ -84,8 +38,9 @@ export default async function LocaleLayout({children, params}: Props) {
     <html lang={locale} className={initialThemeClass} suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <Script id={TURNSTILE_SCRIPT_ID} src={TURNSTILE_SCRIPT_SRC} strategy="beforeInteractive" defer async />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background font-sans`}>
+      <body className={`${getFontClassNames()} antialiased min-h-screen bg-background font-sans`}>
         <NextIntlClientProvider messages={messages}>
           <ClientProviders>
             <SilkBackground />
