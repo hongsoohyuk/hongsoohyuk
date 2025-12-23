@@ -33,7 +33,6 @@ export function GuestbookList({initialData}: {initialData?: GuestbookEntriesResp
 }
 
 function GuestbookItem({entry}: {entry: GuestbookEntriesResponse['entries'][number]}) {
-  const t = useTranslations('Guestbook');
   const format = useFormatter();
   const {getLabel, getEmoji} = useEmotionEnum();
   return (

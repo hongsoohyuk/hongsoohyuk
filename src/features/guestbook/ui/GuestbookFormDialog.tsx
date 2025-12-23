@@ -1,7 +1,10 @@
 'use client';
 
 import {Turnstile} from '@/shared/turnstile';
-import {Button, Card, CardContent, Input, Textarea} from '@/shared/ui';
+import {Button} from '@/shared/ui/button';
+import {Card, CardContent} from '@/shared/ui/card';
+import {Input} from '@/shared/ui/input';
+import {Textarea} from '@/shared/ui/textarea';
 import {
   Dialog,
   DialogClose,

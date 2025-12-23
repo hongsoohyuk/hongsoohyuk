@@ -37,3 +37,8 @@ export interface InstagramProfile {
   profile_picture_url?: string;
   name?: string;
 }
+
+export interface InstagramFeedOptions {
+  initialItems?: InstagramMedia[];
+  initialAfter?: string;
+}

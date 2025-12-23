@@ -1,10 +1,8 @@
-import {getInstagramMediaServer, getInstagramProfileServer, InstagramMedia} from '@/entities/instagram';
+import {getInitialInstagramPostList, getInitialInstagramProfile, InstagramMedia} from '@/entities/instagram';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
-import {ProfileCard} from './_components';
-import InstagramFeed from './sections/InstagramFeed';
-
-export const dynamic = 'force-dynamic';
+import {ProfileCard, InstagramFeed} from '@/widgets/instagram';
+import {DEFAULT_LIMIT} from '@/entities/instagram/config/constant';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -24,28 +22,18 @@ export default async function InstagramPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const [mediaResponse, profile] = await Promise.all([
-    getInstagramMediaServer({limit: 12}),
-    getInstagramProfileServer(),
+  const [mediaList, profile] = await Promise.all([
+    getInitialInstagramPostList({limit: DEFAULT_LIMIT}),
+    getInitialInstagramProfile(),
   ]);
 
-  const posts: InstagramMedia[] = mediaResponse.data ?? [];
-  const after = mediaResponse.paging?.cursors?.after;
+  const posts: InstagramMedia[] = mediaList.data ?? [];
+  const after = mediaList.paging?.cursors?.after;
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl mx-auto flex flex-col gap-8">
-      {profile && (
-        <ProfileCard
-          profilePictureUrl={profile.profile_picture_url ?? ''}
-          username={profile.username ?? 'User'}
-          biography={profile.biography}
-          mediaCount={profile.media_count}
-          followersCount={profile.followers_count}
-          followsCount={profile.follows_count}
-        />
-      )}
-
-      <InstagramFeed initialItems={posts} initialAfter={after} pageSize={12} />
+      <ProfileCard profile={profile} />
+      <InstagramFeed initialItems={posts} initialAfter={after} />
     </div>
   );
 }

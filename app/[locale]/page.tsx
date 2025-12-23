@@ -1,6 +1,7 @@
 import {Link} from '@/shared/i18n/routing';
-import {Button, Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui';
 import {HeroTitle} from '@/widgets/home';
+import {Button} from '@/shared/ui/button';
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui/card';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 type Props = {

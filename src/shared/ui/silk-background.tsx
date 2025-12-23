@@ -11,7 +11,7 @@ const DEFAULT_ROTATION = 0.08;
 export function SilkBackground() {
   const isDark = useDarkMode();
 
-  const resolvedColor = isDark ? '#505050' : '#e9e9e9';
+  const resolvedColor = isDark ? '#606060' : '#EEEEEE';
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-20">
