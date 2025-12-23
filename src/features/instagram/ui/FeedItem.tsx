@@ -1,0 +1,80 @@
+'use client';
+
+import {InstagramMedia} from '@/entities/instagram';
+import Image from 'next/image';
+import {AspectRatio} from '@/shared/ui/aspect-ratio';
+import {Dialog, DialogContent, DialogFooter, DialogTitle, DialogHeader, DialogTrigger} from '@/shared/ui/dialog';
+import {PostMediaViewer} from './PostMediaViewer';
+import {formatDateTime} from '@/shared/lib/date/utils';
+import {useFormatter} from 'next-intl';
+
+interface Props {
+  post: InstagramMedia;
+  onSelect?: (post: InstagramMedia) => void;
+}
+
+export function FeedItem({post, onSelect}: Props) {
+  const format = useFormatter();
+
+  const imageSrc = post.media_type === 'VIDEO' ? (post.thumbnail_url ?? post.media_url) : post.media_url;
+  const imageAlt = post.caption || `Instagram post by ${post.username || 'user'}`;
+  const handleSelect = () => {
+    onSelect?.(post);
+  };
+
+  return (
+    <Dialog>
+      <article aria-label={imageAlt}>
+        <DialogTrigger asChild>
+          <button
+            type="button"
+            onClick={handleSelect}
+            className="group relative block w-full cursor-pointer overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <AspectRatio ratio={4 / 5} className="relative w-full bg-muted">
+              <Image
+                fill
+                src={imageSrc}
+                alt={imageAlt}
+                loading="lazy"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+              <FeedOverlay likeCount={post.like_count} commentsCount={post.comments_count} />
+            </AspectRatio>
+          </button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {post.timestamp
+                ? format.dateTime(new Date(post.timestamp), {dateStyle: 'medium', timeStyle: 'short'})
+                : 'Unknown timestamp'}
+            </DialogTitle>
+          </DialogHeader>
+          <PostMediaViewer post={post} />
+        </DialogContent>
+        <DialogFooter>
+          {/* <EngagementSummary likeCount={likeCount} commentsCount={commentsCount} isReel={isReel} /> */}
+        </DialogFooter>
+      </article>
+    </Dialog>
+  );
+}
+
+function FeedOverlay({likeCount = 0, commentsCount = 0}: {likeCount?: number; commentsCount?: number}) {
+  return (
+    <>
+      <div
+        className="pointer-events-none absolute inset-0 bg-black/0 opacity-0 transition-opacity duration-200 group-hover:bg-black/40 group-hover:opacity-100"
+        aria-hidden="true"
+      />
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <div className="flex items-center gap-4 text-white font-semibold text-sm" role="group">
+          <span aria-label={`${likeCount} likes`}>❤️ {likeCount.toLocaleString()}</span>
+          <span aria-label={`${commentsCount} comments`}>💬 {commentsCount.toLocaleString()}</span>
+        </div>
+      </div>
+    </>
+  );
+}

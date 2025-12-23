@@ -1,12 +1,13 @@
 'use client';
 
-import {Button, Modal} from '@/shared/ui';
+import {Button} from '@/shared/ui/button';
 import {InstagramMedia} from '@/entities/instagram';
 import clsx from 'clsx';
 import {Heart, MessageCircle, PlayCircle, X} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 import {memo, ReactNode} from 'react';
 import {PostMediaViewer} from './PostMediaViewer';
+import {Dialog} from '@/shared/ui/dialog';
 
 interface PostDetailModalProps {
   post: InstagramMedia | null;
@@ -31,10 +32,10 @@ export const PostDetailModal = memo(function PostDetailModal({post, open, onClos
   const formattedTimestamp = formatTimestamp(post.timestamp);
 
   return (
-    <Modal open={open} onClose={onClose} labelledBy={labelledBy} describedBy={describedBy}>
+    <Dialog open={open}>
       <div className="flex flex-col gap-6 p-4 sm:p-6">
         <div className="md:min-w-[320px] md:flex-1">
-          <PostMediaViewer post={post} className="md:aspect-[4/5]" />
+          <PostMediaViewer post={post} />
         </div>
 
         <div className="flex w-full flex-col gap-6">
@@ -63,7 +64,7 @@ export const PostDetailModal = memo(function PostDetailModal({post, open, onClos
           <EngagementSummary likeCount={likeCount} commentsCount={commentsCount} isReel={isReel} />
         </div>
       </div>
-    </Modal>
+    </Dialog>
   );
 });
 

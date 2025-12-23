@@ -8,16 +8,14 @@ interface InfiniteFeedSentinelProps {
   isLoading: boolean;
 }
 
-export function InfiniteFeedSentinel({onLoadMore, hasMore, isLoading}: InfiniteFeedSentinelProps) {
-  const sentinelRef = useIntersectionObserver<HTMLDivElement>({
+export function InfiniteListTrigger({onLoadMore, hasMore, isLoading}: InfiniteFeedSentinelProps) {
+  const ref = useIntersectionObserver<HTMLDivElement>({
     onIntersect: () => {
-      if (hasMore && !isLoading) {
-        onLoadMore();
-      }
+      if (hasMore && !isLoading) onLoadMore();
     },
     rootMargin: '200px',
     enabled: hasMore && !isLoading,
   });
 
-  return <div ref={sentinelRef} className="h-10" aria-hidden="true" />;
+  return <div ref={ref} aria-hidden="true" />;
 }

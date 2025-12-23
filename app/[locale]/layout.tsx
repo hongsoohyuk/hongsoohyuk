@@ -12,6 +12,7 @@ import {getMessages, setRequestLocale} from 'next-intl/server';
 import {cookies} from 'next/headers';
 import Script from 'next/script';
 import '../globals.css';
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 export const metadata: Metadata = baseMetadata;
 
@@ -47,6 +48,8 @@ export default async function LocaleLayout({children, params}: Props) {
             <div className="relative z-10 flex min-h-screen flex-col">
               <Header />
               <main className="flex-1">{children}</main>
+              <ReactQueryDevtools initialIsOpen />
+
               <Footer />
             </div>
           </ClientProviders>

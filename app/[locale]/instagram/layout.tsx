@@ -1,5 +1,6 @@
 import type {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import React from 'react';
 
 type Props = {
   children: React.ReactNode;
@@ -10,26 +11,17 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations('Guestbook');
+  const t = await getTranslations('Instagram');
 
   return {
     title: t('title'),
     description: t('description'),
-    openGraph: {
-      title: t('title'),
-      description: t('description'),
-    },
   };
 }
 
-export default async function GuestbookLayout({children, params}: Props) {
+export default async function InstagramLayout({children, params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  return (
-    <div className="guestbook-layout">
-      {/* Guestbook-specific wrapper */}
-      <div className="container mx-auto px-4 py-8">{children}</div>
-    </div>
-  );
+  return <React.Fragment>{children}</React.Fragment>;
 }
