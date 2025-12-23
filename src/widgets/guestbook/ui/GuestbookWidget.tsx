@@ -3,16 +3,8 @@
 import {GuestbookEntriesResponse} from '@/entities/guestbook';
 import {GuestbookFormDialog} from '@/features/guestbook';
 import {GuestbookList} from '@/features/guestbook/ui/GuestbookList';
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Pagination,
-} from '@/shared/ui';
+import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/shared/ui/card';
+import {Pagination} from '@/shared/ui/Pagination';
 import {useQueryClient} from '@tanstack/react-query';
 import {useTranslations} from 'next-intl';
 import {Suspense} from 'react';

@@ -1,6 +1,6 @@
 'use client';
 
-import {ScrollVelocity} from '@/shared/ui';
+import {ScrollVelocity} from '@/shared/ui/ScrollVelocity';
 
 export function HeroTitle() {
   return (
