@@ -1,6 +1,6 @@
-import {EmotionCode, EmotionOption} from '@/entities/guestbook';
+import {EmotionOption} from '@/entities/guestbook';
 
-export type FormText = {
+export type Texts = {
   title: string;
   subtitle: string;
   placeholder: string;
@@ -29,15 +29,6 @@ export type FormText = {
   triggerLabel: string;
 };
 
-export type FormValues = {
-  name: string;
-  message: string;
-  emotions: EmotionCode[];
-  turnstileToken: string;
-};
-
-export type StatusMessage = {type: 'success' | 'error'; message: string} | null;
-
-export type SubmissionText = FormText;
+export type SubmissionText = Texts;
 
 export type SubmissionEmotionOption = EmotionOption;
