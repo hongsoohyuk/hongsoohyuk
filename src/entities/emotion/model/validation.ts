@@ -1,4 +1,4 @@
-import {EmotionCode} from './emotions';
+import {EmotionCode} from './type';
 
 export const MAX_EMOTIONS = 2;
 

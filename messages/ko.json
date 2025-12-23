@@ -179,28 +179,19 @@
         "turnstile": "봇 방지 인증을 완료해주세요."
       }
     },
-    "emotions": {
-      "LIKE": {"label": "좋아요"},
-      "INSPIRATION": {"label": "영감 받았어요"},
-      "NICE": {"label": "따뜻해요"},
-      "HELLO": {"label": "인사만 살짝"},
-      "FUN": {"label": "재미있어요"},
-      "THANK": {"label": "감사해요"}
-    },
-    "tags": {
-      "designSystem": "디자인 시스템",
-      "mentoring": "멘토링",
-      "studyBuddy": "스터디 메이트",
-      "careerChange": "커리어 전환",
-      "remoteWork": "리모트 워크",
-      "openSource": "오픈소스",
-      "coffeeChat": "커피챗"
-    },
     "form": {
       "name": "이름",
       "message": "메시지",
       "submit": "작성하기"
     }
+  },
+  "Emotion": {
+    "like": {"label": "좋아요"},
+    "inspiration": {"label": "영감 받았어요"},
+    "nice": {"label": "나이스해요"},
+    "hello": {"label": "인사만 살짝"},
+    "fun": {"label": "재미있어요"},
+    "thank": {"label": "감사해요"}
   },
   "Portfolio": {
     "title": "포트폴리오",

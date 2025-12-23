@@ -1,4 +1,4 @@
-import type {EmotionCode} from './model/emotions';
+import type {EmotionCode} from '../emotion/model/type';
 
 export type GuestbookEntryDto = {
   id: string;

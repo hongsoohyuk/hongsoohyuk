@@ -1,5 +1,3 @@
-'use client';
-
 import {EmotionOption} from '@/entities/guestbook';
 import {Button} from '@/shared/ui';
 
@@ -7,7 +5,7 @@ type EmotionButtonProps = {
   option: EmotionOption;
   isSelected: boolean;
   disabled?: boolean;
-  onToggle: () => void;
+  onToggle(): void;
 };
 
 export function EmotionButton({option, isSelected, disabled, onToggle}: EmotionButtonProps) {

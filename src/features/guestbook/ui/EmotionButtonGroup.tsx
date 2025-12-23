@@ -1,58 +1,52 @@
-import {BASE_EMOTIONS, EMOTION_LABEL_KEYS, EmotionCode, EmotionOption} from '@/entities/guestbook';
-import {useTranslations} from 'next-intl';
-import {useMemo} from 'react';
+import {useEmotionEnum} from '@/entities/emotion';
+import {EmotionCode} from '@/entities/guestbook';
+import {useState} from 'react';
 import {EmotionButton} from './EmotionButton';
 
 type Props = {
-  value: EmotionCode[];
-  onChange: (next: EmotionCode[]) => void;
-  onMaxSelected?: (current: EmotionCode[]) => void;
+  name?: string;
   maxSelected?: number;
   disabled?: boolean;
+  onMaxSelected?: (current: EmotionCode[]) => void;
 };
 
-export function EmotionButtonGroup({value, onChange, onMaxSelected, maxSelected, disabled}: Props) {
-  const tGuestbook = useTranslations('Guestbook');
-  const options = useMemo<EmotionOption[]>(
-    () =>
-      BASE_EMOTIONS.map((emotion) => ({
-        ...emotion,
-        label: tGuestbook(EMOTION_LABEL_KEYS[emotion.code]),
-      })),
-    [tGuestbook],
-  );
+export function EmotionButtonGroup({name = 'emotions', maxSelected = 2, disabled, onMaxSelected}: Props) {
+  const [selected, setSelected] = useState<EmotionCode[]>([]);
+
+  const {options} = useEmotionEnum();
 
   const handleToggle = (code: EmotionCode) => {
     if (disabled) return;
-    const current = value ?? [];
-    const isSelected = current.includes(code);
-
+    const isSelected = selected.includes(code);
     if (isSelected) {
-      const next = current.filter((item) => item !== code);
-      onChange(next);
+      setSelected((prev) => prev.filter((item) => item !== code));
       return;
     }
 
-    if (maxSelected && current.length >= maxSelected) {
-      onMaxSelected?.(current);
+    if (selected.length >= maxSelected) {
+      onMaxSelected?.(selected);
       return;
     }
 
-    const next = [...current, code];
-    onChange(next);
+    setSelected((prev) => [...prev, code]);
   };
 
   return (
-    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-      {options.map((option) => (
-        <EmotionButton
-          key={option.code}
-          option={option}
-          isSelected={value?.includes(option.code) ?? false}
-          disabled={disabled}
-          onToggle={() => handleToggle(option.code)}
-        />
+    <>
+      {selected.map((code) => (
+        <input key={code} type="hidden" name={name} value={code} />
       ))}
-    </div>
+      <div className="grid grid-cols-2 gap-2">
+        {options.map((option) => (
+          <EmotionButton
+            key={option.code}
+            option={option}
+            isSelected={selected.includes(option.code)}
+            disabled={disabled}
+            onToggle={() => handleToggle(option.code)}
+          />
+        ))}
+      </div>
+    </>
   );
 }

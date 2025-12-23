@@ -11,7 +11,13 @@
 export {Turnstile, type TurnstileProps} from './ui/Turnstile';
 
 // Hooks
-export {TURNSTILE_SCRIPT_ID, TURNSTILE_SCRIPT_SRC, useTurnstile, type UseTurnstileOptions} from './lib/useTurnstile';
+export {
+  TURNSTILE_SCRIPT_ID,
+  TURNSTILE_SCRIPT_SRC,
+  useTurnstile,
+  type TurnstileError,
+  type UseTurnstileOptions,
+} from './lib/useTurnstile';
 
 // Types
 export type {TurnstileRenderOptions} from './lib/useTurnstile';

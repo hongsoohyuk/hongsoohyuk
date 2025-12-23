@@ -1,81 +1,40 @@
 'use client';
 
+import {TURNSTILE_SITE_KEY} from '../config/constant';
 import {useTurnstile} from '../lib/useTurnstile';
 
-/**
- * Turnstile Widget Props
- */
 export type TurnstileProps = {
-  sitekey: string;
-  theme?: 'light' | 'dark' | 'auto';
+  onSuccess?(token: string): void;
+  onExpired?(): void;
+  onError?(errorCode?: string): void;
+  onTimeout?(): void;
   size?: 'normal' | 'compact' | 'flexible';
-  action?: string;
-  cData?: string;
-  onSuccess?: (token: string) => void; // eslint-disable-line no-unused-vars
-  onExpired?: () => void;
-  onError?: (errorCode?: string) => void; // eslint-disable-line no-unused-vars
-  onTimeout?: () => void;
-  enabled?: boolean;
-  className?: string;
-  loadingText?: string;
-  errorText?: string;
 };
 
-/**
- * Turnstile Widget Component
- *
- * A reusable Cloudflare Turnstile widget component following FSD principles.
- * Provides a clean UI layer for bot protection.
- *
- * Based on Cloudflare Turnstile documentation:
- * @see https://developers.cloudflare.com/turnstile/
- *
- * @example
- * ```tsx
- * <Turnstile
- *   sitekey="your-site-key"
- *   onSuccess={(token) => setValue('turnstileToken', token)}
- *   onExpired={() => setValue('turnstileToken', '')}
- *   theme="auto"
- * />
- * ```
- */
-export function Turnstile({
-  sitekey,
-  theme = 'auto',
-  size = 'normal',
-  action,
-  cData,
-  onSuccess,
-  onExpired,
-  onError,
-  onTimeout,
-  enabled = true,
-  className,
-  loadingText = 'Loading verification...',
-  errorText,
-}: TurnstileProps) {
-  const {containerRef, scriptReady} = useTurnstile({
-    sitekey,
-    enabled,
-    theme,
-    size,
-    action,
-    cData,
+export function Turnstile({onSuccess, onExpired, onError, onTimeout, size = 'flexible'}: TurnstileProps = {}) {
+  const {ref, scriptReady, error} = useTurnstile({
     onSuccess,
     onExpired,
     onError,
     onTimeout,
+    size,
   });
 
   return (
-    <div className={className}>
-      <div ref={containerRef} className="min-h-16">
-        {!sitekey && errorText && <span className="text-sm text-muted-foreground">{errorText}</span>}
-        {sitekey && !scriptReady && <span className="text-sm text-muted-foreground">{loadingText}</span>}
-      </div>
+    <div ref={ref}>
+      {!TURNSTILE_SITE_KEY && (
+        <span className="text-sm text-muted-foreground">
+          Set NEXT_PUBLIC_TURNSTILE_SITE_KEY to enable verification.
+        </span>
+      )}
+      {TURNSTILE_SITE_KEY && !scriptReady && !error && (
+        <span className="text-sm text-muted-foreground">Loading verification...</span>
+      )}
+      {error && (
+        <div className="flex flex-col gap-2">
+          <span className="text-sm text-red-500">{error.message}</span>
+        </div>
+      )}
     </div>
   );
 }
-
-export default Turnstile;

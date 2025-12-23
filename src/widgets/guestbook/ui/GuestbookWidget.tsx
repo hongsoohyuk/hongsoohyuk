@@ -32,11 +32,7 @@ export function GuestbookWidget({initialData, totalPages}: Props) {
         <CardTitle>{t('title')}</CardTitle>
         <CardDescription>{t('description')}</CardDescription>
         <CardAction>
-          <GuestbookFormDialog
-            onSubmitted={() => {
-              queryClient.invalidateQueries({queryKey: ['guestbookEntries']});
-            }}
-          />
+          <GuestbookFormDialog />
         </CardAction>
       </CardHeader>
       <CardContent>
