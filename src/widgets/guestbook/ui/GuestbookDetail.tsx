@@ -1,11 +1,13 @@
 'use client';
 
-import {EMOTION_LABEL_KEYS, EMOTION_MAP, EmotionCode, GuestbookEntriesResponse} from '@/entities/guestbook';
+import {EmotionCode, GuestbookEntriesResponse} from '@/entities/guestbook';
 import {cn} from '@/shared/lib/style';
-import {Badge, Button} from '@/shared/ui';
+import {Badge} from '@/shared/ui/badge';
+import {Button} from '@/shared/ui/button';
 import {glass} from '@/shared/ui/glass';
 import {useTranslations} from 'next-intl';
 import {EntriesText} from '../model/types';
+import {useEmotionEnum} from '@/entities/emotion/lib/useEmotionEnum';
 
 type GuestbookEntry = GuestbookEntriesResponse['entries'][number];
 
@@ -16,6 +18,7 @@ type Props = {
 
 export function GuestbookDetail({entry, entriesText}: Props) {
   const t = useTranslations('Guestbook');
+  const {getLabel, getEmoji} = useEmotionEnum();
 
   return (
     <div className={cn(glass.card, 'space-y-4 p-5')}>
@@ -29,26 +32,22 @@ export function GuestbookDetail({entry, entriesText}: Props) {
         </Button>
       </div>
       <p className="text-base leading-relaxed text-foreground whitespace-pre-line">{entry.message}</p>
-      {entry.emotions && entry.emotions.length > 0 ? (
-        <div className="flex flex-wrap gap-2">
-          {entry.emotions.map((emotion) => {
-            const option = EMOTION_MAP[emotion as EmotionCode];
-            const labelKey = EMOTION_LABEL_KEYS[emotion as EmotionCode];
-            if (!option || !labelKey) return null;
-            const label = t(labelKey);
-            return (
-              <Badge
-                key={`${entry.id}-detail-${emotion}`}
-                variant="secondary"
-                className="bg-white/60 text-blue-700 shadow-sm backdrop-blur-sm dark:bg-white/10 dark:text-blue-100"
-              >
-                <span className="mr-1">{option.emoji}</span>
-                {label}
-              </Badge>
-            );
-          })}
-        </div>
-      ) : null}
+      <div className="flex flex-wrap gap-2">
+        {entry.emotions?.map((emotion) => {
+          const label = getLabel(emotion);
+          const emoji = getEmoji(emotion);
+          return (
+            <Badge
+              key={`${entry.id}-detail-${emotion}`}
+              variant="secondary"
+              className="bg-white/60 text-blue-700 shadow-sm backdrop-blur-sm dark:bg-white/10 dark:text-blue-100"
+            >
+              <span className="mr-1">{emoji}</span>
+              {label}
+            </Badge>
+          );
+        })}
+      </div>
     </div>
   );
 }

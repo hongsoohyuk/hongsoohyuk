@@ -1,4 +1,4 @@
-import {Card, CardContent} from '@/shared/ui';
+import {Card, CardContent} from '@/shared/ui/card';
 import {getCVServer} from '@/entities/portfolio';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Metadata} from 'next';

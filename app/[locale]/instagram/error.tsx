@@ -1,7 +1,7 @@
 'use client';
 
-import {Button, Card, CardContent} from '@/shared/ui';
-import {useEffect} from 'react';
+import {Button} from '@/shared/ui/button';
+import {Card, CardContent} from '@/shared/ui/card';
 
 interface InstagramErrorProps {
   error: Error & {digest?: string};
@@ -9,10 +9,6 @@ interface InstagramErrorProps {
 }
 
 export default function InstagramError({error, reset}: InstagramErrorProps) {
-  useEffect(() => {
-    console.error('Instagram page error:', error);
-  }, [error]);
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto">
