@@ -1,8 +1,7 @@
-import {GuestbookEntriesResponse} from '@/entities/guestbook';
-import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
+import {fetchInitialGuestbook} from '@/entities/guestbook';
+import {parsePositiveInt} from '@/shared/lib/number';
 import {GuestbookWidget} from '@/widgets/guestbook';
 import {setRequestLocale} from 'next-intl/server';
-import {headers} from 'next/headers';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -11,40 +10,11 @@ type Props = {
 
 export async function GuestbookPage({params, searchParams}: Props) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const resolvedSearchParams = await searchParams;
   const currentPage = parsePositiveInt(resolvedSearchParams.page) || 1;
-  setRequestLocale(locale);
 
   const initialData = await fetchInitialGuestbook(currentPage);
-  const totalPages = Math.max(1, initialData?.pagination.totalPages ?? 1);
 
-  return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-8">
-      <GuestbookWidget initialData={initialData} totalPages={totalPages} />
-    </div>
-  );
-}
-
-async function fetchInitialGuestbook(page: number): Promise<GuestbookEntriesResponse | undefined> {
-  const headerList = await headers();
-  const host = headerList.get('host');
-  const protocol = headerList.get('x-forwarded-proto') ?? 'http';
-  if (!host) return undefined;
-
-  const baseUrl = `${protocol}://${host}`;
-  const safePage = Math.max(1, page);
-  const res = await fetch(`${baseUrl}/api/guestbook?page=${safePage}&pageSize=${DEFAULT_PAGE_SIZE}`, {
-    cache: 'no-store',
-  });
-
-  if (!res.ok) return undefined;
-  return res.json();
-}
-
-function parsePositiveInt(value: string | string[] | undefined): number | null {
-  if (!value) return null;
-  const raw = Array.isArray(value) ? value[0] : value;
-  const parsed = Number.parseInt(raw, 10);
-  if (Number.isNaN(parsed) || parsed <= 0) return null;
-  return parsed;
+  return <GuestbookWidget initialData={initialData} />;
 }

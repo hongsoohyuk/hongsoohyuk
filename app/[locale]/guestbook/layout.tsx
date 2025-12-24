@@ -28,8 +28,7 @@ export default async function GuestbookLayout({children, params}: Props) {
 
   return (
     <div className="guestbook-layout">
-      {/* Guestbook-specific wrapper */}
-      <div className="container mx-auto px-4 py-8">{children}</div>
+      <div className="container mx-auto px-4 py-8 max-w-3xl">{children}</div>
     </div>
   );
 }
