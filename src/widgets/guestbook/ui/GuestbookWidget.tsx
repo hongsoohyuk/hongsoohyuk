@@ -6,10 +6,10 @@ import {PaginationBackAndForth} from '@/shared/ui/pagination-back-and-forth';
 import {getTranslations} from 'next-intl/server';
 
 type Props = {
-  initialData?: GuestbookEntriesResponse;
+  data?: GuestbookEntriesResponse;
 };
 
-export async function GuestbookWidget({initialData}: Props) {
+export async function GuestbookWidget({data}: Props) {
   const t = await getTranslations('Guestbook');
 
   return (
@@ -22,10 +22,10 @@ export async function GuestbookWidget({initialData}: Props) {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <GuestbookList initialData={initialData} />
+        <GuestbookList data={data} />
       </CardContent>
       <CardFooter className="flex justify-end">
-        <PaginationBackAndForth totalPages={initialData?.pagination?.totalPages ?? 0} />
+        <PaginationBackAndForth totalPages={data?.pagination?.totalPages ?? 0} />
       </CardFooter>
     </Card>
   );
