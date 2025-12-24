@@ -1,4 +1,5 @@
 import {fetchInitialGuestbook} from '@/entities/guestbook';
+import {DEFAULT_PAGE} from '@/shared/api/pagination';
 import {parsePositiveInt} from '@/shared/lib/number';
 import {GuestbookWidget} from '@/widgets/guestbook';
 import {setRequestLocale} from 'next-intl/server';
@@ -12,9 +13,9 @@ export async function GuestbookPage({params, searchParams}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
   const resolvedSearchParams = await searchParams;
-  const currentPage = parsePositiveInt(resolvedSearchParams.page) || 1;
+  const currentPage = parsePositiveInt(resolvedSearchParams.page) ?? DEFAULT_PAGE;
 
-  const initialData = await fetchInitialGuestbook(currentPage);
+  const data = await fetchInitialGuestbook(currentPage);
 
-  return <GuestbookWidget initialData={initialData} />;
+  return <GuestbookWidget data={data} />;
 }

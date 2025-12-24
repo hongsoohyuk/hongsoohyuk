@@ -61,7 +61,7 @@ export function GuestbookFormDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>✍️ {t('Guestbook.formSection.trigger')}</Button>
+        <Button variant="outline">✍️ {t('Guestbook.formSection.trigger')}</Button>
       </DialogTrigger>
       <DialogContent>
         <form ref={formRef} action={formAction} className="flex h-full min-h-0 flex-col gap-4">
