@@ -21,12 +21,6 @@
         "title": "인스타그램",
         "description": "일상 속 소소한 순간들을 공유합니다",
         "button": "인스타그램 보기"
-      },
-      "pokemon": {
-        "emoji": "🎮",
-        "title": "포켓몬 마을 산책",
-        "description": "마을을 돌아다니며 야생 포켓몬을 만나보세요",
-        "button": "미니게임 시작"
       }
     },
     "contact": {
@@ -42,8 +36,7 @@
       "home": "홈",
       "guestbook": "방명록",
       "portfolio": "포트폴리오",
-      "instagram": "인스타그램",
-      "pokemon": "포켓몬"
+      "instagram": "인스타그램"
     },
     "theme": {
       "light": "라이트 모드",
@@ -73,16 +66,6 @@
       "viewPost": "게시물 보기",
       "close": "닫기"
     }
-  },
-  "Pokemon": {
-    "title": "포켓몬 마을 산책",
-    "description": "마을을 돌아다니며 야생 포켓몬을 만나보세요",
-    "controls": {
-      "title": "조작법",
-      "move": "이동: 화살표 키 또는 WASD",
-      "action": "대화/조사: Space 또는 Enter"
-    },
-    "start": "게임 시작"
   },
   "Guestbook": {
     "title": "방명록",
@@ -203,6 +186,15 @@
     "retry": "다시 시도",
     "close": "닫기",
     "confirm": "확인",
-    "cancel": "취소"
+    "cancel": "취소",
+    "pagination": {
+      "previous": "이전",
+      "next": "다음"
+    },
+    "validation": {
+      "required": "필수 입력 항목입니다.",
+      "maxLength": "최대 {maxLength}자까지 입력할 수 있습니다.",
+      "minLength": "최소 {minLength}자 이상 입력해주세요."
+    }
   }
 }

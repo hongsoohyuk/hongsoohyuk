@@ -21,12 +21,6 @@
         "title": "Instagram",
         "description": "Sharing small moments from daily life",
         "button": "View Instagram"
-      },
-      "pokemon": {
-        "emoji": "🎮",
-        "title": "Pokémon Town Walk",
-        "description": "Walk around the town and encounter wild Pokémon",
-        "button": "Start Game"
       }
     },
     "contact": {
@@ -42,8 +36,7 @@
       "home": "Home",
       "guestbook": "Guestbook",
       "portfolio": "Portfolio",
-      "instagram": "Instagram",
-      "pokemon": "Pokémon"
+      "instagram": "Instagram"
     },
     "theme": {
       "light": "Light Mode",
@@ -74,16 +67,7 @@
       "close": "Close"
     }
   },
-  "Pokemon": {
-    "title": "Pokémon Town Walk",
-    "description": "Walk around the town and encounter wild Pokémon",
-    "controls": {
-      "title": "Controls",
-      "move": "Move: Arrow Keys or WASD",
-      "action": "Talk/Interact: Space or Enter"
-    },
-    "start": "Start Game"
-  },
+
   "Guestbook": {
     "title": "Guestbook",
     "description": "Leave a precious message",
@@ -203,6 +187,15 @@
     "retry": "Retry",
     "close": "Close",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "validation": {
+      "required": "This field is required.",
+      "maxLength": "Maximum {maxLength} characters.",
+      "minLength": "Minimum {minLength} characters."
+    }
   }
 }

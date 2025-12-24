@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
     const {data, error, count} = await supabase
       .from('guestbook')
       .select('id, author_name, message, emotions, created_at', {count: 'exact'})
-      .eq('status', 'approved')
       .order('created_at', {ascending: false})
       .range(from, to);
 
@@ -108,7 +107,6 @@ export async function POST(req: Request) {
       ip_hash,
       ua_hash,
       emotions: normalizedEmotions,
-      status: 'pending',
     });
 
     if (error) {

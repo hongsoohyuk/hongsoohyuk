@@ -4,6 +4,7 @@ import {FormActionResult} from '@/shared/action/form/type';
 import {supabaseAdmin} from '@/shared/api/supabase';
 import {getClientFingerprint} from '@/shared/lib/security';
 import console from 'console';
+import {revalidatePath} from 'next/cache';
 import {schema} from '../model/validation';
 
 export async function submit(_prevState: FormActionResult, formData: FormData): Promise<FormActionResult> {
@@ -36,7 +37,6 @@ export async function submit(_prevState: FormActionResult, formData: FormData): 
       ip_hash,
       ua_hash,
       emotions,
-      status: 'pending',
     });
 
     if (error) {
@@ -47,6 +47,7 @@ export async function submit(_prevState: FormActionResult, formData: FormData): 
       };
     }
 
+    revalidatePath('/guestbook');
     return {
       status: 'success',
       message: 'Your message has been submitted successfully!',
