@@ -1,23 +1,16 @@
-'use client';
-
 import {GuestbookEntriesResponse} from '@/entities/guestbook';
 import {GuestbookFormDialog} from '@/features/guestbook';
 import {GuestbookList} from '@/features/guestbook/ui/GuestbookList';
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/shared/ui/card';
-import {Pagination} from '@/shared/ui/Pagination';
-import {useQueryClient} from '@tanstack/react-query';
-import {useTranslations} from 'next-intl';
-import {Suspense} from 'react';
-import {GuestbookEntriesSkeleton} from './GuestbookEntriesSkeleton';
+import {getTranslations} from 'next-intl/server';
 
 type Props = {
   initialData?: GuestbookEntriesResponse;
-  totalPages: number;
 };
 
-export function GuestbookWidget({initialData, totalPages}: Props) {
-  const queryClient = useQueryClient();
-  const t = useTranslations('Guestbook');
+export async function GuestbookWidget({initialData}: Props) {
+  const t = await getTranslations('Guestbook');
+
   return (
     <Card>
       <CardHeader>
@@ -28,13 +21,9 @@ export function GuestbookWidget({initialData, totalPages}: Props) {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <Suspense fallback={<GuestbookEntriesSkeleton />}>
-          <GuestbookList initialData={initialData} />
-        </Suspense>
+        <GuestbookList initialData={initialData} />
       </CardContent>
-      <CardFooter>
-        <Pagination totalPages={totalPages} />
-      </CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 }
