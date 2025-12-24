@@ -26,22 +26,6 @@ const nextConfig: NextConfig = {
     ],
     unoptimized: process.env.NODE_ENV === 'production',
   },
-  // WebAssembly support
-  webpack: (config, {isServer}) => {
-    // WASM 파일 처리
-    config.experiments = {
-      ...config.experiments,
-      asyncWebAssembly: true,
-    };
-
-    // .wasm 파일을 asset/resource로 처리
-    config.module.rules.push({
-      test: /\.wasm$/,
-      type: 'asset/resource',
-    });
-
-    return config;
-  },
 };
 
 export default withNextIntl(nextConfig);
