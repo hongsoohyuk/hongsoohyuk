@@ -1,10 +1,11 @@
+'use client';
 import {useEmotionEnum} from '@/entities/emotion/lib/useEmotionEnum';
 import {fetchGuestbookList, GuestbookEntriesResponse, QueryKeyFactory} from '@/entities/guestbook';
 import {parsePositiveInt} from '@/shared/lib/number';
 import {Badge} from '@/shared/ui/badge';
 import {Item, ItemContent, ItemHeader, ItemSeparator, ItemTitle} from '@/shared/ui/item';
 import {ScrollArea} from '@/shared/ui/scroll-area';
-import {useSuspenseQuery} from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 import {useFormatter, useTranslations} from 'next-intl';
 import {useSearchParams} from 'next/navigation';
 import React from 'react';
@@ -12,13 +13,13 @@ import React from 'react';
 export function GuestbookList({initialData}: {initialData?: GuestbookEntriesResponse}) {
   const searchParams = useSearchParams();
   const page = parsePositiveInt(searchParams?.get('page') ?? null) ?? 1;
-  const {data} = useSuspenseQuery<GuestbookEntriesResponse, Error>({
+  const {data} = useQuery<GuestbookEntriesResponse, Error>({
     queryKey: QueryKeyFactory.list(page),
     queryFn: () => fetchGuestbookList(page),
     initialData: initialData,
   });
 
-  const entries = data.entries ?? [];
+  const entries = data?.entries ?? [];
 
   return (
     <ScrollArea className="h-[500px]">
