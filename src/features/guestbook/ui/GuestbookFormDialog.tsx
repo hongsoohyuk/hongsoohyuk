@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from '@/shared/ui/dialog';
 import {Input} from '@/shared/ui/input';
+import {InputErrorMessage} from '@/shared/ui/input-error-message';
 import {Label} from '@/shared/ui/label';
 import {Textarea} from '@/shared/ui/textarea';
 import {useTranslations} from 'next-intl';
@@ -50,6 +51,13 @@ export function GuestbookFormDialog() {
     }
   }, [actionState.status]);
 
+  useEffect(() => {
+    formRef.current?.reset();
+  }, [isOpen]);
+
+  const authorNameError = fieldError('author_name');
+  const messageError = fieldError('message');
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -68,11 +76,11 @@ export function GuestbookFormDialog() {
                   id="guestbook-name"
                   name="author_name"
                   maxLength={40}
-                  aria-invalid={fieldError('author_name') ? 'true' : undefined}
+                  aria-invalid={authorNameError ? 'true' : undefined}
                   className="border-black/20 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10"
                   placeholder={t('Guestbook.formSection.namePlaceholder')}
                 />
-                {fieldError('author_name') && <span className="text-sm text-red-500">{fieldError('author_name')}</span>}
+                {authorNameError && <InputErrorMessage message={authorNameError} />}
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="guestbook-message">{t('Guestbook.form.message')}</Label>
@@ -80,12 +88,12 @@ export function GuestbookFormDialog() {
                   id="guestbook-message"
                   name="message"
                   maxLength={500}
-                  aria-invalid={fieldError('message') ? 'true' : undefined}
+                  aria-invalid={messageError ? 'true' : undefined}
                   rows={2}
                   className="border-black/20 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10 sm:min-h-28"
                   placeholder={t('Guestbook.formSection.placeholder')}
                 />
-                {fieldError('message') && <span className="text-sm text-red-500">{fieldError('message')}</span>}
+                {messageError && <InputErrorMessage message={messageError} />}
               </div>
               <div className="flex flex-col gap-2">
                 <Label>
