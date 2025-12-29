@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "build:wasm": "cd wasm && ./build.sh",
-    "build:native": "cd wasm && ./build_native.sh",
-    "game": "cd wasm && ./build_native.sh && ./build_native/pokemon-game-native",
+    "prebuild": "node scripts/instagram-sync.mjs",
+    "instagram:sync": "node scripts/instagram-sync.mjs",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
