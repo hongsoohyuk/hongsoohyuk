@@ -1,6 +1,6 @@
-import {GuestbookEntriesResponse} from '../types';
+import {GuestbookListResponse} from '../types';
 
-export async function fetchGuestbook({id}: {id: string}): Promise<GuestbookEntriesResponse> {
+export async function fetchGuestbook({id}: {id: string}): Promise<GuestbookListResponse> {
   const res = await fetch(`/api/guestbook/${id}`, {
     cache: 'no-store',
   });
