@@ -1,4 +1,4 @@
-import {GuestbookEntriesResponse} from '@/entities/guestbook';
+import {GuestbookListResponse} from '@/entities/guestbook';
 import {GuestbookFormDialog} from '@/features/guestbook';
 import {GuestbookList} from '@/features/guestbook/ui/GuestbookList';
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/shared/ui/card';
@@ -6,14 +6,14 @@ import {PaginationBackAndForth} from '@/shared/ui/pagination-back-and-forth';
 import {getTranslations} from 'next-intl/server';
 
 type Props = {
-  data?: GuestbookEntriesResponse;
+  data?: GuestbookListResponse;
 };
 
 export async function GuestbookWidget({data}: Props) {
   const t = await getTranslations('Guestbook');
 
   return (
-    <Card>
+    <Card className="h-[calc(100dvh-12rem)]">
       <CardHeader>
         <CardTitle>{t('title')}</CardTitle>
         <CardDescription>{t('description')}</CardDescription>
@@ -21,7 +21,7 @@ export async function GuestbookWidget({data}: Props) {
           <GuestbookFormDialog />
         </CardAction>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 min-h-0">
         <GuestbookList data={data} />
       </CardContent>
       <CardFooter className="flex justify-end">

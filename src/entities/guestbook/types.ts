@@ -1,6 +1,6 @@
 import type {EmotionCode} from '../emotion/model/type';
 
-export type GuestbookEntryDto = {
+export type GuestbookItemDto = {
   id: string;
   author_name: string;
   message: string;
@@ -16,8 +16,8 @@ export type GuestbookPagination = {
   hasMore: boolean;
 };
 
-export type GuestbookEntriesResponse = {
-  entries: GuestbookEntryDto[];
+export type GuestbookListResponse = {
+  entries: GuestbookItemDto[];
   pagination: GuestbookPagination;
 };
 

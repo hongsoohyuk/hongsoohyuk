@@ -4,7 +4,7 @@ export {QueryKeyFactory} from './api/guestbook.query';
 export {fetchGuestbookList, fetchInitialGuestbook} from './api/list-guestbook';
 export {
   type CreateGuestbookEntryPayload,
-  type GuestbookEntriesResponse,
-  type GuestbookEntryDto,
+  type GuestbookListResponse,
+  type GuestbookItemDto as GuestbookEntryDto,
   type GuestbookPagination,
 } from './types';
