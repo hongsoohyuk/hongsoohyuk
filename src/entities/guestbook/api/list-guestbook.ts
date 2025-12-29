@@ -1,12 +1,12 @@
 import {http, httpServer} from '@/shared/api/http';
 import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
-import {GuestbookEntriesResponse} from '../types';
+import {GuestbookListResponse} from '../types';
 
 export async function fetchGuestbookList(
   page: number,
   pageSize: number = DEFAULT_PAGE_SIZE,
-): Promise<GuestbookEntriesResponse> {
-  return http.get<GuestbookEntriesResponse>('/api/guestbook', {
+): Promise<GuestbookListResponse> {
+  return http.get<GuestbookListResponse>('/api/guestbook', {
     query: {page, pageSize},
   });
 }
@@ -14,8 +14,8 @@ export async function fetchGuestbookList(
 export async function fetchInitialGuestbook(
   page: number,
   pageSize: number = DEFAULT_PAGE_SIZE,
-): Promise<GuestbookEntriesResponse> {
-  return httpServer.get<GuestbookEntriesResponse>('/api/guestbook', {
+): Promise<GuestbookListResponse> {
+  return httpServer.get<GuestbookListResponse>('/api/guestbook', {
     query: {page, pageSize},
   });
 }
