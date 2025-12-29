@@ -8,13 +8,13 @@ import {GlobeIcon} from 'lucide-react';
 import {useParams} from 'next/navigation';
 import {useTransition} from 'react';
 
-export function LocaleSwitcher() {
+export function LocaleSwitch() {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
   const [isPending, startTransition] = useTransition();
 
-  const currentLocale = (params.locale as Locale) || 'ko';
+  const currentLocale = (params?.locale as Locale) || 'ko';
 
   function onSelectChange(nextLocale: Locale) {
     startTransition(() => {
