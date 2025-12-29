@@ -1,7 +1,6 @@
-import {ClientProviders} from '@/app/providers/client-providers';
+
 import {baseMetadata, getFontClassNames} from '@/shared/config';
 import {routing} from '@/shared/i18n/routing';
-import {ThemeScript} from '@/shared/theme/config/theme-script';
 import {TURNSTILE_SCRIPT_ID, TURNSTILE_SCRIPT_SRC} from '@/shared/turnstile';
 import {Footer} from '@/shared/ui/layout/footer';
 import {Header} from '@/shared/ui/layout/header';
@@ -9,10 +8,9 @@ import {SilkBackground} from '@/shared/ui/silk-background';
 import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
-import {cookies} from 'next/headers';
 import Script from 'next/script';
 import '../globals.css';
-import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
+import {ThemeProvider} from 'next-themes';
 
 export const metadata: Metadata = baseMetadata;
 
@@ -27,32 +25,23 @@ type Props = {
 
 export default async function LocaleLayout({children, params}: Props) {
   const {locale} = await params;
-
   setRequestLocale(locale);
 
   const messages = await getMessages();
-  const cookieStore = await cookies();
-  const themeCookie = cookieStore.get('theme')?.value;
-  const initialThemeClass = themeCookie === 'dark' ? 'dark' : themeCookie === 'light' ? 'light' : undefined;
 
   return (
-    <html lang={locale} className={initialThemeClass} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
-        <ThemeScript />
         <Script id={TURNSTILE_SCRIPT_ID} src={TURNSTILE_SCRIPT_SRC} strategy="beforeInteractive" defer async />
       </head>
-      <body className={`${getFontClassNames()} antialiased min-h-screen bg-background font-sans`}>
+      <body className={`${getFontClassNames()} antialiased min-h-screen bg-background font-sans flex flex-col`}>
         <NextIntlClientProvider messages={messages}>
-          <ClientProviders>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <SilkBackground />
-            <div className="relative z-10 flex min-h-screen flex-col">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <ReactQueryDevtools initialIsOpen />
-
-              <Footer />
-            </div>
-          </ClientProviders>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>
