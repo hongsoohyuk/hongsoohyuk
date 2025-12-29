@@ -1,24 +1,18 @@
 import Image from 'next/image';
 import {InstagramMedia} from '@/entities/instagram';
-import clsx from 'clsx';
+import {AspectRatio} from '@/shared/ui/aspect-ratio';
 
 interface PostMediaViewerProps {
   post: InstagramMedia;
-  className?: string;
 }
 
-export function PostMediaViewer({post, className}: PostMediaViewerProps) {
+export function PostMediaViewer({post}: PostMediaViewerProps) {
   const isVideo = post.media_type === 'VIDEO';
   const mediaAlt = post.caption || `Instagram post by ${post.username ?? 'user'}`;
   const thumbnail = post.thumbnail_url || post.media_url;
 
   return (
-    <figure
-      className={clsx(
-        'relative aspect-[4/5] w-full max-h-[80vh] overflow-hidden rounded-2xl bg-black sm:aspect-square',
-        className,
-      )}
-    >
+    <AspectRatio ratio={4 / 5} className="relative w-full bg-muted">
       {isVideo ? (
         <video
           controls
@@ -42,6 +36,6 @@ export function PostMediaViewer({post, className}: PostMediaViewerProps) {
           className="object-cover"
         />
       )}
-    </figure>
+    </AspectRatio>
   );
 }
