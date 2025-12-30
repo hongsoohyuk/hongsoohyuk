@@ -12,7 +12,7 @@ export function EmotionButton({option, isSelected, disabled, onToggle}: EmotionB
   return (
     <Button
       type="button"
-      variant="glass"
+      variant="outline"
       size="sm"
       onClick={onToggle}
       disabled={disabled}

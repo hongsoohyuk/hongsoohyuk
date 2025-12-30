@@ -16,6 +16,24 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   return {
     title: t('title'),
     description: t('description'),
+    keywords: [
+      '남자',
+      '패션',
+      '데이트룩',
+      'ootd',
+      '오오티디',
+      '느좋',
+      '느좋남',
+      '남자 패션',
+      '남자 데이트룩',
+      'man',
+      'fashion',
+      'date outfit',
+      'ootd',
+      'outfit of the day',
+      'man fashion',
+      'man date outfit',
+    ],
   };
 }
 
@@ -23,5 +41,5 @@ export default async function InstagramLayout({children, params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  return <React.Fragment>{children}</React.Fragment>;
+  return <div className="container mx-auto px-4 py-8 max-w-4xl flex flex-col gap-4">{children}</div>;
 }
