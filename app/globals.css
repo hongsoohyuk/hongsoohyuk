@@ -48,6 +48,7 @@
   /* Light theme background: closer to white */
   --background: oklch(0.995 0.001 285.823);
   --foreground: oklch(0.141 0.005 285.823);
+  --app-bg-image: url('/image/silk-light.png');
   --card: oklch(0.978 0.005 285.823);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(0.978 0.005 285.823);
@@ -111,6 +112,7 @@
 .dark {
   --background: oklch(0.155 0.005 285.823);
   --foreground: oklch(0.96 0.01 285.823);
+  --app-bg-image: url('/image/silk-dark.png');
   --card: oklch(0.22 0.006 285.885);
   --card-foreground: oklch(0.96 0.01 285.823);
   --popover: oklch(0.22 0.006 285.885);
@@ -159,6 +161,10 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: var(--app-bg-image);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     /* Global readability defaults */
     @apply text-[15px] leading-relaxed md:text-base;
     text-rendering: optimizeLegibility;

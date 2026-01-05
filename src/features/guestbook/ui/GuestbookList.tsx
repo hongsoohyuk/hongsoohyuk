@@ -1,7 +1,7 @@
 import {useEmotionEnum} from '@/entities/emotion/lib/useEmotionEnum';
 import {GuestbookItemDto, GuestbookListResponse} from '@/entities/guestbook/types';
 import {Badge} from '@/shared/ui/badge';
-import {Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemSeparator, ItemTitle} from '@/shared/ui/item';
+import {Item, ItemContent, ItemDescription, ItemFooter, ItemSeparator, ItemTitle} from '@/shared/ui/item';
 import {ScrollArea} from '@/shared/ui/scroll-area';
 import {useFormatter} from 'next-intl';
 import React from 'react';
