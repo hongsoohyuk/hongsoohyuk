@@ -1,7 +1,6 @@
 import {Card, CardContent} from '@/shared/ui/card';
-import {getCVServer} from '@/entities/portfolio';
-import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Metadata} from 'next';
+import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -22,7 +21,6 @@ export default async function PortfolioPage({params}: Props) {
   setRequestLocale(locale);
 
   // Server-side data fetching
-  const doc = await getCVServer().catch(() => null);
 
   return (
     <div className="container mx-auto px-4 py-8">
