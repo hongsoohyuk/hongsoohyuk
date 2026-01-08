@@ -35,7 +35,7 @@ export function FeedItem({post}: Props) {
         </AspectRatio>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>
+        <DialogTitle className="text-sm md:text-md">
           {post.timestamp
             ? format.dateTime(new Date(post.timestamp), {dateStyle: 'medium', timeStyle: 'short'})
             : 'Unknown timestamp'}

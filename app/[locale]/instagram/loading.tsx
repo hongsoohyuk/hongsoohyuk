@@ -8,8 +8,8 @@ export default function InstagramLoading() {
   return (
     <React.Fragment>
       <Card>
-        <CardContent className="flex items-center gap-6">
-          <Skeleton className="w-24 h-24 rounded-full" />
+        <CardContent className="flex items-center gap-4">
+          <Skeleton className="w-20 h-20 rounded-full" />
           <div className="space-y-2">
             <Skeleton className="w-32 h-6" />
             <ProfileStatsSkeleton />
