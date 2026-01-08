@@ -14,13 +14,13 @@ export function ProfileStats({postsCount, followersCount, followingCount}: Profi
   ];
 
   return (
-    <div className="flex gap-4 text-sm" role="list">
+    <div className="flex gap-4 text-muted-foreground" role="list">
       {stats.map(({label, value}) => (
         <span key={label} role="listitem">
           {value != null ? (
-            <strong>
+            <p>
               {value.toLocaleString()} {label}
-            </strong>
+            </p>
           ) : (
             <Skeleton className="w-20 h-4" />
           )}

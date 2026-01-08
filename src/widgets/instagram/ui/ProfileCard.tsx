@@ -10,17 +10,17 @@ interface ProfileCardProps {
 export function ProfileCard({profile}: ProfileCardProps) {
   return (
     <Card>
-      <CardContent className="flex items-center gap-6">
+      <CardContent className="flex items-center gap-4">
         <Image
           src={profile.profile_picture_url as string}
           alt={`${profile.username}'s profile picture`}
-          width={96}
-          height={96}
+          width={80}
+          height={80}
           className="rounded-full"
           priority
         />
         <div className="space-y-2">
-          <h1 className="text-xl font-semibold">{profile.username}</h1>
+          <h1 className="text-md font">{profile.username}</h1>
           {profile.biography && <p className="text-muted-foreground">{profile.biography}</p>}
           <ProfileStats
             postsCount={profile.media_count}
