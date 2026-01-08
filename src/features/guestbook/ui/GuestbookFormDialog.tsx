@@ -13,13 +13,13 @@ import {
   DialogTrigger,
 } from '@/shared/ui/dialog';
 import {Input} from '@/shared/ui/input';
-import {InputErrorMessage} from '@/shared/ui/input-error-message';
 import {Label} from '@/shared/ui/label';
 import {Textarea} from '@/shared/ui/textarea';
 import {useTranslations} from 'next-intl';
 import {useActionState, useEffect, useRef, useState} from 'react';
 import {submit} from '../api/actions';
 import {EmotionButtonGroup} from './EmotionButtonGroup';
+import {Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator, FieldSet} from '@/shared/ui/field';
 
 export function GuestbookFormDialog() {
   const t = useTranslations();
@@ -65,13 +65,13 @@ export function GuestbookFormDialog() {
       </DialogTrigger>
       <DialogContent>
         <form ref={formRef} action={formAction} className="flex h-full min-h-0 flex-col gap-4">
-          <DialogHeader>
-            <DialogTitle>{t('Guestbook.formSection.title')}</DialogTitle>
-          </DialogHeader>
-          <Card>
-            <CardContent className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="guestbook-name">{t('Guestbook.form.name')}</Label>
+          <FieldGroup>
+            <FieldSet>
+              <DialogHeader>
+                <DialogTitle>{t('Guestbook.formSection.title')}</DialogTitle>
+              </DialogHeader>
+              <Field>
+                <FieldLabel htmlFor="guestbook-name">{t('Guestbook.form.name')}</FieldLabel>
                 <Input
                   id="guestbook-name"
                   name="author_name"
@@ -80,10 +80,10 @@ export function GuestbookFormDialog() {
                   className="border-black/20 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10"
                   placeholder={t('Guestbook.formSection.namePlaceholder')}
                 />
-                {authorNameError && <InputErrorMessage message={authorNameError} />}
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="guestbook-message">{t('Guestbook.form.message')}</Label>
+                {authorNameError && <FieldError>{authorNameError}</FieldError>}
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="guestbook-message">{t('Guestbook.form.message')}</FieldLabel>
                 <Textarea
                   id="guestbook-message"
                   name="message"
@@ -93,34 +93,35 @@ export function GuestbookFormDialog() {
                   className="border-black/20 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10 sm:min-h-28"
                   placeholder={t('Guestbook.formSection.placeholder')}
                 />
-                {messageError && <InputErrorMessage message={messageError} />}
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label>
-                  {t('Guestbook.formSection.emotionTitle')}
-                  <span className="text-xs text-muted-foreground"> {t('Guestbook.formSection.emotionHelper')}</span>
-                </Label>
+                {messageError && <FieldError>{messageError}</FieldError>}
+              </Field>
+              <Field>
+                <FieldLabel>{t('Guestbook.formSection.emotionTitle')}</FieldLabel>
+                <FieldDescription>{t('Guestbook.formSection.emotionHelper')}</FieldDescription>
                 <EmotionButtonGroup name="emotions" maxSelected={2} disabled={isPending} />
-              </div>
-            </CardContent>
-          </Card>
+              </Field>
+            </FieldSet>
 
-          <Card>
-            <CardContent>
-              <Turnstile />
-            </CardContent>
-          </Card>
+            <FieldSeparator />
+            <FieldSet>
+              <Field>
+                <FieldLabel>{t('Guestbook.formSection.securityTitle')}</FieldLabel>
+                <FieldDescription>{t('Guestbook.formSection.securityHelper')}</FieldDescription>
+                <Turnstile />
+              </Field>
+            </FieldSet>
 
-          <DialogFooter className="flex flex-row justify-end gap-2">
-            <DialogClose asChild>
-              <Button variant="outline" disabled={isPending}>
-                Cancel
+            <DialogFooter className="flex flex-row justify-end gap-2">
+              <DialogClose asChild>
+                <Button variant="outline" disabled={isPending}>
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type="submit" disabled={isPending}>
+                {isPending ? t('Guestbook.formSection.buttonPending') : t('Guestbook.formSection.button')}
               </Button>
-            </DialogClose>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? t('Guestbook.formSection.buttonPending') : t('Guestbook.formSection.button')}
-            </Button>
-          </DialogFooter>
+            </DialogFooter>
+          </FieldGroup>
         </form>
       </DialogContent>
     </Dialog>
