@@ -12,14 +12,14 @@ export const SITE_CONFIG = {
 
 export const NAVIGATION_ITEMS = [
   {name: '홈', href: '/'},
-  {name: '포트폴리오', href: '/portfolio'},
+  {name: '프로젝트', href: '/project'},
   {name: '방명록', href: '/guestbook'},
   {name: '인스타그램', href: '/instagram'},
 ] as const;
 
 export const API_ENDPOINTS = {
   guestbook: '/api/guestbook',
-  portfolio: '/api/portfolio',
+  project: '/api/project',
   instagram: '/api/instagram',
 } as const;
 

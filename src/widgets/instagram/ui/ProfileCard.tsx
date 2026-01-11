@@ -1,7 +1,7 @@
-import {Card, CardContent} from '@/shared/ui/card';
-import Image from 'next/image';
 import {InstagramProfile} from '@/entities/instagram';
 import {ProfileStats} from '@/features/instagram/ui/ProfileStats';
+import {Card, CardContent} from '@/shared/ui/card';
+import Image from 'next/image';
 
 interface ProfileCardProps {
   profile: InstagramProfile;

@@ -161,15 +161,23 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: var(--app-bg-image);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
     /* Global readability defaults */
     @apply text-[15px] leading-relaxed md:text-base;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: var(--app-bg-image);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    pointer-events: none;
+    z-index: -1;
   }
 }
 

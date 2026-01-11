@@ -9,7 +9,7 @@ import {useTranslations} from 'next-intl';
 
 type NavigationItem = {
   name: string;
-  href: '/' | '/guestbook' | '/portfolio' | '/instagram' | '/pokemon';
+  href: '/' | '/guestbook' | '/project' | '/instagram' | '/pokemon';
 };
 
 interface HeaderNavProps {
@@ -23,7 +23,7 @@ export function HeaderNav({siteName}: HeaderNavProps) {
   const navigationItems = [
     {name: t('nav.home'), href: '/' as const},
     {name: t('nav.guestbook'), href: '/guestbook' as const},
-    {name: t('nav.portfolio'), href: '/portfolio' as const},
+    {name: t('nav.project'), href: '/project' as const},
     {name: t('nav.instagram'), href: '/instagram' as const},
   ];
 
