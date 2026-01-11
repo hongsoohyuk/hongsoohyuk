@@ -2,7 +2,6 @@
 
 import {Turnstile} from '@/shared/turnstile';
 import {Button} from '@/shared/ui/button';
-import {Card, CardContent} from '@/shared/ui/card';
 import {
   Dialog,
   DialogClose,
@@ -12,14 +11,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/shared/ui/dialog';
+import {Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator, FieldSet} from '@/shared/ui/field';
 import {Input} from '@/shared/ui/input';
-import {Label} from '@/shared/ui/label';
 import {Textarea} from '@/shared/ui/textarea';
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/shared/config';
 import {useTranslations} from 'next-intl';
 import {useActionState, useEffect, useRef, useState} from 'react';
 import {submit} from '../api/actions';
 import {EmotionButtonGroup} from './EmotionButtonGroup';
-import {Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator, FieldSet} from '@/shared/ui/field';
 
 export function GuestbookFormDialog() {
   const t = useTranslations();
@@ -63,7 +62,7 @@ export function GuestbookFormDialog() {
       <DialogTrigger asChild>
         <Button variant="outline">✍️ {t('Guestbook.formSection.trigger')}</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className={`${GUESTBOOK_LAYOUT_CLASSES.dialogMaxHeight} overflow-y-auto`}>
         <form ref={formRef} action={formAction} className="flex h-full min-h-0 flex-col gap-4">
           <FieldGroup>
             <FieldSet>

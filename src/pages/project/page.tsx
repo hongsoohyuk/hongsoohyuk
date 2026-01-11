@@ -16,7 +16,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   };
 }
 
-export default async function PortfolioPage({params}: Props) {
+export default async function ProjectPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 

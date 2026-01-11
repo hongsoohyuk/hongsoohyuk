@@ -1,11 +1,11 @@
-import {Item, ItemContent, ItemHeader, ItemSeparator, ItemTitle} from '@/shared/ui/item';
+import {Item, ItemContent, ItemFooter, ItemSeparator, ItemTitle} from '@/shared/ui/item';
 import {ScrollArea} from '@/shared/ui/scroll-area';
 import {Skeleton} from '@/shared/ui/skeleton';
 import React from 'react';
 
 export function GuestbookListSkeleton() {
   return (
-    <ScrollArea className="h-[500px]">
+    <ScrollArea className="h-full">
       {Array.from({length: 8}).map((_, index) => (
         <React.Fragment key={`guestbook-item-skeleton-${index}`}>
           <GuestbookItemSkeleton />
@@ -19,15 +19,16 @@ export function GuestbookListSkeleton() {
 export function GuestbookItemSkeleton() {
   return (
     <Item className="px-0">
-      <ItemHeader className="flex items-center justify-between">
+      <ItemContent>
         <ItemTitle>
           <Skeleton className="h-4 w-24" />
           <Skeleton className="h-4 w-12" />
         </ItemTitle>
-      </ItemHeader>
-      <ItemContent>
         <Skeleton className="h-4 w-32" />
       </ItemContent>
+      <ItemFooter>
+        <Skeleton className="h-4 w-24" />
+      </ItemFooter>
     </Item>
   );
 }
