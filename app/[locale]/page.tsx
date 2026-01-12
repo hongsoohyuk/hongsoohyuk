@@ -1,7 +1,7 @@
 import {Link} from '@/shared/i18n/routing';
-import {HeroTitle} from '@/widgets/home';
 import {Button} from '@/shared/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/shared/ui/card';
+import {HeroTitle} from '@/widgets/home';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 type Props = {
@@ -36,16 +36,16 @@ export default async function Home({params}: Props) {
             </Card>
           </Link>
 
-          <Link href="/portfolio">
+          <Link href="/project">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span className="text-2xl">{t('sections.portfolio.emoji')}</span>
-                  {t('sections.portfolio.title')}
+                  <span className="text-2xl">{t('sections.project.emoji')}</span>
+                  {t('sections.project.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription>{t('sections.portfolio.description')}</CardDescription>
+                <CardDescription>{t('sections.project.description')}</CardDescription>
               </CardContent>
             </Card>
           </Link>

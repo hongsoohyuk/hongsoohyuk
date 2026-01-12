@@ -29,3 +29,13 @@ export function ProfileStats({postsCount, followersCount, followingCount}: Profi
     </div>
   );
 }
+
+export function ProfileStatsSkeleton() {
+  return (
+    <div className="flex gap-4 text-muted-foreground" role="list">
+      <Skeleton className="w-20 h-4" />
+      <Skeleton className="w-20 h-4" />
+      <Skeleton className="w-20 h-4" />
+    </div>
+  );
+}

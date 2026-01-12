@@ -1,10 +1,10 @@
 import {InstagramMedia} from '@/entities/instagram';
-import Image from 'next/image';
 import {AspectRatio} from '@/shared/ui/aspect-ratio';
-import {Dialog, DialogContent, DialogFooter, DialogTitle, DialogHeader, DialogTrigger} from '@/shared/ui/dialog';
-import {PostMediaViewer} from './PostMediaViewer';
+import {Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger} from '@/shared/ui/dialog';
 import {useFormatter} from 'next-intl';
+import Image from 'next/image';
 import {FeedStats} from './FeedStats';
+import {PostMediaViewer} from './PostMediaViewer';
 
 interface Props {
   post: InstagramMedia;
@@ -27,7 +27,7 @@ export function FeedItem({post}: Props) {
             fill
             src={imageSrc}
             alt={imageAlt}
-            loading="lazy"
+            loading="eager"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />

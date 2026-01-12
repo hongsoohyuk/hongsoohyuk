@@ -10,11 +10,11 @@
         "description": "View precious messages left by visitors",
         "button": "View Guestbook"
       },
-      "portfolio": {
+      "project": {
         "emoji": "💼",
-        "title": "Portfolio",
+        "title": "Project",
         "description": "Discover my introduction and project experiences",
-        "button": "View Portfolio"
+        "button": "View Project"
       },
       "instagram": {
         "emoji": "📸",
@@ -35,7 +35,7 @@
     "nav": {
       "home": "Home",
       "guestbook": "Guestbook",
-      "portfolio": "Portfolio",
+      "project": "Project",
       "instagram": "Instagram"
     },
     "theme": {
@@ -181,8 +181,8 @@
     "fun": {"label": "Fun energy"},
     "thank": {"label": "Thank you"}
   },
-  "Portfolio": {
-    "title": "Portfolio",
+  "Project": {
+    "title": "Project",
     "description": "Introduction to Developer Soohyuk Hong"
   },
   "Common": {

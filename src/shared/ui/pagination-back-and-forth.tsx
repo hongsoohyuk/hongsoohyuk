@@ -43,7 +43,7 @@ function PaginationBackAndForth({totalPages}: {totalPages: number}) {
   const prevDisabled = currentPage <= DEFAULT_PAGE;
   const nextDisabled = currentPage >= totalPages;
   return (
-    <ButtonGroup>
+    <ButtonGroup className="py-0">
       <PaginationButton href={createPageURL(Math.max(currentPage - 1, DEFAULT_PAGE))} disabled={prevDisabled}>
         {t('pagination.previous')}
       </PaginationButton>
