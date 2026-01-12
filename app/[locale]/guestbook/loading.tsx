@@ -1,4 +1,5 @@
 import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/shared/config';
 import {Button} from '@/shared/ui/button';
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/shared/ui/card';
 import {PaginationBackAndForth} from '@/shared/ui/pagination-back-and-forth';
@@ -8,7 +9,7 @@ import {useTranslations} from 'next-intl';
 export default function GuestbookLoading() {
   const t = useTranslations('Guestbook');
   return (
-    <Card>
+    <Card className={GUESTBOOK_LAYOUT_CLASSES.cardHeightLoading}>
       <CardHeader>
         <CardTitle>{t('title')}</CardTitle>
         <CardDescription>{t('description')}</CardDescription>
@@ -18,7 +19,7 @@ export default function GuestbookLoading() {
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 min-h-0">
         <GuestbookListSkeleton />
       </CardContent>
       <CardFooter className="flex justify-end">

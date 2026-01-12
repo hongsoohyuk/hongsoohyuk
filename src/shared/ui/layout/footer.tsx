@@ -1,3 +1,4 @@
+import {APP_LAYOUT_CLASSES} from '@/shared/config';
 import {SITE_CONFIG} from '@/shared/config/site';
 import {getTranslations} from 'next-intl/server';
 
@@ -6,7 +7,7 @@ export async function Footer() {
   const t = await getTranslations('Footer');
 
   return (
-    <footer className="border-t py-4">
+    <footer className={`border-t ${APP_LAYOUT_CLASSES.footerPaddingY}`}>
       <div className="container mx-auto flex items-center justify-between">
         <p className="text-center text-sm leading-loose text-muted-foreground">{t('copyright', {year: currentYear})}</p>
         <div className="flex items-center gap-2 md:gap-4">

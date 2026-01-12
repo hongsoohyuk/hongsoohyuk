@@ -35,7 +35,7 @@ function GuestbookItem({item}: {item: GuestbookItemDto}) {
             </Badge>
           ))}
         </ItemTitle>
-        <p className="text-ellipsis overflow-hidden whitespace-nowrap">{item.message}</p>
+        <p className="text-ellipsis line-clamp-2">{item.message}</p>
       </ItemContent>
       <ItemFooter>
         <ItemDescription>
