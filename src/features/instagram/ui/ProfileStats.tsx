@@ -14,17 +14,12 @@ export function ProfileStats({postsCount, followersCount, followingCount}: Profi
   ];
 
   return (
-    <div className="flex gap-4 text-muted-foreground" role="list">
+    <div className="flex gap-4 text-sm text-muted-foreground" role="list">
       {stats.map(({label, value}) => (
-        <span key={label} role="listitem">
-          {value != null ? (
-            <p>
-              {value.toLocaleString()} {label}
-            </p>
-          ) : (
-            <Skeleton className="w-20 h-4" />
-          )}
-        </span>
+        <div key={label} className="flex flex-col items-start md:flex-row md:gap-1 md:items-center" role="listitem">
+          <strong className="font-semibold text-foreground">{value?.toLocaleString()}</strong>
+          <span className="text-xs md:text-sm">{label}</span>
+        </div>
       ))}
     </div>
   );
@@ -32,10 +27,13 @@ export function ProfileStats({postsCount, followersCount, followingCount}: Profi
 
 export function ProfileStatsSkeleton() {
   return (
-    <div className="flex gap-4 text-muted-foreground" role="list">
-      <Skeleton className="w-20 h-4" />
-      <Skeleton className="w-20 h-4" />
-      <Skeleton className="w-20 h-4" />
+    <div className="flex gap-4 text-sm text-muted-foreground" role="list">
+      {['posts', 'followers', 'following'].map((label) => (
+        <div key={label} className="flex flex-col items-start md:flex-row md:gap-1 md:items-center">
+          <Skeleton className="w-8 h-5 md:w-6 md:h-4" />
+          <span className="text-xs md:text-sm">{label}</span>
+        </div>
+      ))}
     </div>
   );
 }
