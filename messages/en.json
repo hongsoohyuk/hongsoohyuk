@@ -183,7 +183,11 @@
   },
   "Project": {
     "title": "Project",
-    "description": "Introduction to Developer Soohyuk Hong"
+    "description": "Introduction to Developer Soohyuk Hong",
+    "listTitle": "Project List",
+    "empty": "No projects found.",
+    "backToList": "Back to List",
+    "lastEdited": "Last edited: {date}"
   },
   "Common": {
     "loading": "Loading...",
