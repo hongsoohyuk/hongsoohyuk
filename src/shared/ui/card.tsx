@@ -1,26 +1,14 @@
 import * as React from 'react';
 
-import {cn} from '@/shared/lib/style';
 import {CARD_LAYOUT_CLASSES} from '@/shared/config';
+import {cn} from '@/shared/lib/style';
 
 function Card({className, ...props}: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="card"
-      className={cn(CARD_LAYOUT_CLASSES.root, className)}
-      {...props}
-    />
-  );
+  return <div data-slot="card" className={cn(CARD_LAYOUT_CLASSES.root, className)} {...props} />;
 }
 
 function CardHeader({className, ...props}: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn(CARD_LAYOUT_CLASSES.header, className)}
-      {...props}
-    />
-  );
+  return <div data-slot="card-header" className={cn(CARD_LAYOUT_CLASSES.header, className)} {...props} />;
 }
 
 function CardTitle({className, ...props}: React.ComponentProps<'div'>) {
@@ -46,9 +34,7 @@ function CardContent({className, ...props}: React.ComponentProps<'div'>) {
 }
 
 function CardFooter({className, ...props}: React.ComponentProps<'div'>) {
-  return (
-    <div data-slot="card-footer" className={cn(CARD_LAYOUT_CLASSES.footer, className)} {...props} />
-  );
+  return <div data-slot="card-footer" className={cn(CARD_LAYOUT_CLASSES.footer, className)} {...props} />;
 }
 
 export {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle};

@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,27 +19,13 @@
       }
     ],
     "paths": {
-      "@/pages/*": [
-        "./src/pages/*"
-      ],
-      "@/*": [
-        "./src/*"
-      ]
+      "@/pages/*": ["./src/pages/*"],
+      "@/*": ["./src/*"]
     },
     // Allow unused variables and parameters (warnings only in IDE)
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "wasm/build",
-    "wasm/build_native"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
+  "exclude": ["node_modules", "wasm/build", "wasm/build_native"]
 }

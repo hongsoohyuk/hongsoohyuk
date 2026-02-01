@@ -1,11 +1,12 @@
 'use client';
 
+import {ChevronDownIcon} from 'lucide-react';
+import {useTranslations} from 'next-intl';
+
 import {Link, usePathname} from '@/shared/i18n/routing';
 import {cn} from '@/shared/lib/style';
 import {Button} from '@/shared/ui/button';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/shared/ui/dropdown-menu';
-import {ChevronDownIcon} from 'lucide-react';
-import {useTranslations} from 'next-intl';
 
 type NavigationItem = {
   name: string;

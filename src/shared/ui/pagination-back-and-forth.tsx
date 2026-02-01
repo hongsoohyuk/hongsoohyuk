@@ -1,11 +1,14 @@
 'use client';
-import {useTranslations} from 'next-intl';
+import {ComponentProps, ComponentPropsWithoutRef} from 'react';
+
 import Link from 'next/link';
 import {usePathname, useSearchParams} from 'next/navigation';
-import {ComponentProps, ComponentPropsWithoutRef} from 'react';
-import {DEFAULT_PAGE, PAGINATION_PARAMETER_PAGE} from '../api/pagination';
+
+import {useTranslations} from 'next-intl';
+
 import {Button} from './button';
 import {ButtonGroup} from './button-group';
+import {DEFAULT_PAGE, PAGINATION_PARAMETER_PAGE} from '../api/pagination';
 
 type PaginationButtonProps =
   | (ComponentProps<typeof Link> & {disabled?: false})

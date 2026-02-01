@@ -1,5 +1,6 @@
 import {http, httpServer} from '@/shared/api/http';
 import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
+
 import {GuestbookListResponse} from '../types';
 
 export async function fetchGuestbookList(

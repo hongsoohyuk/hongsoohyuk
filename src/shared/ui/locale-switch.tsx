@@ -1,12 +1,15 @@
 'use client';
 
-import {Button} from '@/shared/ui/button';
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/shared/ui/dropdown-menu';
+import {useTransition} from 'react';
+
+import {useParams} from 'next/navigation';
+
+import {GlobeIcon} from 'lucide-react';
+
 import {localeFlags, localeNames, locales, type Locale} from '@/shared/i18n/config';
 import {usePathname, useRouter} from '@/shared/i18n/routing';
-import {GlobeIcon} from 'lucide-react';
-import {useParams} from 'next/navigation';
-import {useTransition} from 'react';
+import {Button} from '@/shared/ui/button';
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/shared/ui/dropdown-menu';
 
 export function LocaleSwitch() {
   const router = useRouter();

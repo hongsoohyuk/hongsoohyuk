@@ -1,7 +1,12 @@
-import {getInstagramPostList, getInstagramProfile} from '@/entities/instagram';
-import {InstagramFeed, ProfileCard} from '@/widgets/instagram';
-import {setRequestLocale} from 'next-intl/server';
 import React from 'react';
+
+import {setRequestLocale} from 'next-intl/server';
+
+import {InstagramFeed} from '@/widgets/instagram/ui/InstagramFeed';
+import {ProfileCard} from '@/widgets/instagram/ui/ProfileCard';
+
+import {getInstagramProfile} from '@/entities/instagram/api/get-profile';
+import {getInstagramPostList} from '@/entities/instagram/api/list-post';
 
 type Props = {
   params: Promise<{locale: string}>;

@@ -2,6 +2,7 @@ import {APP_LAYOUT_CLASSES} from '@/shared/config';
 import {SITE_CONFIG} from '@/shared/config/site';
 import {LocaleSwitch} from '@/shared/ui/locale-switch';
 import {ThemeSwitch} from '@/shared/ui/theme-switch';
+
 import {HeaderNav} from './header-nav';
 
 export async function Header() {

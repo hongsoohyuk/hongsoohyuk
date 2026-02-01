@@ -1,6 +1,6 @@
-import { PROFILE_FIELDS } from '../config/constant';
-import {InstagramProfile} from '../model/types';
 import {readInstagramStaticJson} from './local';
+import {PROFILE_FIELDS} from '../config/constant';
+import {InstagramProfile} from '../model/types';
 
 export async function getInstagramProfile(): Promise<InstagramProfile> {
   return await readInstagramStaticJson<InstagramProfile>('profile.json');

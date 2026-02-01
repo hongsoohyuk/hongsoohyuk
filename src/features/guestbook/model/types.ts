@@ -1,4 +1,4 @@
-import {EmotionOption} from '@/entities/guestbook';
+import {EmotionOption} from '@/entities/emotion';
 
 export type Texts = {
   title: string;

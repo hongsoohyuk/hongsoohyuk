@@ -1,6 +1,7 @@
 'use client';
-import {motion, useAnimationFrame, useMotionValue, useScroll, useSpring, useTransform, useVelocity} from 'motion/react';
 import React, {useLayoutEffect, useRef, useState} from 'react';
+
+import {motion, useAnimationFrame, useMotionValue, useScroll, useSpring, useTransform, useVelocity} from 'motion/react';
 
 interface VelocityMapping {
   input: [number, number];

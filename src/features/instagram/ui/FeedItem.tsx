@@ -1,8 +1,12 @@
+import Image from 'next/image';
+
+import {useFormatter} from 'next-intl';
+
 import {InstagramMedia} from '@/entities/instagram';
+
 import {AspectRatio} from '@/shared/ui/aspect-ratio';
 import {Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger} from '@/shared/ui/dialog';
-import {useFormatter} from 'next-intl';
-import Image from 'next/image';
+
 import {FeedStats} from './FeedStats';
 import {PostMediaViewer} from './PostMediaViewer';
 

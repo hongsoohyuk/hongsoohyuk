@@ -1,6 +1,7 @@
-import {useEmotionEnum} from '@/entities/emotion';
-import {EmotionCode} from '@/entities/guestbook';
 import {useState} from 'react';
+
+import {useEmotionEnum, type EmotionCode} from '@/entities/emotion';
+
 import {EmotionButton} from './EmotionButton';
 
 type Props = {

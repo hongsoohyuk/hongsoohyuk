@@ -1,6 +1,7 @@
-import {ItemContent, ItemDescription} from '@/shared/ui/item';
 import {Heart, MessageCircle} from 'lucide-react';
 import {useTranslations} from 'next-intl';
+
+import {ItemContent, ItemDescription} from '@/shared/ui/item';
 
 export function FeedStats(props: {likeCount?: number; commentsCount?: number}) {
   const t = useTranslations('Instagram.post');
