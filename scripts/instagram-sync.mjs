@@ -24,6 +24,8 @@ const MEDIA_FIELDS = [
   'username',
   'caption',
   'timestamp',
+  'children{id,media_type,media_url,thumbnail_url}',
+  'comments{id,text,username,timestamp}',
 ];
 
 const ROOT_DIR = process.cwd();
@@ -133,6 +135,25 @@ async function run() {
     }
     if (updated.thumbnail_url) {
       updated.thumbnail_url = await downloadToPublic(updated.thumbnail_url, `${updated.id}-thumb`);
+    }
+    // Handle CAROUSEL_ALBUM children
+    if (updated.children?.data) {
+      const updatedChildren = [];
+      for (const child of updated.children.data) {
+        const updatedChild = {...child};
+        if (updatedChild.media_url) {
+          updatedChild.media_url = await downloadToPublic(updatedChild.media_url, updatedChild.id);
+        }
+        if (updatedChild.thumbnail_url) {
+          updatedChild.thumbnail_url = await downloadToPublic(updatedChild.thumbnail_url, `${updatedChild.id}-thumb`);
+        }
+        updatedChildren.push(updatedChild);
+      }
+      updated.children = updatedChildren;
+    }
+    // Handle comments
+    if (updated.comments?.data) {
+      updated.comments = updated.comments.data;
     }
     updatedPosts.push(updated);
   }

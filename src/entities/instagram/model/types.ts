@@ -1,3 +1,17 @@
+export interface InstagramMediaChild {
+  id: string;
+  media_type: 'IMAGE' | 'VIDEO';
+  media_url: string;
+  thumbnail_url?: string;
+}
+
+export interface InstagramComment {
+  id: string;
+  text: string;
+  username: string;
+  timestamp: string;
+}
+
 export interface InstagramMedia {
   id: string;
   media_type: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
@@ -8,6 +22,8 @@ export interface InstagramMedia {
   username?: string;
   caption?: string;
   timestamp?: string;
+  children?: InstagramMediaChild[];
+  comments?: InstagramComment[];
 }
 
 export interface InstagramPagingCursors {
