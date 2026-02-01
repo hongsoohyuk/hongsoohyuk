@@ -1,5 +1,6 @@
-import {useTheme as useNextTheme} from 'next-themes';
 import {useEffect, useState} from 'react';
+
+import {useTheme as useNextTheme} from 'next-themes';
 
 export function useDarkMode(): boolean {
   const {resolvedTheme} = useNextTheme();

@@ -1,8 +1,11 @@
-import {fetchInitialGuestbook} from '@/entities/guestbook';
+import {setRequestLocale} from 'next-intl/server';
+
+import {GuestbookWidget} from '@/widgets/guestbook/ui/GuestbookWidget';
+
+import {fetchInitialGuestbook} from '@/entities/guestbook/api/list-guestbook';
+
 import {DEFAULT_PAGE} from '@/shared/api/pagination';
 import {parsePositiveInt} from '@/shared/lib/number';
-import {GuestbookWidget} from '@/widgets/guestbook';
-import {setRequestLocale} from 'next-intl/server';
 
 type Props = {
   params: Promise<{locale: string}>;

@@ -1,6 +1,7 @@
 'use client';
 
 import {useCallback, useEffect, useRef, useState} from 'react';
+
 import {TURNSTILE_SITE_KEY} from '../config/constant';
 
 export type TurnstileRenderOptions = {

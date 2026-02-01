@@ -1,8 +1,11 @@
 'use client';
 
-import {useTheme} from '@/app/providers/theme-provider';
-import {Button} from '@/shared/ui/button';
 import {MoonIcon, SunIcon, LoaderCircleIcon} from 'lucide-react';
+
+import {useTheme} from '@/app/providers/theme-provider';
+
+import {Button} from '@/shared/ui/button';
+
 import CaseRenderer from './case-renderer';
 
 export function ThemeSwitch() {

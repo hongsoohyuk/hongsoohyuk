@@ -1,4 +1,5 @@
-import {EmotionOption} from '@/entities/guestbook';
+import {EmotionOption} from '@/entities/emotion';
+
 import {Button} from '@/shared/ui/button';
 
 type EmotionButtonProps = {

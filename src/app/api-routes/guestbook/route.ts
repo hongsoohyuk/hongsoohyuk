@@ -1,8 +1,11 @@
-import {EmotionCode, normalizeGuestbookEmotions} from '@/entities/guestbook';
+import crypto from 'crypto';
+
+import {NextRequest, NextResponse} from 'next/server';
+
+import {normalizeGuestbookEmotions, type EmotionCode} from '@/entities/emotion';
+
 import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
 import {supabase, supabaseAdmin} from '@/shared/api/supabase';
-import crypto from 'crypto';
-import {NextRequest, NextResponse} from 'next/server';
 
 export async function GET(req: NextRequest) {
   try {

@@ -2,8 +2,9 @@ import React from 'react';
 
 import {cn} from '@/shared/lib/style';
 
-import type {NotionBlockWithChildren} from '../../model/types';
 import {NotionRichText} from './NotionRichText';
+
+import type {NotionBlockWithChildren} from '../../model/types';
 
 type Props = {
   blocks: NotionBlockWithChildren[];

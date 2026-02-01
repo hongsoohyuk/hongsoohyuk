@@ -1,7 +1,7 @@
 'use client';
 
-import {ThemeProvider} from './theme-provider';
 import QueryProvider from './query-provider';
+import {ThemeProvider} from './theme-provider';
 
 interface ClientProvidersProps {
   children: React.ReactNode;

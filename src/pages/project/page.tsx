@@ -2,6 +2,7 @@ import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {getNotionBlockChildren, getNotionPage, NotionBlocks, NotionRichText} from '@/entities/project';
+
 import {Link} from '@/shared/i18n/routing';
 import {Card, CardContent} from '@/shared/ui/card';
 

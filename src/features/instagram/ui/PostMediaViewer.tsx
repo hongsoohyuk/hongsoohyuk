@@ -1,5 +1,7 @@
 import Image from 'next/image';
-import {InstagramMedia} from '@/entities/instagram';
+
+import {InstagramMedia} from '@/entities/instagram/model/types';
+
 import {AspectRatio} from '@/shared/ui/aspect-ratio';
 
 interface PostMediaViewerProps {

@@ -1,7 +1,8 @@
 'use client';
 
-import {ThemeProvider as NextThemesProvider, useTheme as useNextTheme} from 'next-themes';
 import {useCallback, useEffect, useMemo, useState, type ReactNode} from 'react';
+
+import {ThemeProvider as NextThemesProvider, useTheme as useNextTheme} from 'next-themes';
 
 type Theme = 'light' | 'dark';
 

@@ -1,4 +1,5 @@
-import {FeedItem} from '@/features/instagram';
+import {FeedItem} from '@/features/instagram/ui/FeedItem';
+
 import {InstagramMedia} from '@/entities/instagram/model/types';
 
 export function InstagramFeed({items}: {items: InstagramMedia[]}) {
