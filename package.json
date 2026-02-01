@@ -9,7 +9,8 @@
     "instagram:sync": "node scripts/instagram-sync.mjs",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write .",
+    "lint:fix": "eslint --fix .",
+    "format": "eslint --fix . && prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
@@ -49,6 +50,9 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-unused-imports": "^4.3.0",
     "prettier": "^3.6.2",
     "shadcn": "^3.5.2",
     "tailwindcss": "^4",
