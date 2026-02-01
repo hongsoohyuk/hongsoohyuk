@@ -1,15 +1,14 @@
 import React from 'react';
 
-import {useFormatter} from 'next-intl';
-
 import {useEmotionEnum} from '@/entities/emotion/lib/useEmotionEnum';
 import {GuestbookItemDto, GuestbookListResponse} from '@/entities/guestbook/types';
 
 import {Badge} from '@/shared/ui/badge';
 import {Item, ItemContent, ItemDescription, ItemFooter, ItemSeparator, ItemTitle} from '@/shared/ui/item';
+import {LocalDateTime} from '@/shared/ui/local-date-time';
 import {ScrollArea} from '@/shared/ui/scroll-area';
 
-export function GuestbookList({data}: {data?: GuestbookListResponse}) {
+export function GuestbookList({ data }: { data?: GuestbookListResponse }) {
   const items = data?.entries ?? [];
 
   return (
@@ -25,7 +24,6 @@ export function GuestbookList({data}: {data?: GuestbookListResponse}) {
 }
 
 function GuestbookItem({item}: {item: GuestbookItemDto}) {
-  const format = useFormatter();
   const {getLabel, getEmoji} = useEmotionEnum();
   return (
     <Item className="px-0">
@@ -42,7 +40,7 @@ function GuestbookItem({item}: {item: GuestbookItemDto}) {
       </ItemContent>
       <ItemFooter>
         <ItemDescription>
-          {format.dateTime(new Date(item.created_at), {dateStyle: 'medium', timeStyle: 'short'})}
+          <LocalDateTime date={item.created_at} />
         </ItemDescription>
       </ItemFooter>
     </Item>
