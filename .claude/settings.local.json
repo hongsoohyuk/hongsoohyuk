@@ -16,8 +16,12 @@
       "mcp__serena__think_about_whether_you_are_done",
       "Bash(git add:*)",
       "Bash(git commit:*)",
+      "Bash(ls:*)",
       "Bash(pnpm tsc:*)",
-      "Bash(pnpm eslint:*)"
+      "Bash(pnpm eslint:*)",
+      "Bash(curl:*)",
+      "Bash(lsof:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }

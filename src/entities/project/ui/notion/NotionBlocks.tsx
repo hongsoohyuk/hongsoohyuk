@@ -79,7 +79,8 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
       );
     }
     case 'callout': {
-      const icon = block.callout?.icon?.emoji ?? '';
+      const calloutIcon = block.callout?.icon;
+      const icon = calloutIcon && 'emoji' in calloutIcon ? calloutIcon.emoji : '';
       return (
         <div className="space-y-2">
           <div className="rounded-md border bg-muted/40 p-4">
@@ -133,6 +134,21 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
             <BlockChildren block={block} />
           </div>
         </details>
+      );
+    }
+    case 'video': {
+      const video = block.video;
+      const src = video?.type === 'external' ? video.external?.url : video?.file?.url;
+      const caption = (video?.caption ?? []).map((t: any) => t?.plain_text ?? '').join('');
+      if (!src) return null;
+      return (
+        <figure className="space-y-2">
+          <video src={src} controls className="max-w-full rounded-md border" preload="metadata">
+            Your browser does not support the video tag.
+          </video>
+          {caption ? <figcaption className="text-sm text-muted-foreground">{caption}</figcaption> : null}
+          <BlockChildren block={block} />
+        </figure>
       );
     }
     case 'child_page': {
