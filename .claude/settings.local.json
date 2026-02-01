@@ -15,7 +15,12 @@
       "mcp__serena__create_text_file",
       "mcp__serena__think_about_whether_you_are_done",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(pnpm exec tsc:*)",
+      "Bash(pnpm instagram:sync:*)",
+      "Bash(export INSTAGRAM_GRAPH_URL=\"https://graph.instagram.com/v23.0\")",
+      "Bash(export INSTAGRAM_ACCESS_TOKEN:*)",
+      "Bash(node scripts/instagram-sync.mjs:*)"
     ]
   }
 }

@@ -1,3 +1,4 @@
+import {Layers} from 'lucide-react';
 import Image from 'next/image';
 
 import {useFormatter} from 'next-intl';
@@ -8,6 +9,7 @@ import {AspectRatio} from '@/shared/ui/aspect-ratio';
 import {Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger} from '@/shared/ui/dialog';
 
 import {FeedStats} from './FeedStats';
+import {PostComments} from './PostComments';
 import {PostMediaViewer} from './PostMediaViewer';
 
 interface Props {
@@ -19,6 +21,7 @@ export function FeedItem({post}: Props) {
 
   const imageSrc = post.media_type === 'VIDEO' ? (post.thumbnail_url ?? post.media_url) : post.media_url;
   const imageAlt = post.caption || `Instagram post by ${post.username || 'user'}`;
+  const isCarousel = post.media_type === 'CAROUSEL_ALBUM';
 
   return (
     <Dialog>
@@ -35,6 +38,11 @@ export function FeedItem({post}: Props) {
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+          {isCarousel && (
+            <div className="absolute top-2 right-2 text-white drop-shadow-md" aria-label="Carousel post">
+              <Layers className="h-5 w-5" />
+            </div>
+          )}
           <FeedOverlay likeCount={post.like_count} commentsCount={post.comments_count} />
         </AspectRatio>
       </DialogTrigger>
@@ -45,9 +53,8 @@ export function FeedItem({post}: Props) {
             : 'Unknown timestamp'}
         </DialogTitle>
         <PostMediaViewer post={post} />
-        <DialogFooter>
-          <FeedStats likeCount={post.like_count} commentsCount={post.comments_count} />
-        </DialogFooter>
+        <FeedStats likeCount={post.like_count} commentsCount={post.comments_count} />
+        <PostComments comments={post.comments} caption={post.caption} username={post.username} />
       </DialogContent>
     </Dialog>
   );
