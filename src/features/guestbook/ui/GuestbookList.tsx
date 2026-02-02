@@ -19,7 +19,7 @@ export function GuestbookList({data}: {data?: GuestbookListResponse}) {
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
             <GuestbookItem item={item} onClick={() => setSelectedItem(item)} />
-            {index < items.length - 1 && <ItemSeparator />}
+            {index < items.length - 1 && <ItemSeparator className="my-1" />}
           </React.Fragment>
         ))}
       </ScrollArea>
