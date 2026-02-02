@@ -33,30 +33,28 @@ export async function ProjectPage({params, searchParams}: Props) {
   const data = await getProjectList({page: currentPage});
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <header className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
-          <p className="text-muted-foreground">{t('description')}</p>
+    <div className="container mx-auto px-4 py-16 md:py-24">
+      <div className="max-w-2xl mx-auto">
+        <header className="mb-12">
+          <h1 className="text-2xl font-semibold tracking-tight">{t('title')}</h1>
         </header>
 
         {data.items.length > 0 ? (
-          <section className="mt-8 space-y-6">
-            <h2 className="text-xl font-semibold">{t('listTitle')}</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
+          <section>
+            <div className="flex flex-col">
               {data.items.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </div>
 
             {data.pagination.totalPages > 1 && (
-              <div className="flex justify-center pt-4">
+              <div className="flex justify-center mt-12">
                 <PaginationBackAndForth totalPages={data.pagination.totalPages} />
               </div>
             )}
           </section>
         ) : (
-          <section className="mt-8">
+          <section className="py-12">
             <p className="text-muted-foreground">{t('empty')}</p>
           </section>
         )}
