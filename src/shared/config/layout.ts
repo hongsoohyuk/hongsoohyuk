@@ -4,10 +4,9 @@ export const APP_LAYOUT_CLASSES = {
 } as const;
 
 export const GUESTBOOK_LAYOUT_CLASSES = {
-  // 모바일: 전체 뷰포트 높이에서 헤더 제외, md 이상: 여백 포함
-  // h-로 고정하여 내부 스크롤 영역이 제대로 작동하도록 함
-  cardHeight: 'h-[calc(100dvh-3rem)] md:h-[calc(100dvh-6rem)]',
-  cardHeightLoading: 'h-[calc(100dvh-12rem)]',
+  // 모바일: 전체 뷰포트 높이에서 헤더(3rem) 제외
+  // 데스크탑: 헤더(3rem) + footer(약 3rem) + 상하 여백(4rem) 제외
+  cardHeight: 'h-[calc(100dvh-3rem)] md:h-[calc(100dvh-10rem)]',
   dialogMaxHeight: 'max-h-[calc(100dvh-2rem)]',
 } as const;
 
