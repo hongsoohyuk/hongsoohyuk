@@ -1,13 +1,13 @@
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages, setRequestLocale} from 'next-intl/server';
-import {ThemeProvider} from 'next-themes';
-
 import {baseMetadata, getFontClassNames} from '@/shared/config';
 import {routing} from '@/shared/i18n/routing';
 import {Footer} from '@/shared/ui/layout/footer';
 import {Header} from '@/shared/ui/layout/header';
-
+import {Analytics} from '@vercel/analytics/next';
 import type {Metadata} from 'next';
+import {NextIntlClientProvider} from 'next-intl';
+import {getMessages, setRequestLocale} from 'next-intl/server';
+import {ThemeProvider} from 'next-themes';
+
 import '../globals.css';
 
 export const metadata: Metadata = baseMetadata;
@@ -37,6 +37,7 @@ export default async function LocaleLayout({children, params}: Props) {
             <Footer />
           </ThemeProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
