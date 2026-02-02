@@ -10,6 +10,9 @@ export type ProjectListItem = {
   id: string;
   slug: string;
   title: string;
+  cover?: string;
+  icon?: string;
+  createdTime: string;
 };
 
 export type ProjectListResponse = {
