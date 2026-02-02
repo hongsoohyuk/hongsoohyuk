@@ -82,7 +82,7 @@ export default async function Home({params}: Props) {
       </section>
 
       {/* Contact Section */}
-      <section className="px-4 py-8 md:py-12 border-t border-border/50">
+      <section className="px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-lg md:text-xl font-semibold text-center mb-6">{t('contact.title')}</h2>
           <div className="flex flex-wrap justify-center gap-3">

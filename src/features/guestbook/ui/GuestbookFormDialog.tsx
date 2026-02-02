@@ -63,7 +63,7 @@ export function GuestbookFormDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">✍️ {t('Guestbook.formSection.trigger')}</Button>
+        <Button variant="outline">{t('Guestbook.formSection.trigger')}</Button>
       </DialogTrigger>
       <DialogContent className={`${GUESTBOOK_LAYOUT_CLASSES.dialogMaxHeight} overflow-y-auto`}>
         <form ref={formRef} action={formAction} className="flex h-full min-h-0 flex-col gap-4">
