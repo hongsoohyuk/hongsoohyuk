@@ -45,27 +45,27 @@
 
 :root {
   --radius: 0.625rem;
-  /* Light theme background: closer to white */
-  --background: oklch(0.995 0.001 285.823);
-  --foreground: oklch(0.141 0.005 285.823);
+  /* Light theme: soft white bg (#F5F5F5), high contrast text, minimal saturation */
+  --background: oklch(0.965 0 0);
+  --foreground: oklch(0.13 0.002 285);
   --app-bg-image: url('/image/silk-light.png');
-  --card: oklch(0.978 0.005 285.823);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(0.978 0.005 285.823);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.965 0.01 285.823);
-  --secondary: oklch(0.965 0.002 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.963 0.002 286.375);
-  /* Improve readability (slightly higher contrast for secondary text) */
-  --muted-foreground: oklch(0.47 0.015 285.938);
-  --accent: oklch(0.963 0.002 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
+  --card: oklch(0.98 0 0);
+  --card-foreground: oklch(0.13 0.002 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.002 285);
+  --primary: oklch(0.18 0.003 285);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.97 0.001 285);
+  --secondary-foreground: oklch(0.18 0.003 285);
+  --muted: oklch(0.96 0.001 285);
+  /* Higher contrast for secondary text - much darker */
+  --muted-foreground: oklch(0.4 0.005 285);
+  --accent: oklch(0.96 0.001 285);
+  --accent-foreground: oklch(0.18 0.003 285);
+  --destructive: oklch(0.55 0.22 27);
+  --border: oklch(0.9 0.002 285);
+  --input: oklch(0.9 0.002 285);
+  --ring: oklch(0.65 0.01 285);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -79,34 +79,13 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
-  --silk-bg-base: #f5f7fb;
+  /* Subtle, desaturated background gradient */
+  --silk-bg-base: #fafafa;
   --silk-bg-layers:
-    radial-gradient(
-      68% 48% at 18% 12%,
-      rgba(238, 196, 116, 0.36) 0%,
-      rgba(238, 196, 116, 0.18) 32%,
-      rgba(238, 196, 116, 0) 58%
-    ),
-    radial-gradient(
-      122% 90% at 52% 56%,
-      rgba(150, 158, 175, 0.3) 0%,
-      rgba(150, 158, 175, 0.16) 52%,
-      rgba(150, 158, 175, 0) 78%
-    ),
-    radial-gradient(
-      68% 50% at 22% 86%,
-      rgba(196, 86, 82, 0.26) 0%,
-      rgba(196, 86, 82, 0.12) 36%,
-      rgba(196, 86, 82, 0) 64%
-    ),
-    radial-gradient(
-      54% 52% at 88% 30%,
-      rgba(112, 160, 172, 0.24) 0%,
-      rgba(112, 160, 172, 0.12) 36%,
-      rgba(112, 160, 172, 0) 62%
-    );
+    radial-gradient(80% 60% at 20% 10%, rgba(200, 200, 200, 0.08) 0%, rgba(200, 200, 200, 0) 60%),
+    radial-gradient(60% 50% at 80% 90%, rgba(180, 180, 180, 0.06) 0%, rgba(180, 180, 180, 0) 50%);
   --silk-bg-overlay: rgba(255, 255, 255, 0.24);
-  --silk-bg-saturation: 1.08;
+  --silk-bg-saturation: 0.5;
 }
 
 .dark {
@@ -178,6 +157,9 @@
     background-size: cover;
     pointer-events: none;
     z-index: -1;
+    /* Reduce saturation and add slight brightness for light theme */
+    filter: saturate(var(--silk-bg-saturation, 1)) brightness(1.02);
+    opacity: 0.7;
   }
 }
 
