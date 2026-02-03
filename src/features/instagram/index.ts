@@ -1,5 +1,4 @@
 // Components
-export {InstagramPage} from './components/InstagramPage';
 export {InstagramFeed} from './components/InstagramFeed';
 export {ProfileCard} from './components/ProfileCard';
 export {FeedItem} from './components/FeedItem';

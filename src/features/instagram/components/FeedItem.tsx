@@ -1,12 +1,12 @@
-import {Layers} from 'lucide-react';
 import Image from 'next/image';
+import {Layers} from 'lucide-react';
 
 import {useFormatter} from 'next-intl';
 
-import {InstagramMedia} from '../types';
 
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Dialog, DialogContent, DialogTitle, DialogTrigger} from '@/components/ui/dialog';
+import {InstagramMedia} from '../types';
 
 import {FeedStats} from './FeedStats';
 import {PostComments} from './PostComments';

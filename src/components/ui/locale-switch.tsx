@@ -6,10 +6,10 @@ import {useParams} from 'next/navigation';
 
 import {GlobeIcon} from 'lucide-react';
 
-import {localeFlags, localeNames, locales, type Locale} from '@/lib/i18n/config';
-import {usePathname, useRouter} from '@/lib/i18n/routing';
 import {Button} from '@/components/ui/button';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
+import {localeFlags, localeNames, locales, type Locale} from '@/lib/i18n/config';
+import {usePathname, useRouter} from '@/lib/i18n/routing';
 
 export function LocaleSwitch() {
   const router = useRouter();

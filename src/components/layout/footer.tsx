@@ -1,6 +1,6 @@
 import {getTranslations} from 'next-intl/server';
-import {APP_LAYOUT_CLASSES} from '@/config';
 import {SITE_CONFIG} from '@/config/site';
+import {APP_LAYOUT_CLASSES} from '@/config';
 
 export async function Footer() {
   const currentYear = new Date().getFullYear();

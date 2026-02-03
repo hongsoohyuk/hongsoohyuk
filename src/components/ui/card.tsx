@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {CARD_LAYOUT_CLASSES} from '@/config';
 import {cn} from '@/utils/style';
+import {CARD_LAYOUT_CLASSES} from '@/config';
 
 function Card({className, ...props}: React.ComponentProps<'div'>) {
   return <div data-slot="card" className={cn(CARD_LAYOUT_CLASSES.root, className)} {...props} />;

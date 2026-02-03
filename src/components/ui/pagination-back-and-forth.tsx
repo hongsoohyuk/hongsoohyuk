@@ -6,9 +6,9 @@ import {usePathname, useSearchParams} from 'next/navigation';
 
 import {useTranslations} from 'next-intl';
 
+import {DEFAULT_PAGE, PAGINATION_PARAMETER_PAGE} from '@/lib/api/pagination';
 import {Button} from './button';
 import {ButtonGroup} from './button-group';
-import {DEFAULT_PAGE, PAGINATION_PARAMETER_PAGE} from '@/lib/api/pagination';
 
 type PaginationButtonProps =
   | (ComponentProps<typeof Link> & {disabled?: false})

@@ -2,11 +2,11 @@
 
 import {useFormatter} from 'next-intl';
 
+import {Badge} from '@/components/ui/badge';
+import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from '@/components/ui/dialog';
 import {useEmotionEnum} from '@/entities/emotion/lib/useEmotionEnum';
 import {GuestbookItemDto} from '@/entities/guestbook/types';
 
-import {Badge} from '@/components/ui/badge';
-import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from '@/components/ui/dialog';
 
 type Props = {
   item: GuestbookItemDto | null;

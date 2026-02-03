@@ -2,9 +2,9 @@
 
 import {useFormatter} from 'next-intl';
 
+import {ScrollArea} from '@/components/ui/scroll-area';
 import {InstagramComment} from '../types';
 
-import {ScrollArea} from '@/components/ui/scroll-area';
 
 interface PostCommentsProps {
   comments?: InstagramComment[];

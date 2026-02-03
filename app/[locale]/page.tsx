@@ -1,10 +1,10 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {HeroTitle} from '@/widgets/home/ui/HeroTitle';
 
-import {Link} from '@/lib/i18n/routing';
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
+import {Link} from '@/lib/i18n/routing';
+import {HeroTitle} from '@/widgets/home/ui/HeroTitle';
 
 type Props = {
   params: Promise<{locale: string}>;

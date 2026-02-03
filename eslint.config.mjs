@@ -77,6 +77,24 @@ const eslintConfig = [
           },
         },
       ],
+      // Bulletproof React: enforce unidirectional codebase
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            // features cannot import from app
+            {
+              target: './src/features',
+              from: './src/app',
+            },
+            // shared modules cannot import from features or app
+            {
+              target: ['./src/components', './src/hooks', './src/lib', './src/types', './src/utils', './src/config'],
+              from: ['./src/features', './src/app'],
+            },
+          ],
+        },
+      ],
     },
   },
   // Disable ESLint stylistic rules that conflict with Prettier

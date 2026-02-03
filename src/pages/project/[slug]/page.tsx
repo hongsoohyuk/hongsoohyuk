@@ -1,10 +1,10 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
+import {Link} from '@/lib/i18n/routing';
 import {getProjectDetail} from '@/entities/project/api/pages/get-project-detail';
 import {NotionBlocks} from '@/entities/project/ui/notion/NotionBlocks';
 
-import {Link} from '@/lib/i18n/routing';
 
 type Props = {
   params: Promise<{locale: string; slug: string}>;

@@ -1,6 +1,6 @@
+import {Button} from '@/components/ui/button';
 import {EmotionOption} from '@/entities/emotion';
 
-import {Button} from '@/components/ui/button';
 
 type EmotionButtonProps = {
   option: EmotionOption;

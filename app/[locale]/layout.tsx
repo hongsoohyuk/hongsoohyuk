@@ -1,12 +1,12 @@
-import {baseMetadata, getFontClassNames} from '@/config';
-import {routing} from '@/lib/i18n/routing';
-import {Footer} from '@/components/layout/footer';
-import {Header} from '@/components/layout/header';
 import {Analytics} from '@vercel/analytics/next';
-import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {ThemeProvider} from 'next-themes';
+import {Footer} from '@/components/layout/footer';
+import {Header} from '@/components/layout/header';
+import {routing} from '@/lib/i18n/routing';
+import {baseMetadata, getFontClassNames} from '@/config';
+import type {Metadata} from 'next';
 
 import '../globals.css';
 

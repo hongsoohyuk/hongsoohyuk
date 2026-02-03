@@ -3,10 +3,10 @@
 import {ChevronDownIcon} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
-import {Link, usePathname} from '@/lib/i18n/routing';
-import {cn} from '@/utils/style';
 import {Button} from '@/components/ui/button';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
+import {Link, usePathname} from '@/lib/i18n/routing';
+import {cn} from '@/utils/style';
 
 type NavigationItem = {
   name: string;

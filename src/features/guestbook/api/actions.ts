@@ -4,9 +4,9 @@ import console from 'console';
 
 import {revalidatePath} from 'next/cache';
 
-import {FormActionResult} from '@/types/form';
 import {supabaseAdmin} from '@/lib/api/supabase';
 import {getClientFingerprint} from '@/lib/security';
+import {FormActionResult} from '@/types/form';
 
 import {schema} from '../model/validation';
 
