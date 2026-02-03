@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {Item, ItemContent, ItemFooter, ItemSeparator, ItemTitle} from '@/shared/ui/item';
-import {ScrollArea} from '@/shared/ui/scroll-area';
-import {Skeleton} from '@/shared/ui/skeleton';
+import {Item, ItemContent, ItemFooter, ItemSeparator, ItemTitle} from '@/components/ui/item';
+import {ScrollArea} from '@/components/ui/scroll-area';
+import {Skeleton} from '@/components/ui/skeleton';
 
 export function GuestbookListSkeleton() {
   return (

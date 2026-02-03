@@ -1,4 +1,4 @@
-import {Link} from '@/shared/i18n/routing';
+import {Link} from '@/lib/i18n/routing';
 
 import type {ProjectListItem} from '../model/types';
 

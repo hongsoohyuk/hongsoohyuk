@@ -4,8 +4,8 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {getProjectList} from '@/entities/project/api/pages/get-project-list';
 import {ProjectCard} from '@/entities/project/ui/ProjectCard';
 
-import {DEFAULT_PAGE} from '@/shared/api/pagination';
-import {PaginationBackAndForth} from '@/shared/ui/pagination-back-and-forth';
+import {DEFAULT_PAGE} from '@/lib/api/pagination';
+import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 
 type Props = {
   params: Promise<{locale: string}>;

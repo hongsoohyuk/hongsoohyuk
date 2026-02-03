@@ -1,23 +1,45 @@
 import {getProjectList} from '../api/pages/get-project-list';
 
 // Mock the notion client
-jest.mock('@/shared/api/notion', () => ({
+jest.mock('@/lib/api/notion', () => ({
   notion: {
     blocks: {
       children: {
         list: jest.fn(),
       },
     },
+    pages: {
+      retrieve: jest.fn(),
+    },
   },
 }));
 
-import {notion} from '@/shared/api/notion';
+import {notion} from '@/lib/api/notion';
 
 const mockNotionList = notion.blocks.children.list as jest.MockedFunction<typeof notion.blocks.children.list>;
+const mockNotionPagesRetrieve = notion.pages.retrieve as jest.MockedFunction<typeof notion.pages.retrieve>;
+
+const createMockPageResponse = (id: string) => ({
+  id,
+  object: 'page',
+  created_time: '2024-01-01T00:00:00.000Z',
+  last_edited_time: '2024-01-01T00:00:00.000Z',
+  cover: null,
+  icon: null,
+  parent: {type: 'page_id', page_id: 'parent-id'},
+  archived: false,
+  in_trash: false,
+  properties: {},
+  url: `https://notion.so/${id}`,
+});
 
 describe('getProjectList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Default mock for pages.retrieve - returns page with id from call
+    mockNotionPagesRetrieve.mockImplementation(async ({page_id}) =>
+      createMockPageResponse(page_id as string) as any
+    );
   });
 
   const createChildPageBlock = (id: string, title: string) => ({

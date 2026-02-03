@@ -1,7 +1,7 @@
 import {getProjectDetail} from '../api/pages/get-project-detail';
 
 // Mock dependencies
-jest.mock('@/shared/api/notion', () => ({
+jest.mock('@/lib/api/notion', () => ({
   notion: {
     pages: {
       retrieve: jest.fn(),
@@ -13,7 +13,7 @@ jest.mock('../api/blocks/get-block-children', () => ({
   getNotionBlockChildrenRecursive: jest.fn(),
 }));
 
-import {notion} from '@/shared/api/notion';
+import {notion} from '@/lib/api/notion';
 import {getNotionBlockChildrenRecursive} from '../api/blocks/get-block-children';
 
 const mockPagesRetrieve = notion.pages.retrieve as jest.MockedFunction<typeof notion.pages.retrieve>;

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {ProfileStatsSkeleton} from '@/features/instagram/ui/ProfileStats';
+import {ProfileStatsSkeleton} from '@/features/instagram';
 
-import {AspectRatio} from '@/shared/ui/aspect-ratio';
-import {Card, CardContent} from '@/shared/ui/card';
-import {Skeleton} from '@/shared/ui/skeleton';
+import {AspectRatio} from '@/components/ui/aspect-ratio';
+import {Card, CardContent} from '@/components/ui/card';
+import {Skeleton} from '@/components/ui/skeleton';
 
 export default function InstagramLoading() {
   return (

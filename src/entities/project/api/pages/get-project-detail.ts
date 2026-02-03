@@ -1,4 +1,4 @@
-import {notion} from '@/shared/api/notion';
+import {notion} from '@/lib/api/notion';
 
 import {getNotionBlockChildrenRecursive} from '../blocks/get-block-children';
 

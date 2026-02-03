@@ -1,5 +1,5 @@
-import {notion} from '@/shared/api/notion';
-import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
+import {notion} from '@/lib/api/notion';
+import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
 
 import type {ProjectListItem, ProjectListResponse} from '../../model/types';
 import type {

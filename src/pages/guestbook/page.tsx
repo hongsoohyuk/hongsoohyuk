@@ -4,8 +4,8 @@ import {GuestbookWidget} from '@/widgets/guestbook/ui/GuestbookWidget';
 
 import {fetchGuestbookListServer} from '@/entities/guestbook/api/list-guestbook.server';
 
-import {DEFAULT_PAGE} from '@/shared/api/pagination';
-import {parsePositiveInt} from '@/shared/lib/number';
+import {DEFAULT_PAGE} from '@/lib/api/pagination';
+import {parsePositiveInt} from '@/utils/number';
 
 type Props = {
   params: Promise<{locale: string}>;
