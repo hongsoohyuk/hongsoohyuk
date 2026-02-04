@@ -1,7 +1,7 @@
-import {APP_LAYOUT_CLASSES} from '@/config';
-import {SITE_CONFIG} from '@/config/site';
 import {LocaleSwitch} from '@/components/ui/locale-switch';
 import {ThemeSwitch} from '@/components/ui/theme-switch';
+import {SITE_CONFIG} from '@/config/site';
+import {APP_LAYOUT_CLASSES} from '@/config';
 
 import {HeaderNav} from './header-nav';
 

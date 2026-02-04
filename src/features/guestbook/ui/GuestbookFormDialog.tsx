@@ -4,8 +4,6 @@ import {useActionState, useEffect, useRef, useState} from 'react';
 
 import {useTranslations} from 'next-intl';
 
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
-import {Turnstile} from '@/lib/turnstile';
 import {Button} from '@/components/ui/button';
 import {
   Dialog,
@@ -19,6 +17,8 @@ import {
 import {Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator, FieldSet} from '@/components/ui/field';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
+import {Turnstile} from '@/lib/turnstile';
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
 
 import {EmotionButtonGroup} from './EmotionButtonGroup';
 import {submit} from '../api/actions';

@@ -1,12 +1,12 @@
 import {useTranslations} from 'next-intl';
 
-import {GuestbookListSkeleton} from '@/widgets/guestbook/ui/GuestbookSkeleton';
 
-import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
 import {Button} from '@/components/ui/button';
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
+import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
+import {GuestbookListSkeleton} from '@/widgets/guestbook/ui/GuestbookSkeleton';
 
 export default function GuestbookLoading() {
   const t = useTranslations('Guestbook');
