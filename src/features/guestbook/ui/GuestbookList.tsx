@@ -1,12 +1,12 @@
 'use client';
 
 import React, {useState} from 'react';
-import {useEmotionEnum} from '@/entities/emotion/lib/useEmotionEnum';
-import {GuestbookItemDto, GuestbookListResponse} from '@/entities/guestbook/types';
 import {Badge} from '@/components/ui/badge';
 import {Item, ItemContent, ItemDescription, ItemFooter, ItemSeparator, ItemTitle} from '@/components/ui/item';
 import {LocalDateTime} from '@/components/ui/local-date-time';
 import {ScrollArea} from '@/components/ui/scroll-area';
+import {useEmotionEnum} from '@/entities/emotion/lib/useEmotionEnum';
+import {GuestbookItemDto, GuestbookListResponse} from '@/entities/guestbook/types';
 import {GuestbookDetailDialog} from './GuestbookDetailDialog';
 
 export function GuestbookList({data}: {data?: GuestbookListResponse}) {

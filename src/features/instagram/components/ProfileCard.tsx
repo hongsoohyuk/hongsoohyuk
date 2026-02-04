@@ -1,10 +1,10 @@
 import Image from 'next/image';
 
+import {Card, CardContent} from '@/components/ui/card';
 import {ProfileStats} from './ProfileStats';
 
 import {InstagramProfile} from '../types';
 
-import {Card, CardContent} from '@/components/ui/card';
 
 interface ProfileCardProps {
   profile: InstagramProfile;

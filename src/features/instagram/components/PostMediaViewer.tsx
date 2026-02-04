@@ -2,13 +2,13 @@
 
 import {useState, useCallback} from 'react';
 
-import {ChevronLeft, ChevronRight} from 'lucide-react';
 import Image from 'next/image';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 
-import {InstagramMedia, InstagramMediaChild} from '../types';
 
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
+import {InstagramMedia, InstagramMediaChild} from '../types';
 
 interface PostMediaViewerProps {
   post: InstagramMedia;
