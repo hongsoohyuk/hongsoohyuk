@@ -4,9 +4,9 @@ import {useActionState, useEffect, useRef, useState} from 'react';
 
 import {useTranslations} from 'next-intl';
 
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/shared/config';
-import {Turnstile} from '@/shared/turnstile';
-import {Button} from '@/shared/ui/button';
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
+import {Turnstile} from '@/lib/turnstile';
+import {Button} from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -15,10 +15,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/shared/ui/dialog';
-import {Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator, FieldSet} from '@/shared/ui/field';
-import {Input} from '@/shared/ui/input';
-import {Textarea} from '@/shared/ui/textarea';
+} from '@/components/ui/dialog';
+import {Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator, FieldSet} from '@/components/ui/field';
+import {Input} from '@/components/ui/input';
+import {Textarea} from '@/components/ui/textarea';
 
 import {EmotionButtonGroup} from './EmotionButtonGroup';
 import {submit} from '../api/actions';

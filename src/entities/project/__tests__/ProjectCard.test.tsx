@@ -5,7 +5,7 @@ import {ProjectCard} from '../ui/ProjectCard';
 import type {ProjectListItem} from '../model/types';
 
 // Mock next-intl Link component
-jest.mock('@/shared/i18n/routing', () => ({
+jest.mock('@/lib/i18n/routing', () => ({
   Link: ({href, children, className}: {href: string; children: React.ReactNode; className?: string}) => (
     <a href={href} className={className}>
       {children}

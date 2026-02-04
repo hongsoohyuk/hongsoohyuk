@@ -1,4 +1,4 @@
-import {notion} from '@/shared/api/notion';
+import {notion} from '@/lib/api/notion';
 
 import type {NotionBlockWithChildren} from '../../model/types';
 import type {BlockObjectResponse} from '@notionhq/client/build/src/api-endpoints';

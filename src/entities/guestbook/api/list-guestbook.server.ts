@@ -1,7 +1,7 @@
 import 'server-only';
 
-import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
-import {supabase} from '@/shared/api/supabase';
+import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
+import {supabase} from '@/lib/api/supabase';
 
 import {GuestbookListResponse} from '../types';
 

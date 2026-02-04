@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {cn} from '@/shared/lib/style';
+import {cn} from '@/utils/style';
 
 import {NotionRichText} from './NotionRichText';
 
