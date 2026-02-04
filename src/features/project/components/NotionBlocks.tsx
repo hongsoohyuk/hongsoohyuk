@@ -4,7 +4,7 @@ import {cn} from '@/utils/style';
 
 import {NotionRichText} from './NotionRichText';
 
-import type {NotionBlockWithChildren} from '../../model/types';
+import type {NotionBlockWithChildren} from '../../types';
 
 type Props = {
   blocks: NotionBlockWithChildren[];

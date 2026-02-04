@@ -1,6 +1,6 @@
 import {notion} from '@/lib/api/notion';
 
-import type {NotionBlockWithChildren} from '../../model/types';
+import type {NotionBlockWithChildren} from '../../types';
 import type {BlockObjectResponse} from '@notionhq/client/build/src/api-endpoints';
 
 export async function getNotionBlockChildren(blockId: string) {
