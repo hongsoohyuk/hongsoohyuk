@@ -1,8 +1,8 @@
 import {render, screen} from '@testing-library/react';
 
-import {NotionRichText} from '../ui/notion/NotionRichText';
+import {NotionRichText} from '../components/NotionRichText';
 
-import type {NotionRichTextItem} from '../ui/notion/NotionRichText';
+import type {NotionRichTextItem} from '../components/NotionRichText';
 
 describe('NotionRichText', () => {
   it('renders plain text', () => {

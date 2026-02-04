@@ -1,8 +1,8 @@
 import {render, screen} from '@testing-library/react';
 
-import {ProjectCard} from '../ui/ProjectCard';
+import {ProjectCard} from '../components/ProjectCard';
 
-import type {ProjectListItem} from '../model/types';
+import type {ProjectListItem} from '../types';
 
 // Mock next-intl Link component
 jest.mock('@/lib/i18n/routing', () => ({
