@@ -8,8 +8,8 @@ export {getProjectList} from './api/pages/get-project-list';
 export {getProjectDetail} from './api/pages/get-project-detail';
 export {getNotionPage} from './api/pages/get-notion-page';
 export {getNotionPageProperty} from './api/pages/get-notion-page-property';
-export {getBlockChildren} from './api/blocks/get-block-children';
-export {getBlock} from './api/blocks/get-block';
+export {getNotionBlockChildren, getNotionBlockChildrenRecursive} from './api/blocks/get-block-children';
+export {getNotionBlock} from './api/blocks/get-block';
 
 // Types
 export type {

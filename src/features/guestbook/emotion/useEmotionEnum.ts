@@ -1,7 +1,7 @@
 import {useTranslations} from 'next-intl';
 
-import {BASE_EMOTIONS, EMOTION_LABEL_KEYS} from '../config/constant';
-import {EmotionCode, EmotionOption} from '../model/type';
+import {BASE_EMOTIONS, EMOTION_LABEL_KEYS} from './constant';
+import {EmotionCode, EmotionOption} from './type';
 
 export function useEmotionEnum() {
   const t = useTranslations('Emotion');

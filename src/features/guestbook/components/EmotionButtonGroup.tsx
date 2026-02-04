@@ -1,6 +1,8 @@
+'use client';
+
 import {useState} from 'react';
 
-import {useEmotionEnum, type EmotionCode} from '@/features/guestbook/emotion';
+import {useEmotionEnum, type EmotionCode} from '../emotion';
 
 import {EmotionButton} from './EmotionButton';
 

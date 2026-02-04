@@ -1,6 +1,6 @@
 import {Link} from '@/lib/i18n/routing';
 
-import type {ProjectListItem} from '../model/types';
+import type {ProjectListItem} from '../types';
 
 type Props = {
   project: ProjectListItem;
