@@ -4,7 +4,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Link} from '@/lib/i18n/routing';
-import {HeroTitle} from '@/widgets/home/ui/HeroTitle';
+import {HeroTitle} from '@/features/home';
 
 type Props = {
   params: Promise<{locale: string}>;
