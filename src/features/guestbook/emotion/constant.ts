@@ -1,4 +1,4 @@
-import {EmotionCode} from '../model/type';
+import {EmotionCode} from './type';
 
 export const BASE_EMOTIONS = [
   {code: 'LIKE', emoji: '🖤'},

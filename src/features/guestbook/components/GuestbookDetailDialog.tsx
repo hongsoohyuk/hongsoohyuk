@@ -4,7 +4,7 @@ import {useFormatter} from 'next-intl';
 
 import {Badge} from '@/components/ui/badge';
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from '@/components/ui/dialog';
-import {useEmotionEnum} from '@/features/guestbook/emotion/lib/useEmotionEnum';
+import {useEmotionEnum} from '../emotion';
 import {GuestbookItemDto} from '@/features/guestbook/types';
 
 

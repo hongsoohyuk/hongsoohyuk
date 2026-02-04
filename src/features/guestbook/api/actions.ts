@@ -8,7 +8,7 @@ import {supabaseAdmin} from '@/lib/api/supabase';
 import {getClientFingerprint} from '@/lib/security';
 import {FormActionResult} from '@/types/form';
 
-import {schema} from '../model/validation';
+import {schema} from '../types/validation';
 
 export async function submit(_prevState: FormActionResult, formData: FormData): Promise<FormActionResult> {
   try {
