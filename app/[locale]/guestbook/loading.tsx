@@ -6,7 +6,7 @@ import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, 
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
 import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
-import {GuestbookListSkeleton} from '@/widgets/guestbook/ui/GuestbookSkeleton';
+import {GuestbookListSkeleton} from '@/features/guestbook';
 
 export default function GuestbookLoading() {
   const t = useTranslations('Guestbook');

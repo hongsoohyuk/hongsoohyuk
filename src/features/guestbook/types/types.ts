@@ -1,4 +1,4 @@
-import {EmotionOption} from '@/entities/emotion';
+import {EmotionOption} from '../emotion/type';
 
 export type Texts = {
   title: string;
