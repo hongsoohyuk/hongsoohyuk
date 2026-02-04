@@ -1,13 +1,13 @@
 import {getTranslations} from 'next-intl/server';
 
-import {GuestbookFormDialog} from '@/features/guestbook/ui/GuestbookFormDialog';
-import {GuestbookList} from '@/features/guestbook/ui/GuestbookList';
+import {GuestbookFormDialog} from '@/features/guestbook/components/GuestbookFormDialog';
+import {GuestbookList} from '@/features/guestbook/components/GuestbookList';
 
 
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
-import {GuestbookListResponse} from '@/entities/guestbook/types';
+import {GuestbookListResponse} from '@/features/guestbook/types';
 
 type Props = {
   data?: GuestbookListResponse;

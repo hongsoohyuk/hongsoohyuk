@@ -1,4 +1,4 @@
-import {EMOTION_SET} from '../config/constant';
+import {EMOTION_SET} from './constant';
 
 export type EmotionCode = 'LIKE' | 'INSPIRATION' | 'NICE' | 'HELLO' | 'FUN' | 'THANK';
 export type Emotion = {code: EmotionCode; emoji: string};
