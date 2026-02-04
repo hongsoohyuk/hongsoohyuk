@@ -1,4 +1,4 @@
-import {notion} from '@/shared/api/notion';
+import {notion} from '@/lib/api/notion';
 
 export async function getNotionPageProperty(pageId: string, propertyId: string) {
   return await notion.pages.properties.retrieve({

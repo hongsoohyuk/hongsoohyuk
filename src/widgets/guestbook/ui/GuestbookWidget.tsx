@@ -5,9 +5,9 @@ import {GuestbookList} from '@/features/guestbook/ui/GuestbookList';
 
 import {GuestbookListResponse} from '@/entities/guestbook/types';
 
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/shared/config';
-import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/shared/ui/card';
-import {PaginationBackAndForth} from '@/shared/ui/pagination-back-and-forth';
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
+import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
+import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 
 type Props = {
   data?: GuestbookListResponse;

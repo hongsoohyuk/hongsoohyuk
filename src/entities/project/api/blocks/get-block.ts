@@ -1,4 +1,4 @@
-import {notion} from '@/shared/api/notion';
+import {notion} from '@/lib/api/notion';
 
 export async function getNotionBlock(blockId: string) {
   return await notion.blocks.retrieve({

@@ -1,1 +1,1 @@
-export {InstagramPage as default} from '@/pages/instagram/page';
+export {InstagramPage as default} from '@/features/instagram';

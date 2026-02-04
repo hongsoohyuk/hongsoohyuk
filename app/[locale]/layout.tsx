@@ -1,7 +1,7 @@
-import {baseMetadata, getFontClassNames} from '@/shared/config';
-import {routing} from '@/shared/i18n/routing';
-import {Footer} from '@/shared/ui/layout/footer';
-import {Header} from '@/shared/ui/layout/header';
+import {baseMetadata, getFontClassNames} from '@/config';
+import {routing} from '@/lib/i18n/routing';
+import {Footer} from '@/components/layout/footer';
+import {Header} from '@/components/layout/header';
 import {Analytics} from '@vercel/analytics/next';
 import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
