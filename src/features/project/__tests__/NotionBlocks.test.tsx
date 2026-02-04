@@ -1,8 +1,8 @@
 import {render, screen} from '@testing-library/react';
 
-import {NotionBlocks} from '../ui/notion/NotionBlocks';
+import {NotionBlocks} from '../components/NotionBlocks';
 
-import type {NotionBlockWithChildren} from '../model/types';
+import type {NotionBlockWithChildren} from '../types';
 
 describe('NotionBlocks', () => {
   const createBlock = (type: string, content: Record<string, unknown> = {}): NotionBlockWithChildren =>

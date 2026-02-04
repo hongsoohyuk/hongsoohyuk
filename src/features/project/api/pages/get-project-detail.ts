@@ -2,7 +2,7 @@ import {notion} from '@/lib/api/notion';
 
 import {getNotionBlockChildrenRecursive} from '../blocks/get-block-children';
 
-import type {ProjectDetailMeta, ProjectDetailResponse} from '../../model/types';
+import type {ProjectDetailMeta, ProjectDetailResponse} from '../../types';
 import type {PageObjectResponse} from '@notionhq/client/build/src/api-endpoints';
 
 function slugToPageId(slug: string): string {
