@@ -7,7 +7,7 @@ export async function Footer() {
   const t = await getTranslations('Footer');
 
   return (
-    <footer className={`hidden md:block border-t ${APP_LAYOUT_CLASSES.footerPaddingY}`}>
+    <footer className={`border-t ${APP_LAYOUT_CLASSES.footerPaddingY}`}>
       <div className="container mx-auto flex items-center justify-between">
         <p className="text-center text-sm leading-loose text-foreground/60">{t('copyright', {year: currentYear})}</p>
         <div className="flex items-center gap-2 md:gap-4">
