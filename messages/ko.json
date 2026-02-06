@@ -34,6 +34,7 @@
   "Header": {
     "nav": {
       "home": "홈",
+      "resume": "이력서",
       "guestbook": "방명록",
       "project": "프로젝트",
       "instagram": "인스타그램"
@@ -187,6 +188,10 @@
     "empty": "등록된 프로젝트가 없습니다.",
     "backToList": "목록으로",
     "lastEdited": "마지막 수정: {date}"
+  },
+  "Resume": {
+    "title": "이력서",
+    "description": "프론트엔드 개발자 홍수혁의 이력서입니다"
   },
   "Common": {
     "loading": "로딩 중...",

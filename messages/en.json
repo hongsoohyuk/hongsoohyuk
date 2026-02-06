@@ -34,6 +34,7 @@
   "Header": {
     "nav": {
       "home": "Home",
+      "resume": "Resume",
       "guestbook": "Guestbook",
       "project": "Project",
       "instagram": "Instagram"
@@ -188,6 +189,10 @@
     "empty": "No projects found.",
     "backToList": "Back to List",
     "lastEdited": "Last edited: {date}"
+  },
+  "Resume": {
+    "title": "Resume",
+    "description": "Frontend Developer Soohyuk Hong's Resume"
   },
   "Common": {
     "loading": "Loading...",
