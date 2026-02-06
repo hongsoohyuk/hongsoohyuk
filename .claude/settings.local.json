@@ -21,7 +21,15 @@
       "Bash(pnpm eslint:*)",
       "Bash(curl:*)",
       "Bash(lsof:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "mcp__notion__notion-search",
+      "mcp__notion__notion-fetch",
+      "Bash(pnpm build:*)",
+      "mcp__notion__notion-update-page",
+      "mcp__serena__onboarding",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__write_memory",
+      "mcp__notion__notion-create-pages"
     ]
   }
 }
