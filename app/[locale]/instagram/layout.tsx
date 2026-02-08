@@ -2,6 +2,8 @@ import React from 'react';
 
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
+import {createPageMetadata} from '@/config';
+
 import type {Metadata} from 'next';
 
 type Props = {
@@ -13,11 +15,13 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations('Instagram');
+  const t = await getTranslations({locale, namespace: 'Seo'});
 
-  return {
-    title: t('title'),
-    description: t('description'),
+  return createPageMetadata({
+    title: t('instagram.title'),
+    description: t('instagram.description'),
+    path: locale === 'ko' ? '/instagram' : `/${locale}/instagram`,
+    locale,
     keywords: [
       '남자',
       '패션',
@@ -31,12 +35,11 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
       'man',
       'fashion',
       'date outfit',
-      'ootd',
       'outfit of the day',
       'man fashion',
       'man date outfit',
     ],
-  };
+  });
 }
 
 export default async function InstagramLayout({children, params}: Props) {

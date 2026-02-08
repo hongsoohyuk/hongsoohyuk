@@ -1,8 +1,8 @@
 'use client';
 
-import {SearchIcon} from 'lucide-react';
 import {useCallback, useRef, startTransition} from 'react';
 import {useRouter, useSearchParams} from 'next/navigation';
+import {SearchIcon} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
 import {Badge} from '@/components/ui/badge';

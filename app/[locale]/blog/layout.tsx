@@ -1,5 +1,5 @@
-import {PAGE_LAYOUT_CLASSES} from '@/config';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {PAGE_LAYOUT_CLASSES} from '@/config';
 
 type Props = {
   children: React.ReactNode;

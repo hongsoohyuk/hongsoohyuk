@@ -6,8 +6,8 @@ import {getProjectList, ProjectCard} from '@/features/project';
 import {Card, CardContent, CardFooter} from '@/components/ui/card';
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 import {ScrollArea} from '@/components/ui/scroll-area';
-import {PAGE_LAYOUT_CLASSES} from '@/config';
 import {DEFAULT_PAGE} from '@/lib/api/pagination';
+import {createPageMetadata, PAGE_LAYOUT_CLASSES} from '@/config';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -16,12 +16,15 @@ type Props = {
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale} = await params;
-  const t = await getTranslations({locale, namespace: 'Project'});
+  const t = await getTranslations({locale, namespace: 'Seo'});
 
-  return {
-    title: t('title'),
-    description: t('description'),
-  };
+  return createPageMetadata({
+    title: t('project.title'),
+    description: t('project.description'),
+    path: locale === 'ko' ? '/project' : `/${locale}/project`,
+    locale,
+    keywords: ['프로젝트', '포트폴리오', 'Projects', 'Portfolio', '개발자'],
+  });
 }
 
 export default async function ProjectPage({params, searchParams}: Props) {

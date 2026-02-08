@@ -1,4 +1,5 @@
 import {Suspense} from 'react';
+import React from 'react';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
@@ -6,8 +7,7 @@ import {getBlogList, BlogContent, BlogSearchFilter} from '@/features/blog';
 
 import {Card, CardContent} from '@/components/ui/card';
 import {ScrollArea} from '@/components/ui/scroll-area';
-import {PAGE_LAYOUT_CLASSES} from '@/config';
-import React from 'react';
+import {createPageMetadata} from '@/config';
 
 export const revalidate = 21600; // 6 hours
 
@@ -17,12 +17,15 @@ type Props = {
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale} = await params;
-  const t = await getTranslations({locale, namespace: 'Blog'});
+  const t = await getTranslations({locale, namespace: 'Seo'});
 
-  return {
-    title: t('title'),
-    description: t('description'),
-  };
+  return createPageMetadata({
+    title: t('blog.title'),
+    description: t('blog.description'),
+    path: locale === 'ko' ? '/blog' : `/${locale}/blog`,
+    locale,
+    keywords: ['블로그', '개발 블로그', '프론트엔드', 'Tech Blog', 'Frontend', 'Next.js'],
+  });
 }
 
 export default async function BlogPage({params}: Props) {
