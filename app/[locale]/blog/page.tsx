@@ -2,11 +2,17 @@ import {Suspense} from 'react';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getBlogList, BlogPostCard, BlogSearchFilter} from '@/features/blog';
+import {getBlogList, BlogContent, BlogSearchFilter} from '@/features/blog';
+
+import {Card, CardContent} from '@/components/ui/card';
+import {ScrollArea} from '@/components/ui/scroll-area';
+import {PAGE_LAYOUT_CLASSES} from '@/config';
+import React from 'react';
+
+export const revalidate = 21600; // 6 hours
 
 type Props = {
   params: Promise<{locale: string}>;
-  searchParams: Promise<{q?: string; category?: string}>;
 };
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
@@ -19,40 +25,28 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   };
 }
 
-export default async function BlogPage({params, searchParams}: Props) {
+export default async function BlogPage({params}: Props) {
   const {locale} = await params;
-  const {q, category} = await searchParams;
   setRequestLocale(locale);
 
-  const [t, data] = await Promise.all([
-    getTranslations({locale, namespace: 'Blog'}),
-    getBlogList({q, category}),
-  ]);
+  const [t, data] = await Promise.all([getTranslations({locale, namespace: 'Blog'}), getBlogList()]);
 
   return (
-    <div className="container mx-auto px-4 py-16 md:py-24">
-      <div className="max-w-2xl mx-auto">
-        <header className="mb-8">
-          <h1 className="text-2xl font-semibold tracking-tight mb-6">{t('title')}</h1>
-          <Suspense>
-            <BlogSearchFilter />
-          </Suspense>
-        </header>
-
-        {data.items.length > 0 ? (
-          <section>
-            <div className="flex flex-col">
-              {data.items.map((post) => (
-                <BlogPostCard key={post.id} post={post} />
-              ))}
-            </div>
-          </section>
-        ) : (
-          <section className="py-12">
-            <p className="text-muted-foreground">{t('empty')}</p>
-          </section>
-        )}
+    <React.Fragment>
+      <div className="px-4 md:px-0 shrink-0">
+        <Suspense>
+          <BlogSearchFilter />
+        </Suspense>
       </div>
-    </div>
+      <Card className="flex-1 min-h-0 overflow-hidden">
+        <CardContent className="flex-1 min-h-0 overflow-hidden">
+          <ScrollArea className="h-full">
+            <Suspense>
+              <BlogContent posts={data.items} emptyText={t('empty')} />
+            </Suspense>
+          </ScrollArea>
+        </CardContent>
+      </Card>
+    </React.Fragment>
   );
 }

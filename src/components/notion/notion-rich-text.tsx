@@ -42,14 +42,14 @@ export function NotionRichText({richText}: Props) {
         const href = rt?.href ?? rt?.text?.link?.url ?? null;
 
         let node: React.ReactNode = text;
-        if (isCode) node = <code className="px-1 py-0.5 rounded bg-muted text-sm">{node}</code>;
+        if (isCode) node = <code className="px-1.5 py-0.5 rounded bg-muted border border-border text-sm font-mono">{node}</code>;
         if (isBold) node = <strong>{node}</strong>;
         if (isItalic) node = <em>{node}</em>;
         if (isUnderline) node = <span className="underline">{node}</span>;
         if (isStrike) node = <span className="line-through">{node}</span>;
         if (href) {
           node = (
-            <a href={href} className="underline underline-offset-4" target="_blank" rel="noreferrer">
+            <a href={href} className="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noreferrer">
               {node}
             </a>
           );

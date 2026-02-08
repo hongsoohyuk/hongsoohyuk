@@ -6,6 +6,6 @@
  */
 
 export {geistMono, geistSans, getFontClassNames} from './fonts';
-export {APP_LAYOUT_CLASSES, CARD_LAYOUT_CLASSES, GUESTBOOK_LAYOUT_CLASSES} from './layout';
+export {APP_LAYOUT_CLASSES, CARD_LAYOUT_CLASSES, GUESTBOOK_LAYOUT_CLASSES, PAGE_LAYOUT_CLASSES} from './layout';
 export {baseMetadata} from './metadata';
 export {SITE_CONFIG} from './site';

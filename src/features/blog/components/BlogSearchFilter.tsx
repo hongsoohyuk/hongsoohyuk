@@ -25,11 +25,8 @@ export function BlogSearchFilter() {
       const params = new URLSearchParams(searchParams.toString());
 
       for (const [key, value] of Object.entries(updates)) {
-        if (value) {
-          params.set(key, value);
-        } else {
-          params.delete(key);
-        }
+        if (value) params.set(key, value);
+        else params.delete(key);
       }
 
       const query = params.toString();
@@ -81,10 +78,7 @@ export function BlogSearchFilter() {
           onClick={() => updateParams({category: ''})}
           className="focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-md outline-none"
         >
-          <Badge
-            variant={currentCategory === '' ? 'default' : 'outline'}
-            className="cursor-pointer text-xs"
-          >
+          <Badge variant={currentCategory === '' ? 'default' : 'outline'} className="cursor-pointer text-xs">
             {t('allCategories')}
           </Badge>
         </button>
@@ -93,14 +87,9 @@ export function BlogSearchFilter() {
             key={category}
             type="button"
             onClick={() => handleCategoryClick(category)}
-            className={cn(
-              'focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-md outline-none',
-            )}
+            className={cn('focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-md outline-none')}
           >
-            <Badge
-              variant={currentCategory === category ? 'default' : 'outline'}
-              className="cursor-pointer text-xs"
-            >
+            <Badge variant={currentCategory === category ? 'default' : 'outline'} className="cursor-pointer text-xs">
               {category}
             </Badge>
           </button>

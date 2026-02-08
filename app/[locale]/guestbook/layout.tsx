@@ -27,5 +27,5 @@ export default async function GuestbookLayout({children, params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  return <div className="container mx-auto px-0 py-0 md:px-4 md:py-8 max-w-3xl">{children}</div>;
+  return <div className="container mx-auto px-0 py-0 md:px-2 md:py-4 max-w-3xl">{children}</div>;
 }
