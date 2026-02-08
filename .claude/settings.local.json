@@ -29,7 +29,15 @@
       "mcp__serena__onboarding",
       "mcp__serena__get_symbols_overview",
       "mcp__serena__write_memory",
-      "mcp__notion__notion-create-pages"
+      "mcp__notion__notion-create-pages",
+      "Bash(open http://localhost:3000/)",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__evaluate_script",
+      "Bash(git rm:*)",
+      "Bash(git push:*)",
+      "Bash(git merge:*)"
     ]
   }
 }
