@@ -152,6 +152,7 @@
       "securityTitle": "봇 방지 인증",
       "securityHelper": "제출 전에 아래 인증을 완료해주세요.",
       "button": "작성하기",
+      "cancel": "취소",
       "buttonPending": "전송 중...",
       "trigger": "작성하기",
       "note": "메시지는 검토 후 공개되며, IP/UA 정보는 해시 처리된 값만 저장됩니다.",
