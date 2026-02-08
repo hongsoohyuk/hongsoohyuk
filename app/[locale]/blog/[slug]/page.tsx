@@ -7,6 +7,7 @@ import {NotionBlocks} from '@/components/notion/notion-blocks';
 import {Badge} from '@/components/ui/badge';
 import {locales} from '@/lib/i18n/config';
 import {Link} from '@/lib/i18n/routing';
+import {createPageMetadata} from '@/config';
 
 export const revalidate = 21600; // 6 hours
 
@@ -22,13 +23,21 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
-  const {slug} = await params;
+  const {locale, slug} = await params;
 
   try {
-    const data = await getBlogDetail(slug);
-    return {
+    const [data, listData] = await Promise.all([getBlogDetail(slug), getBlogList()]);
+    const listItem = listData.items.find((item) => item.slug === slug);
+    const description = listItem?.excerpt || `${data.meta.title} - ${data.meta.categories.join(', ')}`;
+
+    return createPageMetadata({
       title: data.meta.title,
-    };
+      description,
+      path: locale === 'ko' ? `/blog/${slug}` : `/${locale}/blog/${slug}`,
+      locale,
+      keywords: data.meta.categories,
+      type: 'article',
+    });
   } catch {
     return {
       title: 'Blog',

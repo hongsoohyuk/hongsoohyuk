@@ -50,6 +50,32 @@
   "Footer": {
     "copyright": "© {year} hongsoohyuk. All rights reserved."
   },
+  "Seo": {
+    "home": {
+      "title": "Soohyuk Hong - Frontend Developer Portfolio",
+      "description": "Portfolio site of frontend developer Soohyuk Hong. Explore projects, blog posts, and resume."
+    },
+    "blog": {
+      "title": "Blog - Dev Articles & Book Notes",
+      "description": "Technical blog by Soohyuk Hong covering frontend development, software architecture, and book reviews."
+    },
+    "project": {
+      "title": "Projects",
+      "description": "Project portfolio of developer Soohyuk Hong. Explore professional and personal projects."
+    },
+    "resume": {
+      "title": "Resume - Frontend Developer Soohyuk Hong",
+      "description": "Resume of frontend developer Soohyuk Hong. View tech stack, career history, and education."
+    },
+    "instagram": {
+      "title": "Instagram - Daily Life & Fashion",
+      "description": "Soohyuk Hong's Instagram feed. Sharing daily moments, fashion, and outfit inspiration."
+    },
+    "guestbook": {
+      "title": "Guestbook",
+      "description": "Soohyuk Hong's guestbook. Leave a message or say hello."
+    }
+  },
   "Instagram": {
     "title": "Instagram",
     "description": "Small moments from daily life",

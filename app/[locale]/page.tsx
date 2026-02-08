@@ -1,14 +1,29 @@
+import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 
+import {HeroTitle} from '@/features/home';
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Link} from '@/lib/i18n/routing';
-import {HeroTitle} from '@/features/home';
+import {createPageMetadata} from '@/config';
 
 type Props = {
   params: Promise<{locale: string}>;
 };
+
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params;
+  const t = await getTranslations({locale, namespace: 'Seo'});
+
+  return createPageMetadata({
+    title: t('home.title'),
+    description: t('home.description'),
+    path: locale === 'ko' ? '/' : `/${locale}`,
+    locale,
+    keywords: ['홍수혁', '프론트엔드', '개발자', '포트폴리오', 'Frontend Developer', 'Portfolio', 'Next.js', 'React'],
+  });
+}
 
 export default async function Home({params}: Props) {
   const {locale} = await params;

@@ -2,9 +2,9 @@ import {cache} from 'react';
 
 import {getNotionBlockChildrenRecursive} from '@/lib/api/notion-blocks';
 
+import type {NotionBlockWithChildren} from '@/types/notion';
 import {RESUME_PAGE_ID} from '../config/constant';
 
-import type {NotionBlockWithChildren} from '@/types/notion';
 
 export type ResumePageResponse = {
   blocks: NotionBlockWithChildren[];

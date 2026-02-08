@@ -50,6 +50,32 @@
   "Footer": {
     "copyright": "© {year} hongsoohyuk. All rights reserved."
   },
+  "Seo": {
+    "home": {
+      "title": "홍수혁 - 프론트엔드 개발자 포트폴리오",
+      "description": "프론트엔드 개발자 홍수혁의 포트폴리오 사이트입니다. 프로젝트, 블로그, 이력서를 확인하세요."
+    },
+    "blog": {
+      "title": "블로그 - 개발 아티클 & 독서 기록",
+      "description": "프론트엔드 개발, 소프트웨어 아키텍처, 독서 기록 등 개발자 홍수혁의 기술 블로그입니다."
+    },
+    "project": {
+      "title": "프로젝트",
+      "description": "개발자 홍수혁의 프로젝트 포트폴리오입니다. 실무 경험과 개인 프로젝트를 소개합니다."
+    },
+    "resume": {
+      "title": "이력서 - 프론트엔드 개발자 홍수혁",
+      "description": "프론트엔드 개발자 홍수혁의 이력서입니다. 기술 스택, 경력, 학력 정보를 확인하세요."
+    },
+    "instagram": {
+      "title": "인스타그램 - 일상 & 패션",
+      "description": "홍수혁의 인스타그램 피드입니다. 일상, 패션, 데이트룩 등 소소한 순간들을 공유합니다."
+    },
+    "guestbook": {
+      "title": "방명록",
+      "description": "홍수혁의 방명록입니다. 방문 소감이나 인사를 남겨주세요."
+    }
+  },
   "Instagram": {
     "title": "인스타그램",
     "description": "일상 속 소소한 순간들",

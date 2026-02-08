@@ -1,22 +1,30 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getProjectDetail, NotionBlocks} from '@/features/project';
+import {getProjectDetail, getProjectList, NotionBlocks} from '@/features/project';
 
 import {Link} from '@/lib/i18n/routing';
+import {createPageMetadata} from '@/config';
 
 type Props = {
   params: Promise<{locale: string; slug: string}>;
 };
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
-  const {slug} = await params;
+  const {locale, slug} = await params;
 
   try {
-    const data = await getProjectDetail(slug);
-    return {
+    const [data, listData] = await Promise.all([getProjectDetail(slug), getProjectList()]);
+    const listItem = listData.items.find((item) => item.slug === slug);
+    const description = `${data.meta.title} - hongsoohyuk`;
+
+    return createPageMetadata({
       title: data.meta.title,
-    };
+      description,
+      path: locale === 'ko' ? `/project/${slug}` : `/${locale}/project/${slug}`,
+      locale,
+      ...(listItem?.cover && {images: [{url: listItem.cover, width: 1200, height: 630, alt: data.meta.title}]}),
+    });
   } catch {
     return {
       title: 'Project Detail',
