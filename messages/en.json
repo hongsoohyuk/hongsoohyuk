@@ -153,6 +153,7 @@
       "securityTitle": "Human check",
       "securityHelper": "Complete the verification before submitting.",
       "button": "Submit",
+      "cancel": "Cancel",
       "buttonPending": "Sending...",
       "trigger": "Write a note",
       "note": "IP and UA values are hashed before storing, and notes are published after review.",

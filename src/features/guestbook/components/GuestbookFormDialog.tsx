@@ -14,7 +14,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import {Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator, FieldSet} from '@/components/ui/field';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+  FieldSet,
+} from '@/components/ui/field';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import {Turnstile} from '@/lib/turnstile';
@@ -28,6 +36,11 @@ export function GuestbookFormDialog() {
   const [actionState, formAction, isPending] = useActionState(submit, {status: 'idle'});
   const [isOpen, setIsOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [authorName, setAuthorName] = useState('');
+  const [message, setMessage] = useState('');
+  const [turnstileValid, setTurnstileValid] = useState(false);
+
+  const isFormValid = authorName.trim().length > 0 && message.trim().length > 0 && turnstileValid;
 
   const fieldError = (field: string) => {
     if (actionState.status !== 'error') return null;
@@ -55,6 +68,9 @@ export function GuestbookFormDialog() {
 
   useEffect(() => {
     formRef.current?.reset();
+    setAuthorName('');
+    setMessage('');
+    setTurnstileValid(false);
   }, [isOpen]);
 
   const authorNameError = fieldError('author_name');
@@ -81,6 +97,8 @@ export function GuestbookFormDialog() {
                   aria-invalid={authorNameError ? 'true' : undefined}
                   className="border-black/20 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10"
                   placeholder={t('Guestbook.formSection.namePlaceholder')}
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
                 />
                 {authorNameError && <FieldError>{authorNameError}</FieldError>}
               </Field>
@@ -94,6 +112,8 @@ export function GuestbookFormDialog() {
                   rows={2}
                   className="border-black/20 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/10 sm:min-h-28"
                   placeholder={t('Guestbook.formSection.placeholder')}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                 />
                 {messageError && <FieldError>{messageError}</FieldError>}
               </Field>
@@ -109,17 +129,22 @@ export function GuestbookFormDialog() {
               <Field>
                 <FieldLabel>{t('Guestbook.formSection.securityTitle')}</FieldLabel>
                 <FieldDescription>{t('Guestbook.formSection.securityHelper')}</FieldDescription>
-                <Turnstile />
+                <Turnstile
+                  onSuccess={() => setTurnstileValid(true)}
+                  onExpired={() => setTurnstileValid(false)}
+                  onError={() => setTurnstileValid(false)}
+                  onTimeout={() => setTurnstileValid(false)}
+                />
               </Field>
             </FieldSet>
 
             <DialogFooter className="flex flex-row justify-end gap-2">
               <DialogClose asChild>
                 <Button variant="outline" disabled={isPending}>
-                  Cancel
+                  {t('Guestbook.formSection.cancel')}
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={isPending}>
+              <Button type="submit" disabled={isPending || !isFormValid}>
                 {isPending ? t('Guestbook.formSection.buttonPending') : t('Guestbook.formSection.button')}
               </Button>
             </DialogFooter>
