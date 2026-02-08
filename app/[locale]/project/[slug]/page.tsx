@@ -28,8 +28,10 @@ export default async function ProjectDetailPage({params}: Props) {
   const {locale, slug} = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations({locale, namespace: 'Project'});
-  const data = await getProjectDetail(slug);
+  const [t, data] = await Promise.all([
+    getTranslations({locale, namespace: 'Project'}),
+    getProjectDetail(slug),
+  ]);
 
   const formattedDate = data.meta.lastEditedTime
     ? new Date(data.meta.lastEditedTime).toLocaleDateString(locale, {

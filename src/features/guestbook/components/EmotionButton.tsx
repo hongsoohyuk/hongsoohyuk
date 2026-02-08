@@ -17,10 +17,10 @@ export function EmotionButton({option, isSelected, disabled, onToggle}: EmotionB
       size="sm"
       onClick={onToggle}
       disabled={disabled}
-      className={`flex h-auto w-full items-center gap-3 rounded-xl border px-3 py-2 text-left transition ${
+      className={`flex h-auto w-full items-center gap-3 rounded-xl border border-transparent px-3 py-2 text-left transition ${
         isSelected
-          ? 'border-blue-400/50 bg-blue-500/15 text-foreground shadow-sm dark:border-blue-500/40 dark:bg-blue-500/15'
-          : 'border-black/20 bg-black/10 text-foreground hover:border-blue-300/40 dark:border-white/15 dark:bg-white/10'
+          ? 'ring-1 ring-blue-400/50 bg-blue-500/15 text-foreground shadow-sm dark:ring-blue-500/40 dark:bg-blue-500/15'
+          : 'ring-1 ring-black/20 bg-black/10 text-foreground hover:ring-blue-300/40 dark:ring-white/15 dark:bg-white/10'
       }`}
     >
       <span className="text-lg">{option.emoji}</span>

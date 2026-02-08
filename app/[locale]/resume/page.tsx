@@ -22,8 +22,10 @@ export default async function ResumePage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations({locale, namespace: 'Resume'});
-  const data = await getResumePage();
+  const [t, data] = await Promise.all([
+    getTranslations({locale, namespace: 'Resume'}),
+    getResumePage(),
+  ]);
 
   return (
     <div className="container mx-auto px-4 py-8">

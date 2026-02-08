@@ -41,6 +41,12 @@ export type TurnstileError = {
   message: string;
 } | null;
 
+function useLatestRef<T>(value: T) {
+  const ref = useRef(value);
+  ref.current = value;
+  return ref;
+}
+
 export function useTurnstile({
   theme = 'auto',
   size = 'flexible',
@@ -53,6 +59,12 @@ export function useTurnstile({
   const widgetIdRef = useRef<string | null>(null);
   const [scriptReady, setScriptReady] = useState(false);
   const [error, setError] = useState<TurnstileError>(null);
+
+  // Store callbacks in refs to avoid re-triggering effects
+  const onSuccessRef = useLatestRef(onSuccess);
+  const onExpiredRef = useLatestRef(onExpired);
+  const onErrorRef = useLatestRef(onError);
+  const onTimeoutRef = useLatestRef(onTimeout);
 
   useEffect(() => {
     if (!TURNSTILE_SITE_KEY) return;
@@ -82,7 +94,7 @@ export function useTurnstile({
         message: 'Failed to load Turnstile script. Please check your internet connection.',
       };
       setError(scriptError);
-      onError?.('script_load_failed');
+      onErrorRef.current?.('script_load_failed');
     };
 
     document.head.appendChild(script);
@@ -90,7 +102,7 @@ export function useTurnstile({
     return () => {
       document.head.removeChild(script);
     };
-  }, [onError]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!scriptReady || !TURNSTILE_SITE_KEY || !ref.current) return;
@@ -107,7 +119,7 @@ export function useTurnstile({
         size,
         callback: (token: string) => {
           setError(null);
-          onSuccess?.(token);
+          onSuccessRef.current?.(token);
         },
         'expired-callback': () => {
           const expiredError: TurnstileError = {
@@ -115,7 +127,7 @@ export function useTurnstile({
             message: 'Verification expired. Please try again.',
           };
           setError(expiredError);
-          onExpired?.();
+          onExpiredRef.current?.();
         },
         'error-callback': (errorCode?: string) => {
           const errorMessages: Record<string, string> = {
@@ -133,7 +145,7 @@ export function useTurnstile({
             message: errorMessage,
           };
           setError(turnstileError);
-          onError?.(errorCode);
+          onErrorRef.current?.(errorCode);
         },
         'timeout-callback': () => {
           const timeoutError: TurnstileError = {
@@ -141,7 +153,7 @@ export function useTurnstile({
             message: 'Verification timeout. Please try again.',
           };
           setError(timeoutError);
-          onTimeout?.();
+          onTimeoutRef.current?.();
         },
       });
 
@@ -152,7 +164,7 @@ export function useTurnstile({
         message: 'Failed to render Turnstile widget. Please refresh the page.',
       };
       setError(renderErrorState);
-      onError?.('render_failed');
+      onErrorRef.current?.('render_failed');
     }
 
     return () => {
@@ -165,7 +177,7 @@ export function useTurnstile({
         widgetIdRef.current = null;
       }
     };
-  }, [scriptReady, ref]);
+  }, [scriptReady, theme, size]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const resetError = useCallback(() => {
     setError(null);

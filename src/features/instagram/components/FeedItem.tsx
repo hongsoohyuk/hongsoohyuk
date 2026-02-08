@@ -16,7 +16,7 @@ interface Props {
   post: InstagramMedia;
 }
 
-export function FeedItem({post}: Props) {
+export function FeedItem({post, priority = false}: Props & {priority?: boolean}) {
   const format = useFormatter();
 
   const imageSrc = post.media_type === 'VIDEO' ? (post.thumbnail_url ?? post.media_url) : post.media_url;
@@ -34,7 +34,7 @@ export function FeedItem({post}: Props) {
             fill
             src={imageSrc}
             alt={imageAlt}
-            loading="eager"
+            loading={priority ? 'eager' : 'lazy'}
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
