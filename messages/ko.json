@@ -37,7 +37,8 @@
       "resume": "이력서",
       "guestbook": "방명록",
       "project": "프로젝트",
-      "instagram": "인스타그램"
+      "instagram": "인스타그램",
+      "blog": "블로그"
     },
     "theme": {
       "light": "라이트 모드",
@@ -187,6 +188,15 @@
     "description": "개발자 홍수혁을 소개합니다",
     "listTitle": "프로젝트 목록",
     "empty": "등록된 프로젝트가 없습니다.",
+    "backToList": "목록으로",
+    "lastEdited": "마지막 수정: {date}"
+  },
+  "Blog": {
+    "title": "블로그",
+    "description": "개발 관련 글과 독서 기록",
+    "empty": "등록된 글이 없습니다.",
+    "search": "제목으로 검색",
+    "allCategories": "전체",
     "backToList": "목록으로",
     "lastEdited": "마지막 수정: {date}"
   },

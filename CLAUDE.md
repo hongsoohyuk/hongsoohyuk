@@ -1,6 +1,7 @@
 # 프로젝트 가이드
 
 ## 기술 스택
+
 - Next.js 16.1 + React 19 + Turbopack
 - Tailwind CSS 4 + Radix UI
 - TanStack React Query
@@ -67,10 +68,11 @@ app (라우트에서 feature import)
 
 ```tsx
 // app/[locale]/instagram/page.tsx
-export { InstagramPage as default } from '@/features/instagram';
+export {InstagramPage as default} from '@/features/instagram';
 ```
 
 ## 코드 컨벤션
+
 - 직접 경로 import (barrel file 최소화)
 - ESLint Bulletproof React import order 적용
 - Prettier 포맷팅
@@ -79,7 +81,7 @@ export { InstagramPage as default } from '@/features/instagram';
 ## 개발 명령어
 
 ```bash
-pnpm dev --port 3003   # 개발 서버
+pnpm dev --port 3000   # 개발 서버
 pnpm build             # 빌드
 pnpm test              # Jest 단위 테스트
 pnpm test:e2e          # Playwright E2E 테스트
@@ -88,6 +90,7 @@ pnpm format            # Prettier
 ```
 
 ## Notion API 참고
+
 - Database Query: `notion.databases.query()`
 - Page Retrieve: `notion.pages.retrieve()`
 - Block Children: `notion.blocks.children.list()`
