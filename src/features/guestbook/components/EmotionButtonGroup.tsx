@@ -35,21 +35,19 @@ export function EmotionButtonGroup({name = 'emotions', maxSelected = 2, disabled
   };
 
   return (
-    <>
+    <div className="grid grid-cols-2 gap-2">
       {selected.map((code) => (
         <input key={code} type="hidden" name={name} value={code} />
       ))}
-      <div className="grid grid-cols-2 gap-2">
-        {options.map((option) => (
-          <EmotionButton
-            key={option.code}
-            option={option}
-            isSelected={selected.includes(option.code)}
-            disabled={disabled}
-            onToggle={() => handleToggle(option.code)}
-          />
-        ))}
-      </div>
-    </>
+      {options.map((option) => (
+        <EmotionButton
+          key={option.code}
+          option={option}
+          isSelected={selected.includes(option.code)}
+          disabled={disabled}
+          onToggle={() => handleToggle(option.code)}
+        />
+      ))}
+    </div>
   );
 }

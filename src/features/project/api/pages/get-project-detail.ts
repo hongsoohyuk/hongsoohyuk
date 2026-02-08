@@ -1,3 +1,5 @@
+import {cache} from 'react';
+
 import {notion} from '@/lib/api/notion';
 
 import {getNotionBlockChildrenRecursive} from '../blocks/get-block-children';
@@ -22,7 +24,7 @@ function extractTitle(page: PageObjectResponse): string {
   return 'Untitled';
 }
 
-export async function getProjectDetail(slug: string): Promise<ProjectDetailResponse> {
+export const getProjectDetail = cache(async function getProjectDetail(slug: string): Promise<ProjectDetailResponse> {
   const pageId = slugToPageId(slug);
 
   const [page, blocks] = await Promise.all([
@@ -41,4 +43,4 @@ export async function getProjectDetail(slug: string): Promise<ProjectDetailRespo
     meta,
     blocks,
   };
-}
+});

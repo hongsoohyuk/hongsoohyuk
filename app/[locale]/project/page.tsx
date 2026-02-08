@@ -26,10 +26,12 @@ export default async function ProjectPage({params, searchParams}: Props) {
   const {page} = await searchParams;
   setRequestLocale(locale);
 
-  const t = await getTranslations({locale, namespace: 'Project'});
   const currentPage = Number(page) || DEFAULT_PAGE;
 
-  const data = await getProjectList({page: currentPage});
+  const [t, data] = await Promise.all([
+    getTranslations({locale, namespace: 'Project'}),
+    getProjectList({page: currentPage}),
+  ]);
 
   return (
     <div className="container mx-auto px-4 py-16 md:py-24">

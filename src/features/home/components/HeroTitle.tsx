@@ -1,6 +1,11 @@
 'use client';
 
-import {ScrollVelocity} from '@/components/ui/ScrollVelocity';
+import dynamic from 'next/dynamic';
+
+const ScrollVelocity = dynamic(
+  () => import('@/components/ui/ScrollVelocity').then((mod) => ({default: mod.ScrollVelocity})),
+  {ssr: false},
+);
 
 export function HeroTitle() {
   return (
