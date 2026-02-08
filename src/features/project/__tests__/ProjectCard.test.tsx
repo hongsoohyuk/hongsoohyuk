@@ -18,6 +18,7 @@ describe('ProjectCard', () => {
     id: '123e4567-e89b-12d3-a456-426614174000',
     slug: '123e4567e89b12d3a456426614174000',
     title: 'Test Project',
+    createdTime: '2024-01-15T10:00:00Z',
   };
 
   it('renders project title', () => {

@@ -18,6 +18,14 @@ const config = {
     '!src/**/*.d.ts',
     '!src/**/index.ts',
   ],
+  coverageThreshold: {
+    global: {
+      statements: 30,
+      branches: 25,
+      functions: 25,
+      lines: 30,
+    },
+  },
 };
 
 export default createJestConfig(config);
