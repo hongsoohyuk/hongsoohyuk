@@ -1,4 +1,5 @@
 // Components
+export {BlogContent} from './components/BlogContent';
 export {BlogPostCard} from './components/BlogPostCard';
 export {BlogSearchFilter} from './components/BlogSearchFilter';
 

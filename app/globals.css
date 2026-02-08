@@ -59,14 +59,14 @@
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.97 0.001 285);
   --secondary-foreground: oklch(0.18 0.003 285);
-  --muted: oklch(0.96 0.001 285);
-  /* Higher contrast for secondary text - much darker */
-  --muted-foreground: oklch(0.4 0.005 285);
+  --muted: oklch(0.93 0.001 285);
+  /* Higher contrast for secondary text - WCAG AAA target (~7:1) */
+  --muted-foreground: oklch(0.30 0.005 285);
   --accent: oklch(0.96 0.001 285);
   --accent-foreground: oklch(0.18 0.003 285);
   --destructive: oklch(0.55 0.22 27);
-  --border: oklch(0.9 0.002 285);
-  --input: oklch(0.9 0.002 285);
+  --border: oklch(0.85 0.002 285);
+  --input: oklch(0.85 0.002 285);
   --ring: oklch(0.65 0.01 285);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -88,6 +88,7 @@
     radial-gradient(60% 50% at 80% 90%, rgba(180, 180, 180, 0.06) 0%, rgba(180, 180, 180, 0) 50%);
   --silk-bg-overlay: rgba(255, 255, 255, 0.24);
   --silk-bg-saturation: 0.5;
+  --silk-bg-opacity: 0.4;
 }
 
 .dark {
@@ -134,6 +135,7 @@
     );
   --silk-bg-overlay: rgba(0, 0, 0, 0.4);
   --silk-bg-saturation: 0.8;
+  --silk-bg-opacity: 0.7;
 }
 
 @layer base {
@@ -161,7 +163,7 @@
     z-index: -1;
     /* Reduce saturation and add slight brightness for light theme */
     filter: saturate(var(--silk-bg-saturation, 1)) brightness(1.02);
-    opacity: 0.7;
+    opacity: var(--silk-bg-opacity, 0.7);
   }
 }
 

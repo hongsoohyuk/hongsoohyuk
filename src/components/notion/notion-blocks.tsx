@@ -30,7 +30,7 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
     case 'heading_1':
       return (
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-3xl font-bold tracking-tight text-wrap-balance scroll-mt-20">
             <NotionRichText richText={block.heading_1?.rich_text} />
           </h1>
           <BlockChildren block={block} />
@@ -39,7 +39,7 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
     case 'heading_2':
       return (
         <div className="space-y-2">
-          <h2 className="text-2xl font-semibold tracking-tight">
+          <h2 className="text-2xl font-semibold tracking-tight text-wrap-balance scroll-mt-20">
             <NotionRichText richText={block.heading_2?.rich_text} />
           </h2>
           <BlockChildren block={block} />
@@ -48,7 +48,7 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
     case 'heading_3':
       return (
         <div className="space-y-2">
-          <h3 className="text-xl font-semibold tracking-tight">
+          <h3 className="text-xl font-semibold tracking-tight text-wrap-balance scroll-mt-20">
             <NotionRichText richText={block.heading_3?.rich_text} />
           </h3>
           <BlockChildren block={block} />
@@ -57,7 +57,7 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
     case 'quote':
       return (
         <div className="space-y-2">
-          <blockquote className="border-l-2 pl-4 italic text-muted-foreground">
+          <blockquote className="border-l-2 pl-4 italic text-foreground/70">
             <NotionRichText richText={block.quote?.rich_text} />
           </blockquote>
           <BlockChildren block={block} />
@@ -71,7 +71,7 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
       return (
         <div className="space-y-2">
           {language ? <div className="text-xs text-muted-foreground">{language}</div> : null}
-          <pre className="overflow-x-auto rounded-md bg-muted p-4 text-sm">
+          <pre className="overflow-x-auto rounded-md bg-muted border border-border p-4 text-sm">
             <code>{codeText}</code>
           </pre>
           <BlockChildren block={block} />
@@ -82,16 +82,14 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
       const calloutIcon = block.callout?.icon;
       const icon = calloutIcon && 'emoji' in calloutIcon ? calloutIcon.emoji : '';
       return (
-        <div className="space-y-2">
-          <div className="rounded-md border bg-muted/40 p-4">
-            <div className="flex gap-3">
-              {icon ? <div className="text-lg leading-none">{icon}</div> : null}
-              <div className="min-w-0">
-                <NotionRichText richText={block.callout?.rich_text} />
-              </div>
+        <div className="rounded-md border bg-muted/70 p-4">
+          <div className="flex gap-3">
+            {icon ? <div className="text-lg leading-none shrink-0">{icon}</div> : null}
+            <div className="min-w-0 space-y-2">
+              <NotionRichText richText={block.callout?.rich_text} />
+              <BlockChildren block={block} />
             </div>
           </div>
-          <BlockChildren block={block} />
         </div>
       );
     }
@@ -151,6 +149,78 @@ function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
         </figure>
       );
     }
+    case 'column_list': {
+      return (
+        <div className="grid gap-4 md:grid-cols-2">
+          {Array.isArray(block.children) &&
+            block.children.map((col) => (
+              <div key={col.id} className="min-w-0">
+                {Array.isArray(col.children) && col.children.length > 0 ? (
+                  <NotionBlocks blocks={col.children} />
+                ) : null}
+              </div>
+            ))}
+        </div>
+      );
+    }
+    case 'column': {
+      return Array.isArray(block.children) && block.children.length > 0 ? (
+        <NotionBlocks blocks={block.children} />
+      ) : null;
+    }
+    case 'bookmark': {
+      const url = block.bookmark?.url ?? '';
+      const caption = (block.bookmark?.caption ?? []).map((t: any) => t?.plain_text ?? '').join('');
+      return (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block rounded-md border p-3 text-sm text-primary underline underline-offset-4 hover:bg-muted/40 transition-colors"
+        >
+          {caption || url}
+        </a>
+      );
+    }
+    case 'link_preview': {
+      const url = block.link_preview?.url ?? '';
+      return (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block rounded-md border p-3 text-sm text-primary underline underline-offset-4 hover:bg-muted/40 transition-colors"
+        >
+          {url}
+        </a>
+      );
+    }
+    case 'table': {
+      return (
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-sm">
+            <tbody>
+              {Array.isArray(block.children) &&
+                block.children.map((row, rowIdx) => (
+                  <tr key={row.id} className={rowIdx === 0 && block.table?.has_column_header ? 'font-semibold' : ''}>
+                    {Array.isArray(row.table_row?.cells) &&
+                      row.table_row.cells.map((cell: any[], cellIdx: number) => {
+                        const Tag = rowIdx === 0 && block.table?.has_column_header ? 'th' : 'td';
+                        return (
+                          <Tag key={cellIdx} className="border px-3 py-2 text-left">
+                            <NotionRichText richText={cell} />
+                          </Tag>
+                        );
+                      })}
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+    case 'table_row':
+      return null;
     case 'child_page': {
       const title = block.child_page?.title ?? 'Untitled';
       return <div className="text-sm text-muted-foreground">📄 {title}</div>;

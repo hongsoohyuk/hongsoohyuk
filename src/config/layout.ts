@@ -3,10 +3,14 @@ export const APP_LAYOUT_CLASSES = {
   footerPaddingY: 'py-4',
 } as const;
 
-export const GUESTBOOK_LAYOUT_CLASSES = {
+export const PAGE_LAYOUT_CLASSES = {
   // 모바일: 전체 뷰포트 높이에서 헤더(3rem) 제외
   // 데스크탑: 헤더(3rem) + footer(약 3rem) + 상하 여백(4rem) 제외
-  cardHeight: 'h-[calc(100dvh-3rem)] md:h-[calc(100dvh-10rem)]',
+  contentHeight: 'h-[calc(100dvh-3rem)] md:h-[calc(100dvh-10rem)]',
+} as const;
+
+export const GUESTBOOK_LAYOUT_CLASSES = {
+  cardHeight: PAGE_LAYOUT_CLASSES.contentHeight,
   dialogMaxHeight: 'max-h-[calc(100dvh-2rem)]',
 } as const;
 

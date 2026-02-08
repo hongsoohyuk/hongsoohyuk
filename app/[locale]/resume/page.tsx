@@ -36,7 +36,7 @@ export default async function ResumePage({params}: Props) {
         </header>
 
         {data.blocks.length > 0 && (
-          <section className="pt-4">
+          <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
             <NotionBlocks blocks={data.blocks} />
           </section>
         )}

@@ -42,25 +42,23 @@ export default async function ProjectDetailPage({params}: Props) {
     : null;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-3xl mx-auto space-y-6">
-        <div className="text-sm">
-          <Link href="/project" className="text-muted-foreground hover:underline">
-            ← {t('backToList')}
-          </Link>
-        </div>
-
-        <header className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">{data.meta.title}</h1>
-          {formattedDate && <p className="text-sm text-muted-foreground">{t('lastEdited', {date: formattedDate})}</p>}
-        </header>
-
-        {data.blocks.length > 0 && (
-          <section className="pt-4">
-            <NotionBlocks blocks={data.blocks} />
-          </section>
-        )}
+    <div className="space-y-6 px-4 md:px-0 py-4 md:py-0">
+      <div className="text-sm">
+        <Link href="/project" className="text-muted-foreground hover:underline">
+          ← {t('backToList')}
+        </Link>
       </div>
+
+      <header className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">{data.meta.title}</h1>
+        {formattedDate && <p className="text-sm text-muted-foreground">{t('lastEdited', {date: formattedDate})}</p>}
+      </header>
+
+      {data.blocks.length > 0 && (
+        <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
+          <NotionBlocks blocks={data.blocks} />
+        </section>
+      )}
     </div>
   );
 }

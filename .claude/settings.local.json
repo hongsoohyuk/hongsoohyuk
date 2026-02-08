@@ -43,7 +43,8 @@
       "mcp__chrome-devtools__list_pages",
       "mcp__chrome-devtools__click",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "mcp__claude_ai_context7__query-docs"
+      "mcp__claude_ai_context7__query-docs",
+      "mcp__chrome-devtools__resize_page"
     ]
   }
 }
