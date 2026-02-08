@@ -74,6 +74,10 @@
     "guestbook": {
       "title": "방명록",
       "description": "홍수혁의 방명록입니다. 방문 소감이나 인사를 남겨주세요."
+    },
+    "cli": {
+      "title": "CLI 모드 - 터미널로 탐색하기",
+      "description": "터미널 인터페이스로 홍수혁의 포트폴리오를 탐색해보세요."
     }
   },
   "Instagram": {
