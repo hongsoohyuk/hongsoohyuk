@@ -4,10 +4,10 @@ import {useEffect, useRef, type KeyboardEvent} from 'react';
 
 import {useTerminal} from '../hooks/use-terminal';
 
-import type {DirectoryNode} from '../types';
+import type {CliData} from '../types';
 
 type Props = {
-  fs: DirectoryNode;
+  cliData: CliData;
 };
 
 function Prompt({cwd}: {cwd: string}) {
@@ -23,20 +23,27 @@ function Prompt({cwd}: {cwd: string}) {
   );
 }
 
-export function Terminal({fs}: Props) {
-  const {lines, cwd, inputValue, setInputValue, submitCommand, navigateHistory} = useTerminal(fs);
+export function Terminal({cliData}: Props) {
+  const {
+    lines,
+    cwd,
+    inputValue,
+    setInputValue,
+    submitCommand,
+    navigateHistory,
+    handleTab,
+    tabCompletions,
+    setTabCompletions,
+  } = useTerminal(cliData);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-scroll to bottom on new output
   useEffect(() => {
     const el = containerRef.current;
-    if (el) {
-      el.scrollTop = el.scrollHeight;
-    }
-  }, [lines]);
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [lines, tabCompletions]);
 
-  // Auto-focus input
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -51,9 +58,20 @@ export function Terminal({fs}: Props) {
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       navigateHistory('down');
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const newInput = handleTab(inputValue);
+      setInputValue(newInput);
     } else if (e.key === 'l' && e.ctrlKey) {
       e.preventDefault();
       submitCommand('clear');
+    } else if (e.key === 'c' && e.ctrlKey) {
+      e.preventDefault();
+      setInputValue('');
+      setTabCompletions(null);
+    } else {
+      // any other key dismisses tab completions
+      if (tabCompletions) setTabCompletions(null);
     }
   }
 
@@ -76,11 +94,14 @@ export function Terminal({fs}: Props) {
               <span>{line.command}</span>
             </div>
           )}
-          {line.output && (
-            <div className={line.isError ? 'text-red-400' : 'text-neutral-300'}>{line.output}</div>
-          )}
+          {line.output && <div className={line.isError ? 'text-red-400' : 'text-neutral-300'}>{line.output}</div>}
         </div>
       ))}
+
+      {/* Tab completions */}
+      {tabCompletions && tabCompletions.length > 0 && (
+        <div className="text-cyan-400 whitespace-pre-wrap">{tabCompletions.join('  ')}</div>
+      )}
 
       {/* Input line */}
       <div className="flex items-center">

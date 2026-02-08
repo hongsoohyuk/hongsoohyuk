@@ -1,7 +1,7 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getCliData, buildFileSystem, Terminal} from '@/features/cli';
+import {getCliData, Terminal} from '@/features/cli';
 import {createPageMetadata} from '@/config';
 
 type Props = {
@@ -24,8 +24,7 @@ export default async function CliPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const data = await getCliData();
-  const fs = buildFileSystem(data);
+  const cliData = await getCliData();
 
   return (
     <div className="h-screen flex flex-col bg-neutral-950">
@@ -47,7 +46,7 @@ export default async function CliPage({params}: Props) {
 
       {/* Terminal */}
       <div className="flex-1 min-h-0">
-        <Terminal fs={fs} />
+        <Terminal cliData={cliData} />
       </div>
     </div>
   );
