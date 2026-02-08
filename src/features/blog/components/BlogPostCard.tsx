@@ -1,4 +1,7 @@
+'use client';
+
 import {Badge} from '@/components/ui/badge';
+import {LocalDateTime} from '@/components/ui/local-date-time';
 import {Link} from '@/lib/i18n/routing';
 
 import type {BlogListItem} from '../types';
@@ -6,14 +9,6 @@ import type {BlogListItem} from '../types';
 type Props = {
   post: BlogListItem;
 };
-
-function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
 
 export function BlogPostCard({post}: Props) {
   return (
@@ -40,9 +35,9 @@ export function BlogPostCard({post}: Props) {
         <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{post.excerpt}</p>
       )}
 
-      <time dateTime={post.lastEditedTime} className="text-xs text-muted-foreground/70 tabular-nums">
-        {formatDate(post.lastEditedTime)}
-      </time>
+      <span className="text-xs text-muted-foreground/70 tabular-nums">
+        <LocalDateTime date={post.lastEditedTime} dateStyle="medium" />
+      </span>
     </Link>
   );
 }
