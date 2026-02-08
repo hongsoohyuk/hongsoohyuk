@@ -65,7 +65,7 @@ function GuestbookItem({item, onClick}: GuestbookItemProps) {
       </ItemContent>
       <ItemFooter>
         <ItemDescription>
-          <LocalDateTime date={item.created_at} />
+          <LocalDateTime date={item.created_at} timeStyle="short" />
         </ItemDescription>
       </ItemFooter>
     </Item>

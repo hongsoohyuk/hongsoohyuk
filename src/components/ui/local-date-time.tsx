@@ -8,7 +8,7 @@ type Props = {
   timeStyle?: 'full' | 'long' | 'medium' | 'short';
 };
 
-export function LocalDateTime({date, dateStyle = 'medium', timeStyle = 'short'}: Props) {
+export function LocalDateTime({date, dateStyle = 'medium', timeStyle}: Props) {
   const format = useFormatter();
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 

@@ -1,3 +1,4 @@
+import {LocalDateTime} from '@/components/ui/local-date-time';
 import {Link} from '@/lib/i18n/routing';
 
 import type {ProjectListItem} from '../types';
@@ -5,14 +6,6 @@ import type {ProjectListItem} from '../types';
 type Props = {
   project: ProjectListItem;
 };
-
-function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
 
 export function ProjectCard({project}: Props) {
   return (
@@ -23,12 +16,9 @@ export function ProjectCard({project}: Props) {
       <h3 className="font-medium text-foreground/90 group-hover:text-foreground transition-colors truncate">
         {project.title}
       </h3>
-      <time
-        dateTime={project.createdTime}
-        className="text-sm text-muted-foreground shrink-0 tabular-nums"
-      >
-        {formatDate(project.createdTime)}
-      </time>
+      <span className="text-sm text-muted-foreground shrink-0 tabular-nums">
+        <LocalDateTime date={project.createdTime} dateStyle="medium" />
+      </span>
     </Link>
   );
 }
