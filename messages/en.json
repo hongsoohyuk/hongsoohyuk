@@ -37,7 +37,8 @@
       "resume": "Resume",
       "guestbook": "Guestbook",
       "project": "Project",
-      "instagram": "Instagram"
+      "instagram": "Instagram",
+      "blog": "Blog"
     },
     "theme": {
       "light": "Light Mode",
@@ -188,6 +189,15 @@
     "description": "Introduction to Developer Soohyuk Hong",
     "listTitle": "Project List",
     "empty": "No projects found.",
+    "backToList": "Back to List",
+    "lastEdited": "Last edited: {date}"
+  },
+  "Blog": {
+    "title": "Blog",
+    "description": "Development articles and book notes",
+    "empty": "No posts found.",
+    "search": "Search by title",
+    "allCategories": "All",
     "backToList": "Back to List",
     "lastEdited": "Last edited: {date}"
   },

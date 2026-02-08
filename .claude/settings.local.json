@@ -37,7 +37,13 @@
       "mcp__chrome-devtools__evaluate_script",
       "Bash(git rm:*)",
       "Bash(git push:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "mcp__claude_ai_notion__notion-update-page",
+      "Bash(pnpm dlx jest:*)",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__click",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "mcp__claude_ai_context7__query-docs"
     ]
   }
 }
