@@ -74,6 +74,10 @@
     "guestbook": {
       "title": "Guestbook",
       "description": "Soohyuk Hong's guestbook. Leave a message or say hello."
+    },
+    "cli": {
+      "title": "CLI Mode - Explore via Terminal",
+      "description": "Explore Soohyuk Hong's portfolio through a terminal interface."
     }
   },
   "Instagram": {
