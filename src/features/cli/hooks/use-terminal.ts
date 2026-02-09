@@ -100,22 +100,14 @@ export function useTerminal(cliData: CliData) {
 
       setTabCompletions(null);
 
-      if (direction === 'up') {
-        const newIdx = Math.min(historyIndex + 1, history.length - 1);
-        setHistoryIndex(newIdx);
-        setInputValue(history[newIdx]);
-      } else {
-        if (historyIndex <= 0) {
-          setHistoryIndex(-1);
-          setInputValue('');
-        } else {
-          const newIdx = historyIndex - 1;
-          setHistoryIndex(newIdx);
-          setInputValue(history[newIdx]);
-        }
-      }
+      setHistoryIndex((prev) => {
+        const next =
+          direction === 'up' ? Math.min(prev + 1, history.length - 1) : Math.max(prev - 1, -1);
+        setInputValue(next === -1 ? '' : history[next]);
+        return next;
+      });
     },
-    [historyIndex],
+    [],
   );
 
   const handleTab = useCallback(
