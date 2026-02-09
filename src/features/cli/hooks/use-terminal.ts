@@ -6,16 +6,9 @@ import {COMMAND_NAMES} from '../utils/commands';
 import {execute} from '../utils/executor';
 import {VirtualFS} from '../utils/filesystem';
 
-import type {CliData, TerminalLine} from '../types';
+import type {CliData, TerminalLine, VimOpenRequest} from '../types';
 
 const WELCOME_MESSAGE = [
-  '',
-  '  ██╗  ██╗ ██████╗ ███╗   ██╗ ██████╗',
-  '  ██║  ██║██╔═══██╗████╗  ██║██╔════╝',
-  '  ███████║██║   ██║██╔██╗ ██║██║  ███╗',
-  '  ██╔══██║██║   ██║██║╚██╗██║██║   ██║',
-  '  ██║  ██║╚██████╔╝██║ ╚████║╚██████╔╝',
-  '  ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝',
   '',
   '  Welcome to hongsoohyuk.com',
   '  Type "help" for available commands.',
@@ -43,6 +36,7 @@ export function useTerminal(cliData: CliData) {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const commandHistory = useRef<string[]>([]);
   const [tabCompletions, setTabCompletions] = useState<string[] | null>(null);
+  const [vimRequest, setVimRequest] = useState<VimOpenRequest | null>(null);
 
   const cwdRef = useRef(cwd);
   cwdRef.current = cwd;
@@ -73,6 +67,13 @@ export function useTerminal(cliData: CliData) {
         env: currentEnv,
         history: [...commandHistory.current].reverse(),
       });
+
+      if (result.vim) {
+        setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd: currentCwd}]);
+        setInputValue('');
+        setVimRequest(result.vim);
+        return;
+      }
 
       if (result.clear) {
         setLines([]);
@@ -158,6 +159,14 @@ export function useTerminal(cliData: CliData) {
     [fs],
   );
 
+  function vimSave(filePath: string, content: string): string | null {
+    return fs.writeFile('~', filePath, content);
+  }
+
+  function vimQuit() {
+    setVimRequest(null);
+  }
+
   return {
     lines,
     cwd,
@@ -168,6 +177,9 @@ export function useTerminal(cliData: CliData) {
     handleTab,
     tabCompletions,
     setTabCompletions,
+    vimRequest,
+    vimSave,
+    vimQuit,
   };
 }
 

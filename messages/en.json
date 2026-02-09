@@ -21,6 +21,24 @@
         "title": "Instagram",
         "description": "Sharing small moments from daily life",
         "button": "View Instagram"
+      },
+      "blog": {
+        "emoji": "✍️",
+        "title": "Blog",
+        "description": "Development articles and book notes",
+        "button": "View Blog"
+      },
+      "cli": {
+        "emoji": "💻",
+        "title": "CLI Terminal",
+        "description": "Explore the portfolio through a terminal interface",
+        "button": "Launch CLI"
+      },
+      "resume": {
+        "emoji": "📄",
+        "title": "Resume",
+        "description": "View tech stack, career history, and education",
+        "button": "View Resume"
       }
     },
     "contact": {

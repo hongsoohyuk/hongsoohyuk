@@ -72,6 +72,14 @@ export type CommandResult = {
   newCwd?: string;
   clear?: boolean;
   newEnv?: Record<string, string>;
+  vim?: VimOpenRequest;
+};
+
+export type VimOpenRequest = {
+  filePath: string;
+  fileName: string;
+  content: string;
+  readonly: boolean;
 };
 
 // === Terminal UI Types ===

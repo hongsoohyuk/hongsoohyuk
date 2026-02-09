@@ -7,7 +7,6 @@ import {useTranslations} from 'next-intl';
 
 import {Badge} from '@/components/ui/badge';
 import {Input} from '@/components/ui/input';
-import {cn} from '@/utils/style';
 
 import {BLOG_CATEGORIES} from '../types';
 
@@ -63,28 +62,35 @@ export function BlogSearchFilter() {
         />
       </div>
 
-      <div className="flex flex-wrap gap-1.5" role="group" aria-label="Category filter">
-        <button
-          type="button"
-          onClick={() => updateParams({category: ''})}
-          className="focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-md outline-none"
+      <div className="relative">
+        <div
+          className="flex gap-1.5 overflow-x-auto scrollbar-hide"
+          role="group"
+          aria-label="Category filter"
         >
-          <Badge variant={currentCategory === '' ? 'default' : 'outline'} className="cursor-pointer text-xs">
-            {t('allCategories')}
-          </Badge>
-        </button>
-        {BLOG_CATEGORIES.map((category) => (
           <button
-            key={category}
             type="button"
-            onClick={() => handleCategoryClick(category)}
-            className={cn('focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-md outline-none')}
+            onClick={() => updateParams({category: ''})}
+            className="shrink-0 focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-md outline-none"
           >
-            <Badge variant={currentCategory === category ? 'default' : 'outline'} className="cursor-pointer text-xs">
-              {category}
+            <Badge variant={currentCategory === '' ? 'default' : 'outline'} className="cursor-pointer text-xs">
+              {t('allCategories')}
             </Badge>
           </button>
-        ))}
+          {BLOG_CATEGORIES.map((category) => (
+            <button
+              key={category}
+              type="button"
+              onClick={() => handleCategoryClick(category)}
+              className="shrink-0 focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-md outline-none"
+            >
+              <Badge variant={currentCategory === category ? 'default' : 'outline'} className="cursor-pointer text-xs">
+                {category}
+              </Badge>
+            </button>
+          ))}
+        </div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent" />
       </div>
     </div>
   );

@@ -21,6 +21,24 @@
         "title": "인스타그램",
         "description": "일상 속 소소한 순간들을 공유합니다",
         "button": "인스타그램 보기"
+      },
+      "blog": {
+        "emoji": "✍️",
+        "title": "블로그",
+        "description": "개발 관련 글과 독서 기록을 공유합니다",
+        "button": "블로그 보기"
+      },
+      "cli": {
+        "emoji": "💻",
+        "title": "CLI 터미널",
+        "description": "터미널 인터페이스로 포트폴리오를 탐색해보세요",
+        "button": "CLI 실행"
+      },
+      "resume": {
+        "emoji": "📄",
+        "title": "이력서",
+        "description": "기술 스택, 경력, 학력 정보를 확인하세요",
+        "button": "이력서 보기"
       }
     },
     "contact": {
