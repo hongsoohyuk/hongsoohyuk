@@ -90,7 +90,7 @@ export function Terminal({cliData}: Props) {
         <div key={line.id} className="whitespace-pre-wrap break-words">
           {line.command !== undefined && (
             <div className="flex">
-              <Prompt cwd={cwd} />
+              <Prompt cwd={line.cwd ?? '~'} />
               <span>{line.command}</span>
             </div>
           )}

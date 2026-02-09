@@ -80,6 +80,7 @@ export type TerminalLine = {
   command?: string;
   output: string;
   isError?: boolean;
+  cwd?: string;
 };
 
 // === CLI Data (from server) ===

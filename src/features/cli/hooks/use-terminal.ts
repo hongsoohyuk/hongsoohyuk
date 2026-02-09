@@ -52,7 +52,7 @@ export function useTerminal(cliData: CliData) {
       setTabCompletions(null);
 
       if (!trimmed) {
-        setLines((prev) => [...prev, {id: lineId, command: '', output: ''}]);
+        setLines((prev) => [...prev, {id: lineId, command: '', output: '', cwd}]);
         setInputValue('');
         return;
       }
@@ -82,6 +82,7 @@ export function useTerminal(cliData: CliData) {
           command: trimmed,
           output: result.output,
           isError: result.isError,
+          cwd,
         },
       ]);
 
