@@ -1,6 +1,6 @@
 'use client';
 
-import {useEffect, useRef, type KeyboardEvent} from 'react';
+import {memo, useEffect, useRef, type KeyboardEvent} from 'react';
 
 import {useTerminal} from '../hooks/use-terminal';
 
@@ -10,7 +10,7 @@ type Props = {
   cliData: CliData;
 };
 
-function Prompt({cwd}: {cwd: string}) {
+const Prompt = memo(function Prompt({cwd}: {cwd: string}) {
   return (
     <span className="shrink-0 select-none">
       <span className="text-green-400">guest</span>
@@ -21,7 +21,7 @@ function Prompt({cwd}: {cwd: string}) {
       <span className="text-neutral-500">$ </span>
     </span>
   );
-}
+});
 
 export function Terminal({cliData}: Props) {
   const {
