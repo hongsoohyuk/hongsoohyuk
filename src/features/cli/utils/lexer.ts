@@ -2,6 +2,7 @@ import type {Token, TokenType} from '../types';
 
 const OPERATOR_CHARS = new Set(['|', '&', '>', ';']);
 const WHITESPACE = new Set([' ', '\t']);
+const VAR_NAME_CHAR = /[a-zA-Z0-9_]/;
 
 class Lexer {
   private input: string;
@@ -185,7 +186,7 @@ class Lexer {
 
     // $VAR syntax
     let varName = '';
-    while (this.pos < this.input.length && /[a-zA-Z0-9_]/.test(this.input[this.pos])) {
+    while (this.pos < this.input.length && VAR_NAME_CHAR.test(this.input[this.pos])) {
       varName += this.input[this.pos];
       this.pos++;
     }
