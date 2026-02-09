@@ -1,7 +1,10 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getCliData, Terminal} from '@/features/cli';
+import {getBlogList} from '@/features/blog';
+import {buildCliData, Terminal} from '@/features/cli';
+import {getProjectList} from '@/features/project';
+import {getResumePage} from '@/features/resume';
 import {createPageMetadata} from '@/config';
 
 type Props = {
@@ -24,7 +27,25 @@ export default async function CliPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const cliData = await getCliData();
+  const [blogData, projectData, resumeData] = await Promise.all([
+    getBlogList().catch(() => ({items: []})),
+    getProjectList().catch(() => ({items: [], pagination: {page: 1, pageSize: 10, totalItems: 0, totalPages: 0}})),
+    getResumePage().catch(() => ({blocks: []})),
+  ]);
+
+  const cliData = buildCliData({
+    blogPosts: blogData.items.map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt || '',
+      categories: post.categories,
+    })),
+    projects: projectData.items.map((project) => ({
+      slug: project.slug,
+      title: project.title,
+    })),
+    resumeBlocks: resumeData.blocks,
+  });
 
   return (
     <div className="h-screen flex flex-col bg-neutral-950">
