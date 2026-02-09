@@ -44,7 +44,13 @@
       "mcp__chrome-devtools__click",
       "WebFetch(domain:raw.githubusercontent.com)",
       "mcp__claude_ai_context7__query-docs",
-      "mcp__chrome-devtools__resize_page"
+      "mcp__chrome-devtools__resize_page",
+      "mcp__serena__find_referencing_symbols",
+      "mcp__serena__find_symbol",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm test:*)",
+      "Bash(git stash:*)"
     ]
   }
 }
