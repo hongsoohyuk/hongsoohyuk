@@ -1,6 +1,5 @@
 'use client';
 
-import {useMemo} from 'react';
 import {useSearchParams} from 'next/navigation';
 
 import {BlogPostCard} from './BlogPostCard';
@@ -17,17 +16,14 @@ export function BlogContent({posts, emptyText}: Props) {
   const q = searchParams.get('q') ?? '';
   const category = searchParams.get('category') ?? '';
 
-  const filtered = useMemo(() => {
-    let result = posts;
-    if (q) {
-      const lower = q.toLowerCase();
-      result = result.filter((p) => p.title.toLowerCase().includes(lower));
-    }
-    if (category) {
-      result = result.filter((p) => p.categories.includes(category as BlogCategory));
-    }
-    return result;
-  }, [posts, q, category]);
+  let filtered = posts;
+  if (q) {
+    const lower = q.toLowerCase();
+    filtered = filtered.filter((p) => p.title.toLowerCase().includes(lower));
+  }
+  if (category) {
+    filtered = filtered.filter((p) => p.categories.includes(category as BlogCategory));
+  }
 
   return filtered.length > 0 ? (
     <div className="flex flex-col">

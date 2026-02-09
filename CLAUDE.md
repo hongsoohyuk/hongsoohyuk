@@ -71,6 +71,12 @@ app (라우트에서 feature import)
 export {InstagramPage as default} from '@/features/instagram';
 ```
 
+## React Compiler (필수)
+
+- **React Compiler 사용** (`next.config.ts`에 `reactCompiler: true` 설정됨)
+- `memo`, `useMemo`, `useCallback`을 수동으로 사용하지 않음 — React Compiler가 자동 처리
+- 새 코드 작성 시 plain function/variable로 작성, 컴파일러가 최적화 판단
+
 ## 코드 컨벤션
 
 - 직접 경로 import (barrel file 최소화)

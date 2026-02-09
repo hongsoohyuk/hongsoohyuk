@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useRef, startTransition} from 'react';
+import {useRef, startTransition} from 'react';
 import {useRouter, useSearchParams} from 'next/navigation';
 import {SearchIcon} from 'lucide-react';
 import {useTranslations} from 'next-intl';
@@ -20,40 +20,31 @@ export function BlogSearchFilter() {
   const currentQuery = searchParams.get('q') ?? '';
   const currentCategory = searchParams.get('category') ?? '';
 
-  const updateParams = useCallback(
-    (updates: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams.toString());
+  const updateParams = (updates: Record<string, string>) => {
+    const params = new URLSearchParams(searchParams.toString());
 
-      for (const [key, value] of Object.entries(updates)) {
-        if (value) params.set(key, value);
-        else params.delete(key);
-      }
+    for (const [key, value] of Object.entries(updates)) {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    }
 
-      const query = params.toString();
-      startTransition(() => {
-        router.push(query ? `?${query}` : '?', {scroll: false});
-      });
-    },
-    [router, searchParams],
-  );
+    const query = params.toString();
+    startTransition(() => {
+      router.push(query ? `?${query}` : '?', {scroll: false});
+    });
+  };
 
-  const handleSearch = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      const value = e.target.value;
-      timerRef.current = setTimeout(() => {
-        updateParams({q: value});
-      }, 300);
-    },
-    [updateParams],
-  );
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    const value = e.target.value;
+    timerRef.current = setTimeout(() => {
+      updateParams({q: value});
+    }, 300);
+  };
 
-  const handleCategoryClick = useCallback(
-    (category: string) => {
-      updateParams({category: currentCategory === category ? '' : category});
-    },
-    [currentCategory, updateParams],
-  );
+  const handleCategoryClick = (category: string) => {
+    updateParams({category: currentCategory === category ? '' : category});
+  };
 
   return (
     <div className="space-y-3">
