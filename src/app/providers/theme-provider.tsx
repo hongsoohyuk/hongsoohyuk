@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useEffect, useMemo, useState, type ReactNode} from 'react';
+import {useEffect, useState, type ReactNode} from 'react';
 
 import {ThemeProvider as NextThemesProvider, useTheme as useNextTheme} from 'next-themes';
 
@@ -30,22 +30,19 @@ export function useTheme() {
 
   useEffect(() => setMounted(true), []);
 
-  const resolvedTheme = useMemo(() => {
+  const resolvedTheme = (() => {
     const theme = nextTheme.resolvedTheme ?? nextTheme.theme ?? 'light';
     return (theme === 'dark' ? 'dark' : 'light') as Theme;
-  }, [nextTheme.resolvedTheme, nextTheme.theme]);
+  })();
 
-  const setTheme = useCallback(
-    (value: Theme | ((prev: Theme) => Theme)) => {
-      const nextValue = typeof value === 'function' ? value(resolvedTheme) : value;
-      nextTheme.setTheme(nextValue);
-    },
-    [nextTheme, resolvedTheme],
-  );
+  const setTheme = (value: Theme | ((prev: Theme) => Theme)) => {
+    const nextValue = typeof value === 'function' ? value(resolvedTheme) : value;
+    nextTheme.setTheme(nextValue);
+  };
 
-  const toggleTheme = useCallback(() => {
+  const toggleTheme = () => {
     setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
-  }, [resolvedTheme, setTheme]);
+  };
 
   return {
     clientMounted: mounted,

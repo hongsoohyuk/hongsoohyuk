@@ -4,6 +4,9 @@ import type {NextConfig} from 'next';
 const withNextIntl = createNextIntlPlugin('./src/lib/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  // React Compiler — replaces manual memo/useMemo/useCallback
+  reactCompiler: true,
+
   // TypeScript and ESLint - don't fail build on errors
   typescript: {
     ignoreBuildErrors: true,

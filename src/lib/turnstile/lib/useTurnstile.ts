@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 import {TURNSTILE_SITE_KEY} from '../config/constant';
 
@@ -179,29 +179,29 @@ export function useTurnstile({
     };
   }, [scriptReady, theme, size]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const resetError = useCallback(() => {
+  const resetError = () => {
     setError(null);
-  }, []);
+  };
 
-  const reset = useCallback(() => {
+  const reset = () => {
     const turnstile = (window as TurnstileWindow).turnstile;
     if (turnstile && widgetIdRef.current) {
       turnstile.reset(widgetIdRef.current);
       setError(null);
     }
-  }, []);
+  };
 
-  const getResponse = useCallback((widgetId?: string) => {
+  const getResponse = (widgetId?: string) => {
     const turnstile = (window as TurnstileWindow).turnstile;
     if (!turnstile) return undefined;
     return turnstile.getResponse(widgetId || widgetIdRef.current || undefined);
-  }, []);
+  };
 
-  const isExpired = useCallback((widgetId?: string) => {
+  const isExpired = (widgetId?: string) => {
     const turnstile = (window as TurnstileWindow).turnstile;
     if (!turnstile) return true;
     return turnstile.isExpired(widgetId || widgetIdRef.current || undefined);
-  }, []);
+  };
 
   return {
     ref,
