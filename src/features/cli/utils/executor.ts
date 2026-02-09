@@ -3,7 +3,7 @@ import {VirtualFS} from './filesystem';
 import {tokenize} from './lexer';
 import {parse} from './parser';
 
-import type {CommandResult, ExecContext, SimpleCommand} from '../types';
+import type {CommandResult, ExecContext, SimpleCommand, VimOpenRequest} from '../types';
 
 type ShellState = {
   fs: VirtualFS;
@@ -18,6 +18,7 @@ export type ExecuteResult = {
   newCwd?: string;
   newEnv?: Record<string, string>;
   clear?: boolean;
+  vim?: VimOpenRequest;
 };
 
 export function execute(input: string, state: ShellState): ExecuteResult {
@@ -55,6 +56,9 @@ export function execute(input: string, state: ShellState): ExecuteResult {
     if (pipelineResult.stderr) outputs.push(pipelineResult.stderr);
 
     // Handle side effects
+    if (pipelineResult.vim) {
+      return {output: '', isError: false, vim: pipelineResult.vim};
+    }
     if (pipelineResult.clear) {
       return {output: '', isError: false, clear: true, newCwd: pipelineResult.newCwd, newEnv: pipelineResult.newEnv};
     }

@@ -2,6 +2,8 @@
 
 import {memo, useEffect, useRef, type KeyboardEvent} from 'react';
 
+import {VimEditor} from './vim-editor';
+
 import {useTerminal} from '../hooks/use-terminal';
 
 import type {CliData} from '../types';
@@ -34,6 +36,9 @@ export function Terminal({cliData}: Props) {
     handleTab,
     tabCompletions,
     setTabCompletions,
+    vimRequest,
+    vimSave,
+    vimQuit,
   } = useTerminal(cliData);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -79,6 +84,10 @@ export function Terminal({cliData}: Props) {
     inputRef.current?.focus();
   }
 
+  if (vimRequest) {
+    return <VimEditor request={vimRequest} onSave={vimSave} onQuit={vimQuit} />;
+  }
+
   return (
     <div
       ref={containerRef}
@@ -98,11 +107,6 @@ export function Terminal({cliData}: Props) {
         </div>
       ))}
 
-      {/* Tab completions */}
-      {tabCompletions && tabCompletions.length > 0 && (
-        <div className="text-cyan-400 whitespace-pre-wrap">{tabCompletions.join('  ')}</div>
-      )}
-
       {/* Input line */}
       <div className="flex items-center">
         <Prompt cwd={cwd} />
@@ -119,6 +123,11 @@ export function Terminal({cliData}: Props) {
           aria-label="Terminal input"
         />
       </div>
+
+      {/* Tab completions */}
+      {tabCompletions && tabCompletions.length > 0 && (
+        <div className="text-cyan-400 whitespace-pre-wrap">{tabCompletions.join('  ')}</div>
+      )}
     </div>
   );
 }

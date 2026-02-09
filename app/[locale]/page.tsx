@@ -45,7 +45,7 @@ export default async function Home({params}: Props) {
 
       {/* Navigation Cards */}
       <section className="px-4 pb-8 md:pb-16">
-        <div className="grid gap-3 md:gap-4 max-w-4xl mx-auto grid-cols-1 sm:grid-cols-3">
+        <div className="grid gap-3 md:gap-4 max-w-4xl mx-auto grid-cols-2 sm:grid-cols-3">
           <Link href="/guestbook" className="group">
             <Card className="h-full transition-all duration-200 hover:shadow-md hover:border-foreground/20 group-focus-visible:ring-2 group-focus-visible:ring-ring">
               <CardHeader className="pb-2 md:pb-4">
@@ -89,6 +89,54 @@ export default async function Home({params}: Props) {
               <CardContent className="pt-0">
                 <CardDescription className="text-sm leading-relaxed">
                   {t('sections.instagram.description')}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/blog" className="group">
+            <Card className="h-full transition-all duration-200 hover:shadow-md hover:border-foreground/20 group-focus-visible:ring-2 group-focus-visible:ring-ring">
+              <CardHeader className="pb-2 md:pb-4">
+                <CardTitle className="flex items-center gap-3 text-base md:text-lg">
+                  <span className="text-xl md:text-2xl">{t('sections.blog.emoji')}</span>
+                  <span className="font-semibold">{t('sections.blog.title')}</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <CardDescription className="text-sm leading-relaxed">
+                  {t('sections.blog.description')}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/cli" className="group">
+            <Card className="h-full transition-all duration-200 hover:shadow-md hover:border-foreground/20 group-focus-visible:ring-2 group-focus-visible:ring-ring">
+              <CardHeader className="pb-2 md:pb-4">
+                <CardTitle className="flex items-center gap-3 text-base md:text-lg">
+                  <span className="text-xl md:text-2xl">{t('sections.cli.emoji')}</span>
+                  <span className="font-semibold">{t('sections.cli.title')}</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <CardDescription className="text-sm leading-relaxed">
+                  {t('sections.cli.description')}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/resume" className="group">
+            <Card className="h-full transition-all duration-200 hover:shadow-md hover:border-foreground/20 group-focus-visible:ring-2 group-focus-visible:ring-ring">
+              <CardHeader className="pb-2 md:pb-4">
+                <CardTitle className="flex items-center gap-3 text-base md:text-lg">
+                  <span className="text-xl md:text-2xl">{t('sections.resume.emoji')}</span>
+                  <span className="font-semibold">{t('sections.resume.title')}</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <CardDescription className="text-sm leading-relaxed">
+                  {t('sections.resume.description')}
                 </CardDescription>
               </CardContent>
             </Card>

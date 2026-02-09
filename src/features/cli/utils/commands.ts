@@ -221,6 +221,35 @@ const wc: CommandFn = (args, ctx) => {
   return ok(parts.join('\t'));
 };
 
+// ─── Editor commands ───
+
+const vim: CommandFn = (args, ctx) => {
+  if (args.length === 0) return fail('vim: missing file operand');
+  const path = args[0];
+  const node = ctx.fs.resolve(ctx.cwd, path);
+
+  let content = '';
+  let isReadonly = false;
+
+  if (node) {
+    if (node.type === 'directory') return fail(`vim: '${path}': Is a directory`);
+    content = node.content;
+    isReadonly = node.readonly;
+  }
+
+  // Build the absolute-ish path for display
+  const segs = ctx.fs.normalizePath(ctx.cwd, path);
+  const filePath = ctx.fs.segmentsToPath(segs);
+  const fileName = segs[segs.length - 1] || path;
+
+  return {
+    stdout: '',
+    stderr: '',
+    exitCode: 0,
+    vim: {filePath, fileName, content, readonly: isReadonly},
+  };
+};
+
 // ─── Shell commands ───
 
 const help: CommandFn = () =>
@@ -235,6 +264,7 @@ const help: CommandFn = () =>
       '',
       '  Files:',
       '    cat <file>          파일 내용 보기',
+      '    vim <file>          텍스트 편집기 열기',
       '    touch <file>        빈 파일 생성',
       '    mkdir [-p] <dir>    디렉토리 생성',
       '    rm [-rf] <path>     파일/디렉토리 삭제',
@@ -330,6 +360,8 @@ export const COMMANDS: Record<string, CommandFn> = {
   head,
   tail,
   wc,
+  vim,
+  vi: vim,
   help,
   whoami,
   clear,
