@@ -44,15 +44,22 @@ export function useTerminal(cliData: CliData) {
   const commandHistory = useRef<string[]>([]);
   const [tabCompletions, setTabCompletions] = useState<string[] | null>(null);
 
+  const cwdRef = useRef(cwd);
+  cwdRef.current = cwd;
+  const envRef = useRef(env);
+  envRef.current = env;
+
   const submitCommand = useCallback(
     (input: string) => {
       const trimmed = input.trim();
       const lineId = `l-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+      const currentCwd = cwdRef.current;
+      const currentEnv = envRef.current;
 
       setTabCompletions(null);
 
       if (!trimmed) {
-        setLines((prev) => [...prev, {id: lineId, command: '', output: '', cwd}]);
+        setLines((prev) => [...prev, {id: lineId, command: '', output: '', cwd: currentCwd}]);
         setInputValue('');
         return;
       }
@@ -62,8 +69,8 @@ export function useTerminal(cliData: CliData) {
 
       const result = execute(trimmed, {
         fs,
-        cwd,
-        env,
+        cwd: currentCwd,
+        env: currentEnv,
         history: [...commandHistory.current].reverse(),
       });
 
@@ -82,7 +89,7 @@ export function useTerminal(cliData: CliData) {
           command: trimmed,
           output: result.output,
           isError: result.isError,
-          cwd,
+          cwd: currentCwd,
         },
       ]);
 
@@ -90,7 +97,7 @@ export function useTerminal(cliData: CliData) {
       if (result.newEnv) setEnv(result.newEnv);
       setInputValue('');
     },
-    [fs, cwd, env],
+    [fs],
   );
 
   const navigateHistory = useCallback(
@@ -121,7 +128,7 @@ export function useTerminal(cliData: CliData) {
       if (isFirstWord) {
         completions = COMMAND_NAMES.filter((name) => name.startsWith(partial)).sort();
       } else {
-        completions = fs.completePath(cwd, partial);
+        completions = fs.completePath(cwdRef.current, partial);
       }
 
       if (completions.length === 0) {
@@ -148,7 +155,7 @@ export function useTerminal(cliData: CliData) {
       setTabCompletions(completions);
       return currentInput;
     },
-    [fs, cwd],
+    [fs],
   );
 
   return {
