@@ -1,8 +1,3 @@
-import {cache} from 'react';
-
-import {getBlogList} from '@/features/blog';
-import {getProjectList} from '@/features/project';
-import {getResumePage} from '@/features/resume';
 import type {NotionBlockWithChildren} from '@/types/notion';
 
 import type {CliData} from '../types';
@@ -78,28 +73,16 @@ function extractRichText(block: NotionBlockWithChildren): string {
   return (data.rich_text as Array<{plain_text: string}>).map((t) => t.plain_text).join('');
 }
 
-export const getCliData = cache(async function getCliData(): Promise<CliData> {
-  const [blogData, projectData, resumeData] = await Promise.all([
-    getBlogList().catch(() => ({items: []})),
-    getProjectList().catch(() => ({items: [], pagination: {page: 1, pageSize: 10, totalItems: 0, totalPages: 0}})),
-    getResumePage().catch(() => ({blocks: []})),
-  ]);
+type BuildCliDataParams = {
+  blogPosts: CliData['blogPosts'];
+  projects: CliData['projects'];
+  resumeBlocks: NotionBlockWithChildren[];
+};
 
-  const blogPosts = blogData.items.map((post) => ({
-    slug: post.slug,
-    title: post.title,
-    excerpt: post.excerpt || '',
-    categories: post.categories,
-  }));
-
-  const projects = projectData.items.map((project) => ({
-    slug: project.slug,
-    title: project.title,
-  }));
-
-  const resumeText = resumeData.blocks.length > 0
-    ? blocksToPlainText(resumeData.blocks)
+export function buildCliData({blogPosts, projects, resumeBlocks}: BuildCliDataParams): CliData {
+  const resumeText = resumeBlocks.length > 0
+    ? blocksToPlainText(resumeBlocks)
     : '이력서 데이터를 불러올 수 없습니다.\n\n> 웹에서 확인하세요: /resume';
 
   return {blogPosts, projects, resumeText};
-});
+}
