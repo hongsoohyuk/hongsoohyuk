@@ -73,6 +73,7 @@ export type CommandResult = {
   clear?: boolean;
   newEnv?: Record<string, string>;
   vim?: VimOpenRequest;
+  donut?: boolean;
 };
 
 export type VimOpenRequest = {

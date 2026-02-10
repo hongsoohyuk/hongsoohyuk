@@ -19,6 +19,7 @@ export type ExecuteResult = {
   newEnv?: Record<string, string>;
   clear?: boolean;
   vim?: VimOpenRequest;
+  donut?: boolean;
 };
 
 export function execute(input: string, state: ShellState): ExecuteResult {
@@ -58,6 +59,9 @@ export function execute(input: string, state: ShellState): ExecuteResult {
     // Handle side effects
     if (pipelineResult.vim) {
       return {output: '', isError: false, vim: pipelineResult.vim};
+    }
+    if (pipelineResult.donut) {
+      return {output: '', isError: false, donut: true};
     }
     if (pipelineResult.clear) {
       return {output: '', isError: false, clear: true, newCwd: pipelineResult.newCwd, newEnv: pipelineResult.newEnv};

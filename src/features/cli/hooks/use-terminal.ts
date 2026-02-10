@@ -9,10 +9,10 @@ import {VirtualFS} from '../utils/filesystem';
 import type {CliData, TerminalLine, VimOpenRequest} from '../types';
 
 const WELCOME_MESSAGE = [
+  'Welcome to hongsoohyuk.com',
+  'Type "help" for available commands.',
+  'Type "ls" to see available directories.',
   '',
-  '  Welcome to hongsoohyuk.com',
-  '  Type "help" for available commands.',
-  '  Type "ls" to see available directories.',
   '',
 ].join('\n');
 
@@ -37,6 +37,7 @@ export function useTerminal(cliData: CliData) {
   const commandHistory = useRef<string[]>([]);
   const [tabCompletions, setTabCompletions] = useState<string[] | null>(null);
   const [vimRequest, setVimRequest] = useState<VimOpenRequest | null>(null);
+  const [donutActive, setDonutActive] = useState(false);
 
   const cwdRef = useRef(cwd);
   cwdRef.current = cwd;
@@ -75,6 +76,13 @@ export function useTerminal(cliData: CliData) {
         return;
       }
 
+      if (result.donut) {
+        setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd: currentCwd}]);
+        setInputValue('');
+        setDonutActive(true);
+        return;
+      }
+
       if (result.clear) {
         setLines([]);
         setInputValue('');
@@ -101,22 +109,18 @@ export function useTerminal(cliData: CliData) {
     [fs],
   );
 
-  const navigateHistory = useCallback(
-    (direction: 'up' | 'down') => {
-      const history = commandHistory.current;
-      if (history.length === 0) return;
+  const navigateHistory = useCallback((direction: 'up' | 'down') => {
+    const history = commandHistory.current;
+    if (history.length === 0) return;
 
-      setTabCompletions(null);
+    setTabCompletions(null);
 
-      setHistoryIndex((prev) => {
-        const next =
-          direction === 'up' ? Math.min(prev + 1, history.length - 1) : Math.max(prev - 1, -1);
-        setInputValue(next === -1 ? '' : history[next]);
-        return next;
-      });
-    },
-    [],
-  );
+    setHistoryIndex((prev) => {
+      const next = direction === 'up' ? Math.min(prev + 1, history.length - 1) : Math.max(prev - 1, -1);
+      setInputValue(next === -1 ? '' : history[next]);
+      return next;
+    });
+  }, []);
 
   const handleTab = useCallback(
     (currentInput: string): string => {
@@ -167,6 +171,10 @@ export function useTerminal(cliData: CliData) {
     setVimRequest(null);
   }
 
+  function donutQuit() {
+    setDonutActive(false);
+  }
+
   return {
     lines,
     cwd,
@@ -180,6 +188,8 @@ export function useTerminal(cliData: CliData) {
     vimRequest,
     vimSave,
     vimQuit,
+    donutActive,
+    donutQuit,
   };
 }
 
