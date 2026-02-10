@@ -12,8 +12,8 @@ export default async function BlogLayout({children, params}: Props) {
 
   return (
     <div className="container mx-auto px-0 py-0 md:px-2 md:py-4 max-w-3xl flex flex-col gap-4">
-      <header className="px-4 md:px-0 space-y-1 shrink-0">
-        <h1 className="text-2xl font-semibold tracking-tight">{t('title')}</h1>
+      <header className="space-y-2 shrink-0">
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{t('title')}</h1>
         <p className="text-sm text-muted-foreground">{t('description')}</p>
       </header>
       {children}

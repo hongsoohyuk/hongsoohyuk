@@ -1,14 +1,14 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getProjectList} from '@/features/project/api';
 import {ProjectCard} from '@/features/project';
+import {getProjectList} from '@/features/project/api';
 
 import {Card, CardContent, CardFooter} from '@/components/ui/card';
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 import {ScrollArea} from '@/components/ui/scroll-area';
+import {createPageMetadata} from '@/config';
 import {DEFAULT_PAGE} from '@/lib/api/pagination';
-import {createPageMetadata, PAGE_LAYOUT_CLASSES} from '@/config';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -41,13 +41,14 @@ export default async function ProjectPage({params, searchParams}: Props) {
   ]);
 
   return (
-    <div className={`flex flex-col gap-4 ${PAGE_LAYOUT_CLASSES.contentHeight}`}>
-      <header className="px-4 md:px-0 space-y-1 shrink-0">
-        <h1 className="text-2xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-sm text-muted-foreground">{t('description')}</p>
+    <div className="flex flex-col gap-6 h-[calc(100dvh-10rem)]">
+      <header className="space-y-2 shrink-0">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t('title')}</h1>
+        <p className="text-muted-foreground">{t('description')}</p>
       </header>
+
       <Card className="flex-1 min-h-0 overflow-hidden">
-        <CardContent className="flex-1 min-h-0 overflow-hidden pt-4 md:pt-6">
+        <CardContent className="h-full overflow-hidden">
           <ScrollArea className="h-full">
             {data.items.length > 0 ? (
               <div className="flex flex-col">

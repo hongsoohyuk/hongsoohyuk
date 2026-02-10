@@ -51,14 +51,15 @@ export default async function ProjectDetailPage({params}: Props) {
     : null;
 
   return (
-    <div className="space-y-6 px-4 md:px-0 py-4 md:py-0">
-      <div className="text-sm">
-        <Link href="/project" className="text-muted-foreground hover:underline">
-          ← {t('backToList')}
-        </Link>
-      </div>
-
+    <div className="space-y-6">
       <header className="space-y-2">
+        <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <Link href="/project" className="hover:underline">
+            {t('title')}
+          </Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-foreground truncate">{data.meta.title}</span>
+        </nav>
         <h1 className="text-3xl font-bold tracking-tight">{data.meta.title}</h1>
         {formattedDate && <p className="text-sm text-muted-foreground">{t('lastEdited', {date: formattedDate})}</p>}
       </header>

@@ -61,14 +61,15 @@ export default async function BlogDetailPage({params}: Props) {
   });
 
   return (
-    <div className="space-y-6 px-4 md:px-0 py-4 md:py-0">
-      <div className="text-sm">
-        <Link href="/blog" className="text-muted-foreground hover:underline">
-          &larr; {t('backToList')}
-        </Link>
-      </div>
-
+    <div className="space-y-6">
       <header className="space-y-3">
+        <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <Link href="/blog" className="hover:underline">
+            {t('title')}
+          </Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-foreground truncate">{data.meta.title}</span>
+        </nav>
         <h1 className="text-3xl font-bold tracking-tight">{data.meta.title}</h1>
         {data.meta.categories.length > 0 && (
           <div className="flex gap-1.5">
