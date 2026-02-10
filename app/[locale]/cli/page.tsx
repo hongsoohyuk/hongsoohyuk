@@ -56,8 +56,8 @@ export default async function CliPage({params}: Props) {
           <div className="flex gap-1.5">
             <a
               href={`/${locale === 'ko' ? '' : locale}`}
-              className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 block"
-              title="Exit CLI"
+              className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 block focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+              aria-label="Exit CLI"
             />
             <span className="w-3 h-3 rounded-full bg-yellow-500 block" />
             <span className="w-3 h-3 rounded-full bg-green-500 block" />

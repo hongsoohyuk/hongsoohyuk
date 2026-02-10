@@ -41,7 +41,7 @@ describe('truncateText', () => {
   });
 
   it('truncates and adds ellipsis when text exceeds maxLength', () => {
-    expect(truncateText('hello world', 5)).toBe('hello...');
+    expect(truncateText('hello world', 5)).toBe('hello\u2026');
   });
 
   it('handles empty string', () => {
@@ -49,7 +49,7 @@ describe('truncateText', () => {
   });
 
   it('handles maxLength of 0', () => {
-    expect(truncateText('hello', 0)).toBe('...');
+    expect(truncateText('hello', 0)).toBe('\u2026');
   });
 });
 

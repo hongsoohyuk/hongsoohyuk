@@ -17,12 +17,12 @@ export function ThemeSwitch() {
         <CaseRenderer
           value={theme}
           cases={{
-            dark: <MoonIcon className="h-4 w-4 transition-all" />,
-            light: <SunIcon className="h-4 w-4 transition-all" />,
+            dark: <MoonIcon className="h-4 w-4 transition-transform" />,
+            light: <SunIcon className="h-4 w-4 transition-transform" />,
           }}
         />
       ) : (
-        <LoaderCircleIcon className="h-4 w-4 color-foreground transition-all animate-spin" />
+        <LoaderCircleIcon className="h-4 w-4 color-foreground transition-transform animate-spin" />
       )}
       <span className="sr-only">테마 전환</span>
     </Button>

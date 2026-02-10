@@ -137,7 +137,7 @@ function CarouselViewer({post, children}: CarouselViewerProps) {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`h-1.5 rounded-full transition-all ${
+            className={`h-1.5 rounded-full transition-[width,background-color] ${
               index === currentIndex ? 'w-4 bg-primary' : 'w-1.5 bg-muted-foreground/40'
             }`}
             aria-label={`Go to slide ${index + 1}`}
