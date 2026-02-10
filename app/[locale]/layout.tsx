@@ -2,10 +2,11 @@ import {Analytics} from '@vercel/analytics/next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {ThemeProvider} from 'next-themes';
+// import {ChatFloater} from '@/features/ai-chat';
 import {Footer} from '@/components/layout/footer';
 import {Header} from '@/components/layout/header';
-import {routing} from '@/lib/i18n/routing';
 import {baseMetadata, getFontClassNames} from '@/config';
+import {routing} from '@/lib/i18n/routing';
 import type {Metadata} from 'next';
 
 import '../globals.css';
@@ -35,6 +36,7 @@ export default async function LocaleLayout({children, params}: Props) {
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
+            {/* <ChatFloater /> */}
           </ThemeProvider>
         </NextIntlClientProvider>
         <Analytics />
