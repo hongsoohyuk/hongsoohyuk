@@ -1,6 +1,6 @@
 'use client';
 
-import {memo, useEffect, useRef, type KeyboardEvent} from 'react';
+import {useEffect, useRef, type KeyboardEvent} from 'react';
 
 import {DonutAnimation} from './donut-animation';
 import {VimEditor} from './vim-editor';
@@ -13,7 +13,7 @@ type Props = {
   cliData: CliData;
 };
 
-const Prompt = memo(function Prompt({cwd}: {cwd: string}) {
+function Prompt({cwd}: {cwd: string}) {
   return (
     <span className="shrink-0 select-none">
       <span className="text-green-400">guest</span>
@@ -24,7 +24,7 @@ const Prompt = memo(function Prompt({cwd}: {cwd: string}) {
       <span className="text-neutral-500 whitespace-pre">$ </span>
     </span>
   );
-});
+}
 
 export function Terminal({cliData}: Props) {
   const {

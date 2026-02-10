@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useMemo, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 
 import {COMMAND_NAMES} from '../utils/commands';
 import {execute} from '../utils/executor';
@@ -33,7 +33,7 @@ const DEFAULT_ENV: Record<string, string> = {
 };
 
 export function useTerminal(cliData: CliData) {
-  const fs = useMemo(() => new VirtualFS(cliData), [cliData]);
+  const [fs] = useState(() => new VirtualFS(cliData));
 
   const [lines, setLines] = useState<TerminalLine[]>([{id: 'welcome', output: WELCOME_MESSAGE}]);
   const [cwd, setCwd] = useState('~');
@@ -47,127 +47,124 @@ export function useTerminal(cliData: CliData) {
   const [heredocActive, setHeredocActive] = useState(false);
   const heredocRef = useRef<HeredocState | null>(null);
 
-  const cwdRef = useRef(cwd);
-  cwdRef.current = cwd;
-  const envRef = useRef(env);
-  envRef.current = env;
+  function makeLineId() {
+    return `l-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+  }
 
-  const submitCommand = useCallback(
-    (input: string) => {
-      const lineId = `l-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-      const currentCwd = cwdRef.current;
-      const currentEnv = envRef.current;
+  function submitCommand(input: string) {
+    const lineId = makeLineId();
 
-      setTabCompletions(null);
+    setTabCompletions(null);
 
-      // === Heredoc collection mode ===
-      const hd = heredocRef.current;
-      if (hd) {
-        // Show the line in terminal
-        setLines((prev) => [...prev, {id: lineId, output: `> ${input}`}]);
+    // === Heredoc collection mode ===
+    const hd = heredocRef.current;
+    if (hd) {
+      // Show the line in terminal
+      setLines((prev) => [...prev, {id: lineId, output: `> ${input}`}]);
 
-        if (input.trim() === hd.delimiter) {
-          // Heredoc complete — execute
-          const heredocContent = hd.lines.join('\n');
-          heredocRef.current = null;
-          setHeredocActive(false);
+      if (input.trim() === hd.delimiter) {
+        // Heredoc complete — execute
+        const heredocContent = hd.lines.join('\n');
+        heredocRef.current = null;
+        setHeredocActive(false);
 
-          if (hd.command) {
+        if (hd.command) {
+          try {
             const result = execute(hd.command, {
               fs,
-              cwd: currentCwd,
-              env: currentEnv,
+              cwd,
+              env,
               history: [...commandHistory.current].reverse(),
               stdin: heredocContent,
             });
 
             if (result.output) {
-              const outId = `l-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-              setLines((prev) => [...prev, {id: outId, output: result.output, isError: result.isError}]);
+              setLines((prev) => [...prev, {id: makeLineId(), output: result.output, isError: result.isError}]);
             }
             if (result.newCwd) setCwd(result.newCwd);
             if (result.newEnv) setEnv(result.newEnv);
+          } catch {
+            setLines((prev) => [...prev, {id: makeLineId(), output: 'Error: command execution failed', isError: true}]);
           }
-        } else {
-          // Collect line
-          hd.lines.push(input);
         }
-        setInputValue('');
-        return;
+      } else {
+        // Collect line
+        hd.lines.push(input);
       }
+      setInputValue('');
+      return;
+    }
 
-      // === Normal mode ===
-      const trimmed = input.trim();
+    // === Normal mode ===
+    const trimmed = input.trim();
 
-      if (!trimmed) {
-        setLines((prev) => [...prev, {id: lineId, command: '', output: '', cwd: currentCwd}]);
-        setInputValue('');
-        return;
-      }
+    if (!trimmed) {
+      setLines((prev) => [...prev, {id: lineId, command: '', output: '', cwd}]);
+      setInputValue('');
+      return;
+    }
 
-      // Check for heredoc pattern
-      const hdMatch = detectHeredoc(trimmed);
-      if (hdMatch) {
-        commandHistory.current = [trimmed, ...commandHistory.current].slice(0, MAX_HISTORY);
-        setHistoryIndex(-1);
-        setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd: currentCwd}]);
-        heredocRef.current = {command: hdMatch.command, delimiter: hdMatch.delimiter, lines: []};
-        setHeredocActive(true);
-        setInputValue('');
-        return;
-      }
-
+    // Check for heredoc pattern
+    const hdMatch = detectHeredoc(trimmed);
+    if (hdMatch) {
       commandHistory.current = [trimmed, ...commandHistory.current].slice(0, MAX_HISTORY);
       setHistoryIndex(-1);
+      setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd}]);
+      heredocRef.current = {command: hdMatch.command, delimiter: hdMatch.delimiter, lines: []};
+      setHeredocActive(true);
+      setInputValue('');
+      return;
+    }
 
-      const result = execute(trimmed, {
-        fs,
-        cwd: currentCwd,
-        env: currentEnv,
-        history: [...commandHistory.current].reverse(),
-      });
+    commandHistory.current = [trimmed, ...commandHistory.current].slice(0, MAX_HISTORY);
+    setHistoryIndex(-1);
 
-      if (result.vim) {
-        setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd: currentCwd}]);
-        setInputValue('');
-        setVimRequest(result.vim);
-        return;
-      }
+    const result = execute(trimmed, {
+      fs,
+      cwd,
+      env,
+      history: [...commandHistory.current].reverse(),
+    });
 
-      if (result.donut) {
-        setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd: currentCwd}]);
-        setInputValue('');
-        setDonutActive(true);
-        return;
-      }
+    if (result.vim) {
+      setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd}]);
+      setInputValue('');
+      setVimRequest(result.vim);
+      return;
+    }
 
-      if (result.clear) {
-        setLines([]);
-        setInputValue('');
-        if (result.newCwd) setCwd(result.newCwd);
-        if (result.newEnv) setEnv(result.newEnv);
-        return;
-      }
+    if (result.donut) {
+      setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd}]);
+      setInputValue('');
+      setDonutActive(true);
+      return;
+    }
 
-      setLines((prev) => [
-        ...prev,
-        {
-          id: lineId,
-          command: trimmed,
-          output: result.output,
-          isError: result.isError,
-          cwd: currentCwd,
-        },
-      ]);
-
+    if (result.clear) {
+      setLines([]);
+      setInputValue('');
       if (result.newCwd) setCwd(result.newCwd);
       if (result.newEnv) setEnv(result.newEnv);
-      setInputValue('');
-    },
-    [fs],
-  );
+      return;
+    }
 
-  const navigateHistory = useCallback((direction: 'up' | 'down') => {
+    setLines((prev) => [
+      ...prev,
+      {
+        id: lineId,
+        command: trimmed,
+        output: result.output,
+        isError: result.isError,
+        cwd,
+      },
+    ]);
+
+    if (result.newCwd) setCwd(result.newCwd);
+    if (result.newEnv) setEnv(result.newEnv);
+    setInputValue('');
+  }
+
+  function navigateHistory(direction: 'up' | 'down') {
     const history = commandHistory.current;
     if (history.length === 0) return;
 
@@ -178,48 +175,45 @@ export function useTerminal(cliData: CliData) {
       setInputValue(next === -1 ? '' : history[next]);
       return next;
     });
-  }, []);
+  }
 
-  const handleTab = useCallback(
-    (currentInput: string): string => {
-      const parts = currentInput.split(/\s+/);
-      const isFirstWord = parts.length <= 1;
-      const partial = parts[parts.length - 1] || '';
+  function handleTab(currentInput: string): string {
+    const parts = currentInput.split(/\s+/);
+    const isFirstWord = parts.length <= 1;
+    const partial = parts[parts.length - 1] || '';
 
-      let completions: string[];
+    let completions: string[];
 
-      if (isFirstWord) {
-        completions = COMMAND_NAMES.filter((name) => name.startsWith(partial)).sort();
-      } else {
-        completions = fs.completePath(cwdRef.current, partial);
-      }
+    if (isFirstWord) {
+      completions = COMMAND_NAMES.filter((name) => name.startsWith(partial)).sort();
+    } else {
+      completions = fs.completePath(cwd, partial);
+    }
 
-      if (completions.length === 0) {
-        setTabCompletions(null);
-        return currentInput;
-      }
-
-      if (completions.length === 1) {
-        const completed = completions[0];
-        const prefix = parts.slice(0, -1).join(' ');
-        const newInput = prefix ? `${prefix} ${completed}` : completed;
-        setTabCompletions(null);
-        return newInput;
-      }
-
-      // multiple completions - find common prefix and show options
-      const commonPrefix = findCommonPrefix(completions);
-      if (commonPrefix.length > partial.length) {
-        const prefix = parts.slice(0, -1).join(' ');
-        setTabCompletions(completions);
-        return prefix ? `${prefix} ${commonPrefix}` : commonPrefix;
-      }
-
-      setTabCompletions(completions);
+    if (completions.length === 0) {
+      setTabCompletions(null);
       return currentInput;
-    },
-    [fs],
-  );
+    }
+
+    if (completions.length === 1) {
+      const completed = completions[0];
+      const prefix = parts.slice(0, -1).join(' ');
+      const newInput = prefix ? `${prefix} ${completed}` : completed;
+      setTabCompletions(null);
+      return newInput;
+    }
+
+    // multiple completions - find common prefix and show options
+    const commonPrefix = findCommonPrefix(completions);
+    if (commonPrefix.length > partial.length) {
+      const prefix = parts.slice(0, -1).join(' ');
+      setTabCompletions(completions);
+      return prefix ? `${prefix} ${commonPrefix}` : commonPrefix;
+    }
+
+    setTabCompletions(completions);
+    return currentInput;
+  }
 
   function vimSave(filePath: string, content: string): string | null {
     return fs.writeFile('~', filePath, content);
