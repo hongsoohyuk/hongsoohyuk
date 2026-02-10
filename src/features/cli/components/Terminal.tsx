@@ -2,6 +2,7 @@
 
 import {memo, useEffect, useRef, type KeyboardEvent} from 'react';
 
+import {DonutAnimation} from './donut-animation';
 import {VimEditor} from './vim-editor';
 
 import {useTerminal} from '../hooks/use-terminal';
@@ -18,9 +19,9 @@ const Prompt = memo(function Prompt({cwd}: {cwd: string}) {
       <span className="text-green-400">guest</span>
       <span className="text-neutral-500">@</span>
       <span className="text-blue-400">hongsoohyuk</span>
-      <span className="text-neutral-500">:</span>
-      <span className="text-purple-400">{cwd}</span>
-      <span className="text-neutral-500">$ </span>
+      {/* <span className="text-neutral-500">:</span> */}
+      <span className="text-purple-400 "> {cwd} </span>
+      <span className="text-neutral-500 whitespace-pre">$ </span>
     </span>
   );
 });
@@ -39,6 +40,8 @@ export function Terminal({cliData}: Props) {
     vimRequest,
     vimSave,
     vimQuit,
+    donutActive,
+    donutQuit,
   } = useTerminal(cliData);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -86,6 +89,10 @@ export function Terminal({cliData}: Props) {
 
   if (vimRequest) {
     return <VimEditor request={vimRequest} onSave={vimSave} onQuit={vimQuit} />;
+  }
+
+  if (donutActive) {
+    return <DonutAnimation onQuit={donutQuit} />;
   }
 
   return (

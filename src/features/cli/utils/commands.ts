@@ -250,6 +250,10 @@ const vim: CommandFn = (args, ctx) => {
   };
 };
 
+// ─── Fun commands ───
+
+const donut: CommandFn = () => ({stdout: '', stderr: '', exitCode: 0, donut: true});
+
 // ─── Shell commands ───
 
 const help: CommandFn = () =>
@@ -286,6 +290,9 @@ const help: CommandFn = () =>
       '    env                 환경변수 목록',
       '    clear / Ctrl+L      화면 지우기',
       '    help                이 도움말',
+      '',
+      '  Fun:',
+      '    donut               3D 회전 도넛 애니메이션',
       '',
       '  Operators:',
       '    cmd1 | cmd2         파이프 (stdout → stdin)',
@@ -362,6 +369,7 @@ export const COMMANDS: Record<string, CommandFn> = {
   wc,
   vim,
   vi: vim,
+  donut,
   help,
   whoami,
   clear,

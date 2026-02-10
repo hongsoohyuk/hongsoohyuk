@@ -8,8 +8,8 @@ type VimMode = 'NORMAL' | 'INSERT' | 'COMMAND';
 
 type Props = {
   request: VimOpenRequest;
-  onSave: (filePath: string, content: string) => string | null;
-  onQuit: () => void;
+  onSave(filePath: string, content: string): string | null;
+  onQuit(): void;
 };
 
 export function VimEditor({request, onSave, onQuit}: Props) {
@@ -416,7 +416,10 @@ export function VimEditor({request, onSave, onQuit}: Props) {
         {lines.map((line, rowIdx) => (
           <div key={rowIdx} className="flex leading-relaxed">
             {/* Line number */}
-            <span className="shrink-0 select-none text-neutral-600 text-right px-2" style={{minWidth: `${gutterWidth + 2}ch`}}>
+            <span
+              className="shrink-0 select-none text-neutral-600 text-right px-2"
+              style={{minWidth: `${gutterWidth + 2}ch`}}
+            >
               {rowIdx + 1}
             </span>
             {/* Line content */}
@@ -441,7 +444,15 @@ export function VimEditor({request, onSave, onQuit}: Props) {
 
       {/* Status bar */}
       <div className="shrink-0 bg-neutral-800 px-3 py-1 flex items-center justify-between text-xs">
-        <span className={mode === 'COMMAND' ? 'text-neutral-200' : mode === 'INSERT' ? 'text-green-400 font-bold' : 'text-neutral-400'}>
+        <span
+          className={
+            mode === 'COMMAND'
+              ? 'text-neutral-200'
+              : mode === 'INSERT'
+                ? 'text-green-400 font-bold'
+                : 'text-neutral-400'
+          }
+        >
           {mode === 'COMMAND' ? commandBuffer : mode === 'INSERT' ? '-- INSERT --' : statusMessage || 'NORMAL'}
         </span>
         <span className="text-neutral-500">
