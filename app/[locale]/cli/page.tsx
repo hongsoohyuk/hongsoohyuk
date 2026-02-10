@@ -1,10 +1,11 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getBlogList} from '@/features/blog';
-import {buildCliData, Terminal} from '@/features/command-line';
-import {getProjectList} from '@/features/project';
-import {getResumePage} from '@/features/resume';
+import {getBlogList} from '@/features/blog/api';
+import {buildCliData} from '@/features/command-line/api';
+import {Terminal} from '@/features/command-line';
+import {getProjectList} from '@/features/project/api';
+import {getResumePage} from '@/features/resume/api';
 import {createPageMetadata} from '@/config';
 
 type Props = {

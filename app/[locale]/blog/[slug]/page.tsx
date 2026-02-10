@@ -1,7 +1,7 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getBlogDetail, getBlogList} from '@/features/blog';
+import {getBlogDetail, getBlogList} from '@/features/blog/api';
 
 import {NotionBlocks} from '@/components/notion/notion-blocks';
 import {Badge} from '@/components/ui/badge';

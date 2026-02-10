@@ -2,12 +2,8 @@ import React from 'react';
 
 import {setRequestLocale} from 'next-intl/server';
 
-import {
-  getInstagramPostList,
-  getInstagramProfile,
-  InstagramFeed,
-  ProfileCard,
-} from '@/features/instagram';
+import {getInstagramPostList, getInstagramProfile} from '@/features/instagram/api';
+import {InstagramFeed, ProfileCard} from '@/features/instagram';
 
 type Props = {
   params: Promise<{locale: string}>;

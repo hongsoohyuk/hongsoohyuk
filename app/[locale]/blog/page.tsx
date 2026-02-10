@@ -2,7 +2,8 @@ import {Suspense} from 'react';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getBlogList, BlogContent, BlogSearchFilter} from '@/features/blog';
+import {getBlogList} from '@/features/blog/api';
+import {BlogContent, BlogSearchFilter} from '@/features/blog';
 
 import {Card, CardContent} from '@/components/ui/card';
 import {ScrollArea} from '@/components/ui/scroll-area';
