@@ -1,9 +1,12 @@
-import type {NextConfig} from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
+import type {NextConfig} from 'next';
 
-const withNextIntl = createNextIntlPlugin('./src/shared/i18n/request.ts');
+const withNextIntl = createNextIntlPlugin('./src/lib/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  // React Compiler — replaces manual memo/useMemo/useCallback
+  reactCompiler: true,
+
   // TypeScript and ESLint - don't fail build on errors
   typescript: {
     ignoreBuildErrors: true,
@@ -17,11 +20,23 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+{
+        protocol: 'https',
+        hostname: '**.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
       {
         protocol: 'https',
-        hostname: 'raw.githubusercontent.com',
+        hostname: 'www.notion.so',
         port: '',
-        pathname: '/PokeAPI/**',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
       },
     ],
     unoptimized: process.env.NODE_ENV === 'production',

@@ -1,17 +1,19 @@
-import {ProfileStats as ProfileStatsSkeleton} from '@/features/instagram/ui/ProfileStats';
-import {AspectRatio} from '@/shared/ui/aspect-ratio';
-import {Card, CardContent} from '@/shared/ui/card';
-import {Skeleton} from '@/shared/ui/skeleton';
 import React from 'react';
+
+import {ProfileStatsSkeleton} from '@/features/instagram';
+
+import {AspectRatio} from '@/components/ui/aspect-ratio';
+import {Card, CardContent} from '@/components/ui/card';
+import {Skeleton} from '@/components/ui/skeleton';
 
 export default function InstagramLoading() {
   return (
     <React.Fragment>
       <Card>
         <CardContent className="flex items-center gap-4">
-          <Skeleton className="w-20 h-20 shrink-0 rounded-full" />
-          <div className="space-y-2">
-            <Skeleton className="w-16 h-6" />
+          <Skeleton className="size-20 shrink-0 rounded-full" />
+          <div className="space-y-2 min-w-0 flex-1">
+            <Skeleton className="w-24 h-5" />
             <ProfileStatsSkeleton />
           </div>
         </CardContent>

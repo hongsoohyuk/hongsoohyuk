@@ -5,26 +5,38 @@
     "suffix": "입니다",
     "sections": {
       "guestbook": {
-        "emoji": "📝",
         "title": "방명록",
         "description": "방문자들이 남겨주신 소중한 메시지들을 확인할 수 있어요",
         "button": "방명록 보기"
       },
       "project": {
-        "emoji": "💼",
         "title": "프로젝트",
         "description": "자기소개서와 프로젝트 경험을 만나보세요",
         "button": "프로젝트 보기"
       },
       "instagram": {
-        "emoji": "📸",
         "title": "인스타그램",
         "description": "일상 속 소소한 순간들을 공유합니다",
         "button": "인스타그램 보기"
+      },
+      "blog": {
+        "title": "블로그",
+        "description": "개발 관련 글과 독서 기록을 공유합니다",
+        "button": "블로그 보기"
+      },
+      "cli": {
+        "title": "CLI 터미널",
+        "description": "터미널 인터페이스로 포트폴리오를 탐색해보세요",
+        "button": "CLI 실행"
+      },
+      "resume": {
+        "title": "이력서",
+        "description": "기술 스택, 경력, 학력 정보를 확인하세요",
+        "button": "이력서 보기"
       }
     },
     "contact": {
-      "title": "💬 연락하기",
+      "title": "연락하기",
       "description": "함께 공부하고 싶으시거나, 그냥 인사하고 싶으시면 언제든 연락주세요",
       "email": "이메일",
       "github": "GitHub",
@@ -34,9 +46,11 @@
   "Header": {
     "nav": {
       "home": "홈",
+      "resume": "이력서",
       "guestbook": "방명록",
       "project": "프로젝트",
-      "instagram": "인스타그램"
+      "instagram": "인스타그램",
+      "blog": "블로그"
     },
     "theme": {
       "light": "라이트 모드",
@@ -47,6 +61,36 @@
   },
   "Footer": {
     "copyright": "© {year} hongsoohyuk. All rights reserved."
+  },
+  "Seo": {
+    "home": {
+      "title": "홍수혁 - 프론트엔드 개발자 포트폴리오",
+      "description": "프론트엔드 개발자 홍수혁의 포트폴리오 사이트입니다. 프로젝트, 블로그, 이력서를 확인하세요."
+    },
+    "blog": {
+      "title": "블로그 - 개발 아티클 & 독서 기록",
+      "description": "프론트엔드 개발, 소프트웨어 아키텍처, 독서 기록 등 개발자 홍수혁의 기술 블로그입니다."
+    },
+    "project": {
+      "title": "프로젝트",
+      "description": "개발자 홍수혁의 프로젝트 포트폴리오입니다. 실무 경험과 개인 프로젝트를 소개합니다."
+    },
+    "resume": {
+      "title": "이력서 - 프론트엔드 개발자 홍수혁",
+      "description": "프론트엔드 개발자 홍수혁의 이력서입니다. 기술 스택, 경력, 학력 정보를 확인하세요."
+    },
+    "instagram": {
+      "title": "인스타그램 - 일상 & 패션",
+      "description": "홍수혁의 인스타그램 피드입니다. 일상, 패션, 데이트룩 등 소소한 순간들을 공유합니다."
+    },
+    "guestbook": {
+      "title": "방명록",
+      "description": "홍수혁의 방명록입니다. 방문 소감이나 인사를 남겨주세요."
+    },
+    "cli": {
+      "title": "CLI 모드 - 터미널로 탐색하기",
+      "description": "터미널 인터페이스로 홍수혁의 포트폴리오를 탐색해보세요."
+    }
   },
   "Instagram": {
     "title": "인스타그램",
@@ -151,6 +195,7 @@
       "securityTitle": "봇 방지 인증",
       "securityHelper": "제출 전에 아래 인증을 완료해주세요.",
       "button": "작성하기",
+      "cancel": "취소",
       "buttonPending": "전송 중...",
       "trigger": "작성하기",
       "note": "메시지는 검토 후 공개되며, IP/UA 정보는 해시 처리된 값만 저장됩니다.",
@@ -182,7 +227,27 @@
   },
   "Project": {
     "title": "프로젝트",
-    "description": "개발자 홍수혁을 소개합니다"
+    "description": "개발자 홍수혁을 소개합니다",
+    "listTitle": "프로젝트 목록",
+    "empty": "등록된 프로젝트가 없습니다.",
+    "backToList": "목록으로",
+    "lastEdited": "마지막 수정: {date}"
+  },
+  "Blog": {
+    "title": "블로그",
+    "description": "개발 관련 글과 독서 기록",
+    "empty": "등록된 글이 없습니다.",
+    "search": "제목으로 검색",
+    "allCategories": "전체",
+    "backToList": "목록으로",
+    "lastEdited": "마지막 수정: {date}"
+  },
+  "Resume": {
+    "title": "이력서",
+    "description": "프론트엔드 개발자 홍수혁의 이력서입니다"
+  },
+  "AiChat": {
+    "hello": "안녕하세요! 홍수혁에 대해 무엇이든 물어보세요."
   },
   "Common": {
     "loading": "로딩 중...",

@@ -5,26 +5,38 @@
     "suffix": "",
     "sections": {
       "guestbook": {
-        "emoji": "📝",
         "title": "Guestbook",
         "description": "View precious messages left by visitors",
         "button": "View Guestbook"
       },
       "project": {
-        "emoji": "💼",
         "title": "Project",
         "description": "Discover my introduction and project experiences",
         "button": "View Project"
       },
       "instagram": {
-        "emoji": "📸",
         "title": "Instagram",
         "description": "Sharing small moments from daily life",
         "button": "View Instagram"
+      },
+      "blog": {
+        "title": "Blog",
+        "description": "Development articles and book notes",
+        "button": "View Blog"
+      },
+      "cli": {
+        "title": "CLI Terminal",
+        "description": "Explore the portfolio through a terminal interface",
+        "button": "Launch CLI"
+      },
+      "resume": {
+        "title": "Resume",
+        "description": "View tech stack, career history, and education",
+        "button": "View Resume"
       }
     },
     "contact": {
-      "title": "💬 Get in Touch",
+      "title": "Get in Touch",
       "description": "Feel free to reach out if you want to study together or just say hi",
       "email": "Email",
       "github": "GitHub",
@@ -34,9 +46,11 @@
   "Header": {
     "nav": {
       "home": "Home",
+      "resume": "Resume",
       "guestbook": "Guestbook",
       "project": "Project",
-      "instagram": "Instagram"
+      "instagram": "Instagram",
+      "blog": "Blog"
     },
     "theme": {
       "light": "Light Mode",
@@ -47,6 +61,36 @@
   },
   "Footer": {
     "copyright": "© {year} hongsoohyuk. All rights reserved."
+  },
+  "Seo": {
+    "home": {
+      "title": "Soohyuk Hong - Frontend Developer Portfolio",
+      "description": "Portfolio site of frontend developer Soohyuk Hong. Explore projects, blog posts, and resume."
+    },
+    "blog": {
+      "title": "Blog - Dev Articles & Book Notes",
+      "description": "Technical blog by Soohyuk Hong covering frontend development, software architecture, and book reviews."
+    },
+    "project": {
+      "title": "Projects",
+      "description": "Project portfolio of developer Soohyuk Hong. Explore professional and personal projects."
+    },
+    "resume": {
+      "title": "Resume - Frontend Developer Soohyuk Hong",
+      "description": "Resume of frontend developer Soohyuk Hong. View tech stack, career history, and education."
+    },
+    "instagram": {
+      "title": "Instagram - Daily Life & Fashion",
+      "description": "Soohyuk Hong's Instagram feed. Sharing daily moments, fashion, and outfit inspiration."
+    },
+    "guestbook": {
+      "title": "Guestbook",
+      "description": "Soohyuk Hong's guestbook. Leave a message or say hello."
+    },
+    "cli": {
+      "title": "CLI Mode - Explore via Terminal",
+      "description": "Explore Soohyuk Hong's portfolio through a terminal interface."
+    }
   },
   "Instagram": {
     "title": "Instagram",
@@ -152,6 +196,7 @@
       "securityTitle": "Human check",
       "securityHelper": "Complete the verification before submitting.",
       "button": "Submit",
+      "cancel": "Cancel",
       "buttonPending": "Sending...",
       "trigger": "Write a note",
       "note": "IP and UA values are hashed before storing, and notes are published after review.",
@@ -183,7 +228,27 @@
   },
   "Project": {
     "title": "Project",
-    "description": "Introduction to Developer Soohyuk Hong"
+    "description": "Introduction to Developer Soohyuk Hong",
+    "listTitle": "Project List",
+    "empty": "No projects found.",
+    "backToList": "Back to List",
+    "lastEdited": "Last edited: {date}"
+  },
+  "Blog": {
+    "title": "Blog",
+    "description": "Development articles and book notes",
+    "empty": "No posts found.",
+    "search": "Search by title",
+    "allCategories": "All",
+    "backToList": "Back to List",
+    "lastEdited": "Last edited: {date}"
+  },
+  "Resume": {
+    "title": "Resume",
+    "description": "Frontend Developer Soohyuk Hong's Resume"
+  },
+  "AiChat": {
+    "hello": "Hello! Ask me anything about Soohyuk."
   },
   "Common": {
     "loading": "Loading...",
