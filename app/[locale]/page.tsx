@@ -61,10 +61,10 @@ export default async function Home({params}: Props) {
             const Icon = SECTION_ICONS[key];
             return (
               <Link key={key} href={href} className="group">
-                <Card className="h-full transition-all duration-200 hover:shadow-md hover:border-foreground/20 group-focus-visible:ring-2 group-focus-visible:ring-ring">
+                <Card className="h-full transition-shadow duration-200 hover:shadow-md hover:border-foreground/20 group-focus-visible:ring-2 group-focus-visible:ring-ring">
                   <CardHeader className="pb-2 md:pb-4">
                     <CardTitle className="flex items-center gap-3 text-base md:text-lg">
-                      <Icon className="size-5 md:size-6 shrink-0 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      <Icon className="size-5 md:size-6 shrink-0 text-muted-foreground group-hover:text-foreground transition-colors" aria-hidden="true" />
                       <span className="font-semibold">{t(`sections.${key}.title`)}</span>
                     </CardTitle>
                   </CardHeader>
@@ -83,8 +83,8 @@ export default async function Home({params}: Props) {
       {/* Contact Section */}
       <section className="px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-lg md:text-xl font-semibold text-center mb-6 flex items-center justify-center gap-2">
-            <MessageCircle className="size-5" />
+          <h2 className="text-lg md:text-xl font-semibold text-center mb-6 flex items-center justify-center gap-2 text-balance">
+            <MessageCircle className="size-5" aria-hidden="true" />
             {t('contact.title')}
           </h2>
           <div className="flex flex-wrap justify-center gap-3">

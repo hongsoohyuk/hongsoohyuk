@@ -106,7 +106,7 @@ export function DonutAnimation({onQuit}: Props) {
       ref={containerRef}
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      className="h-full flex flex-col bg-neutral-950 text-neutral-200 font-mono text-sm outline-none"
+      className="h-full flex flex-col bg-neutral-950 text-neutral-200 font-mono text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
     >
       {/* Top bar */}
       <div className="shrink-0 flex items-center justify-between bg-neutral-800 px-3 py-1 text-neutral-400 text-xs">

@@ -20,7 +20,7 @@ export function formatDateTime(date: Date | string): string {
 
 export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
+  return text.slice(0, maxLength) + '\u2026';
 }
 
 export function isValidEmail(email: string): boolean {
