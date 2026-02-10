@@ -98,7 +98,11 @@ const rm: CommandFn = (args, ctx) => {
   if (operands.length === 0) return fail('rm: missing operand');
   for (const path of operands) {
     const error = ctx.fs.rm(ctx.cwd, path, flags.has('r'));
-    if (error && !flags.has('f')) return fail(`rm: ${error}`);
+    if (error) {
+      const isNotFound = error.includes('No such file or directory');
+      if (isNotFound && flags.has('f')) continue;
+      return fail(`rm: ${error}`);
+    }
   }
   return ok('');
 };
@@ -301,6 +305,7 @@ const help: CommandFn = () =>
       '    cmd1 ; cmd2         순차 실행',
       '    echo text > file    파일에 쓰기',
       '    echo text >> file   파일에 추가',
+      '    cmd << DELIM        여러 줄 입력 (heredoc)',
       '    $VAR                환경변수 치환',
       '',
       '  Tab                   자동완성',
@@ -346,7 +351,11 @@ const exportCmd: CommandFn = (args, ctx) => {
 };
 
 const envCmd: CommandFn = (_args, ctx) => {
-  return ok(Object.entries(ctx.env).map(([k, v]) => `${k}=${v}`).join('\n'));
+  return ok(
+    Object.entries(ctx.env)
+      .map(([k, v]) => `${k}=${v}`)
+      .join('\n'),
+  );
 };
 
 // ─── Command registry ───

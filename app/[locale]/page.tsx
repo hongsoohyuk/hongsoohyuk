@@ -1,12 +1,11 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-
-import {HeroTitle} from '@/features/home';
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
-import {Link} from '@/lib/i18n/routing';
 import {createPageMetadata} from '@/config';
+import {HeroTitle} from '@/features/home';
+import {Link} from '@/lib/i18n/routing';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -103,9 +102,7 @@ export default async function Home({params}: Props) {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <CardDescription className="text-sm leading-relaxed">
-                  {t('sections.blog.description')}
-                </CardDescription>
+                <CardDescription className="text-sm leading-relaxed">{t('sections.blog.description')}</CardDescription>
               </CardContent>
             </Card>
           </Link>
@@ -119,9 +116,7 @@ export default async function Home({params}: Props) {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <CardDescription className="text-sm leading-relaxed">
-                  {t('sections.cli.description')}
-                </CardDescription>
+                <CardDescription className="text-sm leading-relaxed">{t('sections.cli.description')}</CardDescription>
               </CardContent>
             </Card>
           </Link>

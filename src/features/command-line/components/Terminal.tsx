@@ -42,6 +42,8 @@ export function Terminal({cliData}: Props) {
     vimQuit,
     donutActive,
     donutQuit,
+    heredocActive,
+    cancelHeredoc,
   } = useTerminal(cliData);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -77,6 +79,7 @@ export function Terminal({cliData}: Props) {
       e.preventDefault();
       setInputValue('');
       setTabCompletions(null);
+      if (heredocActive) cancelHeredoc();
     } else {
       // any other key dismisses tab completions
       if (tabCompletions) setTabCompletions(null);
@@ -116,7 +119,11 @@ export function Terminal({cliData}: Props) {
 
       {/* Input line */}
       <div className="flex items-center">
-        <Prompt cwd={cwd} />
+        {heredocActive ? (
+          <span className="shrink-0 select-none text-neutral-500 whitespace-pre">&gt; </span>
+        ) : (
+          <Prompt cwd={cwd} />
+        )}
         <input
           ref={inputRef}
           type="text"

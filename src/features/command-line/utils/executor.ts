@@ -10,6 +10,7 @@ type ShellState = {
   cwd: string;
   env: Record<string, string>;
   history: string[];
+  stdin?: string;
 };
 
 export type ExecuteResult = {
@@ -50,6 +51,7 @@ export function execute(input: string, state: ShellState): ExecuteResult {
       cwd: currentCwd,
       env: currentEnv,
       history: state.history,
+      stdin: state.stdin,
     });
 
     // Collect output
@@ -87,9 +89,9 @@ export function execute(input: string, state: ShellState): ExecuteResult {
 
 function executePipeline(
   pipeline: SimpleCommand[],
-  state: {fs: VirtualFS; cwd: string; env: Record<string, string>; history: string[]},
+  state: {fs: VirtualFS; cwd: string; env: Record<string, string>; history: string[]; stdin?: string},
 ): CommandResult {
-  let stdin = '';
+  let stdin = state.stdin ?? '';
   let lastResult: CommandResult = {stdout: '', stderr: '', exitCode: 0};
 
   for (let i = 0; i < pipeline.length; i++) {
