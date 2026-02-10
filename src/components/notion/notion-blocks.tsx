@@ -16,7 +16,7 @@ function BlockChildren({block}: {block: NotionBlockWithChildren}) {
   return <NotionBlocks blocks={block.children} className="mt-3 pl-4 border-l" />;
 }
 
-function renderBlock(block: NotionBlockWithChildren): React.ReactNode {
+function NotionBlock({block}: {block: NotionBlockWithChildren}): React.ReactNode {
   switch (block.type) {
     case 'paragraph':
       return (
@@ -286,7 +286,7 @@ export function NotionBlocks({blocks, className}: Props) {
 
     nodes.push(
       <div key={block.id} className="space-y-2">
-        {renderBlock(block)}
+        <NotionBlock block={block} />
       </div>,
     );
   }
