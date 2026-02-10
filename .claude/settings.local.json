@@ -50,7 +50,8 @@
       "Bash(npx tsc:*)",
       "Bash(pnpm add:*)",
       "Bash(pnpm test:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "WebSearch"
     ]
   }
 }
