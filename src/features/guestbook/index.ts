@@ -7,11 +7,6 @@ export {GuestbookList} from './components/GuestbookList';
 export {EmotionButton} from './components/EmotionButton';
 export {EmotionButtonGroup} from './components/EmotionButtonGroup';
 
-// API
-export {submit as submitGuestbookEntry} from './api/actions';
-export {fetchGuestbookListServer} from './api/list-guestbook.server';
-export {fetchGuestbook} from './api/get-guestbook';
-
 // Types
 export type {
   GuestbookItemDto,

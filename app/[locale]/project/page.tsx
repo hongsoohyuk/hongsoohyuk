@@ -1,7 +1,8 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getProjectList, ProjectCard} from '@/features/project';
+import {getProjectList} from '@/features/project/api';
+import {ProjectCard} from '@/features/project';
 
 import {Card, CardContent, CardFooter} from '@/components/ui/card';
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';

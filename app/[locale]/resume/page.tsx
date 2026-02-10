@@ -1,7 +1,7 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getResumePage} from '@/features/resume';
+import {getResumePage} from '@/features/resume/api';
 import {NotionBlocks} from '@/components/notion';
 import {createPageMetadata} from '@/config';
 

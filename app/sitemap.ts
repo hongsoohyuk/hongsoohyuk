@@ -1,6 +1,6 @@
 
-import {getBlogList} from '@/features/blog';
-import {getProjectList} from '@/features/project';
+import {getBlogList} from '@/features/blog/api';
+import {getProjectList} from '@/features/project/api';
 import {SITE_CONFIG} from '@/config';
 import type {MetadataRoute} from 'next';
 

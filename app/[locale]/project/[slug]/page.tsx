@@ -1,7 +1,8 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getProjectDetail, getProjectList, NotionBlocks} from '@/features/project';
+import {getProjectDetail, getProjectList} from '@/features/project/api';
+import {NotionBlocks} from '@/features/project';
 
 import {Link} from '@/lib/i18n/routing';
 import {createPageMetadata} from '@/config';

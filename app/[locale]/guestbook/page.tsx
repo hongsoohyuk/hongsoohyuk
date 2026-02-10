@@ -1,6 +1,7 @@
 import {setRequestLocale} from 'next-intl/server';
 
-import {fetchGuestbookListServer, GuestbookWidget} from '@/features/guestbook';
+import {fetchGuestbookListServer} from '@/features/guestbook/api';
+import {GuestbookWidget} from '@/features/guestbook';
 
 import {DEFAULT_PAGE} from '@/lib/api/pagination';
 import {parsePositiveInt} from '@/utils/number';

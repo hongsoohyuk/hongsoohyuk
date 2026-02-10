@@ -7,10 +7,6 @@ export {ProfileStats, ProfileStatsSkeleton} from './components/ProfileStats';
 export {PostComments} from './components/PostComments';
 export {PostMediaViewer} from './components/PostMediaViewer';
 
-// API
-export {getInstagramPostList, getInstagramOriginPostList} from './api/list-post';
-export {getInstagramProfile, getInstagramOriginProfile} from './api/get-profile';
-
 // Types
 export type {
   InstagramMedia,
