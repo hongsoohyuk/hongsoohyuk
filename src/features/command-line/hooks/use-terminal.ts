@@ -8,6 +8,12 @@ import {VirtualFS} from '../utils/filesystem';
 
 import type {CliData, TerminalLine, VimOpenRequest} from '../types';
 
+type HeredocState = {
+  command: string;
+  delimiter: string;
+  lines: string[];
+};
+
 const WELCOME_MESSAGE = [
   'Welcome to hongsoohyuk.com',
   'Type "help" for available commands.',
@@ -38,6 +44,8 @@ export function useTerminal(cliData: CliData) {
   const [tabCompletions, setTabCompletions] = useState<string[] | null>(null);
   const [vimRequest, setVimRequest] = useState<VimOpenRequest | null>(null);
   const [donutActive, setDonutActive] = useState(false);
+  const [heredocActive, setHeredocActive] = useState(false);
+  const heredocRef = useRef<HeredocState | null>(null);
 
   const cwdRef = useRef(cwd);
   cwdRef.current = cwd;
@@ -46,15 +54,65 @@ export function useTerminal(cliData: CliData) {
 
   const submitCommand = useCallback(
     (input: string) => {
-      const trimmed = input.trim();
       const lineId = `l-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
       const currentCwd = cwdRef.current;
       const currentEnv = envRef.current;
 
       setTabCompletions(null);
 
+      // === Heredoc collection mode ===
+      const hd = heredocRef.current;
+      if (hd) {
+        // Show the line in terminal
+        setLines((prev) => [...prev, {id: lineId, output: `> ${input}`}]);
+
+        if (input.trim() === hd.delimiter) {
+          // Heredoc complete — execute
+          const heredocContent = hd.lines.join('\n');
+          heredocRef.current = null;
+          setHeredocActive(false);
+
+          if (hd.command) {
+            const result = execute(hd.command, {
+              fs,
+              cwd: currentCwd,
+              env: currentEnv,
+              history: [...commandHistory.current].reverse(),
+              stdin: heredocContent,
+            });
+
+            if (result.output) {
+              const outId = `l-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+              setLines((prev) => [...prev, {id: outId, output: result.output, isError: result.isError}]);
+            }
+            if (result.newCwd) setCwd(result.newCwd);
+            if (result.newEnv) setEnv(result.newEnv);
+          }
+        } else {
+          // Collect line
+          hd.lines.push(input);
+        }
+        setInputValue('');
+        return;
+      }
+
+      // === Normal mode ===
+      const trimmed = input.trim();
+
       if (!trimmed) {
         setLines((prev) => [...prev, {id: lineId, command: '', output: '', cwd: currentCwd}]);
+        setInputValue('');
+        return;
+      }
+
+      // Check for heredoc pattern
+      const hdMatch = detectHeredoc(trimmed);
+      if (hdMatch) {
+        commandHistory.current = [trimmed, ...commandHistory.current].slice(0, MAX_HISTORY);
+        setHistoryIndex(-1);
+        setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd: currentCwd}]);
+        heredocRef.current = {command: hdMatch.command, delimiter: hdMatch.delimiter, lines: []};
+        setHeredocActive(true);
         setInputValue('');
         return;
       }
@@ -175,6 +233,11 @@ export function useTerminal(cliData: CliData) {
     setDonutActive(false);
   }
 
+  function cancelHeredoc() {
+    heredocRef.current = null;
+    setHeredocActive(false);
+  }
+
   return {
     lines,
     cwd,
@@ -190,6 +253,8 @@ export function useTerminal(cliData: CliData) {
     vimQuit,
     donutActive,
     donutQuit,
+    heredocActive,
+    cancelHeredoc,
   };
 }
 
@@ -202,4 +267,15 @@ function findCommonPrefix(strings: string[]): string {
     }
   }
   return prefix;
+}
+
+/** Detect `<< DELIMITER` pattern and extract the command + delimiter */
+function detectHeredoc(input: string): {command: string; delimiter: string} | null {
+  const match = input.match(/(^|\s)(<<-?\s*['"]?(\w+)['"]?)/);
+  if (!match) return null;
+
+  const delimiter = match[3];
+  const command = input.replace(match[2], '').trim();
+
+  return {command, delimiter};
 }
