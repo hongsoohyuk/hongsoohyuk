@@ -7,7 +7,7 @@ import {BlogContent, BlogSearchFilter} from '@/features/blog';
 
 import {Card, CardContent} from '@/components/ui/card';
 import {ScrollArea} from '@/components/ui/scroll-area';
-import {createPageMetadata, PAGE_LAYOUT_CLASSES} from '@/config';
+import {createPageMetadata} from '@/config';
 
 export const revalidate = 21600; // 6 hours
 
@@ -35,14 +35,15 @@ export default async function BlogPage({params}: Props) {
   const [t, data] = await Promise.all([getTranslations({locale, namespace: 'Blog'}), getBlogList()]);
 
   return (
-    <div className={`flex flex-col gap-4 ${PAGE_LAYOUT_CLASSES.contentHeight}`}>
-      <div className="px-4 md:px-0 shrink-0">
+    <div className="flex flex-col gap-6 h-[calc(100dvh-10rem)]">
+      <div className="shrink-0">
         <Suspense>
           <BlogSearchFilter />
         </Suspense>
       </div>
+
       <Card className="flex-1 min-h-0 overflow-hidden">
-        <CardContent className="flex-1 min-h-0 overflow-hidden">
+        <CardContent className="h-full overflow-hidden">
           <ScrollArea className="h-full">
             <Suspense>
               <BlogContent posts={data.items} emptyText={t('empty')} />
