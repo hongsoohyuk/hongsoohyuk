@@ -5,44 +5,44 @@
     "suffix": "",
     "sections": {
       "guestbook": {
-        "emoji": "📝",
+
         "title": "Guestbook",
         "description": "View precious messages left by visitors",
         "button": "View Guestbook"
       },
       "project": {
-        "emoji": "💼",
+
         "title": "Project",
         "description": "Discover my introduction and project experiences",
         "button": "View Project"
       },
       "instagram": {
-        "emoji": "📸",
+
         "title": "Instagram",
         "description": "Sharing small moments from daily life",
         "button": "View Instagram"
       },
       "blog": {
-        "emoji": "✍️",
+
         "title": "Blog",
         "description": "Development articles and book notes",
         "button": "View Blog"
       },
       "cli": {
-        "emoji": "💻",
+
         "title": "CLI Terminal",
         "description": "Explore the portfolio through a terminal interface",
         "button": "Launch CLI"
       },
       "resume": {
-        "emoji": "📄",
+
         "title": "Resume",
         "description": "View tech stack, career history, and education",
         "button": "View Resume"
       }
     },
     "contact": {
-      "title": "💬 Get in Touch",
+      "title": "Get in Touch",
       "description": "Feel free to reach out if you want to study together or just say hi",
       "email": "Email",
       "github": "GitHub",
