@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {cn} from '@/shared/lib/style';
-import {CARD_LAYOUT_CLASSES} from '@/shared/config';
+import {CARD_LAYOUT_CLASSES} from '@/config';
 
 function Card({className, ...props}: React.ComponentProps<'div'>) {
   return (

@@ -222,11 +222,7 @@ export class VirtualFS {
   normalizePath(cwd: string, target: string): string[] {
     const isAbsolute = target.startsWith('~') || target.startsWith('/');
     const base = isAbsolute ? [] : cwdSegments(cwd);
-    const parts = target
-      .replace(/^~\/?/, '')
-      .replace(/^\//, '')
-      .split('/')
-      .filter(Boolean);
+    const parts = target.replace(/^~\/?/, '').replace(/^\//, '').split('/').filter(Boolean);
 
     const result = [...base];
     for (const p of parts) {
@@ -347,8 +343,8 @@ function buildInitialFS(data: CliData): DirectoryNode {
           '',
           'Contact:',
           '  email   : hongsoohyuk@icloud.com',
-          '  github  : github.com/hong-soohyuk',
-          '  linkedin: linkedin.com/in/hong-soohyuk',
+          '  github  : github.com/hongsoohyuk',
+          '  linkedin: linkedin.com/in/soohyuk-hong-569020228/',
         ].join('\n'),
       ),
       resume: mkReadonlyDir('resume', {
@@ -400,10 +396,7 @@ function mkReadonlyDir(name: string, children: Record<string, FileSystemNode>): 
 }
 
 function cwdSegments(cwd: string): string[] {
-  return cwd
-    .replace(/^~\/?/, '')
-    .split('/')
-    .filter(Boolean);
+  return cwd.replace(/^~\/?/, '').split('/').filter(Boolean);
 }
 
 function hasReadonly(node: FileSystemNode): boolean {
