@@ -1,5 +1,6 @@
 'use client';
 
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
 import {Turnstile} from '@/shared/turnstile';
 import {Button} from '@/shared/ui/button';
 import {
@@ -14,7 +15,6 @@ import {
 import {Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator, FieldSet} from '@/shared/ui/field';
 import {Input} from '@/shared/ui/input';
 import {Textarea} from '@/shared/ui/textarea';
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/shared/config';
 import {useTranslations} from 'next-intl';
 import {useActionState, useEffect, useRef, useState} from 'react';
 import {submit} from '../api/actions';

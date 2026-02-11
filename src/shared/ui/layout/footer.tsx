@@ -1,5 +1,5 @@
-import {APP_LAYOUT_CLASSES} from '@/shared/config';
-import {SITE_CONFIG} from '@/shared/config/site';
+import {APP_LAYOUT_CLASSES} from '@/config';
+import {SITE_CONFIG} from '@/config/site';
 import {getTranslations} from 'next-intl/server';
 
 export async function Footer() {

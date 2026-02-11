@@ -1,7 +1,7 @@
 import {GuestbookListResponse} from '@/entities/guestbook';
 import {GuestbookFormDialog} from '@/features/guestbook';
 import {GuestbookList} from '@/features/guestbook/ui/GuestbookList';
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/shared/config';
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/shared/ui/card';
 import {PaginationBackAndForth} from '@/shared/ui/pagination-back-and-forth';
 import {getTranslations} from 'next-intl/server';
