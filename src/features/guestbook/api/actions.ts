@@ -1,11 +1,14 @@
 'use server';
 
-import {FormActionResult} from '@/shared/action/form/type';
-import {supabaseAdmin} from '@/shared/api/supabase';
-import {getClientFingerprint} from '@/shared/lib/security';
 import console from 'console';
+
 import {revalidatePath} from 'next/cache';
-import {schema} from '../model/validation';
+
+import {supabaseAdmin} from '@/lib/api/supabase';
+import {getClientFingerprint} from '@/lib/security';
+import {FormActionResult} from '@/types/form';
+
+import {schema} from '../types/validation';
 
 export async function submit(_prevState: FormActionResult, formData: FormData): Promise<FormActionResult> {
   try {
