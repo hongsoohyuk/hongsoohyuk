@@ -5,37 +5,31 @@
     "suffix": "",
     "sections": {
       "guestbook": {
-
         "title": "Guestbook",
         "description": "View precious messages left by visitors",
         "button": "View Guestbook"
       },
       "project": {
-
         "title": "Project",
         "description": "Discover my introduction and project experiences",
         "button": "View Project"
       },
       "instagram": {
-
         "title": "Instagram",
         "description": "Sharing small moments from daily life",
         "button": "View Instagram"
       },
       "blog": {
-
         "title": "Blog",
         "description": "Development articles and book notes",
         "button": "View Blog"
       },
       "cli": {
-
         "title": "CLI Terminal",
         "description": "Explore the portfolio through a terminal interface",
         "button": "Launch CLI"
       },
       "resume": {
-
         "title": "Resume",
         "description": "View tech stack, career history, and education",
         "button": "View Resume"
@@ -252,6 +246,9 @@
   "Resume": {
     "title": "Resume",
     "description": "Frontend Developer Soohyuk Hong's Resume"
+  },
+  "AiChat": {
+    "hello": "Hello! Ask me anything about Soohyuk."
   },
   "Common": {
     "loading": "Loading...",

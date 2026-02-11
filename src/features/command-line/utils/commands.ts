@@ -295,6 +295,9 @@ const help: CommandFn = () =>
       '    clear / Ctrl+L      화면 지우기',
       '    help                이 도움말',
       '',
+      '  AI:',
+      '    ask <질문>           AI 채팅 열기',
+      '',
       '  Fun:',
       '    donut               3D 회전 도넛 애니메이션',
       '',
@@ -358,6 +361,19 @@ const envCmd: CommandFn = (_args, ctx) => {
   );
 };
 
+// ─── AI Chat integration ───
+
+const ask: CommandFn = (args) => {
+  const message = args.join(' ').trim();
+  if (!message) return fail('ask: 질문을 입력하세요. 예: ask 안녕하세요');
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('open-ai-chat', {detail: {message}}));
+  }
+
+  return ok('AI 채팅을 열었습니다.');
+};
+
 // ─── Command registry ───
 
 export const COMMANDS: Record<string, CommandFn> = {
@@ -386,6 +402,7 @@ export const COMMANDS: Record<string, CommandFn> = {
   history: historyCmd,
   export: exportCmd,
   env: envCmd,
+  ask,
 };
 
 export const COMMAND_NAMES = Object.keys(COMMANDS);

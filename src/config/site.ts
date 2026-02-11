@@ -18,6 +18,7 @@ export const NAVIGATION_ITEMS = [
 ] as const;
 
 export const API_ENDPOINTS = {
+  chat: '/api/chat',
   guestbook: '/api/guestbook',
   project: '/api/project',
   instagram: '/api/instagram',

@@ -5,37 +5,31 @@
     "suffix": "입니다",
     "sections": {
       "guestbook": {
-
         "title": "방명록",
         "description": "방문자들이 남겨주신 소중한 메시지들을 확인할 수 있어요",
         "button": "방명록 보기"
       },
       "project": {
-
         "title": "프로젝트",
         "description": "자기소개서와 프로젝트 경험을 만나보세요",
         "button": "프로젝트 보기"
       },
       "instagram": {
-
         "title": "인스타그램",
         "description": "일상 속 소소한 순간들을 공유합니다",
         "button": "인스타그램 보기"
       },
       "blog": {
-
         "title": "블로그",
         "description": "개발 관련 글과 독서 기록을 공유합니다",
         "button": "블로그 보기"
       },
       "cli": {
-
         "title": "CLI 터미널",
         "description": "터미널 인터페이스로 포트폴리오를 탐색해보세요",
         "button": "CLI 실행"
       },
       "resume": {
-
         "title": "이력서",
         "description": "기술 스택, 경력, 학력 정보를 확인하세요",
         "button": "이력서 보기"
@@ -251,6 +245,9 @@
   "Resume": {
     "title": "이력서",
     "description": "프론트엔드 개발자 홍수혁의 이력서입니다"
+  },
+  "AiChat": {
+    "hello": "안녕하세요! 홍수혁에 대해 무엇이든 물어보세요."
   },
   "Common": {
     "loading": "로딩 중...",
