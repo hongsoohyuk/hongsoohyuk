@@ -5,18 +5,37 @@ import {cn} from '@/utils/style';
 
 import {NotionRichText} from './notion-rich-text';
 
-
 type Props = {
   blocks: NotionBlockWithChildren[];
   className?: string;
 };
 
-function BlockChildren({block}: {block: NotionBlockWithChildren}) {
-  if (!Array.isArray(block.children) || block.children.length === 0) return null;
-  return <NotionBlocks blocks={block.children} className="mt-3 pl-4 border-l" />;
+function getPlainText(richText: any[]): string {
+  return (richText ?? []).map((t: any) => t?.plain_text ?? '').join('');
 }
 
-function NotionBlock({block}: {block: NotionBlockWithChildren}): React.ReactNode {
+function collectHeadings(blocks: NotionBlockWithChildren[]): {id: string; text: string; level: number}[] {
+  const headings: {id: string; text: string; level: number}[] = [];
+  for (const b of blocks) {
+    if (b.type === 'heading_1') headings.push({id: b.id, text: getPlainText(b.heading_1?.rich_text), level: 1});
+    else if (b.type === 'heading_2') headings.push({id: b.id, text: getPlainText(b.heading_2?.rich_text), level: 2});
+    else if (b.type === 'heading_3') headings.push({id: b.id, text: getPlainText(b.heading_3?.rich_text), level: 3});
+  }
+  return headings;
+}
+
+function BlockChildren({block}: {block: NotionBlockWithChildren}) {
+  if (!Array.isArray(block.children) || block.children.length === 0) return null;
+  return <NotionBlocks blocks={block.children} className="mt-3" />;
+}
+
+function NotionBlock({
+  block,
+  allBlocks,
+}: {
+  block: NotionBlockWithChildren;
+  allBlocks?: NotionBlockWithChildren[];
+}): React.ReactNode {
   switch (block.type) {
     case 'paragraph':
       return (
@@ -30,7 +49,7 @@ function NotionBlock({block}: {block: NotionBlockWithChildren}): React.ReactNode
     case 'heading_1':
       return (
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-wrap-balance scroll-mt-20">
+          <h1 id={block.id} className="text-3xl font-bold tracking-tight text-wrap-balance scroll-mt-20">
             <NotionRichText richText={block.heading_1?.rich_text} />
           </h1>
           <BlockChildren block={block} />
@@ -39,7 +58,7 @@ function NotionBlock({block}: {block: NotionBlockWithChildren}): React.ReactNode
     case 'heading_2':
       return (
         <div className="space-y-2">
-          <h2 className="text-2xl font-semibold tracking-tight text-wrap-balance scroll-mt-20">
+          <h2 id={block.id} className="text-2xl font-semibold tracking-tight text-wrap-balance scroll-mt-20">
             <NotionRichText richText={block.heading_2?.rich_text} />
           </h2>
           <BlockChildren block={block} />
@@ -48,7 +67,7 @@ function NotionBlock({block}: {block: NotionBlockWithChildren}): React.ReactNode
     case 'heading_3':
       return (
         <div className="space-y-2">
-          <h3 className="text-xl font-semibold tracking-tight text-wrap-balance scroll-mt-20">
+          <h3 id={block.id} className="text-xl font-semibold tracking-tight text-wrap-balance scroll-mt-20">
             <NotionRichText richText={block.heading_3?.rich_text} />
           </h3>
           <BlockChildren block={block} />
@@ -83,7 +102,7 @@ function NotionBlock({block}: {block: NotionBlockWithChildren}): React.ReactNode
       const icon = calloutIcon && 'emoji' in calloutIcon ? calloutIcon.emoji : '';
       return (
         <div className="rounded-md border bg-muted/70 p-4">
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-baseline">
             {icon ? <div className="text-lg leading-none shrink-0">{icon}</div> : null}
             <div className="min-w-0 space-y-2">
               <NotionRichText richText={block.callout?.rich_text} />
@@ -155,9 +174,7 @@ function NotionBlock({block}: {block: NotionBlockWithChildren}): React.ReactNode
           {Array.isArray(block.children) &&
             block.children.map((col) => (
               <div key={col.id} className="min-w-0">
-                {Array.isArray(col.children) && col.children.length > 0 ? (
-                  <NotionBlocks blocks={col.children} />
-                ) : null}
+                {Array.isArray(col.children) && col.children.length > 0 ? <NotionBlocks blocks={col.children} /> : null}
               </div>
             ))}
         </div>
@@ -225,6 +242,24 @@ function NotionBlock({block}: {block: NotionBlockWithChildren}): React.ReactNode
       const title = block.child_page?.title ?? 'Untitled';
       return <div className="text-sm text-muted-foreground">📄 {title}</div>;
     }
+    case 'table_of_contents': {
+      const headings = collectHeadings(allBlocks ?? []);
+      if (headings.length === 0) return null;
+      const minLevel = Math.min(...headings.map((h) => h.level));
+      return (
+        <nav className="rounded-md border border-border/50 bg-muted/30 p-4">
+          <ul className="space-y-1.5 text-sm">
+            {headings.map((h) => (
+              <li key={h.id} style={{paddingLeft: `${(h.level - minLevel) * 16}px`}}>
+                <a href={`#${h.id}`} className="text-muted-foreground hover:text-foreground transition-colors">
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      );
+    }
     default:
       // Fallback: show the type so the page doesn't look empty for unsupported blocks
       return <div className="text-sm text-muted-foreground">[{block.type}]</div>;
@@ -247,7 +282,7 @@ export function NotionBlocks({blocks, className}: Props) {
       i--; // compensate for loop increment
 
       nodes.push(
-        <ul key={`ul-${items[0]?.id ?? i}`} className="list-disc pl-6 space-y-2">
+        <ul key={`ul-${items[0]?.id ?? i}`} className="list-disc pl-4 space-y-2">
           {items.map((it) => (
             <li key={it.id} className="leading-7">
               <NotionRichText richText={it.bulleted_list_item?.rich_text} />
@@ -270,7 +305,7 @@ export function NotionBlocks({blocks, className}: Props) {
       i--;
 
       nodes.push(
-        <ol key={`ol-${items[0]?.id ?? i}`} className="list-decimal pl-6 space-y-2">
+        <ol key={`ol-${items[0]?.id ?? i}`} className="list-decimal pl-4 space-y-2">
           {items.map((it) => (
             <li key={it.id} className="leading-7">
               <NotionRichText richText={it.numbered_list_item?.rich_text} />
@@ -286,7 +321,7 @@ export function NotionBlocks({blocks, className}: Props) {
 
     nodes.push(
       <div key={block.id} className="space-y-2">
-        <NotionBlock block={block} />
+        <NotionBlock block={block} allBlocks={blocks} />
       </div>,
     );
   }

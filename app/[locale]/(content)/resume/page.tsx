@@ -32,7 +32,6 @@ export default async function ResumePage({params}: Props) {
     <div className="space-y-6">
       <header className="space-y-2">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground">{t('description')}</p>
       </header>
 
       {data.blocks.length > 0 && (
