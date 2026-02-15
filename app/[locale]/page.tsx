@@ -1,7 +1,8 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {Camera, FileUser, FolderKanban, Github, Linkedin, Mail, MessageCircle, MessageSquareText, PenLine, TerminalSquare} from 'lucide-react';
+import {GitHubLogoIcon, InstagramLogoIcon, LinkedInLogoIcon} from '@radix-ui/react-icons';
+import {FileUser, FolderKanban, Mail, MessageCircle, MessageSquareText, PenLine, TerminalSquare} from 'lucide-react';
 
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
@@ -12,7 +13,7 @@ import {Link} from '@/lib/i18n/routing';
 const SECTION_ICONS = {
   guestbook: MessageSquareText,
   project: FolderKanban,
-  instagram: Camera,
+  instagram: InstagramLogoIcon,
   blog: PenLine,
   cli: TerminalSquare,
   resume: FileUser,
@@ -64,7 +65,10 @@ export default async function Home({params}: Props) {
                 <Card className="h-full transition-shadow duration-200 hover:shadow-md hover:border-foreground/20 group-focus-visible:ring-2 group-focus-visible:ring-ring">
                   <CardHeader className="pb-2 md:pb-4">
                     <CardTitle className="flex items-center gap-3 text-base md:text-lg">
-                      <Icon className="size-5 md:size-6 shrink-0 text-muted-foreground group-hover:text-foreground transition-colors" aria-hidden="true" />
+                      <Icon
+                        className="size-5 md:size-6 shrink-0 text-muted-foreground group-hover:text-foreground transition-colors"
+                        aria-hidden="true"
+                      />
                       <span className="font-semibold">{t(`sections.${key}.title`)}</span>
                     </CardTitle>
                   </CardHeader>
@@ -101,18 +105,18 @@ export default async function Home({params}: Props) {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
               >
-                <Github className="size-4" />
+                <GitHubLogoIcon className="size-4" />
                 <span>{t('contact.github')}</span>
               </a>
             </Button>
             <Button variant="outline" size="sm" asChild className="text-sm">
               <a
-                href="https://linkedin.com/in/hongsoohyuk"
+                href="https://www.linkedin.com/in/soohyuk-hong-569020228/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
               >
-                <Linkedin className="size-4" />
+                <LinkedInLogoIcon className="size-4" />
                 <span>{t('contact.linkedin')}</span>
               </a>
             </Button>
