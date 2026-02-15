@@ -5,9 +5,9 @@ import {getBlogDetail, getBlogList} from '@/features/blog/api';
 
 import {NotionBlocks} from '@/components/notion/notion-blocks';
 import {Badge} from '@/components/ui/badge';
+import {createPageMetadata} from '@/config';
 import {locales} from '@/lib/i18n/config';
 import {Link} from '@/lib/i18n/routing';
-import {createPageMetadata} from '@/config';
 
 export const revalidate = 21600; // 6 hours
 
@@ -17,9 +17,7 @@ type Props = {
 
 export async function generateStaticParams() {
   const data = await getBlogList();
-  return data.items.flatMap((item) =>
-    locales.map((locale) => ({locale, slug: item.slug})),
-  );
+  return data.items.flatMap((item) => locales.map((locale) => ({locale, slug: item.slug})));
 }
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
@@ -49,10 +47,7 @@ export default async function BlogDetailPage({params}: Props) {
   const {locale, slug} = await params;
   setRequestLocale(locale);
 
-  const [t, data] = await Promise.all([
-    getTranslations({locale, namespace: 'Blog'}),
-    getBlogDetail(slug),
-  ]);
+  const [t, data] = await Promise.all([getTranslations({locale, namespace: 'Blog'}), getBlogDetail(slug)]);
 
   const formattedDate = new Date(data.meta.lastEditedTime).toLocaleDateString(locale, {
     year: 'numeric',
@@ -61,7 +56,7 @@ export default async function BlogDetailPage({params}: Props) {
   });
 
   return (
-    <div className="space-y-6">
+    <section className="space-y-6">
       <header className="space-y-3">
         <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <Link href="/blog" className="hover:underline">
@@ -88,6 +83,6 @@ export default async function BlogDetailPage({params}: Props) {
           <NotionBlocks blocks={data.blocks} />
         </section>
       )}
-    </div>
+    </section>
   );
 }
