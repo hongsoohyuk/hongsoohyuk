@@ -1,6 +1,6 @@
-import {EmotionCode, normalizeGuestbookEmotions} from '@/entities/guestbook';
-import {DEFAULT_PAGE_SIZE} from '@/shared/api/pagination';
-import {supabase, supabaseAdmin} from '@/shared/api/supabase';
+import {type EmotionCode, normalizeGuestbookEmotions} from '@/features/guestbook';
+import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
+import {supabase, supabaseAdmin} from '@/lib/api/supabase';
 import crypto from 'crypto';
 import {NextRequest, NextResponse} from 'next/server';
 

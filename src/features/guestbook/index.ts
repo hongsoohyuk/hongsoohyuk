@@ -19,5 +19,6 @@ export {GUESTBOOK_PAGE_SIZE} from './types/entities';
 
 // Emotion (subdomain)
 export type {EmotionCode} from './emotion/type';
+export {normalizeGuestbookEmotions} from './emotion/type';
 export {BASE_EMOTIONS, EMOTION_LABEL_KEYS, EMOTION_SET} from './emotion/constant';
 export {useEmotionEnum} from './emotion/useEmotionEnum';
