@@ -12,6 +12,3 @@ export type {Texts, SubmissionText, SubmissionEmotionOption} from './types';
 
 // validation
 export {schema} from './validation';
-
-// widget
-export type {EntriesText} from './widget';
