@@ -3,6 +3,8 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {getBlogDetail, getBlogList} from '@/features/blog/api';
 
+import {ArrowLeftIcon} from 'lucide-react';
+
 import {NotionBlocks} from '@/components/notion/notion-blocks';
 import {Badge} from '@/components/ui/badge';
 import {createPageMetadata} from '@/config';
@@ -59,7 +61,8 @@ export default async function BlogDetailPage({params}: Props) {
     <section className="space-y-6">
       <header className="space-y-3">
         <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
-          <Link href="/blog" className="hover:underline">
+          <Link href="/blog" className="inline-flex items-center gap-1 hover:underline">
+            <ArrowLeftIcon className="size-3.5" />
             {t('title')}
           </Link>
           <span aria-hidden="true">/</span>
