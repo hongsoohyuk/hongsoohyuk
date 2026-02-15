@@ -42,9 +42,9 @@ export default async function ProjectPage({params, searchParams}: Props) {
 
   return (
     <div className="flex flex-col gap-6 h-[calc(100dvh-10rem)]">
-      <header className="space-y-2 shrink-0">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground">{t('description')}</p>
+      <header className="space-y-2 shrink-0 flex items-baseline gap-2">
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{t('title')}</h1>
+        <p className="text-sm text-muted-foreground">{t('description')}</p>
       </header>
 
       <Card className="flex-1 min-h-0 overflow-hidden">

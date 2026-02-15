@@ -1,26 +1,25 @@
 'use client';
 
-import {useRef, startTransition} from 'react';
-import {useRouter, useSearchParams} from 'next/navigation';
-import {SearchIcon} from 'lucide-react';
 import {useTranslations} from 'next-intl';
+import {useRouter, useSearchParams} from 'next/navigation';
+import {startTransition, useRef} from 'react';
 
 import {Badge} from '@/components/ui/badge';
-import {Input} from '@/components/ui/input';
+import {SearchInput} from '@/components/ui/search-input';
 
 import {BLOG_CATEGORIES} from '../types';
 
-export function BlogSearchFilter() {
+export function BlogSearchFilter(props: {disabled?: boolean}) {
   const t = useTranslations('Blog');
   const router = useRouter();
   const searchParams = useSearchParams();
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
-  const currentQuery = searchParams.get('q') ?? '';
-  const currentCategory = searchParams.get('category') ?? '';
+  const currentQuery = searchParams?.get('q') ?? '';
+  const currentCategory = searchParams?.get('category') ?? '';
 
   const updateParams = (updates: Record<string, string>) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? '');
 
     for (const [key, value] of Object.entries(updates)) {
       if (value) params.set(key, value);
@@ -34,40 +33,31 @@ export function BlogSearchFilter() {
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.disabled) return;
     if (timerRef.current) clearTimeout(timerRef.current);
     const value = e.target.value;
     timerRef.current = setTimeout(() => {
       updateParams({q: value});
-    }, 300);
+    }, 100);
   };
 
   const handleCategoryClick = (category: string) => {
+    if (props.disabled) return;
     updateParams({category: currentCategory === category ? '' : category});
   };
 
   return (
     <div className="space-y-3">
-      <div className="relative">
-        <SearchIcon
-          className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
-          aria-hidden="true"
-        />
-        <Input
-          type="search"
-          placeholder={t('search')}
-          defaultValue={currentQuery}
-          onChange={handleSearch}
-          className="pl-9"
-          aria-label={t('search')}
-        />
-      </div>
+      <SearchInput
+        disabled={props.disabled}
+        placeholder={t('search')}
+        defaultValue={currentQuery}
+        onChange={handleSearch}
+        aria-label={t('search')}
+      />
 
       <div className="relative">
-        <div
-          className="flex gap-1.5 overflow-x-auto scrollbar-hide"
-          role="group"
-          aria-label="Category filter"
-        >
+        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide" role="group" aria-label="Category filter">
           <button
             type="button"
             onClick={() => updateParams({category: ''})}

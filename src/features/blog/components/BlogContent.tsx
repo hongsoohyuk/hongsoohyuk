@@ -13,8 +13,8 @@ type Props = {
 
 export function BlogContent({posts, emptyText}: Props) {
   const searchParams = useSearchParams();
-  const q = searchParams.get('q') ?? '';
-  const category = searchParams.get('category') ?? '';
+  const q = searchParams?.get('q') ?? '';
+  const category = searchParams?.get('category') ?? '';
 
   let filtered = posts;
   if (q) {
@@ -25,13 +25,11 @@ export function BlogContent({posts, emptyText}: Props) {
     filtered = filtered.filter((p) => p.categories.includes(category as BlogCategory));
   }
 
-  return filtered.length > 0 ? (
+  return (
     <div className="flex flex-col">
       {filtered.map((post) => (
         <BlogPostCard key={post.id} post={post} />
       ))}
     </div>
-  ) : (
-    <p className="text-muted-foreground py-12">{emptyText}</p>
   );
 }
