@@ -171,6 +171,5 @@ async function run() {
 }
 
 run().catch((error) => {
-  console.error(error);
-  process.exit(1);
+  console.warn('[instagram-sync] Sync failed, using existing static files:', error.message);
 });
