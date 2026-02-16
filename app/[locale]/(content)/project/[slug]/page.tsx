@@ -6,10 +6,18 @@ import {NotionBlocks} from '@/features/project';
 
 import {Link} from '@/lib/i18n/routing';
 import {createPageMetadata} from '@/config';
+import {locales} from '@/lib/i18n/config';
+
+export const revalidate = 21600; // 6 hours
 
 type Props = {
   params: Promise<{locale: string; slug: string}>;
 };
+
+export async function generateStaticParams() {
+  const data = await getProjectList();
+  return data.items.flatMap((item) => locales.map((locale) => ({locale, slug: item.slug})));
+}
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale, slug} = await params;
@@ -17,14 +25,13 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   try {
     const [data, listData] = await Promise.all([getProjectDetail(slug), getProjectList()]);
     const listItem = listData.items.find((item) => item.slug === slug);
-    const description = `${data.meta.title} - hongsoohyuk`;
+    const description = listItem?.description || `${data.meta.title} - hongsoohyuk`;
 
     return createPageMetadata({
       title: data.meta.title,
       description,
       path: locale === 'ko' ? `/project/${slug}` : `/${locale}/project/${slug}`,
       locale,
-      ...(listItem?.cover && {images: [{url: listItem.cover, width: 1200, height: 630, alt: data.meta.title}]}),
     });
   } catch {
     return {

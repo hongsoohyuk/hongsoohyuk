@@ -23,8 +23,8 @@ export type BlogListItem = {
   id: string;
   slug: string;
   title: string;
+  description: string;
   categories: BlogCategory[];
-  excerpt: string;
   lastEditedTime: string;
 };
 
