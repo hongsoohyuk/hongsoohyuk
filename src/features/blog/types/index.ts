@@ -1,3 +1,5 @@
+import {NotionBlockWithChildren} from '@/types/notion';
+
 export type {NotionBlockWithChildren} from '@/types/notion';
 
 export type BlogCategory =
@@ -25,6 +27,7 @@ export type BlogListItem = {
   title: string;
   description: string;
   categories: BlogCategory[];
+  keywords: string[];
   lastEditedTime: string;
 };
 
@@ -37,6 +40,7 @@ export type BlogDetailResponse = {
     id: string;
     title: string;
     categories: BlogCategory[];
+    keywords: string[];
     lastEditedTime: string;
   };
   blocks: NotionBlockWithChildren[];
