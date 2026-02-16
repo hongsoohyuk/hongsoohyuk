@@ -28,7 +28,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   try {
     const [data, listData] = await Promise.all([getBlogDetail(slug), getBlogList()]);
     const listItem = listData.items.find((item) => item.slug === slug);
-    const description = listItem?.excerpt || `${data.meta.title} - ${data.meta.categories.join(', ')}`;
+    const description = listItem?.description || `${data.meta.title} - ${data.meta.categories.join(', ')}`;
 
     return createPageMetadata({
       title: data.meta.title,

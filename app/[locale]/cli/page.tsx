@@ -30,7 +30,7 @@ export default async function CliPage({params}: Props) {
 
   const [blogData, projectData, resumeData] = await Promise.all([
     getBlogList().catch(() => ({items: []})),
-    getProjectList().catch(() => ({items: [], pagination: {page: 1, pageSize: 10, totalItems: 0, totalPages: 0}})),
+    getProjectList().catch(() => ({items: []})),
     getResumePage().catch(() => ({blocks: []})),
   ]);
 
@@ -38,7 +38,7 @@ export default async function CliPage({params}: Props) {
     blogPosts: blogData.items.map((post) => ({
       slug: post.slug,
       title: post.title,
-      excerpt: post.excerpt || '',
+      excerpt: '',
       categories: post.categories,
     })),
     projects: projectData.items.map((project) => ({

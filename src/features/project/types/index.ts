@@ -5,19 +5,12 @@ export type ProjectListItem = {
   id: string;
   slug: string;
   title: string;
-  cover?: string;
-  icon?: string;
+  description: string;
   createdTime: string;
 };
 
 export type ProjectListResponse = {
   items: ProjectListItem[];
-  pagination: {
-    page: number;
-    pageSize: number;
-    totalItems: number;
-    totalPages: number;
-  };
 };
 
 export type ProjectDetailMeta = {

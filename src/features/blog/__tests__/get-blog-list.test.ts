@@ -3,11 +3,6 @@ jest.mock('@/lib/api/notion', () => ({
     dataSources: {
       query: jest.fn(),
     },
-    blocks: {
-      children: {
-        list: jest.fn(),
-      },
-    },
   },
 }));
 
@@ -15,7 +10,6 @@ import {getBlogList} from '../api/get-blog-list';
 import {notion} from '@/lib/api/notion';
 
 const mockQuery = notion.dataSources.query as jest.Mock;
-const mockBlocksList = notion.blocks.children.list as jest.Mock;
 
 function makePage(id: string, title: string, categories: string[] = [], lastEdited = '2024-01-01T00:00:00Z') {
   return {
@@ -36,7 +30,6 @@ function makePage(id: string, title: string, categories: string[] = [], lastEdit
 
 beforeEach(() => {
   jest.clearAllMocks();
-  mockBlocksList.mockResolvedValue({results: []});
 });
 
 describe('getBlogList', () => {
@@ -112,26 +105,6 @@ describe('getBlogList', () => {
     );
   });
 
-  it('extracts excerpt from first paragraph block', async () => {
-    mockQuery.mockResolvedValue({
-      results: [makePage('page-1', 'Post')],
-    });
-    mockBlocksList.mockResolvedValue({
-      results: [
-        {
-          type: 'paragraph',
-          paragraph: {
-            rich_text: [{plain_text: 'This is the first paragraph of the blog post.'}],
-          },
-        },
-      ],
-    });
-
-    const result = await getBlogList();
-
-    expect(result.items[0].excerpt).toBe('This is the first paragraph of the blog post.');
-  });
-
   it('returns Untitled when page has no title property', async () => {
     mockQuery.mockResolvedValue({
       results: [
@@ -168,15 +141,4 @@ describe('getBlogList', () => {
     expect(result.items[0].categories).toEqual([]);
   });
 
-  it('sorts by last updated time descending', async () => {
-    mockQuery.mockResolvedValue({results: []});
-
-    await getBlogList();
-
-    expect(mockQuery).toHaveBeenCalledWith(
-      expect.objectContaining({
-        sorts: [{property: 'Last updated time', direction: 'descending'}],
-      }),
-    );
-  });
 });

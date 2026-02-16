@@ -31,8 +31,8 @@ export function BlogPostCard({post}: Props) {
         )}
       </div>
 
-      {post.excerpt && (
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{post.excerpt}</p>
+      {post.description && (
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{post.description}</p>
       )}
 
       <span className="text-xs text-muted-foreground/70 tabular-nums">
