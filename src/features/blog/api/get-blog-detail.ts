@@ -29,6 +29,14 @@ function extractCategories(page: PageObjectResponse): BlogCategory[] {
   return [];
 }
 
+function extractKeywords(page: PageObjectResponse): string[] {
+  const prop = page.properties['Keywords'];
+  if (prop?.type === 'multi_select') {
+    return prop.multi_select.map((s) => s.name);
+  }
+  return [];
+}
+
 export const getBlogDetail = cache(async function getBlogDetail(slug: string): Promise<BlogDetailResponse> {
   const pageId = slugToPageId(slug);
 
@@ -42,6 +50,7 @@ export const getBlogDetail = cache(async function getBlogDetail(slug: string): P
       id: page.id,
       title: extractTitle(page),
       categories: extractCategories(page),
+      keywords: extractKeywords(page),
       lastEditedTime: page.last_edited_time,
     },
     blocks,

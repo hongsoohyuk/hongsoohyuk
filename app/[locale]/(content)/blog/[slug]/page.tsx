@@ -35,7 +35,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
       description,
       path: locale === 'ko' ? `/blog/${slug}` : `/${locale}/blog/${slug}`,
       locale,
-      keywords: data.meta.categories,
+      keywords: data.meta.keywords.length > 0 ? data.meta.keywords : data.meta.categories,
       type: 'article',
     });
   } catch {

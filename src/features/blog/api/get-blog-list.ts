@@ -1,7 +1,7 @@
 import {notion} from '@/lib/api/notion';
 
-import type {BlogCategory, BlogListItem, BlogListResponse} from '../types';
 import type {PageObjectResponse} from '@notionhq/client/build/src/api-endpoints';
+import type {BlogCategory, BlogListItem, BlogListResponse} from '../types';
 
 const BLOG_DATA_SOURCE_ID = '300cc5be-a79e-8080-a666-000b11188276';
 
@@ -58,6 +58,14 @@ function extractDescription(page: PageObjectResponse): string {
   return '';
 }
 
+function extractKeywords(page: PageObjectResponse): string[] {
+  const prop = page.properties['Keywords'];
+  if (prop?.type === 'multi_select') {
+    return prop.multi_select.map((s) => s.name);
+  }
+  return [];
+}
+
 export async function getBlogList(params: GetBlogListParams = {}): Promise<BlogListResponse> {
   const filter = buildFilter(params);
 
@@ -74,6 +82,7 @@ export async function getBlogList(params: GetBlogListParams = {}): Promise<BlogL
     title: extractTitle(page),
     description: extractDescription(page),
     categories: extractCategories(page),
+    keywords: extractKeywords(page),
     lastEditedTime: page.last_edited_time,
   }));
 
