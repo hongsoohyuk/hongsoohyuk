@@ -1,10 +1,14 @@
+import {Suspense} from 'react';
+
 import {Skeleton} from '@/components/ui/skeleton';
 import {BlogSearchFilter} from '@/features/blog';
 
 export default function BlogLoading() {
   return (
     <div className="flex flex-col gap-6">
-      <BlogSearchFilter disabled />
+      <Suspense fallback={null}>
+        <BlogSearchFilter disabled />
+      </Suspense>
 
       <div className="flex flex-col">
         {Array.from({length: 5}).map((_, i) => (

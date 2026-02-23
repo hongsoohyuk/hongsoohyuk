@@ -4,7 +4,6 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {ProjectCard} from '@/features/project';
 import {getProjectList} from '@/features/project/api';
 
-import {Card, CardContent} from '@/components/ui/card';
 import {createPageMetadata} from '@/config';
 
 type Props = {
@@ -31,13 +30,9 @@ export default async function ProjectPage({params}: Props) {
   const data = await getProjectList();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       {data.items.map((project) => (
-        <Card key={project.id} className="flex-1 min-h-0 overflow-hidden">
-          <CardContent className="h-full overflow-hidden">
-            <ProjectCard project={project} />
-          </CardContent>
-        </Card>
+        <ProjectCard key={project.id} project={project} />
       ))}
     </div>
   );
