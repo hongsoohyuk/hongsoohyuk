@@ -5,6 +5,7 @@ import type {KeyboardEvent} from 'react';
 import {SendHorizontal} from 'lucide-react';
 
 import {Button} from '@/components/ui/button';
+import {useTranslations} from 'next-intl';
 
 type ChatInputProps = {
   input: string;
@@ -14,6 +15,7 @@ type ChatInputProps = {
 };
 
 export function ChatInput({input, isLoading, onInputChange, onSubmit}: ChatInputProps) {
+  const aiChatT = useTranslations('AiChat');
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -35,7 +37,7 @@ export function ChatInput({input, isLoading, onInputChange, onSubmit}: ChatInput
         value={input}
         onChange={(e) => onInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="메시지를 입력하세요..."
+        placeholder={aiChatT('placeholder')}
         disabled={isLoading}
         rows={1}
         className="flex-1 resize-none rounded-lg border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground disabled:opacity-50"

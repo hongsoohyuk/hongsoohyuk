@@ -8,11 +8,14 @@ import {usePathname} from 'next/navigation';
 
 import {Button} from '@/components/ui/button';
 
+import {useTranslations} from 'next-intl';
 import {ChatInput} from './chat-input';
 import {ChatMessages} from './chat-messages';
 
 export function ChatFloater() {
   const pathname = usePathname();
+  const t = useTranslations('Common');
+  const aiChatT = useTranslations('AiChat');
   const [isOpen, setIsOpen] = useState(false);
   const {messages, sendMessage, status} = useChat();
   const [input, setInput] = useState('');
@@ -61,7 +64,7 @@ export function ChatFloater() {
           <div className="flex items-center justify-between border-b px-4 py-3">
             <div className="flex items-center gap-2">
               <div className="size-2 rounded-full bg-green-500" />
-              <span className="text-sm font-medium">AI 어시스턴트</span>
+              <span className="text-sm font-medium">{aiChatT('assistant')}</span>
             </div>
             <Button variant="ghost" size="icon-sm" onClick={() => setIsOpen(false)} aria-label="채팅 닫기">
               <X className="size-4" />
@@ -81,7 +84,7 @@ export function ChatFloater() {
         onClick={() => setIsOpen((prev) => !prev)}
         size="icon-lg"
         className="fixed bottom-4 right-4 z-50 rounded-full shadow-lg sm:right-6"
-        aria-label={isOpen ? '채팅 닫기' : '채팅 열기'}
+        aria-label={isOpen ? t('close') : t('open')}
       >
         {isOpen ? <X className="size-5" /> : <MessageCircle className="size-5" />}
       </Button>

@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: 'html',
   timeout: 60000,
   use: {
-    baseURL: 'http://localhost:3003',
+    baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     navigationTimeout: 45000,
@@ -25,8 +25,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm dev --port 3003',
-    url: 'http://localhost:3003',
+    command: 'pnpm dev --port 3000',
+    url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
   },
