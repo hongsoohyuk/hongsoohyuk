@@ -74,6 +74,7 @@ export type CommandResult = {
   newEnv?: Record<string, string>;
   vim?: VimOpenRequest;
   donut?: boolean;
+  askSession?: {message?: string};
 };
 
 export type VimOpenRequest = {
@@ -90,6 +91,7 @@ export type TerminalLine = {
   output: string;
   isError?: boolean;
   cwd?: string;
+  role?: 'user' | 'assistant';
 };
 
 // === CLI Data (from server) ===

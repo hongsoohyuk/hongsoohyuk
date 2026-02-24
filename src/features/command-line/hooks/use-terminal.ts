@@ -46,6 +46,10 @@ export function useTerminal(cliData: CliData) {
   const [donutActive, setDonutActive] = useState(false);
   const [heredocActive, setHeredocActive] = useState(false);
   const heredocRef = useRef<HeredocState | null>(null);
+  const [askActive, setAskActive] = useState(false);
+  const [askStreaming, setAskStreaming] = useState(false);
+  const askHistoryRef = useRef<Array<{role: string; parts: Array<{type: string; text: string}>}>>([]);
+  const askAbortRef = useRef<AbortController | null>(null);
 
   function makeLineId() {
     return `l-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
@@ -95,6 +99,19 @@ export function useTerminal(cliData: CliData) {
       return;
     }
 
+    // === Ask session mode ===
+    if (askActive) {
+      const trimmed = input.trim();
+      if (trimmed === 'exit' || trimmed === 'quit') {
+        cancelAsk();
+        setLines((prev) => [...prev, {id: makeLineId(), output: 'AI 채팅 세션을 종료했습니다.'}]);
+      } else if (trimmed) {
+        handleAskInput(trimmed);
+      }
+      setInputValue('');
+      return;
+    }
+
     // === Normal mode ===
     const trimmed = input.trim();
 
@@ -137,6 +154,16 @@ export function useTerminal(cliData: CliData) {
       setLines((prev) => [...prev, {id: lineId, command: trimmed, output: '', cwd}]);
       setInputValue('');
       setDonutActive(true);
+      return;
+    }
+
+    if (result.askSession) {
+      setLines((prev) => [...prev, {id: lineId, command: trimmed, output: result.output, cwd}]);
+      setInputValue('');
+      setAskActive(true);
+      if (result.askSession.message) {
+        handleAskInput(result.askSession.message);
+      }
       return;
     }
 
@@ -232,6 +259,90 @@ export function useTerminal(cliData: CliData) {
     setHeredocActive(false);
   }
 
+  async function handleAskInput(text: string) {
+    const userLineId = makeLineId();
+    const assistantLineId = makeLineId();
+
+    setLines((prev) => [...prev, {id: userLineId, output: `you: ${text}`, role: 'user'}]);
+
+    askHistoryRef.current.push({role: 'user', parts: [{type: 'text', text}]});
+
+    setLines((prev) => [...prev, {id: assistantLineId, output: 'assistant: ...', role: 'assistant'}]);
+    setAskStreaming(true);
+
+    try {
+      const controller = new AbortController();
+      askAbortRef.current = controller;
+
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({messages: askHistoryRef.current}),
+        signal: controller.signal,
+      });
+
+      if (!res.ok || !res.body) {
+        setLines((prev) =>
+          prev.map((l) =>
+            l.id === assistantLineId ? {...l, output: 'assistant: 오류가 발생했습니다.', isError: true} : l,
+          ),
+        );
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let fullText = '';
+
+      while (true) {
+        const {done, value} = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, {stream: true});
+        const sseLines = buffer.split('\n');
+        buffer = sseLines.pop() ?? '';
+
+        for (const sseLine of sseLines) {
+          if (!sseLine.startsWith('data: ')) continue;
+          try {
+            const data = JSON.parse(sseLine.slice(6));
+            if (data.type === 'text-delta' && data.delta) {
+              fullText += data.delta;
+              setLines((prev) =>
+                prev.map((l) => (l.id === assistantLineId ? {...l, output: `assistant: ${fullText}`} : l)),
+              );
+            }
+          } catch {
+            // ignore SSE parse errors
+          }
+        }
+      }
+
+      if (fullText) {
+        askHistoryRef.current.push({role: 'assistant', parts: [{type: 'text', text: fullText}]});
+      }
+    } catch (e) {
+      if (e instanceof Error && e.name === 'AbortError') return;
+      setLines((prev) =>
+        prev.map((l) =>
+          l.id === assistantLineId ? {...l, output: 'assistant: 오류가 발생했습니다.', isError: true} : l,
+        ),
+      );
+    } finally {
+      askAbortRef.current = null;
+      setAskStreaming(false);
+    }
+  }
+
+  function cancelAsk() {
+    askAbortRef.current?.abort();
+    askAbortRef.current = null;
+    askHistoryRef.current = [];
+    setAskActive(false);
+    setAskStreaming(false);
+  }
+
   return {
     lines,
     cwd,
@@ -249,6 +360,9 @@ export function useTerminal(cliData: CliData) {
     donutQuit,
     heredocActive,
     cancelHeredoc,
+    askActive,
+    askStreaming,
+    cancelAsk,
   };
 }
 

@@ -2,8 +2,6 @@
 
 import {useEffect, useRef} from 'react';
 
-import {ScrollArea} from '@/components/ui/scroll-area';
-
 import {useTranslations} from 'next-intl';
 import type {ChatMessage} from '../types';
 
@@ -20,14 +18,17 @@ function getTextContent(message: ChatMessage): string {
 }
 
 export function ChatMessages({messages, isLoading}: ChatMessagesProps) {
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+    const el = scrollRef.current;
+    if (el) {
+      el.scrollTop = el.scrollHeight;
+    }
   }, [messages]);
 
   return (
-    <ScrollArea className="flex-1 px-4 py-3">
+    <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3">
       {messages.length === 0 && <HelloMessage />}
       <div className="space-y-3">
         {messages.map((message) => (
@@ -53,8 +54,7 @@ export function ChatMessages({messages, isLoading}: ChatMessagesProps) {
           </div>
         )}
       </div>
-      <div ref={bottomRef} />
-    </ScrollArea>
+    </div>
   );
 }
 

@@ -44,6 +44,9 @@ export function Terminal({cliData}: Props) {
     donutQuit,
     heredocActive,
     cancelHeredoc,
+    askActive,
+    askStreaming,
+    cancelAsk,
   } = useTerminal(cliData);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -52,11 +55,11 @@ export function Terminal({cliData}: Props) {
   useEffect(() => {
     const el = containerRef.current;
     if (el) el.scrollTop = el.scrollHeight;
-  }, [lines, tabCompletions]);
+  }, [lines, tabCompletions, askStreaming]);
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  }, [askStreaming]);
 
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
@@ -79,6 +82,7 @@ export function Terminal({cliData}: Props) {
       e.preventDefault();
       setInputValue('');
       setTabCompletions(null);
+      if (askActive) cancelAsk();
       if (heredocActive) cancelHeredoc();
     } else {
       // any other key dismisses tab completions
@@ -113,30 +117,57 @@ export function Terminal({cliData}: Props) {
               <span>{line.command}</span>
             </div>
           )}
-          {line.output && <div className={line.isError ? 'text-red-400' : 'text-neutral-300'}>{line.output}</div>}
+          {line.output && (
+            <div
+              className={
+                line.isError
+                  ? 'text-red-400'
+                  : line.role === 'user'
+                    ? 'text-cyan-400'
+                    : line.role === 'assistant'
+                      ? 'text-green-400'
+                      : 'text-neutral-300'
+              }
+            >
+              {line.output}
+            </div>
+          )}
         </div>
       ))}
 
       {/* Input line */}
-      <div className="flex items-center">
-        {heredocActive ? (
-          <span className="shrink-0 select-none text-neutral-500 whitespace-pre">&gt; </span>
-        ) : (
-          <Prompt cwd={cwd} />
-        )}
-        <input
-          ref={inputRef}
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className="flex-1 bg-transparent outline-none border-none text-neutral-200 font-mono text-sm caret-green-400"
-          spellCheck={false}
-          autoComplete="off"
-          autoCapitalize="off"
-          aria-label="Terminal input"
-        />
-      </div>
+      {askStreaming ? (
+        <div className="flex items-center text-neutral-500">
+          <span className="shrink-0 select-none whitespace-pre">응답 대기 중</span>
+          <span className="inline-flex gap-0.5 ml-1">
+            <span className="animate-bounce">.</span>
+            <span className="animate-bounce [animation-delay:150ms]">.</span>
+            <span className="animate-bounce [animation-delay:300ms]">.</span>
+          </span>
+        </div>
+      ) : (
+        <div className="flex items-center">
+          {askActive ? (
+            <span className="shrink-0 select-none text-cyan-400 whitespace-pre">you: </span>
+          ) : heredocActive ? (
+            <span className="shrink-0 select-none text-neutral-500 whitespace-pre">&gt; </span>
+          ) : (
+            <Prompt cwd={cwd} />
+          )}
+          <input
+            ref={inputRef}
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="flex-1 bg-transparent outline-none border-none text-neutral-200 font-mono text-sm caret-green-400"
+            spellCheck={false}
+            autoComplete="off"
+            autoCapitalize="off"
+            aria-label="Terminal input"
+          />
+        </div>
+      )}
 
       {/* Tab completions */}
       {tabCompletions && tabCompletions.length > 0 && (

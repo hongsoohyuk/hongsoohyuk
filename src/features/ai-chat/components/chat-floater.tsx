@@ -4,6 +4,7 @@ import {useEffect, useRef, useState} from 'react';
 
 import {useChat} from '@ai-sdk/react';
 import {MessageCircle, X} from 'lucide-react';
+import {usePathname} from 'next/navigation';
 
 import {Button} from '@/components/ui/button';
 
@@ -11,6 +12,7 @@ import {ChatInput} from './chat-input';
 import {ChatMessages} from './chat-messages';
 
 export function ChatFloater() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const {messages, sendMessage, status} = useChat();
   const [input, setInput] = useState('');
@@ -47,6 +49,8 @@ export function ChatFloater() {
     window.addEventListener('open-ai-chat', handler);
     return () => window.removeEventListener('open-ai-chat', handler);
   }, []);
+
+  if (pathname?.includes('/cli')) return null;
 
   return (
     <>

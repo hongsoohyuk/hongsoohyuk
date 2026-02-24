@@ -21,6 +21,7 @@ export type ExecuteResult = {
   clear?: boolean;
   vim?: VimOpenRequest;
   donut?: boolean;
+  askSession?: {message?: string};
 };
 
 export function execute(input: string, state: ShellState): ExecuteResult {
@@ -64,6 +65,13 @@ export function execute(input: string, state: ShellState): ExecuteResult {
     }
     if (pipelineResult.donut) {
       return {output: '', isError: false, donut: true};
+    }
+    if (pipelineResult.askSession) {
+      return {
+        output: pipelineResult.stdout,
+        isError: false,
+        askSession: pipelineResult.askSession,
+      };
     }
     if (pipelineResult.clear) {
       return {output: '', isError: false, clear: true, newCwd: pipelineResult.newCwd, newEnv: pipelineResult.newEnv};
