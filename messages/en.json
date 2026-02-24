@@ -209,7 +209,9 @@
         "message": "Please enter a message.",
         "emotions": "Pick at least one vibe.",
         "emotionLimit": "You can attach up to two vibes.",
-        "turnstile": "Please complete the verification."
+        "turnstile": "Please complete the verification.",
+        "turnstileRequired": "Verification is required.",
+        "turnstileFailed": "Verification failed. Please try again."
       }
     },
     "form": {
@@ -248,13 +250,16 @@
     "description": "Frontend Developer Soohyuk Hong's Resume"
   },
   "AiChat": {
-    "hello": "Hello! Ask me anything about Soohyuk."
+    "assistant": "AI Assistant",
+    "hello": "Hello! Ask me anything about Soohyuk.",
+    "placeholder": "Enter your message..."
   },
   "Common": {
+    "open": "Open",
+    "close": "Close",
     "loading": "Loading...",
     "error": "An error occurred",
     "retry": "Retry",
-    "close": "Close",
     "confirm": "Confirm",
     "cancel": "Cancel",
     "pagination": {

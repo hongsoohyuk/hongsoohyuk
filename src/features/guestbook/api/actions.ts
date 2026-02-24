@@ -6,12 +6,32 @@ import {revalidatePath} from 'next/cache';
 
 import {supabaseAdmin} from '@/lib/api/supabase';
 import {getClientFingerprint} from '@/lib/security';
+import {verifyTurnstileToken} from '@/lib/turnstile/lib/verify';
 import {FormActionResult} from '@/types/form';
 
 import {schema} from '../types/validation';
 
 export async function submit(_prevState: FormActionResult, formData: FormData): Promise<FormActionResult> {
   try {
+    // Verify Turnstile token server-side
+    const turnstileToken = formData.get('turnstile_token');
+
+    if (typeof turnstileToken !== 'string' || !turnstileToken) {
+      return {
+        status: 'error',
+        issues: [{path: 'turnstile', message: 'Guestbook.formSection.validation.turnstileRequired'}],
+      };
+    }
+
+    const turnstileResult = await verifyTurnstileToken(turnstileToken);
+
+    if (!turnstileResult.success) {
+      return {
+        status: 'error',
+        issues: [{path: 'turnstile', message: 'Guestbook.formSection.validation.turnstileFailed'}],
+      };
+    }
+
     const rawData = {
       author_name: formData.get('author_name'),
       message: formData.get('message'),

@@ -208,7 +208,9 @@
         "message": "메시지를 입력해주세요.",
         "emotions": "느낌을 하나 이상 선택해주세요.",
         "emotionLimit": "느낌은 최대 두 개까지 선택할 수 있어요.",
-        "turnstile": "봇 방지 인증을 완료해주세요."
+        "turnstile": "봇 방지 인증을 완료해주세요.",
+        "turnstileRequired": "봇 방지 인증이 필요합니다.",
+        "turnstileFailed": "봇 방지 인증에 실패했습니다. 다시 시도해주세요."
       }
     },
     "form": {
@@ -247,13 +249,16 @@
     "description": "프론트엔드 개발자 홍수혁의 이력서입니다"
   },
   "AiChat": {
-    "hello": "안녕하세요! 홍수혁에 대해 무엇이든 물어보세요."
+    "assistant": "AI 어시스턴트",
+    "hello": "안녕하세요! 홍수혁에 대해 무엇이든 물어보세요.",
+    "placeholder": "메시지를 입력하세요..."
   },
   "Common": {
+    "open": "열기",
+    "close": "닫기",
     "loading": "로딩 중...",
     "error": "오류가 발생했습니다",
     "retry": "다시 시도",
-    "close": "닫기",
     "confirm": "확인",
     "cancel": "취소",
     "pagination": {

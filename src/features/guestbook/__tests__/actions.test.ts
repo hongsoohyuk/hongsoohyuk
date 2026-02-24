@@ -11,6 +11,10 @@ jest.mock('@/lib/security', () => ({
   getClientFingerprint: jest.fn(),
 }));
 
+jest.mock('@/lib/turnstile/lib/verify', () => ({
+  verifyTurnstileToken: jest.fn(),
+}));
+
 jest.mock('next/cache', () => ({
   revalidatePath: jest.fn(),
 }));
@@ -18,11 +22,13 @@ jest.mock('next/cache', () => ({
 import {submit} from '../api/actions';
 import {supabaseAdmin} from '@/lib/api/supabase';
 import {getClientFingerprint} from '@/lib/security';
+import {verifyTurnstileToken} from '@/lib/turnstile/lib/verify';
 import {revalidatePath} from 'next/cache';
 import type {FormActionResult} from '@/types/form';
 
 const mockFrom = supabaseAdmin.from as jest.Mock;
 const mockGetClientFingerprint = getClientFingerprint as jest.Mock;
+const mockVerifyTurnstile = verifyTurnstileToken as jest.Mock;
 
 function createFormData(data: Record<string, string | string[]>): FormData {
   const fd = new FormData();
@@ -36,17 +42,44 @@ function createFormData(data: Record<string, string | string[]>): FormData {
   return fd;
 }
 
+const VALID_TOKEN = 'valid-turnstile-token';
 const prevState: FormActionResult = {status: 'idle'};
 
 beforeEach(() => {
   jest.clearAllMocks();
   mockGetClientFingerprint.mockResolvedValue({ip_hash: 'hash_ip', ua_hash: 'hash_ua'});
+  mockVerifyTurnstile.mockResolvedValue({success: true});
   process.env.GUESTBOOK_HMAC_SECRET = 'test-secret';
 });
 
 describe('guestbook submit action', () => {
+  describe('turnstile verification', () => {
+    it('returns error when turnstile token is missing', async () => {
+      const fd = createFormData({author_name: 'Alice', message: 'Test'});
+      const result = await submit(prevState, fd);
+
+      expect(result.status).toBe('error');
+      expect(result.issues!.some((i) => i.path === 'turnstile')).toBe(true);
+      expect(mockVerifyTurnstile).not.toHaveBeenCalled();
+    });
+
+    it('returns error when turnstile verification fails', async () => {
+      mockVerifyTurnstile.mockResolvedValue({success: false, error: 'Verification failed'});
+
+      const fd = createFormData({
+        author_name: 'Alice',
+        message: 'Test',
+        turnstile_token: VALID_TOKEN,
+      });
+      const result = await submit(prevState, fd);
+
+      expect(result.status).toBe('error');
+      expect(result.issues!.some((i) => i.path === 'turnstile')).toBe(true);
+    });
+  });
+
   it('returns validation error for empty author_name', async () => {
-    const fd = createFormData({author_name: '', message: 'hello', emotions: []});
+    const fd = createFormData({author_name: '', message: 'hello', emotions: [], turnstile_token: VALID_TOKEN});
     const result = await submit(prevState, fd);
 
     expect(result.status).toBe('error');
@@ -55,7 +88,7 @@ describe('guestbook submit action', () => {
   });
 
   it('returns validation error for empty message', async () => {
-    const fd = createFormData({author_name: 'John', message: ''});
+    const fd = createFormData({author_name: 'John', message: '', turnstile_token: VALID_TOKEN});
     const result = await submit(prevState, fd);
 
     expect(result.status).toBe('error');
@@ -63,7 +96,7 @@ describe('guestbook submit action', () => {
   });
 
   it('returns validation error for too-long author_name', async () => {
-    const fd = createFormData({author_name: 'A'.repeat(13), message: 'hello'});
+    const fd = createFormData({author_name: 'A'.repeat(13), message: 'hello', turnstile_token: VALID_TOKEN});
     const result = await submit(prevState, fd);
 
     expect(result.status).toBe('error');
@@ -79,6 +112,7 @@ describe('guestbook submit action', () => {
       author_name: 'Alice',
       message: 'Great site!',
       emotions: ['LIKE'],
+      turnstile_token: VALID_TOKEN,
     });
     const result = await submit(prevState, fd);
 
@@ -92,7 +126,7 @@ describe('guestbook submit action', () => {
     const mockInsert = jest.fn().mockResolvedValue({error: null});
     mockFrom.mockReturnValue({insert: mockInsert});
 
-    const fd = createFormData({author_name: 'Bob', message: 'Hi!'});
+    const fd = createFormData({author_name: 'Bob', message: 'Hi!', turnstile_token: VALID_TOKEN});
     await submit(prevState, fd);
 
     expect(mockInsert).toHaveBeenCalledWith(
@@ -110,7 +144,7 @@ describe('guestbook submit action', () => {
       insert: jest.fn().mockResolvedValue({error: {message: 'DB error'}}),
     });
 
-    const fd = createFormData({author_name: 'Alice', message: 'Test'});
+    const fd = createFormData({author_name: 'Alice', message: 'Test', turnstile_token: VALID_TOKEN});
     const result = await submit(prevState, fd);
 
     expect(result.status).toBe('error');
@@ -120,7 +154,7 @@ describe('guestbook submit action', () => {
   it('returns error when fingerprint fails', async () => {
     mockGetClientFingerprint.mockRejectedValue(new Error('Header access failed'));
 
-    const fd = createFormData({author_name: 'Alice', message: 'Test'});
+    const fd = createFormData({author_name: 'Alice', message: 'Test', turnstile_token: VALID_TOKEN});
     const result = await submit(prevState, fd);
 
     expect(result.status).toBe('error');
@@ -130,7 +164,7 @@ describe('guestbook submit action', () => {
   it('handles unexpected errors gracefully', async () => {
     mockGetClientFingerprint.mockRejectedValue('string error');
 
-    const fd = createFormData({author_name: 'Alice', message: 'Test'});
+    const fd = createFormData({author_name: 'Alice', message: 'Test', turnstile_token: VALID_TOKEN});
     const result = await submit(prevState, fd);
 
     expect(result.status).toBe('error');
@@ -145,6 +179,7 @@ describe('guestbook submit action', () => {
       author_name: 'Carol',
       message: 'Nice!',
       emotions: ['LIKE', 'FUN'],
+      turnstile_token: VALID_TOKEN,
     });
     await submit(prevState, fd);
 

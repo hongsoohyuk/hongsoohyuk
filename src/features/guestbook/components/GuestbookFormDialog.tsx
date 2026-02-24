@@ -38,7 +38,9 @@ export function GuestbookFormDialog() {
   const formRef = useRef<HTMLFormElement>(null);
   const [authorName, setAuthorName] = useState('');
   const [message, setMessage] = useState('');
-  const [turnstileValid, setTurnstileValid] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
+
+  const turnstileValid = turnstileToken.length > 0;
 
   const isFormValid = authorName.trim().length > 0 && message.trim().length > 0 && turnstileValid;
 
@@ -70,7 +72,7 @@ export function GuestbookFormDialog() {
     formRef.current?.reset();
     setAuthorName('');
     setMessage('');
-    setTurnstileValid(false);
+    setTurnstileToken('');
   }, [isOpen]);
 
   const authorNameError = fieldError('author_name');
@@ -129,11 +131,12 @@ export function GuestbookFormDialog() {
               <Field>
                 <FieldLabel>{t('Guestbook.formSection.securityTitle')}</FieldLabel>
                 <FieldDescription>{t('Guestbook.formSection.securityHelper')}</FieldDescription>
+                <input type="hidden" name="turnstile_token" value={turnstileToken} />
                 <Turnstile
-                  onSuccess={() => setTurnstileValid(true)}
-                  onExpired={() => setTurnstileValid(false)}
-                  onError={() => setTurnstileValid(false)}
-                  onTimeout={() => setTurnstileValid(false)}
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onExpired={() => setTurnstileToken('')}
+                  onError={() => setTurnstileToken('')}
+                  onTimeout={() => setTurnstileToken('')}
                 />
               </Field>
             </FieldSet>
