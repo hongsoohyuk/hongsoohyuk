@@ -53,7 +53,9 @@
       "Bash(git stash:*)",
       "WebSearch",
       "mcp__serena__find_file",
-      "Bash(npx jest:*)"
+      "Bash(npx jest:*)",
+      "Bash(cat:*)",
+      "Bash(wc:*)"
     ]
   }
 }
