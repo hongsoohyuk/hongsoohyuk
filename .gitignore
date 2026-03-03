@@ -43,9 +43,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# WASM build output (intermediate files only)
-/wasm/build/
-
-# Keep the compiled WASM files so others don't need to rebuild
-# /public/wasm/*.js
-# /public/wasm/*.wasm
+# claude git
+.claude/skills/git-commit-workflow/SKILL.md
