@@ -25,24 +25,26 @@
 
 ### 단위 테스트 vs E2E 테스트
 
-| | 단위 테스트 (Jest) | E2E 테스트 (Playwright) |
-|---|---|---|
-| **범위** | 함수, 컴포넌트 하나 | 실제 브라우저에서 전체 페이지 |
-| **속도** | 매우 빠름 (수 ms) | 느림 (수 초) |
-| **목적** | 로직이 올바른지 검증 | 사용자 시나리오가 동작하는지 검증 |
-| **외부 의존성** | Mock으로 격리 | 실제 서버 필요 |
-| **실행 환경** | Node.js (jsdom) | 실제 Chromium 브라우저 |
+|                 | 단위 테스트 (Jest)   | E2E 테스트 (Playwright)           |
+| --------------- | -------------------- | --------------------------------- |
+| **범위**        | 함수, 컴포넌트 하나  | 실제 브라우저에서 전체 페이지     |
+| **속도**        | 매우 빠름 (수 ms)    | 느림 (수 초)                      |
+| **목적**        | 로직이 올바른지 검증 | 사용자 시나리오가 동작하는지 검증 |
+| **외부 의존성** | Mock으로 격리        | 실제 서버 필요                    |
+| **실행 환경**   | Node.js (jsdom)      | 실제 Chromium 브라우저            |
 
 ---
 
 ## 2. 이 프로젝트의 테스트 도구
 
 ### 단위/컴포넌트 테스트
+
 - **Jest** (v30) — 테스트 러너, assertion, mock 프레임워크
 - **React Testing Library** — React 컴포넌트를 렌더링하고 DOM을 쿼리
 - **@testing-library/jest-dom** — `toBeInTheDocument()` 같은 DOM 전용 매처
 
 ### E2E 테스트
+
 - **Playwright** (v1.58) — 실제 브라우저를 자동화하는 E2E 프레임워크
 
 ### 설정 파일
@@ -63,6 +65,7 @@
 가장 간단한 형태의 테스트부터 시작합니다.
 
 **테스트 대상** — `src/utils/number.ts`:
+
 ```ts
 export function parsePositiveInt(value: string | string[] | undefined | null): number | null {
   if (!value) return null;
@@ -74,6 +77,7 @@ export function parsePositiveInt(value: string | string[] | undefined | null): n
 ```
 
 **테스트 코드** — `src/utils/__tests__/number.test.ts`:
+
 ```ts
 import {parsePositiveInt} from '../number';
 
@@ -102,14 +106,14 @@ describe('parsePositiveInt', () => {
 
 ### 핵심 개념 설명
 
-| 개념 | 설명 | 예시 |
-|------|------|------|
-| `describe` | 관련 테스트를 그룹으로 묶음 | `describe('parsePositiveInt', () => { ... })` |
-| `it` / `test` | 하나의 테스트 케이스 | `it('returns null for "0"', () => { ... })` |
-| `expect` | 값에 대한 기대 조건을 설정 | `expect(result).toBe(5)` |
-| `toBe` | 값이 정확히 같은지 (`===`) | `expect(1 + 1).toBe(2)` |
-| `toEqual` | 객체/배열의 깊은 비교 | `expect({a: 1}).toEqual({a: 1})` |
-| `toBeNull` | null인지 확인 | `expect(null).toBeNull()` |
+| 개념                | 설명                             | 예시                                                 |
+| ------------------- | -------------------------------- | ---------------------------------------------------- |
+| `describe`          | 관련 테스트를 그룹으로 묶음      | `describe('parsePositiveInt', () => { ... })`        |
+| `it` / `test`       | 하나의 테스트 케이스             | `it('returns null for "0"', () => { ... })`          |
+| `expect`            | 값에 대한 기대 조건을 설정       | `expect(result).toBe(5)`                             |
+| `toBe`              | 값이 정확히 같은지 (`===`)       | `expect(1 + 1).toBe(2)`                              |
+| `toEqual`           | 객체/배열의 깊은 비교            | `expect({a: 1}).toEqual({a: 1})`                     |
+| `toBeNull`          | null인지 확인                    | `expect(null).toBeNull()`                            |
 | `toBeInTheDocument` | DOM에 존재하는지 확인 (RTL 전용) | `expect(screen.getByText('Hi')).toBeInTheDocument()` |
 
 ### 테스트 파일 위치 규칙
@@ -138,6 +142,7 @@ src/features/guestbook/
 ### 기본 패턴: render → query → assert
 
 **테스트 대상** — `ProjectCard.tsx`:
+
 ```tsx
 export function ProjectCard({project}: Props) {
   return (
@@ -150,15 +155,14 @@ export function ProjectCard({project}: Props) {
 ```
 
 **테스트 코드** — `ProjectCard.test.tsx`:
+
 ```tsx
 import {render, screen} from '@testing-library/react';
 import {ProjectCard} from '../components/ProjectCard';
 
 // 외부 의존성은 Mock으로 대체
 jest.mock('@/lib/i18n/routing', () => ({
-  Link: ({href, children}: {href: string; children: React.ReactNode}) => (
-    <a href={href}>{children}</a>
-  ),
+  Link: ({href, children}: {href: string; children: React.ReactNode}) => <a href={href}>{children}</a>,
 }));
 
 describe('ProjectCard', () => {
@@ -194,12 +198,12 @@ React Testing Library는 접근성 기반 쿼리를 권장합니다:
 
 ### 자주 쓰는 쿼리 메서드
 
-| 메서드 | 없으면? | 용도 |
-|--------|---------|------|
-| `getByRole` | 에러 발생 | 요소가 반드시 있어야 할 때 |
-| `getByText` | 에러 발생 | 텍스트로 요소 찾을 때 |
-| `queryByRole` | `null` 반환 | 요소가 없어야 함을 확인할 때 |
-| `findByRole` | Promise | 비동기로 나타나는 요소를 기다릴 때 |
+| 메서드        | 없으면?     | 용도                               |
+| ------------- | ----------- | ---------------------------------- |
+| `getByRole`   | 에러 발생   | 요소가 반드시 있어야 할 때         |
+| `getByText`   | 에러 발생   | 텍스트로 요소 찾을 때              |
+| `queryByRole` | `null` 반환 | 요소가 없어야 함을 확인할 때       |
+| `findByRole`  | Promise     | 비동기로 나타나는 요소를 기다릴 때 |
 
 ### 존재하지 않아야 할 요소 확인
 
@@ -218,6 +222,7 @@ expect(screen.getByRole('img')).not.toBeInTheDocument(); // 에러!
 커스텀 훅은 컴포넌트 안에서만 실행 가능하므로 `renderHook`을 사용합니다.
 
 **테스트 대상** — `useDialogController.ts`:
+
 ```ts
 export function useDialogController(initialOpen?: boolean) {
   const [state, setState] = useState(initialOpen ?? false);
@@ -228,6 +233,7 @@ export function useDialogController(initialOpen?: boolean) {
 ```
 
 **테스트 코드**:
+
 ```ts
 import {renderHook, act} from '@testing-library/react';
 import {useDialogController} from '../useDialogController';
@@ -304,8 +310,8 @@ it('fetches page data', async () => {
 ```ts
 jest.mock('@/lib/api/notion', () => ({
   notion: {
-    dataSources: { query: jest.fn() },
-    blocks: { children: { list: jest.fn() } },
+    dataSources: {query: jest.fn()},
+    blocks: {children: {list: jest.fn()}},
   },
 }));
 
@@ -315,7 +321,7 @@ import {notion} from '@/lib/api/notion';
 const mockQuery = notion.dataSources.query as jest.Mock;
 
 beforeEach(() => {
-  jest.clearAllMocks();  // 매 테스트 전에 Mock 초기화
+  jest.clearAllMocks(); // 매 테스트 전에 Mock 초기화
 });
 
 describe('getBlogList', () => {
@@ -336,15 +342,15 @@ describe('getBlogList', () => {
 
 ### Mock 메서드 요약
 
-| 메서드 | 용도 |
-|--------|------|
-| `jest.fn()` | 빈 Mock 함수 생성 |
-| `.mockReturnValue(val)` | 동기 반환값 설정 |
-| `.mockResolvedValue(val)` | `Promise.resolve(val)` 반환 (async 함수) |
-| `.mockRejectedValue(err)` | `Promise.reject(err)` 반환 (에러 시뮬레이션) |
-| `.mockReturnValueOnce(val)` | 한 번만 반환 (순차적 다른 응답) |
-| `jest.clearAllMocks()` | 모든 Mock의 호출 기록 초기화 |
-| `expect(fn).toHaveBeenCalledWith(arg)` | 특정 인자로 호출됐는지 검증 |
+| 메서드                                 | 용도                                         |
+| -------------------------------------- | -------------------------------------------- |
+| `jest.fn()`                            | 빈 Mock 함수 생성                            |
+| `.mockReturnValue(val)`                | 동기 반환값 설정                             |
+| `.mockResolvedValue(val)`              | `Promise.resolve(val)` 반환 (async 함수)     |
+| `.mockRejectedValue(err)`              | `Promise.reject(err)` 반환 (에러 시뮬레이션) |
+| `.mockReturnValueOnce(val)`            | 한 번만 반환 (순차적 다른 응답)              |
+| `jest.clearAllMocks()`                 | 모든 Mock의 호출 기록 초기화                 |
+| `expect(fn).toHaveBeenCalledWith(arg)` | 특정 인자로 호출됐는지 검증                  |
 
 ---
 
@@ -389,13 +395,13 @@ test.describe('Project List Page', () => {
 
 ### Jest vs Playwright 비교
 
-| Jest (단위) | Playwright (E2E) |
-|-------------|------------------|
-| `render(<Comp />)` | `await page.goto('/path')` |
-| `screen.getByRole('button')` | `page.getByRole('button')` |
-| `expect(el).toBeInTheDocument()` | `await expect(locator).toBeVisible()` |
-| 동기 (`expect(x).toBe(y)`) | **비동기** (`await expect(loc).toBeVisible()`) |
-| `jest.fn()` 으로 Mock | 실제 서버에 요청 |
+| Jest (단위)                      | Playwright (E2E)                               |
+| -------------------------------- | ---------------------------------------------- |
+| `render(<Comp />)`               | `await page.goto('/path')`                     |
+| `screen.getByRole('button')`     | `page.getByRole('button')`                     |
+| `expect(el).toBeInTheDocument()` | `await expect(locator).toBeVisible()`          |
+| 동기 (`expect(x).toBe(y)`)       | **비동기** (`await expect(loc).toBeVisible()`) |
+| `jest.fn()` 으로 Mock            | 실제 서버에 요청                               |
 
 ### 모바일 테스트
 
@@ -414,12 +420,12 @@ test.describe('Mobile View', () => {
 
 ```ts
 test('displays Korean content', async ({page}) => {
-  await page.goto('/project');           // 기본 한국어
+  await page.goto('/project'); // 기본 한국어
   await expect(page).toHaveTitle(/.+/);
 });
 
 test('displays English content', async ({page}) => {
-  await page.goto('/en/project');        // 영어
+  await page.goto('/en/project'); // 영어
   await expect(page).toHaveTitle(/.+/);
 });
 ```
@@ -466,7 +472,7 @@ npx playwright test e2e/project-list.spec.ts
 npx playwright show-report
 ```
 
-> **참고**: E2E 테스트는 개발 서버가 필요합니다. Playwright가 자동으로 `pnpm dev --port 3003`을 실행합니다.
+> **참고**: E2E 테스트는 개발 서버가 필요합니다. Playwright가 자동으로 `pnpm dev --port 3000`을 실행합니다.
 
 ---
 
@@ -481,6 +487,7 @@ Warning: An update was not wrapped in act(...)
 **원인**: 상태 업데이트가 `act()` 밖에서 발생
 
 **해결**:
+
 ```ts
 // ❌
 result.current.open();
@@ -510,6 +517,7 @@ import {getBlogList} from '../api/get-blog-list';
 **원인**: `jest.setup.ts`에서 Mock이 불완전
 
 **해결**: `jest.setup.ts`의 전역 Mock을 확인하고 누락된 함수를 추가. 현재 설정:
+
 ```ts
 jest.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
