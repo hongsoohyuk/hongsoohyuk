@@ -5,8 +5,9 @@ import {ThemeProvider} from 'next-themes';
 import {ChatFloater} from '@/features/ai-chat';
 import {Footer} from '@/components/layout/footer';
 import {Header} from '@/components/layout/header';
-import {baseMetadata, getFontClassNames} from '@/config';
+import {WebViewShell} from '@/components/layout/webview-shell';
 import {routing} from '@/lib/i18n/routing';
+import {baseMetadata, getFontClassNames} from '@/config';
 import type {Metadata} from 'next';
 
 import '../globals.css';
@@ -33,9 +34,9 @@ export default async function LocaleLayout({children, params}: Props) {
       <body className={`${getFontClassNames()} antialiased min-h-screen bg-background font-sans flex flex-col`}>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <WebViewShell header={<Header />} footer={<Footer />}>
+              {children}
+            </WebViewShell>
             <ChatFloater />
           </ThemeProvider>
         </NextIntlClientProvider>
