@@ -1,3 +1,5 @@
+import {cache} from 'react';
+
 import {notion} from '@/lib/api/notion';
 
 import type {PageObjectResponse} from '@notionhq/client/build/src/api-endpoints';
@@ -66,7 +68,7 @@ function extractKeywords(page: PageObjectResponse): string[] {
   return [];
 }
 
-export async function getBlogList(params: GetBlogListParams = {}): Promise<BlogListResponse> {
+export const getBlogList = cache(async function getBlogList(params: GetBlogListParams = {}): Promise<BlogListResponse> {
   const filter = buildFilter(params);
 
   const response = await notion.dataSources.query({
@@ -87,4 +89,4 @@ export async function getBlogList(params: GetBlogListParams = {}): Promise<BlogL
   }));
 
   return {items};
-}
+});

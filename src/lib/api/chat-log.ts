@@ -18,12 +18,14 @@ export function saveChatLog({
 }) {
   const ipHash = hashIp(ip);
 
-  assistantTextPromise.then(assistantMessage => {
-    supabaseAdmin
-      .from('chat_logs')
-      .insert({user_message: userMessage, assistant_message: assistantMessage, ip_hash: ipHash})
-      .then(({error}) => {
-        if (error) console.error('[chat_logs] insert error:', error);
-      });
-  });
+  assistantTextPromise
+    .then(async (assistantMessage) => {
+      const {error} = await supabaseAdmin
+        .from('chat_logs')
+        .insert({user_message: userMessage, assistant_message: assistantMessage, ip_hash: ipHash});
+      if (error) console.error('[chat_logs] insert error:', error);
+    })
+    .catch((err) => {
+      console.error('[chat_logs] unexpected error:', err);
+    });
 }

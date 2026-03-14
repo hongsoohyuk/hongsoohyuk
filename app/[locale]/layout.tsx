@@ -2,7 +2,6 @@ import {Analytics} from '@vercel/analytics/next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {ThemeProvider} from 'next-themes';
-import {ChatFloater} from '@/features/ai-chat';
 import {Footer} from '@/components/layout/footer';
 import {Header} from '@/components/layout/header';
 import {WebViewShell} from '@/components/layout/webview-shell';
@@ -37,7 +36,6 @@ export default async function LocaleLayout({children, params}: Props) {
             <WebViewShell header={<Header />} footer={<Footer />}>
               {children}
             </WebViewShell>
-            <ChatFloater />
           </ThemeProvider>
         </NextIntlClientProvider>
         <Analytics />

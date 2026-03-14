@@ -1,3 +1,5 @@
+import {cache} from 'react';
+
 import {notion} from '@/lib/api/notion';
 
 import type {PageObjectResponse} from '@notionhq/client/build/src/api-endpoints';
@@ -23,7 +25,7 @@ function extractDescription(page: PageObjectResponse): string {
   return '';
 }
 
-export async function getProjectList(): Promise<ProjectListResponse> {
+export const getProjectList = cache(async function getProjectList(): Promise<ProjectListResponse> {
   const response = await notion.dataSources.query({
     data_source_id: PROJECT_DATA_SOURCE_ID,
   });
@@ -39,4 +41,4 @@ export async function getProjectList(): Promise<ProjectListResponse> {
   }));
 
   return {items};
-}
+});

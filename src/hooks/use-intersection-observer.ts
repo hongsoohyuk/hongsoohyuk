@@ -16,6 +16,8 @@ export function useIntersectionObserver<T extends HTMLElement>({
   enabled = true,
 }: UseIntersectionObserverOptions) {
   const targetRef = useRef<T | null>(null);
+  const onIntersectRef = useRef(onIntersect);
+  onIntersectRef.current = onIntersect;
 
   useEffect(() => {
     const target = targetRef.current;
@@ -25,7 +27,7 @@ export function useIntersectionObserver<T extends HTMLElement>({
       (entries) => {
         const first = entries[0];
         if (first && first.isIntersecting) {
-          onIntersect();
+          onIntersectRef.current();
         }
       },
       {rootMargin, threshold},
@@ -36,7 +38,7 @@ export function useIntersectionObserver<T extends HTMLElement>({
     return () => {
       observer.disconnect();
     };
-  }, [onIntersect, rootMargin, threshold, enabled]);
+  }, [rootMargin, threshold, enabled]);
 
   return targetRef;
 }
