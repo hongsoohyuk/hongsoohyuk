@@ -50,7 +50,8 @@
       "guestbook": "방명록",
       "project": "프로젝트",
       "instagram": "인스타그램",
-      "blog": "블로그"
+      "blog": "블로그",
+      "chat": "AI 채팅"
     },
     "theme": {
       "light": "라이트 모드",
@@ -90,6 +91,10 @@
     "cli": {
       "title": "CLI 모드 - 터미널로 탐색하기",
       "description": "터미널 인터페이스로 홍수혁의 포트폴리오를 탐색해보세요."
+    },
+    "chat": {
+      "title": "AI 채팅 - 홍수혁에 대해 물어보세요",
+      "description": "AI 어시스턴트에게 홍수혁에 대해 무엇이든 물어보세요."
     }
   },
   "Instagram": {
@@ -250,6 +255,7 @@
   },
   "AiChat": {
     "assistant": "AI 어시스턴트",
+    "pageDescription": "홍수혁에 대해 무엇이든 물어보세요",
     "hello": "안녕하세요! 홍수혁에 대해 무엇이든 물어보세요.",
     "placeholder": "메시지를 입력하세요..."
   },

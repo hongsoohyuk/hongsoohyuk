@@ -53,7 +53,7 @@ export function ChatFloater() {
     return () => window.removeEventListener('open-ai-chat', handler);
   }, []);
 
-  if (pathname?.includes('/cli')) return null;
+  if (pathname?.includes('/cli') || pathname?.includes('/chat')) return null;
 
   return (
     <>

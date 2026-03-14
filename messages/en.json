@@ -50,7 +50,8 @@
       "guestbook": "Guestbook",
       "project": "Project",
       "instagram": "Instagram",
-      "blog": "Blog"
+      "blog": "Blog",
+      "chat": "AI Chat"
     },
     "theme": {
       "light": "Light Mode",
@@ -90,6 +91,10 @@
     "cli": {
       "title": "CLI Mode - Explore via Terminal",
       "description": "Explore Soohyuk Hong's portfolio through a terminal interface."
+    },
+    "chat": {
+      "title": "AI Chat - Ask About Soohyuk",
+      "description": "Ask the AI assistant anything about Soohyuk Hong."
     }
   },
   "Instagram": {
@@ -251,6 +256,7 @@
   },
   "AiChat": {
     "assistant": "AI Assistant",
+    "pageDescription": "Ask me anything about Soohyuk",
     "hello": "Hello! Ask me anything about Soohyuk.",
     "placeholder": "Enter your message..."
   },

@@ -40,7 +40,7 @@ export function ChatInput({input, isLoading, onInputChange, onSubmit}: ChatInput
         placeholder={aiChatT('placeholder')}
         disabled={isLoading}
         rows={1}
-        className="flex-1 resize-none rounded-lg border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground disabled:opacity-50"
+        className="flex-1 resize-none rounded-lg border bg-background px-3 py-2 text-base outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground disabled:opacity-50"
       />
       <Button type="submit" size="icon-sm" disabled={!input.trim() || isLoading} aria-label="전송">
         <SendHorizontal className="size-4" />

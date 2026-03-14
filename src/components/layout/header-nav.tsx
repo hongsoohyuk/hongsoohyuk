@@ -10,7 +10,7 @@ import {cn} from '@/utils/style';
 
 type NavigationItem = {
   name: string;
-  href: '/' | '/resume' | '/guestbook' | '/project' | '/instagram' | '/blog';
+  href: '/' | '/resume' | '/guestbook' | '/project' | '/instagram' | '/blog' | '/chat';
 };
 
 interface HeaderNavProps {
@@ -28,6 +28,7 @@ export function HeaderNav({siteName}: HeaderNavProps) {
     {name: t('nav.project'), href: '/project' as const},
     {name: t('nav.instagram'), href: '/instagram' as const},
     {name: t('nav.blog'), href: '/blog' as const},
+    {name: t('nav.chat'), href: '/chat' as const},
   ];
 
   return (

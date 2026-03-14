@@ -160,7 +160,7 @@ export function Terminal({cliData}: Props) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent outline-none border-none text-neutral-200 font-mono text-sm caret-green-400"
+            className="flex-1 bg-transparent outline-none border-none text-neutral-200 font-mono text-base caret-green-400"
             spellCheck={false}
             autoComplete="off"
             autoCapitalize="off"
