@@ -55,7 +55,9 @@
       "mcp__serena__find_file",
       "Bash(npx jest:*)",
       "Bash(cat:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)"
     ]
   }
 }
