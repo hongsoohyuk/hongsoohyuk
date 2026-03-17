@@ -3,7 +3,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {getBlogList} from '@/features/blog/api';
 import {buildCliData} from '@/features/command-line/api';
-import {Terminal} from '@/features/command-line';
+import {Terminal, TerminalProvider} from '@/features/command-line';
 import {getProjectList} from '@/features/project/api';
 import {getResumePage} from '@/features/resume/api';
 import {createPageMetadata} from '@/config';
@@ -68,7 +68,9 @@ export default async function CliPage({params}: Props) {
 
       {/* Terminal */}
       <div className="flex-1 min-h-0">
-        <Terminal cliData={cliData} />
+        <TerminalProvider cliData={cliData}>
+          <Terminal />
+        </TerminalProvider>
       </div>
     </div>
   );
