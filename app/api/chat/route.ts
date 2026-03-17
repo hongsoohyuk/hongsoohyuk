@@ -1,5 +1,6 @@
 import {google} from '@ai-sdk/google';
 import {convertToModelMessages, streamText, type UIMessage} from 'ai';
+import {after} from 'next/server';
 
 import {buildSystemPrompt} from '@/features/ai-chat/api/build-prompt';
 import {fetchDynamicContext} from '@/features/ai-chat/api/fetch-context';
@@ -63,20 +64,24 @@ export async function POST(req: Request) {
   const userText =
     lastUserMessage?.parts?.find((p): p is {type: 'text'; text: string} => p.type === 'text')?.text ?? '';
 
-  const context = await fetchDynamicContext();
-  const system = await buildSystemPrompt(context);
+  const [system, modelMessages] = await Promise.all([
+    fetchDynamicContext().then(buildSystemPrompt),
+    convertToModelMessages(messages),
+  ]);
 
   try {
     const result = streamText({
       model: google(modelId),
       system,
-      messages: await convertToModelMessages(messages),
+      messages: modelMessages,
       maxOutputTokens: 2048,
     });
 
     const response = result.toUIMessageStreamResponse();
 
-    saveChatLog({userMessage: userText, assistantTextPromise: result.text, ip});
+    after(() => {
+      saveChatLog({userMessage: userText, assistantTextPromise: result.text, ip});
+    });
 
     return response;
   } catch (err: unknown) {
