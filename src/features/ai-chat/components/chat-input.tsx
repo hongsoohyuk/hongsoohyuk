@@ -39,12 +39,16 @@ export function ChatInput({input, isLoading, model, onInputChange, onModelChange
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
+  const lineHeightRef = useRef<number>(0);
+
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
+    if (lineHeightRef.current === 0) {
+      lineHeightRef.current = parseFloat(getComputedStyle(el).lineHeight);
+    }
     el.style.height = 'auto';
-    const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
-    const maxHeight = lineHeight * MAX_ROWS;
+    const maxHeight = lineHeightRef.current * MAX_ROWS;
     el.style.height = `${Math.min(el.scrollHeight, maxHeight)}px`;
   }, [input]);
 

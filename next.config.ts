@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   // React Compiler — replaces manual memo/useMemo/useCallback
   reactCompiler: true,
 
+  // Tree-shake barrel imports for icon libraries
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+  },
+
   // TypeScript and ESLint - don't fail build on errors
   typescript: {
     ignoreBuildErrors: true,

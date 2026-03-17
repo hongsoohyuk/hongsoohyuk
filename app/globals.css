@@ -192,6 +192,12 @@
   border-radius: 9999px;
 }
 
+/* Chat Message Off-screen Optimization */
+.chat-message-item {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 60px;
+}
+
 /* Safe Area Insets for Mobile Browsers */
 @supports (padding: env(safe-area-inset-bottom)) {
   .pb-safe {

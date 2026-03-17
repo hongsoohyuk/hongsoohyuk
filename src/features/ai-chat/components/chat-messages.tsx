@@ -33,7 +33,7 @@ export function ChatMessages({messages, isLoading, error}: ChatMessagesProps) {
     <div ref={scrollRef} className="scrollbar-thin flex-1 overflow-y-auto py-6">
       <div className="space-y-6">
         {messages.map((message) => (
-          <div key={message.id} className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
+          <div key={message.id} className={`chat-message-item flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
             {message.role === 'assistant' && (
               <div className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-background">
                 <Bot className="size-4" />
