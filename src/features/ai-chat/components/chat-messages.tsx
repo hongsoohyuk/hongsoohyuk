@@ -2,10 +2,10 @@
 
 import {useEffect, useRef} from 'react';
 
-import {AlertCircle, Bot} from 'lucide-react';
+import {Bot} from 'lucide-react';
 
 import type {ChatMessage} from '../types';
-import {useChatStore} from '../stores/chat-provider';
+import {useChatState, useChatStore} from '../stores/chat-provider';
 
 function getTextContent(message: ChatMessage): string {
   return message.parts
@@ -15,14 +15,13 @@ function getTextContent(message: ChatMessage): string {
 }
 
 export function ChatMessages() {
-  const messages = useChatStore((s) => s.messages);
+  const {messages} = useChatState();
   const isLoading = useChatStore((s) => s.isLoading);
-  const error = useChatStore((s) => s.error);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({behavior: 'smooth'});
-  }, [messages, error]);
+  }, [messages]);
 
   return (
     <div className="py-6">
@@ -56,16 +55,6 @@ export function ChatMessages() {
                 <span className="animate-bounce [animation-delay:150ms]">·</span>
                 <span className="animate-bounce [animation-delay:300ms]">·</span>
               </span>
-            </div>
-          </div>
-        )}
-        {error && (
-          <div className="flex gap-3">
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-destructive/30 bg-destructive/10">
-              <AlertCircle className="size-4 text-destructive" />
-            </div>
-            <div className="max-w-[75%] rounded-2xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm leading-relaxed text-destructive">
-              {error}
             </div>
           </div>
         )}

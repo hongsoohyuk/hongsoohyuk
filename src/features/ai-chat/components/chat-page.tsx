@@ -1,7 +1,8 @@
 'use client';
 
-import {useChatStore, ChatProvider} from '../stores/chat-provider';
+import {useChatState, useChatStore, ChatProvider} from '../stores/chat-provider';
 
+import {ChatError} from './chat-error';
 import {ChatInput} from './chat-input';
 import {ChatMessages} from './chat-messages';
 import {ChatSuggestions} from './chat-suggestions';
@@ -15,7 +16,8 @@ export function ChatPage() {
 }
 
 function ChatPageLayout() {
-  const isEmpty = useChatStore((s) => s.messages.length === 0);
+  const {messages} = useChatState();
+  const isEmpty = messages.length === 0;
 
   return (
     <>
@@ -29,12 +31,10 @@ function ChatPageLayout() {
         )}
       </main>
 
-      <div className="fixed inset-x-0 bottom-0 z-10">
-        <div className="pointer-events-none h-8 bg-gradient-to-t from-background to-transparent" />
-        <div className="bg-background pb-4">
-          <div className="mx-auto w-full max-w-3xl px-4">
-            <ChatInput />
-          </div>
+      <div className="fixed inset-x-0 bottom-0 z-10 pb-8">
+        <div className="mx-auto w-full max-w-3xl px-4">
+          <ChatError />
+          <ChatInput />
         </div>
       </div>
     </>

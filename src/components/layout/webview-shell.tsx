@@ -1,5 +1,7 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
+
 import type { BridgeMessage } from '@/lib/webview/bridge';
 import { useBridge } from '@/lib/webview/use-bridge';
 import { useWebView } from '@/lib/webview/use-webview';
@@ -20,6 +22,8 @@ export function WebViewShell({
   children: React.ReactNode;
 }) {
   const { isWebView } = useWebView();
+  const pathname = usePathname();
+  const hideFooter = pathname.includes('/chat');
 
   useBridge((msg: BridgeMessage) => {
     // 앱에서 오는 메시지 처리 (추후 확장 가능)
@@ -35,7 +39,7 @@ export function WebViewShell({
       <main className={isWebView ? 'flex-1 pb-safe' : 'flex-1'}>
         {children}
       </main>
-      {!isWebView && footer}
+      {!isWebView && !hideFooter && footer}
     </>
   );
 }

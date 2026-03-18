@@ -84,9 +84,8 @@ export function ChatInput() {
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={t('placeholder')}
-        disabled={isLoading}
         rows={1}
-        className="scrollbar-thin w-full resize-none bg-transparent text-base leading-relaxed outline-none placeholder:text-muted-foreground disabled:opacity-50"
+        className="scrollbar-thin w-full resize-none bg-transparent text-base leading-relaxed outline-none placeholder:text-muted-foreground"
       />
 
       <div className="flex items-center justify-end gap-2">
