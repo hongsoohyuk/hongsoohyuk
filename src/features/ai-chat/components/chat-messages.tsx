@@ -18,17 +18,14 @@ export function ChatMessages() {
   const messages = useChatStore((s) => s.messages);
   const isLoading = useChatStore((s) => s.isLoading);
   const error = useChatStore((s) => s.error);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = scrollRef.current;
-    if (el) {
-      el.scrollTop = el.scrollHeight;
-    }
+    bottomRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [messages, error]);
 
   return (
-    <div ref={scrollRef} className="scrollbar-thin flex-1 overflow-y-auto py-6">
+    <div className="py-6">
       <div className="space-y-6">
         {messages.map((message) => (
           <div key={message.id} className={`chat-message-item flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
@@ -73,6 +70,7 @@ export function ChatMessages() {
           </div>
         )}
       </div>
+      <div ref={bottomRef} />
     </div>
   );
 }

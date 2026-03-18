@@ -76,7 +76,7 @@ export function ChatInput() {
         e.preventDefault();
         handleSubmit();
       }}
-      className="relative flex flex-col gap-2 rounded-2xl border bg-background px-4 py-3 shadow-sm"
+      className="relative flex flex-col gap-2 rounded-2xl border bg-muted/50 px-4 py-3"
     >
       <textarea
         ref={textareaRef}
