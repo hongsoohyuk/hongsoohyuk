@@ -1,20 +1,14 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-
-const ScrollVelocity = dynamic(
-  () => import('@/components/ui/ScrollVelocity').then((mod) => ({default: mod.ScrollVelocity})),
-  {ssr: false},
-);
+import {Marquee} from '@/components/ui/Marquee';
 
 export function HeroTitle() {
   return (
-    <ScrollVelocity
-      texts={['hongsoohyuk']}
-      velocity={100}
-      className="bg-clip-text text-foreground"
-      numCopies={16}
-      scrollerClassName="font-bold tracking-tight"
+    <Marquee
+      text="hongsoohyuk"
+      speed={210}
+      copies={16}
+      className="font-sans text-4xl font-bold tracking-tight text-foreground drop-shadow md:text-[5rem] md:leading-[5rem]"
     />
   );
 }
