@@ -7,30 +7,37 @@ interface MarqueeProps {
   className?: string;
   /** Pixels per second */
   speed?: number;
-  copies?: number;
 }
 
-export function Marquee({text, className = '', speed = 100, copies = 8}: MarqueeProps) {
+export function Marquee({text, className = '', speed = 100}: MarqueeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const groupRef = useRef<HTMLDivElement>(null);
+  const singleRef = useRef<HTMLSpanElement>(null);
   const [duration, setDuration] = useState(0);
   const [distance, setDistance] = useState(0);
+  const [copies, setCopies] = useState(4);
 
   useEffect(() => {
-    const group = groupRef.current;
-    if (!group) return;
+    const container = containerRef.current;
+    const single = singleRef.current;
+    if (!container || !single) return;
 
     const update = () => {
-      const groupWidth = group.scrollWidth;
-      if (groupWidth > 0) {
-        setDistance(groupWidth);
-        setDuration(groupWidth / speed);
-      }
+      const containerWidth = container.offsetWidth;
+      const itemWidth = single.offsetWidth;
+      if (itemWidth === 0) return;
+
+      // Need enough copies so one group fills the container + some overflow
+      const needed = Math.ceil(containerWidth / itemWidth) + 2;
+      setCopies(needed);
+
+      const groupWidth = needed * itemWidth;
+      setDistance(groupWidth);
+      setDuration(groupWidth / speed);
     };
 
     update();
     const observer = new ResizeObserver(update);
-    observer.observe(group);
+    observer.observe(container);
     return () => observer.disconnect();
   }, [speed]);
 
@@ -41,9 +48,16 @@ export function Marquee({text, className = '', speed = 100, copies = 8}: Marquee
   ));
 
   return (
-    <div className="relative overflow-hidden">
+    <div ref={containerRef} className="relative overflow-hidden">
+      {/* Hidden measurer for single item width */}
+      <span
+        ref={singleRef}
+        aria-hidden
+        className={`invisible absolute whitespace-nowrap ${className}`}
+      >
+        {text}&nbsp;
+      </span>
       <div
-        ref={containerRef}
         className={`marquee-track flex whitespace-nowrap ${className}`}
         style={
           duration > 0
@@ -54,10 +68,8 @@ export function Marquee({text, className = '', speed = 100, copies = 8}: Marquee
             : {animationPlayState: 'paused'}
         }
       >
-        {/* Group 1: measured for exact pixel distance */}
-        <div ref={groupRef} className="flex flex-shrink-0">
-          {items}
-        </div>
+        {/* Group 1 */}
+        <div className="flex flex-shrink-0">{items}</div>
         {/* Group 2: identical clone for seamless loop */}
         <div className="flex flex-shrink-0" aria-hidden>
           {items}
