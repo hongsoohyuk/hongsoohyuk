@@ -36,6 +36,8 @@ export function Marquee({text, className = '', speed = 100}: MarqueeProps) {
     };
 
     update();
+    // Recalculate after fonts load — Safari measures with fallback font initially
+    document.fonts.ready.then(update);
     const observer = new ResizeObserver(update);
     observer.observe(container);
     return () => observer.disconnect();
