@@ -149,6 +149,7 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: none;
   }
 
   body::before {
@@ -192,20 +193,6 @@
   border-radius: 9999px;
 }
 
-/* Marquee Animation — runs on GPU compositor thread */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(var(--marquee-distance, -50%));
-  }
-}
-
-.marquee-track {
-  animation: marquee linear infinite;
-  will-change: transform;
-}
 
 /* Chat Message Off-screen Optimization */
 .chat-message-item {
