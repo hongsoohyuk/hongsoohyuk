@@ -48,6 +48,7 @@ export default async function Home({params}: Props) {
       <section className="flex-1 flex flex-col justify-center px-4 py-12 md:py-20">
         <div className="max-w-4xl mx-auto w-full">
           <HeroTitle />
+
           <p className="text-center text-muted-foreground mt-6 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             {t('contact.description')}
           </p>

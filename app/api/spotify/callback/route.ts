@@ -4,9 +4,7 @@ export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get('code');
   const error = req.nextUrl.searchParams.get('error');
 
-  if (error || !code) {
-    return new Response(`Authorization failed: ${error ?? 'no code'}`, {status: 400});
-  }
+  if (error || !code) return new Response(`Authorization failed: ${error ?? 'no code'}`, {status: 400});
 
   const clientId = process.env.SPOTIFY_CLIENT_ID ?? '';
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET ?? '';

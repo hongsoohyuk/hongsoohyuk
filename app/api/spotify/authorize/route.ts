@@ -1,7 +1,4 @@
-const SCOPES = [
-  'user-top-read',
-  'user-read-recently-played',
-].join(' ');
+const SCOPES = ['user-top-read', 'user-read-recently-played'].join(' ');
 
 export function GET() {
   const params = new URLSearchParams({

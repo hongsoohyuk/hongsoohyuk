@@ -21,7 +21,6 @@ function useElementWidth<T extends HTMLElement>(ref: RefObject<T | null>): numbe
 }
 
 interface ScrollVelocityProps {
-  texts: ReactNode[];
   velocity?: number;
   className?: string;
   numCopies?: number;
@@ -81,10 +80,7 @@ function VelocityText({
 
   return (
     <div className={`${parallaxClassName ?? ''} relative overflow-hidden`} style={parallaxStyle}>
-      <motion.div
-        className={`${scrollerClassName ?? ''} flex whitespace-nowrap`}
-        style={{x, ...scrollerStyle}}
-      >
+      <motion.div className={`${scrollerClassName ?? ''} flex whitespace-nowrap`} style={{x, ...scrollerStyle}}>
         {spans}
       </motion.div>
     </div>
@@ -92,7 +88,6 @@ function VelocityText({
 }
 
 export function ScrollVelocity({
-  texts = [],
   velocity = 100,
   className = '',
   numCopies = 6,
@@ -103,20 +98,17 @@ export function ScrollVelocity({
 }: ScrollVelocityProps) {
   return (
     <section>
-      {texts.map((text, index) => (
-        <VelocityText
-          key={index}
-          className={className}
-          baseVelocity={index % 2 !== 0 ? -velocity : velocity}
-          numCopies={numCopies}
-          parallaxClassName={parallaxClassName}
-          scrollerClassName={scrollerClassName}
-          parallaxStyle={parallaxStyle}
-          scrollerStyle={scrollerStyle}
-        >
-          {text}
-        </VelocityText>
-      ))}
+      <VelocityText
+        className={className}
+        baseVelocity={velocity}
+        numCopies={numCopies}
+        parallaxClassName={parallaxClassName}
+        scrollerClassName={scrollerClassName}
+        parallaxStyle={parallaxStyle}
+        scrollerStyle={scrollerStyle}
+      >
+        hongsoohyuk
+      </VelocityText>
     </section>
   );
 }
