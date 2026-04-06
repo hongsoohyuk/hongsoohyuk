@@ -45,6 +45,8 @@ export async function POST(req: Request) {
     return jsonResponse({error: 'Invalid request body'}, 400);
   }
 
+  console.log('[chat] messages count:', messages?.length, messages?.map((m: UIMessage) => m.role));
+
   if (!Array.isArray(messages) || messages.length === 0) {
     return jsonResponse({error: 'Messages are required'}, 400);
   }

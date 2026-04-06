@@ -2,24 +2,28 @@ import {readFile} from 'fs/promises';
 import {join} from 'path';
 
 const PROMPTS_DIR = join(process.cwd(), 'src/features/ai-chat/prompts');
+const CONTEXT_DIR = join(PROMPTS_DIR, 'context');
 
 let cachedStaticPrompt: string | null = null;
 
 async function loadStaticPrompt(): Promise<string> {
   if (cachedStaticPrompt) return cachedStaticPrompt;
 
-  const [system, rules, examples] = await Promise.all([
+  const [system, rules, examples, portfolio, personal, pages] = await Promise.all([
     readFile(join(PROMPTS_DIR, 'system.md'), 'utf-8'),
     readFile(join(PROMPTS_DIR, 'rules.md'), 'utf-8'),
     readFile(join(PROMPTS_DIR, 'examples.md'), 'utf-8'),
+    readFile(join(CONTEXT_DIR, 'portfolio.md'), 'utf-8'),
+    readFile(join(CONTEXT_DIR, 'personal.md'), 'utf-8'),
+    readFile(join(CONTEXT_DIR, 'pages.md'), 'utf-8'),
   ]);
 
-  cachedStaticPrompt = [system, rules, examples].join('\n\n');
+  cachedStaticPrompt = [system, portfolio, personal, pages, rules, examples].join('\n\n');
   return cachedStaticPrompt;
 }
 
 export type DynamicContext = {
-  projects?: Array<{title: string; description: string}>;
+  projects?: Array<{title: string; description: string; slug: string}>;
   blogPosts?: Array<{title: string; description: string; categories: string[]}>;
   topTracks?: Array<{name: string; artist: string}>;
   topArtists?: Array<{name: string; genres: string[]}>;
@@ -29,7 +33,7 @@ export type DynamicContext = {
 function formatProjects(projects: DynamicContext['projects']): string {
   if (!projects?.length) return '';
 
-  const list = projects.map((p) => `- ${p.title}${p.description ? `: ${p.description}` : ''}`).join('\n');
+  const list = projects.map((p) => `- ${p.title} (/project/${p.slug})${p.description ? `: ${p.description}` : ''}`).join('\n');
 
   return `\n## 현재 등록된 프로젝트\n\n${list}`;
 }

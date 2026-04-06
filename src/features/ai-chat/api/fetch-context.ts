@@ -37,6 +37,7 @@ export async function fetchDynamicContext(): Promise<DynamicContext> {
     context.projects = data.items.map((p) => ({
       title: p.title,
       description: p.description,
+      slug: p.slug,
     }));
   }
 

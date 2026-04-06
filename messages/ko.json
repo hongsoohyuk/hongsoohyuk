@@ -265,6 +265,7 @@
     "placeholder": "메시지를 입력하세요...",
     "send": "전송",
     "suggestions": {
+      "whyHire": "안녕하세요, 채용담당자신가요?",
       "techStack": "어떤 기술 스택을 사용하나요?",
       "projects": "프로젝트 경험을 알려주세요",
       "contact": "연락처가 궁금해요",

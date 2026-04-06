@@ -14,6 +14,28 @@ function getTextContent(message: ChatMessage): string {
     .join('');
 }
 
+const MD_LINK_RE = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+function renderTextWithLinks(text: string) {
+  const parts: (string | React.ReactElement)[] = [];
+  let lastIndex = 0;
+
+  for (const match of text.matchAll(MD_LINK_RE)) {
+    const [full, label, href] = match;
+    const index = match.index!;
+    if (index > lastIndex) parts.push(text.slice(lastIndex, index));
+    parts.push(
+      <a key={index} href={href} className="underline underline-offset-2 hover:text-primary">
+        {label}
+      </a>,
+    );
+    lastIndex = index + full.length;
+  }
+
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+  return parts;
+}
+
 export function ChatMessages() {
   const {messages} = useChatState();
   const isLoading = useChatStore((s) => s.isLoading);
@@ -40,7 +62,9 @@ export function ChatMessages() {
                   : 'bg-muted/50 text-foreground'
               }`}
             >
-              {getTextContent(message)}
+              {message.role === 'assistant'
+                ? renderTextWithLinks(getTextContent(message))
+                : getTextContent(message)}
             </div>
           </div>
         ))}

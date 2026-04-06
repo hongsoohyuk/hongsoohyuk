@@ -1,6 +1,6 @@
 'use client';
 
-import {Bot, Briefcase, Code, Mail, Music} from 'lucide-react';
+import {Bot, Briefcase, ChessKing, Code, Mail, Music} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
 import {useChatStore} from '../stores/chat-provider';

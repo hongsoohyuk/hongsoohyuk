@@ -1,6 +1,6 @@
 'use client';
 
-import {useChatState, useChatStore, ChatProvider} from '../stores/chat-provider';
+import {useChatState, ChatProvider} from '../stores/chat-provider';
 
 import {ChatError} from './chat-error';
 import {ChatInput} from './chat-input';
@@ -20,23 +20,25 @@ function ChatPageLayout() {
   const isEmpty = messages.length === 0;
 
   return (
-    <>
-      <main className={`mx-auto w-full max-w-3xl px-4 ${isEmpty ? '' : 'pb-32'}`}>
-        {isEmpty ? (
-          <div className="flex h-[calc(100dvh-10rem)] flex-col items-center justify-center gap-8">
-            <ChatSuggestions />
-          </div>
-        ) : (
-          <ChatMessages />
-        )}
-      </main>
-
-      <div className="fixed inset-x-0 bottom-0 z-10 pb-8">
+    <div className="flex h-[calc(100dvh-4rem)] flex-col">
+      <div className="flex-1 overflow-y-auto">
         <div className="mx-auto w-full max-w-3xl px-4">
+          {isEmpty ? (
+            <div className="flex h-full min-h-[60dvh] flex-col items-center justify-center gap-8">
+              <ChatSuggestions />
+            </div>
+          ) : (
+            <ChatMessages />
+          )}
+        </div>
+      </div>
+
+      <div className="shrink-0 pb-safe">
+        <div className="mx-auto w-full max-w-3xl px-4 pb-4">
           <ChatError />
           <ChatInput />
         </div>
       </div>
-    </>
+    </div>
   );
 }

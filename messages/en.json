@@ -266,6 +266,7 @@
     "placeholder": "Enter your message...",
     "send": "Send",
     "suggestions": {
+      "whyHire": "Hi, are you a recruiter?",
       "techStack": "What tech stack does Soohyuk use?",
       "projects": "Tell me about his projects",
       "contact": "How can I contact him?",
