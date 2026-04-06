@@ -1,0 +1,26 @@
+{
+  // ESLint
+  "eslint.enable": true,
+  "eslint.run": "onType",
+  "eslint.useFlatConfig": true,
+
+  // Oxlint
+  "oxc.enable": true,
+  "oxc.lint.run": "onType",
+  "oxc.lint.configPath": ".oxlintrc.json",
+
+  // Prettier
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  // Save actions
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+
+  // File associations
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}
