@@ -1,7 +1,3 @@
-import {NotionBlockWithChildren} from '@/types/notion';
-
-export type {NotionBlockWithChildren} from '@/types/notion';
-
 export type BlogCategory =
   | 'Software Architecture'
   | 'Book'
@@ -9,7 +5,8 @@ export type BlogCategory =
   | 'Study'
   | 'Frontend'
   | 'Infrastucture'
-  | 'Backend';
+  | 'Backend'
+  | 'Test';
 
 export const BLOG_CATEGORIES: BlogCategory[] = [
   'Software Architecture',
@@ -19,10 +16,10 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
   'Frontend',
   'Infrastucture',
   'Backend',
+  'Test',
 ];
 
 export type BlogListItem = {
-  id: string;
   slug: string;
   title: string;
   description: string;
@@ -35,13 +32,22 @@ export type BlogListResponse = {
   items: BlogListItem[];
 };
 
+export type BlogFrontmatter = {
+  title: string;
+  slug: string;
+  description: string;
+  categories: BlogCategory[];
+  keywords: string[];
+  createdTime: string;
+  lastEditedTime: string;
+};
+
 export type BlogDetailResponse = {
   meta: {
-    id: string;
     title: string;
     categories: BlogCategory[];
     keywords: string[];
     lastEditedTime: string;
   };
-  blocks: NotionBlockWithChildren[];
+  content: string;
 };

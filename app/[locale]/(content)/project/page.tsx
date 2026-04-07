@@ -32,7 +32,7 @@ export default async function ProjectPage({params}: Props) {
   return (
     <div className="flex flex-col">
       {data.items.map((project) => (
-        <ProjectCard key={project.id} project={project} />
+        <ProjectCard key={project.slug} project={project} />
       ))}
     </div>
   );

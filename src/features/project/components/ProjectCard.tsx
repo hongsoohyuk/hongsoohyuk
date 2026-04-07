@@ -26,9 +26,7 @@ export function ProjectCard({project}: Props) {
           </span>
         </div>
       </div>
-      {project.description && (
-        <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{project.description}</p>
-      )}
+      {project.description && <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{project.description}</p>}
     </Link>
   );
 }
