@@ -1,8 +1,4 @@
-// Re-export shared Notion type
-export type {NotionBlockWithChildren} from '@/types/notion';
-
 export type ProjectListItem = {
-  id: string;
   slug: string;
   title: string;
   description: string;
@@ -13,8 +9,15 @@ export type ProjectListResponse = {
   items: ProjectListItem[];
 };
 
+export type ProjectFrontmatter = {
+  title: string;
+  slug: string;
+  description: string;
+  createdTime: string;
+  lastEditedTime: string;
+};
+
 export type ProjectDetailMeta = {
-  id: string;
   title: string;
   createdTime?: string;
   lastEditedTime?: string;
@@ -22,5 +25,5 @@ export type ProjectDetailMeta = {
 
 export type ProjectDetailResponse = {
   meta: ProjectDetailMeta;
-  blocks: NotionBlockWithChildren[];
+  content: string;
 };

@@ -1,59 +1,36 @@
 import {cache} from 'react';
 
-import {notion} from '@/lib/api/notion';
+import {getMarkdownFiles} from '@/lib/markdown';
 
-import type {PageObjectResponse} from '@notionhq/client/build/src/api-endpoints';
-import type {BlogListItem, BlogListResponse} from '../types';
-import {extractCategories, extractDescription, extractKeywords, extractTitle} from '../utils/notion-extractors';
-
-const BLOG_DATA_SOURCE_ID = '300cc5be-a79e-8080-a666-000b11188276';
+import type {BlogFrontmatter, BlogListItem, BlogListResponse} from '../types';
 
 type GetBlogListParams = {
   q?: string;
   category?: string;
 };
 
-function buildFilter(params: GetBlogListParams) {
-  const conditions: any[] = [];
+export const getBlogList = cache(async function getBlogList(params: GetBlogListParams = {}): Promise<BlogListResponse> {
+  const files = await getMarkdownFiles<BlogFrontmatter>('blog');
+
+  let items: BlogListItem[] = files.map((file) => ({
+    slug: file.slug,
+    title: file.frontmatter.title,
+    description: file.frontmatter.description ?? '',
+    categories: file.frontmatter.categories ?? [],
+    keywords: file.frontmatter.keywords ?? [],
+    lastEditedTime: file.frontmatter.lastEditedTime,
+  }));
 
   if (params.q) {
-    conditions.push({
-      property: 'Doc name',
-      title: {contains: params.q},
-    });
+    const query = params.q.toLowerCase();
+    items = items.filter((item) => item.title.toLowerCase().includes(query));
   }
 
   if (params.category) {
-    conditions.push({
-      property: 'Category',
-      multi_select: {contains: params.category},
-    });
+    items = items.filter((item) => item.categories.includes(params.category as BlogListItem['categories'][number]));
   }
 
-  if (conditions.length === 0) return undefined;
-  if (conditions.length === 1) return conditions[0];
-  return {and: conditions};
-}
-
-export const getBlogList = cache(async function getBlogList(params: GetBlogListParams = {}): Promise<BlogListResponse> {
-  const filter = buildFilter(params);
-
-  const response = await notion.dataSources.query({
-    data_source_id: BLOG_DATA_SOURCE_ID,
-    filter,
-  });
-
-  const pages = response.results as PageObjectResponse[];
-
-  const items: BlogListItem[] = pages.map((page) => ({
-    id: page.id,
-    slug: page.id.replace(/-/g, ''),
-    title: extractTitle(page),
-    description: extractDescription(page),
-    categories: extractCategories(page),
-    keywords: extractKeywords(page),
-    lastEditedTime: page.last_edited_time,
-  }));
+  items.sort((a, b) => new Date(b.lastEditedTime).getTime() - new Date(a.lastEditedTime).getTime());
 
   return {items};
 });

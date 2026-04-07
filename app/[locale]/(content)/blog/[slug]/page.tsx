@@ -1,17 +1,17 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {compileMDX} from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 
 import {getBlogDetail, getBlogList} from '@/features/blog/api';
 
 import {ArrowLeftIcon} from 'lucide-react';
 
-import {NotionBlocks} from '@/components/notion/notion-blocks';
+import {mdxComponents} from '@/components/mdx/mdx-components';
 import {CategoryBadges} from '@/features/blog/components/CategoryBadges';
 import {createPageMetadata} from '@/config';
 import {locales} from '@/lib/i18n/config';
 import {Link} from '@/lib/i18n/routing';
-
-export const revalidate = 21600; // 6 hours
 
 type Props = {
   params: Promise<{locale: string; slug: string}>;
@@ -51,6 +51,12 @@ export default async function BlogDetailPage({params}: Props) {
 
   const [t, data] = await Promise.all([getTranslations({locale, namespace: 'Blog'}), getBlogDetail(slug)]);
 
+  const {content} = await compileMDX({
+    source: data.content,
+    components: mdxComponents,
+    options: {mdxOptions: {remarkPlugins: [remarkGfm]}},
+  });
+
   const formattedDate = new Date(data.meta.lastEditedTime).toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
@@ -77,11 +83,9 @@ export default async function BlogDetailPage({params}: Props) {
         <p className="text-sm text-muted-foreground">{t('lastEdited', {date: formattedDate})}</p>
       </header>
 
-      {data.blocks.length > 0 && (
-        <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
-          <NotionBlocks blocks={data.blocks} />
-        </section>
-      )}
+      <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
+        {content}
+      </section>
     </section>
   );
 }

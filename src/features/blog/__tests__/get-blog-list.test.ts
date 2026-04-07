@@ -1,30 +1,32 @@
-jest.mock('@/lib/api/notion', () => ({
-  notion: {
-    dataSources: {
-      query: jest.fn(),
-    },
-  },
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  cache: (fn: Function) => fn,
 }));
 
+jest.mock('@/lib/markdown', () => ({
+  getMarkdownFiles: jest.fn(),
+}));
+
+import {getMarkdownFiles} from '@/lib/markdown';
 import {getBlogList} from '../api/get-blog-list';
-import {notion} from '@/lib/api/notion';
 
-const mockQuery = notion.dataSources.query as jest.Mock;
+import type {BlogFrontmatter} from '../types';
 
-function makePage(id: string, title: string, categories: string[] = [], lastEdited = '2024-01-01T00:00:00Z') {
+const mockGetMarkdownFiles = getMarkdownFiles as jest.MockedFunction<typeof getMarkdownFiles>;
+
+function makeFile(slug: string, frontmatter: Partial<BlogFrontmatter>) {
   return {
-    id,
-    last_edited_time: lastEdited,
-    properties: {
-      'Doc name': {
-        type: 'title',
-        title: [{plain_text: title}],
-      },
-      Category: {
-        type: 'multi_select',
-        multi_select: categories.map((name) => ({name})),
-      },
+    slug,
+    frontmatter: {
+      title: frontmatter.title ?? 'Untitled',
+      slug,
+      description: frontmatter.description ?? '',
+      categories: frontmatter.categories ?? [],
+      keywords: frontmatter.keywords ?? [],
+      createdTime: frontmatter.createdTime ?? '2024-01-01T00:00:00Z',
+      lastEditedTime: frontmatter.lastEditedTime ?? '2024-01-01T00:00:00Z',
     },
+    content: '# Test',
   };
 }
 
@@ -33,112 +35,71 @@ beforeEach(() => {
 });
 
 describe('getBlogList', () => {
-  it('returns items from Notion query', async () => {
-    mockQuery.mockResolvedValue({
-      results: [makePage('page-1', 'First Post', ['Frontend'])],
-    });
+  it('returns items from markdown files', async () => {
+    mockGetMarkdownFiles.mockResolvedValue([makeFile('post-1', {title: 'First Post', categories: ['Frontend']})]);
 
     const result = await getBlogList();
 
     expect(result.items).toHaveLength(1);
     expect(result.items[0].title).toBe('First Post');
-    expect(result.items[0].slug).toBe('page1');
+    expect(result.items[0].slug).toBe('post-1');
     expect(result.items[0].categories).toEqual(['Frontend']);
   });
 
-  it('returns empty items when no results', async () => {
-    mockQuery.mockResolvedValue({results: []});
+  it('returns empty items when no files', async () => {
+    mockGetMarkdownFiles.mockResolvedValue([]);
 
     const result = await getBlogList();
 
     expect(result.items).toEqual([]);
   });
 
-  it('passes search query filter', async () => {
-    mockQuery.mockResolvedValue({results: []});
+  it('filters by search query (case-insensitive)', async () => {
+    mockGetMarkdownFiles.mockResolvedValue([
+      makeFile('post-1', {title: 'React Hooks Guide'}),
+      makeFile('post-2', {title: 'Vue Composition API'}),
+    ]);
 
-    await getBlogList({q: 'react'});
+    const result = await getBlogList({q: 'react'});
 
-    expect(mockQuery).toHaveBeenCalledWith(
-      expect.objectContaining({
-        filter: {property: 'Doc name', title: {contains: 'react'}},
-      }),
-    );
+    expect(result.items).toHaveLength(1);
+    expect(result.items[0].title).toBe('React Hooks Guide');
   });
 
-  it('passes category filter', async () => {
-    mockQuery.mockResolvedValue({results: []});
+  it('filters by category', async () => {
+    mockGetMarkdownFiles.mockResolvedValue([
+      makeFile('post-1', {title: 'Post A', categories: ['Frontend']}),
+      makeFile('post-2', {title: 'Post B', categories: ['Backend']}),
+    ]);
 
-    await getBlogList({category: 'Frontend'});
+    const result = await getBlogList({category: 'Frontend'});
 
-    expect(mockQuery).toHaveBeenCalledWith(
-      expect.objectContaining({
-        filter: {property: 'Category', multi_select: {contains: 'Frontend'}},
-      }),
-    );
+    expect(result.items).toHaveLength(1);
+    expect(result.items[0].title).toBe('Post A');
   });
 
-  it('combines search and category with and filter', async () => {
-    mockQuery.mockResolvedValue({results: []});
+  it('combines search and category filters', async () => {
+    mockGetMarkdownFiles.mockResolvedValue([
+      makeFile('post-1', {title: 'React Post', categories: ['Frontend']}),
+      makeFile('post-2', {title: 'React Backend', categories: ['Backend']}),
+      makeFile('post-3', {title: 'Vue Post', categories: ['Frontend']}),
+    ]);
 
-    await getBlogList({q: 'react', category: 'Frontend'});
+    const result = await getBlogList({q: 'react', category: 'Frontend'});
 
-    expect(mockQuery).toHaveBeenCalledWith(
-      expect.objectContaining({
-        filter: {
-          and: [
-            {property: 'Doc name', title: {contains: 'react'}},
-            {property: 'Category', multi_select: {contains: 'Frontend'}},
-          ],
-        },
-      }),
-    );
+    expect(result.items).toHaveLength(1);
+    expect(result.items[0].title).toBe('React Post');
   });
 
-  it('does not pass filter when no params', async () => {
-    mockQuery.mockResolvedValue({results: []});
-
-    await getBlogList();
-
-    expect(mockQuery).toHaveBeenCalledWith(
-      expect.objectContaining({filter: undefined}),
-    );
-  });
-
-  it('returns Untitled when page has no title property', async () => {
-    mockQuery.mockResolvedValue({
-      results: [
-        {
-          id: 'no-title',
-          last_edited_time: '2024-01-01T00:00:00Z',
-          properties: {
-            Other: {type: 'rich_text', rich_text: []},
-          },
-        },
-      ],
-    });
+  it('sorts by lastEditedTime descending', async () => {
+    mockGetMarkdownFiles.mockResolvedValue([
+      makeFile('old', {title: 'Old Post', lastEditedTime: '2024-01-01T00:00:00Z'}),
+      makeFile('new', {title: 'New Post', lastEditedTime: '2024-06-01T00:00:00Z'}),
+    ]);
 
     const result = await getBlogList();
 
-    expect(result.items[0].title).toBe('Untitled');
+    expect(result.items[0].title).toBe('New Post');
+    expect(result.items[1].title).toBe('Old Post');
   });
-
-  it('returns empty categories when Category property is missing', async () => {
-    mockQuery.mockResolvedValue({
-      results: [
-        {
-          id: 'no-cat',
-          last_edited_time: '2024-01-01T00:00:00Z',
-          properties: {
-            'Doc name': {type: 'title', title: [{plain_text: 'No Cat Post'}]},
-          },
-        },
-      ],
-    });
-
-    const result = await getBlogList();
-
-    expect(result.items[0].categories).toEqual([]);
-  });
-
 });

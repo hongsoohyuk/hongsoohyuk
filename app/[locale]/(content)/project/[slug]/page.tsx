@@ -1,14 +1,14 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {compileMDX} from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 
 import {getProjectDetail, getProjectList} from '@/features/project/api';
-import {NotionBlocks} from '@/features/project';
 
+import {mdxComponents} from '@/components/mdx/mdx-components';
 import {Link} from '@/lib/i18n/routing';
 import {createPageMetadata} from '@/config';
 import {locales} from '@/lib/i18n/config';
-
-export const revalidate = 21600; // 6 hours
 
 type Props = {
   params: Promise<{locale: string; slug: string}>;
@@ -49,6 +49,12 @@ export default async function ProjectDetailPage({params}: Props) {
     getProjectDetail(slug),
   ]);
 
+  const {content} = await compileMDX({
+    source: data.content,
+    components: mdxComponents,
+    options: {mdxOptions: {remarkPlugins: [remarkGfm]}},
+  });
+
   const formattedDate = data.meta.lastEditedTime
     ? new Date(data.meta.lastEditedTime).toLocaleDateString(locale, {
         year: 'numeric',
@@ -71,11 +77,9 @@ export default async function ProjectDetailPage({params}: Props) {
         {formattedDate && <p className="text-sm text-muted-foreground">{t('lastEdited', {date: formattedDate})}</p>}
       </header>
 
-      {data.blocks.length > 0 && (
-        <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
-          <NotionBlocks blocks={data.blocks} />
-        </section>
-      )}
+      <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
+        {content}
+      </section>
     </div>
   );
 }

@@ -4,9 +4,4 @@ export {NotionBlocks} from './components/NotionBlocks';
 export {NotionRichText} from './components/NotionRichText';
 
 // Types
-export type {
-  ProjectListItem,
-  ProjectListResponse,
-  ProjectDetailResponse,
-  NotionBlockWithChildren,
-} from './types';
+export type {ProjectListItem, ProjectListResponse, ProjectDetailResponse} from './types';
