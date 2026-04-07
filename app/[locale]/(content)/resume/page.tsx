@@ -11,7 +11,7 @@ export default async function ResumePage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const data = await getResumePage();
+  const data = await getResumePage(locale);
 
   return (
     <section className="space-y-6 rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
