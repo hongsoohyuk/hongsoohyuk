@@ -4,6 +4,7 @@ import {WebViewShell} from '@/components/layout/webview-shell';
 import {baseMetadata, getFontClassNames} from '@/config';
 import {routing} from '@/lib/i18n/routing';
 import {Analytics} from '@vercel/analytics/next';
+import {SpeedInsights} from '@vercel/speed-insights/next';
 import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
@@ -39,6 +40,7 @@ export default async function LocaleLayout({children, params}: Props) {
           </ThemeProvider>
         </NextIntlClientProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
