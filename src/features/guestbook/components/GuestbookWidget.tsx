@@ -17,7 +17,7 @@ export async function GuestbookWidget({data}: Props) {
   const t = await getTranslations('Guestbook');
 
   return (
-    <Card className={`${GUESTBOOK_LAYOUT_CLASSES.cardHeight} overflow-hidden`}>
+    <Card className={`${GUESTBOOK_LAYOUT_CLASSES.cardHeight} overflow-hidden border-0 md:border`}>
       <CardHeader>
         <CardTitle>{t('title')}</CardTitle>
         <CardDescription>{t('description')}</CardDescription>

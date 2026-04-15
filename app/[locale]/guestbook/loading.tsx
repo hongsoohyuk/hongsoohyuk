@@ -10,7 +10,7 @@ import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
 export default function GuestbookLoading() {
   const t = useTranslations('Guestbook');
   return (
-    <Card className={GUESTBOOK_LAYOUT_CLASSES.cardHeight}>
+    <Card className={`${GUESTBOOK_LAYOUT_CLASSES.cardHeight} border-0 md:border`}>
       <CardHeader>
         <CardTitle>{t('title')}</CardTitle>
         <CardDescription>{t('description')}</CardDescription>
