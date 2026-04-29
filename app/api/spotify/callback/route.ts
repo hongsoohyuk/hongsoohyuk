@@ -1,5 +1,9 @@
 import {NextRequest} from 'next/server';
 
+import {supabaseAdmin} from '@/lib/api/supabase';
+
+const CREDENTIALS_ROW_ID = 1;
+
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get('code');
   const error = req.nextUrl.searchParams.get('error');
@@ -30,16 +34,27 @@ export async function GET(req: NextRequest) {
 
   const data = await res.json();
 
-  // refresh_token을 화면에 표시 → .env.local에 복사
+  if (!data.refresh_token) {
+    return new Response('Spotify did not return a refresh_token', {status: 500});
+  }
+
+  const {error: dbError} = await supabaseAdmin
+    .from('spotify_credentials')
+    .upsert({id: CREDENTIALS_ROW_ID, refresh_token: data.refresh_token}, {onConflict: 'id'});
+
+  if (dbError) {
+    console.error('[spotify/callback] failed to persist refresh_token:', dbError);
+    return new Response(`Failed to save refresh_token: ${dbError.message}`, {status: 500});
+  }
+
   return new Response(
     `<html>
       <body style="font-family:monospace;padding:2rem;background:#111;color:#fff">
-        <h2>Spotify 연동 성공!</h2>
-        <p>아래 refresh token을 <code>.env.local</code>에 추가하세요:</p>
-        <pre style="background:#222;padding:1rem;border-radius:8px;word-break:break-all">SPOTIFY_REFRESH_TOKEN=${data.refresh_token}</pre>
-        <p style="color:#888">이 페이지를 닫고, 서버를 재시작하면 연동이 완료됩니다.</p>
+        <h2>Spotify connected!</h2>
+        <p>Refresh token has been saved to the database.</p>
+        <p style="color:#888">You can close this page.</p>
       </body>
     </html>`,
-    {headers: {'Content-Type': 'text/html'}},
+    {headers: {'Content-Type': 'text/html; charset=utf-8'}},
   );
 }
