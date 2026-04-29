@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "prebuild": "node scripts/instagram-sync.mjs",
     "instagram:sync": "node scripts/instagram-sync.mjs",
     "start": "next start",
     "lint": "oxlint && eslint",
