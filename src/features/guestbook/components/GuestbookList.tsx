@@ -1,15 +1,21 @@
 'use client';
 
 import React, {useState} from 'react';
-import {GuestbookItemDto, GuestbookListResponse} from '@/features/guestbook/types';
+import {useSearchParams} from 'next/navigation';
+import {GuestbookItemDto} from '@/features/guestbook/types';
 import {Item, ItemContent, ItemDescription, ItemFooter, ItemSeparator, ItemTitle} from '@/components/ui/item';
 import {LocalDateTime} from '@/components/ui/local-date-time';
 import {ScrollArea} from '@/components/ui/scroll-area';
+import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE, PAGINATION_PARAMETER_PAGE} from '@/lib/api/pagination';
 import {EmotionBadges} from './EmotionBadges';
 import {GuestbookDetailDialog} from './GuestbookDetailDialog';
 
-export function GuestbookList({data}: {data?: GuestbookListResponse}) {
-  const items = data?.entries ?? [];
+export function GuestbookList({entries}: {entries: GuestbookItemDto[]}) {
+  const searchParams = useSearchParams();
+  const page = Number(searchParams?.get(PAGINATION_PARAMETER_PAGE)) || DEFAULT_PAGE;
+  const start = (page - 1) * DEFAULT_PAGE_SIZE;
+  const items = entries.slice(start, start + DEFAULT_PAGE_SIZE);
+
   const [selectedItem, setSelectedItem] = useState<GuestbookItemDto | null>(null);
 
   return (

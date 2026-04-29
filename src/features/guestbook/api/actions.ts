@@ -71,6 +71,7 @@ export async function submit(_prevState: FormActionResult, formData: FormData): 
     }
 
     revalidatePath('/guestbook');
+    revalidatePath('/en/guestbook');
     return {
       status: 'success',
       message: 'Your message has been submitted successfully!',
