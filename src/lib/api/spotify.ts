@@ -1,3 +1,4 @@
+import {supabaseAdmin} from '@/lib/api/supabase';
 import type {components} from '@/types/spotify';
 
 type TrackObject = components['schemas']['TrackObject'];
@@ -7,17 +8,44 @@ type PagingObject = components['schemas']['PagingObject'];
 
 const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token';
 const SPOTIFY_API_BASE = 'https://api.spotify.com/v1';
+const CREDENTIALS_ROW_ID = 1;
 
 const clientId = process.env.SPOTIFY_CLIENT_ID ?? '';
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET ?? '';
-const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN ?? '';
 
 let cachedToken: {accessToken: string; expiresAt: number} | null = null;
+
+async function loadRefreshToken(): Promise<string> {
+  const {data, error} = await supabaseAdmin
+    .from('spotify_credentials')
+    .select('refresh_token')
+    .eq('id', CREDENTIALS_ROW_ID)
+    .single();
+
+  if (error || !data?.refresh_token) {
+    throw new Error(`Spotify refresh_token not found in DB: ${error?.message ?? 'no row'}`);
+  }
+
+  return data.refresh_token;
+}
+
+async function persistRefreshToken(refreshToken: string): Promise<void> {
+  const {error} = await supabaseAdmin
+    .from('spotify_credentials')
+    .update({refresh_token: refreshToken})
+    .eq('id', CREDENTIALS_ROW_ID);
+
+  if (error) {
+    console.error('[spotify] failed to persist new refresh_token:', error);
+  }
+}
 
 async function getAccessToken(): Promise<string> {
   if (cachedToken && Date.now() < cachedToken.expiresAt) {
     return cachedToken.accessToken;
   }
+
+  const refreshToken = await loadRefreshToken();
 
   const res = await fetch(SPOTIFY_TOKEN_URL, {
     method: 'POST',
@@ -36,6 +64,11 @@ async function getAccessToken(): Promise<string> {
   }
 
   const data = await res.json();
+
+  if (data.refresh_token && data.refresh_token !== refreshToken) {
+    await persistRefreshToken(data.refresh_token);
+  }
+
   cachedToken = {
     accessToken: data.access_token,
     expiresAt: Date.now() + (data.expires_in - 60) * 1000,
@@ -83,7 +116,7 @@ export async function getRecentlyPlayed(limit = 10) {
 }
 
 export function isSpotifyConfigured(): boolean {
-  return Boolean(clientId && clientSecret && refreshToken);
+  return Boolean(clientId && clientSecret);
 }
 
 export type {ArtistObject, PlayHistoryObject, TrackObject};
