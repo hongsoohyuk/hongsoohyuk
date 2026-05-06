@@ -20,19 +20,13 @@ export function generateStaticParams() {
 
 type Props = {
   children: React.ReactNode;
-  params: Promise<{locale: string}>;
 };
 
-export default async function LocaleLayout({children, params}: Props) {
-  const {locale} = await params;
-  setRequestLocale(locale);
-
-  const messages = await getMessages();
-
+export default async function LocaleLayout({children}: Props) {
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <body className={`${getFontClassNames()} antialiased min-h-screen bg-background font-sans flex flex-col`}>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <WebViewShell header={<Header />} footer={<Footer />}>
               {children}
