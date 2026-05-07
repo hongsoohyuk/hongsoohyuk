@@ -8,9 +8,9 @@ jest.mock('@/lib/markdown', () => ({
 }));
 
 import {getMarkdownFiles} from '@/lib/markdown';
-import {getProjectList} from '../api/pages/get-project-list';
+import {getProjectList} from '../project';
 
-import type {ProjectFrontmatter} from '../types';
+import type {ProjectFrontmatter} from '../project';
 
 const mockGetMarkdownFiles = getMarkdownFiles as jest.MockedFunction<typeof getMarkdownFiles>;
 

@@ -2,7 +2,7 @@ import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {ProjectCard} from '@/features/project';
-import {getProjectList} from '@/features/project/api';
+import {getProjectList} from '@/lib/content/project';
 
 import {createPageMetadata} from '@/config';
 

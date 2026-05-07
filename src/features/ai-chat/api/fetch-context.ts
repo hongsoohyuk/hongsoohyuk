@@ -1,5 +1,5 @@
 import {getBlogList} from '@/lib/content/blog';
-import {getProjectList} from '@/features/project/api/pages/get-project-list';
+import {getProjectList} from '@/lib/content/project';
 import {getRecentlyPlayed, getTopArtists, getTopTracks, isSpotifyConfigured} from '@/lib/api/spotify';
 
 import type {DynamicContext} from './build-prompt';

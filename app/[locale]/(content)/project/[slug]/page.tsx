@@ -3,7 +3,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {compileMDX} from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 
-import {getProjectDetail, getProjectList} from '@/features/project/api';
+import {getProjectDetail, getProjectList} from '@/lib/content/project';
 
 import {mdxComponents} from '@/components/mdx/mdx-components';
 import {Link} from '@/lib/i18n/routing';

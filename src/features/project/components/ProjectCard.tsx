@@ -1,7 +1,7 @@
 import {LocalDateTime} from '@/components/ui/local-date-time';
 import {Link} from '@/lib/i18n/routing';
 
-import type {ProjectListItem} from '../types';
+import type {ProjectListItem} from '@/lib/content/project';
 
 type Props = {
   project: ProjectListItem;
