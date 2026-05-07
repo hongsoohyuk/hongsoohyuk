@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import {ProjectCard} from '../components/ProjectCard';
+import {ProjectCard} from '../project-card';
 
 import type {ProjectListItem} from '@/lib/content/project';
 

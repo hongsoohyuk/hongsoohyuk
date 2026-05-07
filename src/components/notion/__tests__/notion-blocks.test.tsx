@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 
-import {NotionBlocks} from '../components/NotionBlocks';
+import {NotionBlocks} from '../notion-blocks';
 
 import type {NotionBlockWithChildren} from '@/types/notion';
 
