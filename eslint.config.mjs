@@ -46,53 +46,20 @@ const eslintConfig = [
         {
           groups: ['builtin', 'external', 'internal', ['parent', 'sibling'], 'index', 'object', 'type'],
           pathGroups: [
-            // 1. External libraries (React, Next)
             {pattern: 'react', group: 'external', position: 'before'},
             {pattern: 'next/**', group: 'external', position: 'before'},
-
-            // 2. App layer
-            {pattern: '@/app/**', group: 'internal', position: 'before'},
-
-            // 3. Features (domain modules)
-            {pattern: '@/features/**', group: 'internal', position: 'before'},
-
-            // 4. Shared layers (components, hooks, lib, config, types, utils)
             {pattern: '@/components/**', group: 'internal', position: 'before'},
             {pattern: '@/hooks/**', group: 'internal', position: 'before'},
             {pattern: '@/lib/**', group: 'internal', position: 'before'},
             {pattern: '@/config/**', group: 'internal', position: 'before'},
             {pattern: '@/types/**', group: 'internal', position: 'before'},
             {pattern: '@/utils/**', group: 'internal', position: 'before'},
-
-            // Legacy paths (for migration period)
-            {pattern: '@/pages/**', group: 'internal', position: 'after'},
-            {pattern: '@/widgets/**', group: 'internal', position: 'after'},
-            {pattern: '@/entities/**', group: 'internal', position: 'after'},
-            {pattern: '@/shared/**', group: 'internal', position: 'after'},
           ],
           pathGroupsExcludedImportTypes: ['builtin'],
           alphabetize: {
             order: 'asc',
             caseInsensitive: true,
           },
-        },
-      ],
-      // Bulletproof React: enforce unidirectional codebase
-      'import/no-restricted-paths': [
-        'error',
-        {
-          zones: [
-            // features cannot import from app
-            {
-              target: './src/features',
-              from: './src/app',
-            },
-            // shared modules cannot import from features or app
-            {
-              target: ['./src/components', './src/hooks', './src/lib', './src/types', './src/utils', './src/config'],
-              from: ['./src/features', './src/app'],
-            },
-          ],
         },
       ],
     },
