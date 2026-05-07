@@ -19,7 +19,7 @@ jest.mock('next/cache', () => ({
   revalidatePath: jest.fn(),
 }));
 
-import {submit} from '../api/actions';
+import {submit} from '../actions';
 import {supabaseAdmin} from '@/lib/api/supabase';
 import {getClientFingerprint} from '@/lib/security';
 import {verifyTurnstileToken} from '@/lib/turnstile/lib/verify';

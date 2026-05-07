@@ -2,8 +2,8 @@
 
 import {Badge} from '@/components/ui/badge';
 
-import {useEmotionEnum} from '../emotion';
-import type {EmotionCode} from '../emotion/type';
+import {useEmotionEnum} from '../_lib/use-emotion-enum';
+import type {EmotionCode} from '../_lib/emotion';
 
 export function EmotionBadges({emotions}: {emotions: EmotionCode[]}) {
   const {getLabel, getEmoji} = useEmotionEnum();

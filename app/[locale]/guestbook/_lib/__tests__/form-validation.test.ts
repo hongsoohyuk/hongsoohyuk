@@ -1,4 +1,4 @@
-import {schema} from '../types/validation';
+import {schema} from '../types';
 
 describe('guestbook form schema', () => {
   describe('author_name', () => {

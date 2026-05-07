@@ -28,10 +28,10 @@ import {Textarea} from '@/components/ui/textarea';
 import {Turnstile} from '@/lib/turnstile';
 import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
 
-import {EmotionButtonGroup} from './EmotionButtonGroup';
-import {submit} from '../api/actions';
-import {useTurnstileValidation} from '../hooks/use-turnstile-validation';
-import {useFieldError} from '../hooks/use-field-error';
+import {EmotionButtonGroup} from './emotion-button-group';
+import {submit} from '../_lib/actions';
+import {useTurnstileValidation} from '../_lib/use-turnstile-validation';
+import {useFieldError} from '../_lib/use-field-error';
 
 export function GuestbookFormDialog() {
   const t = useTranslations();

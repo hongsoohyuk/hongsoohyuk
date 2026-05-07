@@ -1,4 +1,4 @@
-import {EmotionOption} from '@/features/guestbook/emotion';
+import {EmotionOption} from '../_lib/emotion';
 import {Button} from '@/components/ui/button';
 
 

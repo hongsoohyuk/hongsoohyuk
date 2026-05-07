@@ -2,10 +2,10 @@ import {Suspense} from 'react';
 
 import {getTranslations} from 'next-intl/server';
 
-import {GuestbookFormDialog} from '@/features/guestbook/components/GuestbookFormDialog';
-import {GuestbookList} from '@/features/guestbook/components/GuestbookList';
+import {GuestbookFormDialog} from './guestbook-form-dialog';
+import {GuestbookList} from './guestbook-list';
 
-import {GuestbookItemDto} from '@/features/guestbook/types';
+import {GuestbookItemDto} from '../_lib/types';
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 import {Separator} from '@/components/ui/separator';

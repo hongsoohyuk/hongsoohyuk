@@ -5,7 +5,7 @@ import {cache} from 'react';
 import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
 import {supabase} from '@/lib/api/supabase';
 
-import {GuestbookItemDto, GuestbookListResponse} from '../types';
+import {GuestbookItemDto, GuestbookListResponse} from './types';
 
 /**
  * Guestbook 전체 row를 가져옵니다 (페이지네이션 없이).

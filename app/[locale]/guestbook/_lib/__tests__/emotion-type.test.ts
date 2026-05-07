@@ -1,4 +1,4 @@
-import {normalizeGuestbookEmotions} from '../emotion/type';
+import {normalizeGuestbookEmotions} from '../emotion';
 
 describe('normalizeGuestbookEmotions', () => {
   it('normalizes valid emotion codes', () => {

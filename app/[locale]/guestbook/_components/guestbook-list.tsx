@@ -2,13 +2,13 @@
 
 import React, {useState} from 'react';
 import {useSearchParams} from 'next/navigation';
-import {GuestbookItemDto} from '@/features/guestbook/types';
+import {GuestbookItemDto} from '../_lib/types';
 import {Item, ItemContent, ItemDescription, ItemFooter, ItemSeparator, ItemTitle} from '@/components/ui/item';
 import {LocalDateTime} from '@/components/ui/local-date-time';
 import {ScrollArea} from '@/components/ui/scroll-area';
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE, PAGINATION_PARAMETER_PAGE} from '@/lib/api/pagination';
-import {EmotionBadges} from './EmotionBadges';
-import {GuestbookDetailDialog} from './GuestbookDetailDialog';
+import {EmotionBadges} from './emotion-badges';
+import {GuestbookDetailDialog} from './guestbook-detail-dialog';
 
 export function GuestbookList({entries}: {entries: GuestbookItemDto[]}) {
   const searchParams = useSearchParams();

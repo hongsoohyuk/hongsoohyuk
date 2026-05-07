@@ -1,5 +1,5 @@
-import {toggleEmotion, isValidEmotionSet, MAX_EMOTIONS} from '../emotion/validation';
-import type {EmotionCode} from '../emotion/type';
+import {toggleEmotion, isValidEmotionSet, MAX_EMOTIONS} from '../emotion';
+import type {EmotionCode} from '../emotion';
 
 describe('toggleEmotion', () => {
   it('adds an emotion to empty array', () => {

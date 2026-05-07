@@ -4,7 +4,7 @@ import {Button} from '@/components/ui/button';
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
-import {GuestbookListSkeleton} from '@/features/guestbook';
+import {GuestbookListSkeleton} from './_components/guestbook-skeleton';
 import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
 
 export default function GuestbookLoading() {

@@ -9,7 +9,7 @@ import {getClientFingerprint} from '@/lib/security';
 import {verifyTurnstileToken} from '@/lib/turnstile/lib/verify';
 import {FormActionResult} from '@/types/form';
 
-import {schema} from '../types/validation';
+import {schema} from './types';
 
 export async function submit(_prevState: FormActionResult, formData: FormData): Promise<FormActionResult> {
   try {

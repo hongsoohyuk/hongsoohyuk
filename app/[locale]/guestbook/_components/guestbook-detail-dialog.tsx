@@ -2,9 +2,9 @@
 
 import {useFormatter} from 'next-intl';
 
-import {GuestbookItemDto} from '@/features/guestbook/types';
+import {GuestbookItemDto} from '../_lib/types';
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from '@/components/ui/dialog';
-import {EmotionBadges} from './EmotionBadges';
+import {EmotionBadges} from './emotion-badges';
 
 
 type Props = {
