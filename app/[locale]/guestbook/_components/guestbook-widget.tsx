@@ -1,16 +1,8 @@
-import {Suspense} from 'react';
-
 import {getTranslations} from 'next-intl/server';
 
-
-import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
-import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
-import {Separator} from '@/components/ui/separator';
-import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
 import {GuestbookFormDialog} from './guestbook-form-dialog';
-import {GuestbookList} from './guestbook-list';
-import {GuestbookItemDto} from '../_lib/types';
+import {GuestbookShell} from './guestbook-shell';
+import type {GuestbookItemDto} from '../_lib/types';
 
 type Props = {
   locale: string;
@@ -19,28 +11,17 @@ type Props = {
 
 export async function GuestbookWidget({locale, entries}: Props) {
   const t = await getTranslations({locale, namespace: 'Guestbook'});
-  const totalPages = Math.max(1, Math.ceil(entries.length / DEFAULT_PAGE_SIZE));
 
   return (
-    <Card className={`${GUESTBOOK_LAYOUT_CLASSES.cardHeight} overflow-hidden border-0 md:border`}>
-      <CardHeader>
-        <CardTitle>{t('title')}</CardTitle>
-        <CardDescription>{t('description')}</CardDescription>
-        <CardAction>
-          <GuestbookFormDialog />
-        </CardAction>
-      </CardHeader>
-      <Separator />
-      <CardContent className="flex-1 min-h-0 overflow-hidden">
-        <Suspense>
-          <GuestbookList entries={entries} />
-        </Suspense>
-      </CardContent>
-      <CardFooter className="flex justify-end shrink-0">
-        <Suspense>
-          <PaginationBackAndForth totalPages={totalPages} />
-        </Suspense>
-      </CardFooter>
-    </Card>
+    <section className="flex flex-col gap-5 px-4 py-6 md:py-8">
+      <header className="flex flex-wrap items-end justify-between gap-3">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">{t('title')}</h1>
+          <p className="text-sm text-muted-foreground">{t('description')}</p>
+        </div>
+        <GuestbookFormDialog />
+      </header>
+      <GuestbookShell entries={entries} />
+    </section>
   );
 }

@@ -167,6 +167,13 @@
       "locationTime": "{location} • {time}",
       "empty": "No messages have been approved yet.",
       "fetchError": "We couldn’t load the guestbook right now.",
+      "filterAll": "All",
+      "filterEmptyResult": "No messages tagged with this feeling yet.",
+      "totalCount": "{count} messages",
+      "rangeCount": "{start}-{end} of {total}",
+      "latestSort": "Latest",
+      "backToTop": "Back to top",
+      "pageIndicator": "{page} / {totalPages}",
       "pagination": {
         "previous": "Previous",
         "next": "Next",

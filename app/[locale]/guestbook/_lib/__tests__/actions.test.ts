@@ -119,7 +119,7 @@ describe('guestbook submit action', () => {
     expect(result.status).toBe('success');
     expect(result.message).toBeDefined();
     expect(mockFrom).toHaveBeenCalledWith('guestbook');
-    expect(revalidatePath).toHaveBeenCalledWith('/guestbook');
+    expect(revalidatePath).toHaveBeenCalledWith('/[locale]/guestbook', 'page');
   });
 
   it('includes fingerprint data in insert', async () => {

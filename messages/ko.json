@@ -166,6 +166,13 @@
       "locationTime": "{location} • {time}",
       "empty": "아직 공개된 메시지가 없습니다.",
       "fetchError": "메시지를 불러오는 중 문제가 발생했습니다.",
+      "filterAll": "전체",
+      "filterEmptyResult": "이 감정으로 남겨진 메시지가 아직 없어요.",
+      "totalCount": "{count}개",
+      "rangeCount": "{start}-{end} / {total}개",
+      "latestSort": "최신순",
+      "backToTop": "맨 위로",
+      "pageIndicator": "{page} / {totalPages}",
       "pagination": {
         "previous": "이전",
         "next": "다음",

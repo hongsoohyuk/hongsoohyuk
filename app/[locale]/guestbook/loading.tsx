@@ -1,31 +1,39 @@
+import {PenLine} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
 import {Button} from '@/components/ui/button';
-import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
-import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
-import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
+import {Skeleton} from '@/components/ui/skeleton';
+
 import {GuestbookListSkeleton} from './_components/guestbook-skeleton';
 
 export default function GuestbookLoading() {
   const t = useTranslations('Guestbook');
   return (
-    <Card className={`${GUESTBOOK_LAYOUT_CLASSES.cardHeight} border-0 md:border`}>
-      <CardHeader>
-        <CardTitle>{t('title')}</CardTitle>
-        <CardDescription>{t('description')}</CardDescription>
-        <CardAction>
-          <Button variant="outline" disabled>
-            {t('formSection.trigger')}
-          </Button>
-        </CardAction>
-      </CardHeader>
-      <CardContent className="flex-1 min-h-0 overflow-hidden">
+    <section className="flex flex-col gap-5 px-4 py-6 md:py-8">
+      <header className="flex flex-wrap items-end justify-between gap-3">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">{t('title')}</h1>
+          <p className="text-sm text-muted-foreground">{t('description')}</p>
+        </div>
+        <Button size="sm" disabled className="gap-1.5">
+          <PenLine className="size-3.5" />
+          {t('formSection.trigger')}
+        </Button>
+      </header>
+
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-1.5 overflow-x-auto">
+          {Array.from({length: 7}).map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key -- 정적 스켈레톤
+            <Skeleton key={`chip-skeleton-${index}`} className="h-6 w-20 shrink-0 rounded-full" />
+          ))}
+        </div>
+        <div className="flex items-center justify-between py-2">
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-8 w-48" />
+        </div>
         <GuestbookListSkeleton />
-      </CardContent>
-      <CardFooter className="flex justify-end shrink-0">
-        <PaginationBackAndForth totalPages={DEFAULT_PAGE_SIZE} />
-      </CardFooter>
-    </Card>
+      </div>
+    </section>
   );
 }

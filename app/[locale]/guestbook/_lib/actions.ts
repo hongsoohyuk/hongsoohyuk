@@ -70,8 +70,7 @@ export async function submit(_prevState: FormActionResult, formData: FormData): 
       };
     }
 
-    revalidatePath('/guestbook');
-    revalidatePath('/en/guestbook');
+    revalidatePath('/[locale]/guestbook', 'page');
     return {
       status: 'success',
       message: 'Your message has been submitted successfully!',

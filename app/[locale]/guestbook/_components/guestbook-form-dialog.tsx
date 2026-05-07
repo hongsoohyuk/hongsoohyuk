@@ -2,6 +2,7 @@
 
 import {useActionState, useEffect, useRef, useState} from 'react';
 
+import {PenLine} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
 import {Button} from '@/components/ui/button';
@@ -64,7 +65,10 @@ export function GuestbookFormDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">{t('Guestbook.formSection.trigger')}</Button>
+        <Button size="sm" variant={'outline'} className="gap-1.5">
+          <PenLine className="size-3.5" />
+          {t('Guestbook.formSection.trigger')}
+        </Button>
       </DialogTrigger>
       <DialogContent className={`${GUESTBOOK_LAYOUT_CLASSES.dialogMaxHeight} overflow-y-auto`}>
         <form ref={formRef} action={formAction} className="flex h-full min-h-0 flex-col gap-4">

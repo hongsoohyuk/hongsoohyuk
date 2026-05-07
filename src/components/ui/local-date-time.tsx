@@ -1,5 +1,7 @@
 'use client';
 
+import {useEffect, useState} from 'react';
+
 import {useFormatter} from 'next-intl';
 
 type Props = {
@@ -8,16 +10,20 @@ type Props = {
   timeStyle?: 'full' | 'long' | 'medium' | 'short';
 };
 
-export function LocalDateTime({date, dateStyle = 'medium', timeStyle}: Props) {
+export function LocalDateTime({date, dateStyle, timeStyle}: Props) {
   const format = useFormatter();
-  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const [timeZone, setTimeZone] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  }, []);
 
   return (
     <time dateTime={new Date(date).toISOString()} suppressHydrationWarning>
       {format.dateTime(new Date(date), {
         dateStyle,
         timeStyle,
-        timeZone: userTimeZone,
+        ...(timeZone ? {timeZone} : {}),
       })}
     </time>
   );
