@@ -1,7 +1,8 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Suspense} from 'react';
 
-import {BlogContent, BlogSearchFilter} from '@/features/blog';
+import {BlogContent} from '../_components/blog-content';
+import {BlogSearchFilter} from '../_components/blog-search-filter';
 import {getBlogList} from '@/lib/content/blog';
 
 export const revalidate = 21600; // 6 hours

@@ -1,4 +1,4 @@
-import {BlogPostCard} from './BlogPostCard';
+import {BlogPostCard} from './blog-post-card';
 
 import type {BlogListItem} from '@/lib/content/blog';
 

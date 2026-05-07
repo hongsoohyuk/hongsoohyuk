@@ -1,7 +1,7 @@
 import {Suspense} from 'react';
 
 import {Skeleton} from '@/components/ui/skeleton';
-import {BlogSearchFilter} from '@/features/blog';
+import {BlogSearchFilter} from '../_components/blog-search-filter';
 
 export default function BlogLoading() {
   return (

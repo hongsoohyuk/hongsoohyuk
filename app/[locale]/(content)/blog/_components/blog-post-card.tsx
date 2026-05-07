@@ -4,7 +4,7 @@ import {LocalDateTime} from '@/components/ui/local-date-time';
 import {Link} from '@/lib/i18n/routing';
 
 import type {BlogListItem} from '@/lib/content/blog';
-import {CategoryBadges} from './CategoryBadges';
+import {CategoryBadges} from './category-badges';
 
 type Props = {
   post: BlogListItem;
