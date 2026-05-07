@@ -1,6 +1,6 @@
 import {renderHook, act} from '@testing-library/react';
 
-import {useDialogController} from '../useDialogController';
+import {useDialogController} from '../use-dialog-controller';
 
 describe('useDialogController', () => {
   it('starts closed by default', () => {
