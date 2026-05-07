@@ -1,6 +1,6 @@
 'use client';
 
-import {useChatState, ChatProvider} from '../stores/chat-provider';
+import {useChatState, ChatProvider} from '../_lib/chat-provider';
 
 import {ChatError} from './chat-error';
 import {ChatInput} from './chat-input';

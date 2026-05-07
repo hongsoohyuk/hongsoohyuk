@@ -1,7 +1,7 @@
 import type {Metadata, Viewport} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {ChatPage} from '@/features/ai-chat';
+import {ChatPage} from './_components/chat-page';
 import {createPageMetadata} from '@/config';
 
 export const viewport: Viewport = {

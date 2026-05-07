@@ -3,7 +3,7 @@
 import {Bot, Briefcase, ChessKing, Code, Mail, Music} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
-import {useChatStore} from '../stores/chat-provider';
+import {useChatStore} from '../_lib/chat-provider';
 
 const SUGGESTION_KEYS = [
   {key: 'techStack', icon: Code},

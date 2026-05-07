@@ -2,7 +2,7 @@
 
 import {AlertCircle} from 'lucide-react';
 
-import {useChatState, useChatStore} from '../stores/chat-provider';
+import {useChatState, useChatStore} from '../_lib/chat-provider';
 
 function formatError(streamError: Error | undefined, storeError: string | null): string | null {
   const raw = storeError ?? streamError?.message ?? null;

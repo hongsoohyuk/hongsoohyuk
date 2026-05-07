@@ -14,8 +14,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import type {GeminiModel} from '../stores/chat-store';
-import {useChatStore} from '../stores/chat-provider';
+import type {GeminiModel} from '../_lib/chat-store';
+import {useChatStore} from '../_lib/chat-provider';
 
 type ModelOption = {
   id: GeminiModel;

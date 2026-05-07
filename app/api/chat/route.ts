@@ -2,8 +2,8 @@ import {google} from '@ai-sdk/google';
 import {convertToModelMessages, streamText, type UIMessage} from 'ai';
 import {after} from 'next/server';
 
-import {buildSystemPrompt} from '@/features/ai-chat/api/build-prompt';
-import {fetchDynamicContext} from '@/features/ai-chat/api/fetch-context';
+import {buildSystemPrompt} from './_lib/build-prompt';
+import {fetchDynamicContext} from './_lib/fetch-context';
 import {saveChatLog} from '@/lib/api/chat-log';
 import {rateLimit} from '@/lib/rate-limit';
 
