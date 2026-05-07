@@ -2,7 +2,7 @@ jest.mock('node:fs/promises', () => ({
   readFile: jest.fn(),
 }));
 
-import {readInstagramStaticJson} from '../api/local';
+import {readInstagramStaticJson} from '../local';
 import {readFile} from 'node:fs/promises';
 
 const mockReadFile = readFile as jest.Mock;

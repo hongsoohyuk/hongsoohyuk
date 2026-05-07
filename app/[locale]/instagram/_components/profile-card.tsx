@@ -1,9 +1,9 @@
 import Image from 'next/image';
 
 import {Card, CardContent} from '@/components/ui/card';
-import {ProfileStats} from './ProfileStats';
+import {ProfileStats} from './profile-stats';
 
-import {InstagramProfile} from '../types';
+import {InstagramProfile} from '../_lib/types';
 
 
 interface ProfileCardProps {

@@ -1,6 +1,6 @@
 import {readInstagramStaticJson} from './local';
-import {DEFAULT_LIMIT, MEDIA_FIELDS} from '../config/constant';
-import {InstagramListResponse} from '../types';
+import {DEFAULT_LIMIT, MEDIA_FIELDS} from './constants';
+import {InstagramListResponse} from './types';
 
 export async function getInstagramPostList(): Promise<InstagramListResponse> {
   return await readInstagramStaticJson<InstagramListResponse>('feed.json');

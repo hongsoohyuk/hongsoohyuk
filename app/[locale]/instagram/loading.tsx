@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ProfileStatsSkeleton} from '@/features/instagram';
+import {ProfileStatsSkeleton} from './_components/profile-stats';
 
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Card, CardContent} from '@/components/ui/card';

@@ -8,7 +8,7 @@ import {ChevronLeft, ChevronRight} from 'lucide-react';
 
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
-import {InstagramMedia, InstagramMediaChild} from '../types';
+import {InstagramMedia, InstagramMediaChild} from '../_lib/types';
 
 interface MediaDisplayProps {
   media: Pick<InstagramMediaChild, 'id' | 'media_type' | 'media_url' | 'thumbnail_url'>;

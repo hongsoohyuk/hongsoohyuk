@@ -6,11 +6,11 @@ import {useFormatter} from 'next-intl';
 
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Dialog, DialogContent, DialogTitle, DialogTrigger} from '@/components/ui/dialog';
-import {InstagramMedia} from '../types';
+import {InstagramMedia} from '../_lib/types';
 
-import {FeedStats} from './FeedStats';
-import {PostComments} from './PostComments';
-import {PostMediaViewer} from './PostMediaViewer';
+import {FeedStats} from './feed-stats';
+import {PostComments} from './post-comments';
+import {PostMediaViewer} from './post-media-viewer';
 
 interface Props {
   post: InstagramMedia;

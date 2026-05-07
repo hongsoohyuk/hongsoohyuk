@@ -1,9 +1,9 @@
-jest.mock('../api/local', () => ({
+jest.mock('../local', () => ({
   readInstagramStaticJson: jest.fn(),
 }));
 
-import {getInstagramPostList, getInstagramOriginPostList} from '../api/list-post';
-import {readInstagramStaticJson} from '../api/local';
+import {getInstagramPostList, getInstagramOriginPostList} from '../list-post';
+import {readInstagramStaticJson} from '../local';
 
 const mockReadJson = readInstagramStaticJson as jest.Mock;
 const mockFetch = jest.fn();

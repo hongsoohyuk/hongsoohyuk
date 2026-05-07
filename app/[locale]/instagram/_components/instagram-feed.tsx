@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {FeedItem} from './FeedItem';
+import {FeedItem} from './feed-item';
 
-import {InstagramMedia} from '../types';
+import {InstagramMedia} from '../_lib/types';
 
 const feedItemStyle: React.CSSProperties = {
   contentVisibility: 'auto',
