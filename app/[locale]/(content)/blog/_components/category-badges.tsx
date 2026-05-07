@@ -1,6 +1,6 @@
 import {Badge} from '@/components/ui/badge';
 
-import type {BlogCategory} from '@/lib/content/blog';
+import type {BlogCategory} from '@/lib/content/blog-categories';
 
 type Props = {
   categories: BlogCategory[];

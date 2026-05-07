@@ -1,27 +1,13 @@
+import 'server-only';
+
 import {cache} from 'react';
 
 import {getMarkdownFile, getMarkdownFiles} from '@/lib/markdown';
 
-export type BlogCategory =
-  | 'Software Architecture'
-  | 'Book'
-  | 'Retrospective'
-  | 'Study'
-  | 'Frontend'
-  | 'Infrastucture'
-  | 'Backend'
-  | 'Test';
+import type {BlogCategory} from './blog-categories';
 
-export const BLOG_CATEGORIES: BlogCategory[] = [
-  'Software Architecture',
-  'Book',
-  'Retrospective',
-  'Study',
-  'Frontend',
-  'Infrastucture',
-  'Backend',
-  'Test',
-];
+export type {BlogCategory} from './blog-categories';
+export {BLOG_CATEGORIES} from './blog-categories';
 
 export type BlogListItem = {
   slug: string;

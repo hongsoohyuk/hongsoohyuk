@@ -8,7 +8,7 @@ import {useTranslations} from 'next-intl';
 import {Badge} from '@/components/ui/badge';
 import {SearchInput} from '@/components/ui/search-input';
 
-import {BLOG_CATEGORIES} from '@/lib/content/blog';
+import {BLOG_CATEGORIES} from '@/lib/content/blog-categories';
 import {useSearchFilterParams} from '../_lib/use-search-filter-params';
 import {useStickyDetection} from '../_lib/use-sticky-detection';
 
