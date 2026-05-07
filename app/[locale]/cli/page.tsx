@@ -5,7 +5,7 @@ import {getBlogList} from '@/lib/content/blog';
 import {buildCliData} from '@/features/command-line/api';
 import {Terminal, TerminalProvider} from '@/features/command-line';
 import {getProjectList} from '@/lib/content/project';
-import {getResumePage} from '@/features/resume/api';
+import {getResumePage} from '@/lib/content/resume';
 import {createPageMetadata} from '@/config';
 
 type Props = {

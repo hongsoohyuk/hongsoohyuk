@@ -1,7 +1,7 @@
 import {setRequestLocale} from 'next-intl/server';
 
 import {NotionBlocks} from '@/components/notion';
-import {getResumePage} from '@/features/resume/api';
+import {getResumePage} from '@/lib/content/resume';
 
 type Props = {
   params: Promise<{locale: string}>;
