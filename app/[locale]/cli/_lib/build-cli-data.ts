@@ -1,6 +1,6 @@
 import type {NotionBlockWithChildren} from '@/types/notion';
 
-import type {CliData} from '../types';
+import type {CliData} from './types';
 
 function blocksToPlainText(blocks: NotionBlockWithChildren[], indent = 0): string {
   const lines: string[] = [];

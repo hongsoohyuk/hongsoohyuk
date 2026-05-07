@@ -2,8 +2,9 @@ import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {getBlogList} from '@/lib/content/blog';
-import {buildCliData} from '@/features/command-line/api';
-import {Terminal, TerminalProvider} from '@/features/command-line';
+import {Terminal} from './_components/terminal';
+import {buildCliData} from './_lib/build-cli-data';
+import {TerminalProvider} from './_lib/terminal-provider';
 import {getProjectList} from '@/lib/content/project';
 import {getResumePage} from '@/lib/content/resume';
 import {createPageMetadata} from '@/config';

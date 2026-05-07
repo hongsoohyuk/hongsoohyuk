@@ -2,7 +2,7 @@
 
 import {useEffect, useRef, useState, type KeyboardEvent} from 'react';
 
-import type {VimOpenRequest} from '../types';
+import type {VimOpenRequest} from '../_lib/types';
 
 type VimMode = 'NORMAL' | 'INSERT' | 'COMMAND';
 

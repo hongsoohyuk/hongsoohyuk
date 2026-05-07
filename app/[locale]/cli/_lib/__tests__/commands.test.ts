@@ -1,5 +1,5 @@
-import {COMMANDS, COMMAND_NAMES} from '../utils/commands';
-import {VirtualFS} from '../utils/filesystem';
+import {COMMANDS, COMMAND_NAMES} from '../commands';
+import {VirtualFS} from '../filesystem';
 
 import type {CliData, CommandResult, ExecContext} from '../types';
 

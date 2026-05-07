@@ -1,4 +1,4 @@
-import type {Token, TokenType} from '../types';
+import type {Token, TokenType} from './types';
 
 const OPERATOR_CHARS = new Set(['|', '&', '>', ';']);
 const WHITESPACE = new Set([' ', '\t']);

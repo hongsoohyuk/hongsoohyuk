@@ -1,4 +1,4 @@
-import type {CliData, DirectoryNode, FileNode, FileSystemNode, UserFSData} from '../types';
+import type {CliData, DirectoryNode, FileNode, FileSystemNode, UserFSData} from './types';
 
 const STORAGE_KEY = 'hongsoohyuk-cli-fs';
 

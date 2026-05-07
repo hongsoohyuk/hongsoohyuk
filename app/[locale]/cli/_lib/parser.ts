@@ -1,4 +1,4 @@
-import type {CommandLine, CommandListEntry, Pipeline, Redirect, SimpleCommand, Token} from '../types';
+import type {CommandLine, CommandListEntry, Pipeline, Redirect, SimpleCommand, Token} from './types';
 
 class Parser {
   private tokens: Token[];

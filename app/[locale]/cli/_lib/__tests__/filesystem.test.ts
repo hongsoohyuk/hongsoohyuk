@@ -1,4 +1,4 @@
-import {VirtualFS} from '../utils/filesystem';
+import {VirtualFS} from '../filesystem';
 
 import type {CliData} from '../types';
 

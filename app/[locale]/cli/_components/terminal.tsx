@@ -5,7 +5,7 @@ import {useEffect, useRef, type KeyboardEvent} from 'react';
 import {DonutAnimation} from './donut-animation';
 import {VimEditor} from './vim-editor';
 
-import {useTerminalStore} from '../stores/terminal-provider';
+import {useTerminalStore} from '../_lib/terminal-provider';
 
 function Prompt({cwd}: {cwd: string}) {
   return (

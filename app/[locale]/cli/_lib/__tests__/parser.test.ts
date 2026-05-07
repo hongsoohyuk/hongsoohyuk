@@ -1,5 +1,5 @@
-import {tokenize} from '../utils/lexer';
-import {parse} from '../utils/parser';
+import {tokenize} from '../lexer';
+import {parse} from '../parser';
 
 /** Helper: tokenize then parse */
 function parseCmd(input: string) {

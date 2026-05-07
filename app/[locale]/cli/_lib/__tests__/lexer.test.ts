@@ -1,4 +1,4 @@
-import {tokenize} from '../utils/lexer';
+import {tokenize} from '../lexer';
 
 describe('Lexer (tokenize)', () => {
   describe('basic words', () => {

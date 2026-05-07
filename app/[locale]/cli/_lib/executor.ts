@@ -3,7 +3,7 @@ import {VirtualFS} from './filesystem';
 import {tokenize} from './lexer';
 import {parse} from './parser';
 
-import type {CommandResult, ExecContext, SimpleCommand, VimOpenRequest} from '../types';
+import type {CommandResult, ExecContext, SimpleCommand, VimOpenRequest} from './types';
 
 type ShellState = {
   fs: VirtualFS;

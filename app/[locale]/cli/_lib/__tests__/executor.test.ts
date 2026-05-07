@@ -1,5 +1,5 @@
-import {execute} from '../utils/executor';
-import {VirtualFS} from '../utils/filesystem';
+import {execute} from '../executor';
+import {VirtualFS} from '../filesystem';
 
 import type {CliData} from '../types';
 

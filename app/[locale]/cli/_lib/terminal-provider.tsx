@@ -4,7 +4,7 @@ import {createContext, use, useRef, type ReactNode} from 'react';
 
 import {useStore, type StoreApi} from 'zustand';
 
-import type {CliData} from '../types';
+import type {CliData} from './types';
 
 import {createTerminalStore, type TerminalStore} from './terminal-store';
 

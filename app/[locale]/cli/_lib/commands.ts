@@ -1,6 +1,6 @@
 import {VirtualFS} from './filesystem';
 
-import type {CommandResult, ExecContext} from '../types';
+import type {CommandResult, ExecContext} from './types';
 
 type CommandFn = (args: string[], ctx: ExecContext & {fs: VirtualFS; cwd: string}) => CommandResult;
 

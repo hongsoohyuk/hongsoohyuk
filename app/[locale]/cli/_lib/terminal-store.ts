@@ -2,11 +2,11 @@
 
 import {createStore} from 'zustand';
 
-import {COMMAND_NAMES} from '../utils/commands';
-import {execute} from '../utils/executor';
-import {VirtualFS} from '../utils/filesystem';
+import {COMMAND_NAMES} from './commands';
+import {execute} from './executor';
+import {VirtualFS} from './filesystem';
 
-import type {CliData, TerminalLine, VimOpenRequest} from '../types';
+import type {CliData, TerminalLine, VimOpenRequest} from './types';
 
 // === Mode ===
 
