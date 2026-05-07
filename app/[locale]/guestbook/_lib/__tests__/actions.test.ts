@@ -11,7 +11,7 @@ jest.mock('@/lib/security', () => ({
   getClientFingerprint: jest.fn(),
 }));
 
-jest.mock('@/lib/turnstile/lib/verify', () => ({
+jest.mock('@/lib/turnstile/verify', () => ({
   verifyTurnstileToken: jest.fn(),
 }));
 
@@ -22,7 +22,7 @@ jest.mock('next/cache', () => ({
 import {submit} from '../actions';
 import {supabaseAdmin} from '@/lib/api/supabase';
 import {getClientFingerprint} from '@/lib/security';
-import {verifyTurnstileToken} from '@/lib/turnstile/lib/verify';
+import {verifyTurnstileToken} from '@/lib/turnstile/verify';
 import {revalidatePath} from 'next/cache';
 import type {FormActionResult} from '@/types/form';
 

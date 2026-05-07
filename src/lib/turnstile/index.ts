@@ -1,23 +1,15 @@
 /**
- * Shared Turnstile Module
- *
- * Public API for Cloudflare Turnstile integration.
- * Following FSD principles - only export what's needed externally.
+ * Cloudflare Turnstile public API.
  *
  * @see https://developers.cloudflare.com/turnstile/
  */
 
-// UI Components
-export {Turnstile, type TurnstileProps} from './ui/Turnstile';
-
-// Hooks
+export {Turnstile, type TurnstileProps} from './turnstile';
 export {
   TURNSTILE_SCRIPT_ID,
   TURNSTILE_SCRIPT_SRC,
   useTurnstile,
   type TurnstileError,
   type UseTurnstileOptions,
-} from './lib/useTurnstile';
-
-// Types
-export type {TurnstileRenderOptions} from './lib/useTurnstile';
+  type TurnstileRenderOptions,
+} from './use-turnstile';

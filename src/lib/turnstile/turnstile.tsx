@@ -1,7 +1,7 @@
 'use client';
 
-import {TURNSTILE_SITE_KEY} from '../config/constant';
-import {useTurnstile} from '../lib/useTurnstile';
+import {TURNSTILE_SITE_KEY} from './constants';
+import {useTurnstile} from './use-turnstile';
 
 export type TurnstileProps = {
   onSuccess?(token: string): void;

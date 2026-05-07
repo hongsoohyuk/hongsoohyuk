@@ -2,7 +2,7 @@
 
 import {MoonIcon, SunIcon, LoaderCircleIcon} from 'lucide-react';
 
-import {useTheme} from '@/app/providers/theme-provider';
+import {useTheme} from '@/hooks/use-theme';
 
 import {Button} from '@/components/ui/button';
 

@@ -1,28 +1,10 @@
 'use client';
 
-import {useEffect, useState, type ReactNode} from 'react';
+import {useEffect, useState} from 'react';
 
-import {ThemeProvider as NextThemesProvider, useTheme as useNextTheme} from 'next-themes';
+import {useTheme as useNextTheme} from 'next-themes';
 
 type Theme = 'light' | 'dark';
-
-interface ThemeProviderProps {
-  children: ReactNode;
-}
-
-export function ThemeProvider({children}: ThemeProviderProps) {
-  return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      storageKey="theme"
-      disableTransitionOnChange
-    >
-      {children}
-    </NextThemesProvider>
-  );
-}
 
 export function useTheme() {
   const nextTheme = useNextTheme();

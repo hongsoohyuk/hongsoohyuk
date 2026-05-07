@@ -7,7 +7,7 @@ import {getBlogDetail, getBlogList} from '@/lib/content/blog';
 
 import {ArrowLeftIcon} from 'lucide-react';
 
-import {mdxComponents} from '@/components/mdx/mdx-components';
+import {mdxComponents} from '@/components/mdx-components';
 import {CategoryBadges} from '../_components/category-badges';
 import {createPageMetadata} from '@/config';
 import {locales} from '@/lib/i18n/config';

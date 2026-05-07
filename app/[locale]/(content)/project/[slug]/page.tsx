@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 
 import {getProjectDetail, getProjectList} from '@/lib/content/project';
 
-import {mdxComponents} from '@/components/mdx/mdx-components';
+import {mdxComponents} from '@/components/mdx-components';
 import {Link} from '@/lib/i18n/routing';
 import {createPageMetadata} from '@/config';
 import {locales} from '@/lib/i18n/config';

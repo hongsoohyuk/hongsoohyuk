@@ -2,7 +2,7 @@
 
 import {useEffect, useRef, useState} from 'react';
 
-import {TURNSTILE_SITE_KEY} from '../config/constant';
+import {TURNSTILE_SITE_KEY} from './constants';
 
 export type TurnstileRenderOptions = {
   sitekey: string;

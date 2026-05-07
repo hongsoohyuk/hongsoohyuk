@@ -1,11 +1,11 @@
 import {renderHook, act} from '@testing-library/react';
 
 // Mock the constant before importing
-jest.mock('../config/constant', () => ({
+jest.mock('../constants', () => ({
   TURNSTILE_SITE_KEY: 'test-site-key',
 }));
 
-import {useTurnstile} from '../lib/useTurnstile';
+import {useTurnstile} from '../use-turnstile';
 
 let mockRender: jest.Mock;
 let mockReset: jest.Mock;

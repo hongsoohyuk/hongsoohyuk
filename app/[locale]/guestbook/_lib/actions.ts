@@ -6,7 +6,7 @@ import {revalidatePath} from 'next/cache';
 
 import {supabaseAdmin} from '@/lib/api/supabase';
 import {getClientFingerprint} from '@/lib/security';
-import {verifyTurnstileToken} from '@/lib/turnstile/lib/verify';
+import {verifyTurnstileToken} from '@/lib/turnstile/verify';
 import {FormActionResult} from '@/types/form';
 
 import {schema} from './types';
