@@ -55,6 +55,7 @@ export function NotionRichText({richText}: Props) {
           );
         }
 
+        // eslint-disable-next-line react/no-array-index-key -- rich text 조각에는 자체 id가 없음
         return <React.Fragment key={`${rt?.type ?? 'rt'}-${idx}`}>{node}</React.Fragment>;
       })}
     </>

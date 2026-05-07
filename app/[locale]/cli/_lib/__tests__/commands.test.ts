@@ -1,7 +1,7 @@
 import {COMMANDS, COMMAND_NAMES} from '../commands';
 import {VirtualFS} from '../filesystem';
 
-import type {CliData, CommandResult, ExecContext} from '../types';
+import type {CliData, ExecContext} from '../types';
 
 // Mock localStorage
 const localStorageMock = (() => {

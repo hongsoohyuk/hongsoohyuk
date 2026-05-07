@@ -158,7 +158,7 @@ export function useTurnstile({
       });
 
       widgetIdRef.current = widgetId;
-    } catch (renderError) {
+    } catch {
       const renderErrorState: TurnstileError = {
         code: 'render_failed',
         message: 'Failed to render Turnstile widget. Please refresh the page.',

@@ -105,7 +105,10 @@ export function DonutAnimation({onQuit}: Props) {
     <div
       ref={containerRef}
       onKeyDown={handleKeyDown}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- role="application"이 키 입력 위임 컨테이너로 설정되어 tabIndex 필요
       tabIndex={0}
+      role="application"
+      aria-label="Donut animation"
       className="h-full flex flex-col bg-neutral-950 text-neutral-200 font-mono text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
     >
       {/* Top bar */}

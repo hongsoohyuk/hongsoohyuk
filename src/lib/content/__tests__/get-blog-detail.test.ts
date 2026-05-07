@@ -61,7 +61,7 @@ describe('getBlogDetail', () => {
   it('defaults empty categories and keywords', async () => {
     mockGetMarkdownFile.mockResolvedValue({
       slug: 'test',
-      frontmatter: makeFrontmatter({categories: undefined as any, keywords: undefined as any}),
+      frontmatter: makeFrontmatter({categories: undefined as unknown as never, keywords: undefined as unknown as never}),
       content: '',
     });
 

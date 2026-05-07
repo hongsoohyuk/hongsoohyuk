@@ -18,6 +18,7 @@ export function TableBlock({block}: BlockProps) {
                     tableRow.cells.map((cell, cellIdx) => {
                       const Tag = rowIdx === 0 && b.table.has_column_header ? 'th' : 'td';
                       return (
+                        // eslint-disable-next-line react/no-array-index-key -- Notion 테이블 셀에는 자체 id가 없음
                         <Tag key={cellIdx} className="border px-3 py-2 text-left">
                           <NotionRichText richText={cell} />
                         </Tag>

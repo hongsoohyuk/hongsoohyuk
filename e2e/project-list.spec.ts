@@ -49,11 +49,7 @@ test.describe('Project List Page', () => {
   test('pagination controls appear when needed', async ({page}) => {
     await page.waitForLoadState('networkidle');
 
-    // Pagination might not always be visible depending on data
-    const pagination = page.locator('[class*="pagination"], [class*="Pagination"]');
-    const nextButton = page.getByRole('link', {name: /next|다음/i});
-
-    // Just check the page loads without errors
+    // Pagination might not always be visible depending on data; just check the page loads
     await expect(page).toHaveTitle(/.+/);
   });
 

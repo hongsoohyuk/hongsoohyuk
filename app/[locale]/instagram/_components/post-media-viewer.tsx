@@ -11,7 +11,12 @@ import {Button} from '@/components/ui/button';
 import {InstagramMedia, InstagramMediaChild} from '../_lib/types';
 
 interface MediaDisplayProps {
-  media: Pick<InstagramMediaChild, 'id' | 'media_type' | 'media_url' | 'thumbnail_url'>;
+  media: {
+    id?: string;
+    media_type?: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
+    media_url?: string;
+    thumbnail_url?: string;
+  };
   alt: string;
 }
 
@@ -56,7 +61,7 @@ export function PostMediaViewer({post}: PostMediaViewerProps) {
   const isCarousel = post.media_type === 'CAROUSEL_ALBUM' && post.children && post.children.length > 0;
 
   if (isCarousel) {
-    return <CarouselViewer post={post} children={post.children!} />;
+    return <CarouselViewer post={post} items={post.children!} />;
   }
 
   return <SingleMediaViewer post={post} />;
@@ -74,13 +79,13 @@ function SingleMediaViewer({post}: {post: InstagramMedia}) {
 
 interface CarouselViewerProps {
   post: InstagramMedia;
-  children: InstagramMediaChild[];
+  items: InstagramMediaChild[];
 }
 
-function CarouselViewer({post, children}: CarouselViewerProps) {
+function CarouselViewer({post, items}: CarouselViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const totalItems = children.length;
-  const currentItem = children[currentIndex];
+  const totalItems = items.length;
+  const currentItem = items[currentIndex];
   const mediaAlt = post.caption || `Instagram post by ${post.username ?? 'user'}`;
 
   const goToPrevious = () => {
@@ -123,9 +128,9 @@ function CarouselViewer({post, children}: CarouselViewerProps) {
 
       {/* Dots Indicator */}
       <div className="flex justify-center gap-1.5 mt-3">
-        {children.map((_, index) => (
+        {items.map((item, index) => (
           <button
-            key={index}
+            key={item.id}
             onClick={() => setCurrentIndex(index)}
             className={`h-1.5 rounded-full transition-[width,background-color] ${
               index === currentIndex ? 'w-4 bg-primary' : 'w-1.5 bg-muted-foreground/40'

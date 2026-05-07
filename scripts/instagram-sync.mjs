@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop -- 동기화 스크립트는 순차 다운로드(rate limit 대응) */
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 

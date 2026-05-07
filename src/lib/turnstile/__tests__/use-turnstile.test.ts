@@ -20,7 +20,7 @@ beforeEach(() => {
   mockGetResponse = jest.fn().mockReturnValue('test-token');
   mockIsExpired = jest.fn().mockReturnValue(false);
 
-  (window as any).turnstile = {
+  (window as unknown as {turnstile?: unknown}).turnstile = {
     render: mockRender,
     reset: mockReset,
     remove: mockRemove,
@@ -35,7 +35,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  delete (window as any).turnstile;
+  delete (window as unknown as {turnstile?: unknown}).turnstile;
   const script = document.getElementById('cf-turnstile-script');
   if (script) script.remove();
 });
@@ -76,7 +76,7 @@ describe('useTurnstile', () => {
   });
 
   it('returns undefined from getResponse when turnstile is not available', () => {
-    delete (window as any).turnstile;
+    delete (window as unknown as {turnstile?: unknown}).turnstile;
 
     const {result} = renderHook(() => useTurnstile({}));
 
@@ -84,7 +84,7 @@ describe('useTurnstile', () => {
   });
 
   it('returns true from isExpired when turnstile is not available', () => {
-    delete (window as any).turnstile;
+    delete (window as unknown as {turnstile?: unknown}).turnstile;
 
     const {result} = renderHook(() => useTurnstile({}));
 

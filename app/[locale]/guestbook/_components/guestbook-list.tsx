@@ -45,29 +45,23 @@ type GuestbookItemProps = {
 function GuestbookItem({item, onClick}: GuestbookItemProps) {
   return (
     <Item
-      className="px-0 cursor-pointer hover:bg-accent/50 transition-colors rounded-md"
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick();
-        }
-      }}
+      asChild
+      className="px-0 cursor-pointer hover:bg-accent/50 transition-colors rounded-md w-full text-left"
     >
-      <ItemContent>
-        <ItemTitle>
-          {item.author_name}
-          {item.emotions && <EmotionBadges emotions={item.emotions} />}
-        </ItemTitle>
-        <p className="text-ellipsis line-clamp-2">{item.message}</p>
-      </ItemContent>
-      <ItemFooter>
-        <ItemDescription>
-          <LocalDateTime date={item.created_at} timeStyle="short" />
-        </ItemDescription>
-      </ItemFooter>
+      <button type="button" onClick={onClick}>
+        <ItemContent>
+          <ItemTitle>
+            {item.author_name}
+            {item.emotions && <EmotionBadges emotions={item.emotions} />}
+          </ItemTitle>
+          <p className="text-ellipsis line-clamp-2">{item.message}</p>
+        </ItemContent>
+        <ItemFooter>
+          <ItemDescription>
+            <LocalDateTime date={item.created_at} timeStyle="short" />
+          </ItemDescription>
+        </ItemFooter>
+      </button>
     </Item>
   );
 }

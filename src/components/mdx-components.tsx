@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/heading-has-content, jsx-a11y/anchor-has-content -- 헤딩/앵커는 MDX runtime이 children을 spread로 주입하므로 lint 검사 시점에 비어있는 것처럼 보이지만 실제로는 문제 없음 */
 import type {MDXComponents} from 'mdx/types';
 
 export const mdxComponents: MDXComponents = {

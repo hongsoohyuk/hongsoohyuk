@@ -68,7 +68,7 @@ describe('getProjectList', () => {
 
   it('defaults empty description', async () => {
     mockGetMarkdownFiles.mockResolvedValue([
-      makeFile('no-desc', {title: 'No Desc', description: undefined as any}),
+      makeFile('no-desc', {title: 'No Desc', description: undefined as unknown as never}),
     ]);
 
     const result = await getProjectList();

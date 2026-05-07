@@ -4,14 +4,12 @@ import {useIntersectionObserver} from '../use-intersection-observer';
 
 const mockObserve = jest.fn();
 const mockDisconnect = jest.fn();
-let observerCallback: IntersectionObserverCallback;
 
 beforeEach(() => {
   mockObserve.mockClear();
   mockDisconnect.mockClear();
 
-  global.IntersectionObserver = jest.fn((callback) => {
-    observerCallback = callback;
+  global.IntersectionObserver = jest.fn(() => {
     return {
       observe: mockObserve,
       disconnect: mockDisconnect,

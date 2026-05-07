@@ -8,11 +8,6 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {Link, usePathname} from '@/lib/i18n/routing';
 import {cn} from '@/utils/style';
 
-type NavigationItem = {
-  name: string;
-  href: '/' | '/guestbook' | '/project' | '/instagram' | '/blog' | '/chat';
-};
-
 interface HeaderNavProps {
   siteName: string;
 }

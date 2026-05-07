@@ -45,29 +45,34 @@ export interface Bridge {
  * - iOS: window.webkit.messageHandlers.appBridge.postMessage
  * - fallback: window.parent.postMessage (iframe 대응)
  */
+type NativePoster = {postMessage: (data: string) => void};
+type WebKitMessageHandlers = {messageHandlers?: {appBridge?: NativePoster}};
+type WebViewWindow = Window & {
+  ReactNativeWebView?: NativePoster;
+  AppBridge?: NativePoster;
+  webkit?: WebKitMessageHandlers;
+};
+
 function sendToNative(message: BridgeMessage): void {
   const serialized = JSON.stringify(message);
+  const w = window as WebViewWindow;
 
   // React Native WebView
-  if ('ReactNativeWebView' in window) {
-    (window as Record<string, any>).ReactNativeWebView.postMessage(serialized);
+  if (w.ReactNativeWebView) {
+    w.ReactNativeWebView.postMessage(serialized);
     return;
   }
 
   // Android @JavascriptInterface
-  if ('AppBridge' in window) {
-    (window as Record<string, any>).AppBridge.postMessage(serialized);
+  if (w.AppBridge) {
+    w.AppBridge.postMessage(serialized);
     return;
   }
 
   // iOS WKWebView (WKScriptMessageHandler)
-  if (
-    'webkit' in window &&
-    (window as Record<string, any>).webkit?.messageHandlers?.appBridge
-  ) {
-    (window as Record<string, any>).webkit.messageHandlers.appBridge.postMessage(
-      serialized,
-    );
+  const iosBridge = w.webkit?.messageHandlers?.appBridge;
+  if (iosBridge) {
+    iosBridge.postMessage(serialized);
     return;
   }
 

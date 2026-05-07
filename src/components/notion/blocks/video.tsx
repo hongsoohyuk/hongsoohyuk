@@ -12,6 +12,7 @@ export function VideoBlock({block, renderChildren}: BlockProps) {
 
   return (
     <figure className="space-y-2">
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption -- Notion 비디오는 외부 caption 트랙이 없음 */}
       <video src={src} controls className="max-w-full rounded-md border" preload="metadata">
         Your browser does not support the video tag.
       </video>

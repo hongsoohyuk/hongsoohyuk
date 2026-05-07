@@ -52,6 +52,7 @@ export function ChatProvider({children}: {children: ReactNode}) {
 
   return (
     <ChatStoreContext value={storeRef.current}>
+      {/* eslint-disable-next-line react/jsx-no-constructed-context-values */}
       <ChatStateContext value={{messages: chat.messages, streamError: chat.error}}>
         {children}
       </ChatStateContext>

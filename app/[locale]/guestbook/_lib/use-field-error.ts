@@ -14,10 +14,10 @@ export function useFieldError(actionState: FormActionResult) {
 
   const getFieldError = (field: string): string | null => {
     if (actionState.status !== 'error') return null;
-    const issue = actionState.issues.find((issue) => issue.path.includes(field));
-    if (!issue) return null;
+    const fieldIssue = actionState.issues.find((entry) => entry.path.includes(field));
+    if (!fieldIssue) return null;
 
-    const messageKey = issue.message;
+    const messageKey = fieldIssue.message;
 
     if (messageKey === 'Common.validation.maxLength') {
       const maxLength = MAX_LENGTHS[field] ?? 40;

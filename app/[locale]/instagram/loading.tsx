@@ -20,6 +20,7 @@ export default function InstagramLoading() {
       </Card>
       <section className={'grid gap-0.5 grid-cols-3 lg:grid-cols-4 '} role="feed">
         {Array.from({length: 16}).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key -- 정적 길이의 스켈레톤은 데이터 키가 없음
           <AspectRatio key={`instagram-loading-skeleton-${index}`} ratio={4 / 5} className="relative w-full bg-muted">
             <Skeleton className="absolute inset-0 rounded-none" />
           </AspectRatio>

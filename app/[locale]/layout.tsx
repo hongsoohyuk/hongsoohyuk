@@ -7,7 +7,7 @@ import {Analytics} from '@vercel/analytics/next';
 import {SpeedInsights} from '@vercel/speed-insights/next';
 import type {Metadata} from 'next';
 import {hasLocale, NextIntlClientProvider} from 'next-intl';
-import {getMessages, setRequestLocale} from 'next-intl/server';
+import {setRequestLocale} from 'next-intl/server';
 import {ThemeProvider} from 'next-themes';
 
 import '../globals.css';
@@ -31,7 +31,7 @@ export default async function LocaleLayout({children, params}: Props) {
   setRequestLocale(locale);
 
   return (
-    <html suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${getFontClassNames()} antialiased min-h-screen bg-background font-sans flex flex-col`}>
         <NextIntlClientProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

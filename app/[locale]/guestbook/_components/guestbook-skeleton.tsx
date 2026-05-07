@@ -8,6 +8,7 @@ export function GuestbookListSkeleton() {
   return (
     <ScrollArea className="h-full">
       {Array.from({length: 8}).map((_, index) => (
+        // eslint-disable-next-line react/no-array-index-key -- 정적 길이의 스켈레톤은 데이터 키가 없음
         <React.Fragment key={`guestbook-item-skeleton-${index}`}>
           <GuestbookItemSkeleton />
           {index < 8 - 1 && <ItemSeparator />}

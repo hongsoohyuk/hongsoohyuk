@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop -- E2E 테스트는 본질적으로 순차 검증 */
 import {expect, test} from '@playwright/test';
 
 test.describe('Project Detail Page', () => {
@@ -80,9 +81,6 @@ test.describe('Project Detail Page', () => {
 
     await page.goto(`/project/${projectSlug}`);
     await page.waitForLoadState('networkidle');
-
-    // Look for date/time display (might show modified date)
-    const dateText = page.locator('time, [class*="date"], [class*="time"]');
 
     // Date might not always be visible, just ensure page loads
     await expect(page.locator('h1')).toBeVisible();

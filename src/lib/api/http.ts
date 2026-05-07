@@ -97,6 +97,7 @@ export class HttpClient {
     const backoffMs = options.retry?.backoffMs ?? this.retryDefaults.backoffMs;
 
     let lastError: unknown;
+    /* eslint-disable no-await-in-loop -- 재시도 루프는 본질적으로 순차 실행 */
     for (let i = 0; i <= retries; i++) {
       try {
         const res = await this.withTimeout(attempt(), timeoutMs, url);
@@ -116,6 +117,7 @@ export class HttpClient {
         throw err;
       }
     }
+    /* eslint-enable no-await-in-loop */
     throw lastError instanceof Error ? lastError : new Error('Unknown fetch error');
   }
 

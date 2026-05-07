@@ -94,6 +94,10 @@ export function Terminal() {
     <div
       ref={containerRef}
       onClick={handleContainerClick}
+      onKeyDown={handleContainerClick}
+      role="application"
+      aria-label="Terminal"
+      tabIndex={-1}
       className="h-full overflow-y-auto bg-neutral-950 text-neutral-200 font-mono text-sm leading-relaxed p-4 cursor-text"
     >
       {lines.map((line) => (

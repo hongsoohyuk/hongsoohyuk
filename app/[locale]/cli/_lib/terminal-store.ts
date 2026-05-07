@@ -144,6 +144,7 @@ export function createTerminalStore(cliData: CliData) {
       let fullText = '';
 
       while (true) {
+        // eslint-disable-next-line no-await-in-loop -- 스트리밍 응답은 순차 read 필요
         const {done, value} = await reader.read();
         if (done) break;
 

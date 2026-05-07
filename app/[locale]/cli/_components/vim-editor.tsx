@@ -399,7 +399,10 @@ export function VimEditor({request, onSave, onQuit}: Props) {
     <div
       ref={containerRef}
       onKeyDown={handleKeyDown}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- role="application"이 키 입력 위임 컨테이너로 설정되어 tabIndex 필요
       tabIndex={0}
+      role="application"
+      aria-label="Vim editor"
       className="h-full flex flex-col bg-neutral-950 text-neutral-200 font-mono text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
     >
       {/* Top bar */}
@@ -414,6 +417,7 @@ export function VimEditor({request, onSave, onQuit}: Props) {
       {/* Content area */}
       <div ref={contentRef} className="flex-1 overflow-y-auto p-0">
         {lines.map((line, rowIdx) => (
+          // eslint-disable-next-line react/no-array-index-key -- 라인 번호가 곧 키
           <div key={rowIdx} className="flex leading-relaxed">
             {/* Line number */}
             <span

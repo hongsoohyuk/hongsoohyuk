@@ -10,6 +10,8 @@ export async function readInstagramStaticJson<T>(fileName: string): Promise<T> {
     return JSON.parse(contents) as T;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    throw new Error(`Missing Instagram static data at ${filePath}. Run \`pnpm run instagram:sync\`.\n${message}`);
+    throw new Error(`Missing Instagram static data at ${filePath}. Run \`pnpm run instagram:sync\`.\n${message}`, {
+      cause: error,
+    });
   }
 }
