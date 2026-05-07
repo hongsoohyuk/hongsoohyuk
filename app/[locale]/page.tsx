@@ -9,6 +9,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/compo
 import {createPageMetadata} from '@/config';
 import {HeroTitle} from '@/features/home';
 import {Link} from '@/lib/i18n/routing';
+import {use} from 'react';
 
 const SECTION_ICONS = {
   guestbook: MessageSquareText,
@@ -37,7 +38,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 }
 
 export default async function Home({params}: Props) {
-  const {locale} = await params;
+  const {locale} = use(params);
   setRequestLocale(locale);
 
   const t = await getTranslations('HomePage');

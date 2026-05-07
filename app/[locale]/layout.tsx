@@ -6,7 +6,7 @@ import {routing} from '@/lib/i18n/routing';
 import {Analytics} from '@vercel/analytics/next';
 import {SpeedInsights} from '@vercel/speed-insights/next';
 import type {Metadata} from 'next';
-import {NextIntlClientProvider} from 'next-intl';
+import {hasLocale, NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {ThemeProvider} from 'next-themes';
 
@@ -20,9 +20,16 @@ export function generateStaticParams() {
 
 type Props = {
   children: React.ReactNode;
+  params: Promise<{locale: string}>;
 };
 
-export default async function LocaleLayout({children}: Props) {
+export default async function LocaleLayout({children, params}: Props) {
+  const {locale} = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    // notFound();
+  }
+  setRequestLocale(locale);
+
   return (
     <html suppressHydrationWarning>
       <body className={`${getFontClassNames()} antialiased min-h-screen bg-background font-sans flex flex-col`}>
