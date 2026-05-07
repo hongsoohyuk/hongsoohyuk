@@ -2,7 +2,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Suspense} from 'react';
 
 import {BlogContent, BlogSearchFilter} from '@/features/blog';
-import {getBlogList} from '@/features/blog/api';
+import {getBlogList} from '@/lib/content/blog';
 
 export const revalidate = 21600; // 6 hours
 

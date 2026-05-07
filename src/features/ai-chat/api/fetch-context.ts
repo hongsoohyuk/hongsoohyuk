@@ -1,4 +1,4 @@
-import {getBlogList} from '@/features/blog/api/get-blog-list';
+import {getBlogList} from '@/lib/content/blog';
 import {getProjectList} from '@/features/project/api/pages/get-project-list';
 import {getRecentlyPlayed, getTopArtists, getTopTracks, isSpotifyConfigured} from '@/lib/api/spotify';
 

@@ -1,5 +1,5 @@
 
-import {getBlogList} from '@/features/blog/api';
+import {getBlogList} from '@/lib/content/blog';
 import {getProjectList} from '@/features/project/api';
 import {SITE_CONFIG} from '@/config';
 import type {MetadataRoute} from 'next';

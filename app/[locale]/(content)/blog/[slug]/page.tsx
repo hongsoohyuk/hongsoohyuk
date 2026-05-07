@@ -3,7 +3,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {compileMDX} from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 
-import {getBlogDetail, getBlogList} from '@/features/blog/api';
+import {getBlogDetail, getBlogList} from '@/lib/content/blog';
 
 import {ArrowLeftIcon} from 'lucide-react';
 

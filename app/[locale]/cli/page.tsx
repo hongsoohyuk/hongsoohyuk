@@ -1,7 +1,7 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {getBlogList} from '@/features/blog/api';
+import {getBlogList} from '@/lib/content/blog';
 import {buildCliData} from '@/features/command-line/api';
 import {Terminal, TerminalProvider} from '@/features/command-line';
 import {getProjectList} from '@/features/project/api';
