@@ -67,6 +67,8 @@ pnpm lint              # ESLint
 pnpm format            # Prettier
 ```
 
+**에이전트는 dev 서버를 직접 실행/종료하지 않는다.** `pnpm dev`, `next dev`, `lsof :3000 | kill`, `.next` 삭제 등 절대 금지. 사용자가 항상 별도 터미널에서 직접 띄운다. 페이지 동작 확인이 필요하면 사용자 서버에 `curl`로 요청만 보내거나 사용자에게 결과를 묻는다. e2e도 Playwright `webServer`가 알아서 관리.
+
 # Claude for Chrome
 
 - Use `read_page` to get element refs from the accessibility tree
