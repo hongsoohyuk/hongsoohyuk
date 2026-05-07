@@ -8,7 +8,6 @@ import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {createPageMetadata} from '@/config';
 import {Link} from '@/lib/i18n/routing';
-import {use} from 'react';
 
 import {HeroTitle} from './_components/hero-title';
 
@@ -39,7 +38,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 }
 
 export default async function Home({params}: Props) {
-  const {locale} = use(params);
+  const {locale} = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations('HomePage');
