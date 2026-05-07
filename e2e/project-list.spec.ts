@@ -15,7 +15,7 @@ test.describe('Project List Page', () => {
     await page.waitForLoadState('networkidle');
 
     // Check if there are project cards or empty state
-    const cards = page.locator('[class*="grid"] a');
+    const cards = page.locator('a[href*="/project/"]');
     const emptyState = page.getByText(/empty|없습니다/i);
 
     // Either cards should be visible or empty state should be shown
@@ -30,7 +30,7 @@ test.describe('Project List Page', () => {
   test('project cards are clickable and navigate to detail', async ({page}) => {
     await page.waitForLoadState('networkidle');
 
-    const cards = page.locator('[class*="grid"] a');
+    const cards = page.locator('a[href*="/project/"]');
     const cardCount = await cards.count();
 
     if (cardCount > 0) {

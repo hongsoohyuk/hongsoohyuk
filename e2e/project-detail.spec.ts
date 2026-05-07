@@ -10,7 +10,7 @@ test.describe('Project Detail Page', () => {
     await page.goto('/project');
     await page.waitForLoadState('networkidle');
 
-    const firstCard = page.locator('[class*="grid"] a').first();
+    const firstCard = page.locator('a[href*="/project/"]').first();
     if ((await firstCard.count()) > 0) {
       const href = await firstCard.getAttribute('href');
       if (href) {
@@ -27,7 +27,7 @@ test.describe('Project Detail Page', () => {
     await page.waitForLoadState('networkidle');
 
     // Should have a title (h1)
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
   });
 
   test('displays back link to project list', async ({page}) => {
@@ -83,7 +83,7 @@ test.describe('Project Detail Page', () => {
     await page.waitForLoadState('networkidle');
 
     // Date might not always be visible, just ensure page loads
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
   });
 
   test('handles invalid slug gracefully', async ({page}) => {
@@ -105,7 +105,7 @@ test.describe('Project Detail Page - Mobile', () => {
     await listPage.goto('/project');
     await listPage.waitForLoadState('networkidle');
 
-    const firstCard = listPage.locator('[class*="grid"] a').first();
+    const firstCard = listPage.locator('a[href*="/project/"]').first();
     let slug: string | null = null;
 
     if ((await firstCard.count()) > 0) {
@@ -122,7 +122,7 @@ test.describe('Project Detail Page - Mobile', () => {
     await page.waitForLoadState('networkidle');
 
     // Content should be visible and properly sized
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
 
     // Images should be responsive
     const images = page.locator('img');
@@ -144,7 +144,7 @@ test.describe('Project Detail Page - Images', () => {
     await listPage.goto('/project');
     await listPage.waitForLoadState('networkidle');
 
-    const firstCard = listPage.locator('[class*="grid"] a').first();
+    const firstCard = listPage.locator('a[href*="/project/"]').first();
     let slug: string | null = null;
 
     if ((await firstCard.count()) > 0) {
@@ -183,7 +183,7 @@ test.describe('Project Detail Page - Code Blocks', () => {
     await listPage.goto('/project');
     await listPage.waitForLoadState('networkidle');
 
-    const firstCard = listPage.locator('[class*="grid"] a').first();
+    const firstCard = listPage.locator('a[href*="/project/"]').first();
     let slug: string | null = null;
 
     if ((await firstCard.count()) > 0) {

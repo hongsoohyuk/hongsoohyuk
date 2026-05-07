@@ -3,7 +3,6 @@ import {Bot, FolderKanban, Mail, MessageCircle, MessageSquareText, PenLine, Term
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Link} from '@/lib/i18n/routing';
