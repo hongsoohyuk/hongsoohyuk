@@ -23,6 +23,9 @@ const eslintConfig = [
       'wasm/build/**',
       'wasm/build_native/**',
       'next-env.d.ts',
+      'playwright-report/**',
+      'test-results/**',
+      'coverage/**',
     ],
   },
   {

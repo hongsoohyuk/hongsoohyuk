@@ -8,8 +8,8 @@ jest.mock('@/lib/api/notion', () => ({
   },
 }));
 
-import {getNotionBlockChildren, getNotionBlockChildrenRecursive} from '../notion-blocks';
 import {notion} from '@/lib/api/notion';
+import {getNotionBlockChildren, getNotionBlockChildrenRecursive} from '../notion-blocks';
 
 const mockList = notion.blocks.children.list as jest.Mock;
 

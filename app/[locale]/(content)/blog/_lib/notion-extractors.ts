@@ -1,6 +1,6 @@
+import type {BlogCategory} from '@/lib/content/blog';
 import type {PageObjectResponse} from '@notionhq/client/build/src/api-endpoints';
 
-import type {BlogCategory} from '@/lib/content/blog';
 
 export function extractTitle(page: PageObjectResponse): string {
   const props = page.properties;

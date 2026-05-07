@@ -1,11 +1,11 @@
 'use client';
 
-import {useChatState, ChatProvider} from '../_lib/chat-provider';
 
 import {ChatError} from './chat-error';
 import {ChatInput} from './chat-input';
 import {ChatMessages} from './chat-messages';
 import {ChatSuggestions} from './chat-suggestions';
+import {useChatState, ChatProvider} from '../_lib/chat-provider';
 
 export function ChatPage() {
   return (

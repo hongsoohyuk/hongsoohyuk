@@ -1,5 +1,5 @@
-import {readInstagramStaticJson} from './local';
 import {DEFAULT_LIMIT, MEDIA_FIELDS} from './constants';
+import {readInstagramStaticJson} from './local';
 import {InstagramListResponse} from './types';
 
 export async function getInstagramPostList(): Promise<InstagramListResponse> {

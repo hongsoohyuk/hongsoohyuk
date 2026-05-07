@@ -1,7 +1,7 @@
 'use client';
 
-import {useRouter, useSearchParams} from 'next/navigation';
 import {startTransition, useRef} from 'react';
+import {useRouter, useSearchParams} from 'next/navigation';
 
 export function useSearchFilterParams() {
   const router = useRouter();

@@ -1,11 +1,11 @@
+import {after} from 'next/server';
 import {google} from '@ai-sdk/google';
 import {convertToModelMessages, streamText, type UIMessage} from 'ai';
-import {after} from 'next/server';
 
-import {buildSystemPrompt} from './_lib/build-prompt';
-import {fetchDynamicContext} from './_lib/fetch-context';
 import {saveChatLog} from '@/lib/api/chat-log';
 import {rateLimit} from '@/lib/rate-limit';
+import {buildSystemPrompt} from './_lib/build-prompt';
+import {fetchDynamicContext} from './_lib/fetch-context';
 
 const MAX_MESSAGES = 20;
 const MAX_MESSAGE_LENGTH = 500;

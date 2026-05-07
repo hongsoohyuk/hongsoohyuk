@@ -1,5 +1,5 @@
-import {readInstagramStaticJson} from './local';
 import {PROFILE_FIELDS} from './constants';
+import {readInstagramStaticJson} from './local';
 import {InstagramProfile} from './types';
 
 export async function getInstagramProfile(): Promise<InstagramProfile> {

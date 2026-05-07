@@ -1,7 +1,7 @@
 import {setRequestLocale} from 'next-intl/server';
 
-import {fetchAllGuestbookEntries} from './_lib/list-guestbook.server';
 import {GuestbookWidget} from './_components/guestbook-widget';
+import {fetchAllGuestbookEntries} from './_lib/list-guestbook.server';
 
 export const dynamic = 'force-static';
 export const revalidate = 60;

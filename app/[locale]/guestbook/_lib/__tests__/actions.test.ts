@@ -19,12 +19,12 @@ jest.mock('next/cache', () => ({
   revalidatePath: jest.fn(),
 }));
 
-import {submit} from '../actions';
+import {revalidatePath} from 'next/cache';
 import {supabaseAdmin} from '@/lib/api/supabase';
 import {getClientFingerprint} from '@/lib/security';
 import {verifyTurnstileToken} from '@/lib/turnstile/verify';
-import {revalidatePath} from 'next/cache';
 import type {FormActionResult} from '@/types/form';
+import {submit} from '../actions';
 
 const mockFrom = supabaseAdmin.from as jest.Mock;
 const mockGetClientFingerprint = getClientFingerprint as jest.Mock;

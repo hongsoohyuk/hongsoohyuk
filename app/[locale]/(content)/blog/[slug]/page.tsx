@@ -1,17 +1,17 @@
+import {ArrowLeftIcon} from 'lucide-react';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {compileMDX} from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 
+import {mdxComponents} from '@/components/mdx-components';
 import {getBlogDetail, getBlogList} from '@/lib/content/blog';
 
-import {ArrowLeftIcon} from 'lucide-react';
 
-import {mdxComponents} from '@/components/mdx-components';
-import {CategoryBadges} from '../_components/category-badges';
-import {createPageMetadata} from '@/config';
 import {locales} from '@/lib/i18n/config';
 import {Link} from '@/lib/i18n/routing';
+import {createPageMetadata} from '@/config';
+import {CategoryBadges} from '../_components/category-badges';
 
 type Props = {
   params: Promise<{locale: string; slug: string}>;

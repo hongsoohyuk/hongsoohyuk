@@ -4,9 +4,9 @@ import {createContext, use, useRef, type ReactNode} from 'react';
 
 import {useStore, type StoreApi} from 'zustand';
 
+import {createTerminalStore, type TerminalStore} from './terminal-store';
 import type {CliData} from './types';
 
-import {createTerminalStore, type TerminalStore} from './terminal-store';
 
 const TerminalContext = createContext<StoreApi<TerminalStore> | null>(null);
 

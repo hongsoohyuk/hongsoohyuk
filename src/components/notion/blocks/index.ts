@@ -12,8 +12,8 @@ import {QuoteBlock} from './quote';
 import {TableBlock} from './table';
 import {TodoBlock} from './todo';
 import {ToggleBlock} from './toggle';
-import type {BlockProps} from './types';
 import {VideoBlock} from './video';
+import type {BlockProps} from './types';
 
 export type {BlockProps} from './types';
 

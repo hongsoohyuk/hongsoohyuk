@@ -1,8 +1,8 @@
 import {render, screen} from '@testing-library/react';
 
+import type {NotionBlockWithChildren} from '@/types/notion';
 import {NotionBlocks} from '../notion-blocks';
 
-import type {NotionBlockWithChildren} from '@/types/notion';
 
 describe('NotionBlocks', () => {
   const createBlock = (type: string, content: Record<string, unknown> = {}): NotionBlockWithChildren =>
@@ -139,7 +139,7 @@ describe('NotionBlocks', () => {
       const blocks: NotionBlockWithChildren[] = [
         createBlock('callout', {
           callout: {
-            icon: {emoji: '💡'},
+            icon: {type: 'emoji', emoji: '💡'},
             rich_text: [{plain_text: 'This is a callout'}],
           },
         }),

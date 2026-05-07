@@ -1,12 +1,12 @@
 import React from 'react';
 
-import type {BlockObjectResponse} from '@notionhq/client/build/src/api-endpoints';
 
 import type {NotionBlockWithChildren} from '@/types/notion';
 import {cn} from '@/utils/style';
 
 import {BLOCK_RENDERERS} from './blocks';
 import {NotionRichText} from './notion-rich-text';
+import type {BlockObjectResponse} from '@notionhq/client/build/src/api-endpoints';
 
 type NarrowBlock<T extends BlockObjectResponse['type']> = Extract<BlockObjectResponse, {type: T}> & {
   children?: NotionBlockWithChildren[];

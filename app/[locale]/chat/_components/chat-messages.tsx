@@ -4,8 +4,8 @@ import {useEffect, useRef} from 'react';
 
 import {Bot} from 'lucide-react';
 
-import type {ChatMessage} from '../_lib/types';
 import {useChatState, useChatStore} from '../_lib/chat-provider';
+import type {ChatMessage} from '../_lib/types';
 
 function getTextContent(message: ChatMessage): string {
   return message.parts

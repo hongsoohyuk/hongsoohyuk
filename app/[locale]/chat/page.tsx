@@ -1,8 +1,8 @@
-import type {Metadata, Viewport} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {ChatPage} from './_components/chat-page';
 import {createPageMetadata} from '@/config';
+import {ChatPage} from './_components/chat-page';
+import type {Metadata, Viewport} from 'next';
 
 export const viewport: Viewport = {
   maximumScale: 1,

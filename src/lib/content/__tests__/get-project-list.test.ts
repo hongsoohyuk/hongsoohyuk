@@ -1,6 +1,6 @@
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
-  cache: (fn: Function) => fn,
+  cache: <T extends (...args: any[]) => any>(fn: T) => fn,
 }));
 
 jest.mock('@/lib/markdown', () => ({

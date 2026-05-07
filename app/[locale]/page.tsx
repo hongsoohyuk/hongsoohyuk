@@ -1,13 +1,13 @@
+import {GitHubLogoIcon, InstagramLogoIcon, LinkedInLogoIcon} from '@radix-ui/react-icons';
+import {Bot, FolderKanban, Mail, MessageCircle, MessageSquareText, PenLine, TerminalSquare} from 'lucide-react';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {GitHubLogoIcon, InstagramLogoIcon, LinkedInLogoIcon} from '@radix-ui/react-icons';
-import {Bot, FolderKanban, Mail, MessageCircle, MessageSquareText, PenLine, TerminalSquare} from 'lucide-react';
 
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
-import {createPageMetadata} from '@/config';
 import {Link} from '@/lib/i18n/routing';
+import {createPageMetadata} from '@/config';
 
 import {HeroTitle} from './_components/hero-title';
 

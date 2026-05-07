@@ -2,10 +2,10 @@
 
 import {useState} from 'react';
 
+import {EmotionButton} from './emotion-button';
 import {useEmotionEnum} from '../_lib/use-emotion-enum';
 import type {EmotionCode} from '../_lib/emotion';
 
-import {EmotionButton} from './emotion-button';
 
 type Props = {
   name?: string;

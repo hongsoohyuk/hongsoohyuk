@@ -1,10 +1,10 @@
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
-import {ProjectCard} from './_components/project-card';
 import {getProjectList} from '@/lib/content/project';
 
 import {createPageMetadata} from '@/config';
+import {ProjectCard} from './_components/project-card';
 
 type Props = {
   params: Promise<{locale: string}>;

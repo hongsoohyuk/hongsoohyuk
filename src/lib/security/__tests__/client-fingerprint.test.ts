@@ -2,8 +2,8 @@ jest.mock('next/headers', () => ({
   headers: jest.fn(),
 }));
 
-import {getClientFingerprint} from '../client-fingerprint';
 import {headers} from 'next/headers';
+import {getClientFingerprint} from '../client-fingerprint';
 
 const mockHeaders = headers as jest.Mock;
 

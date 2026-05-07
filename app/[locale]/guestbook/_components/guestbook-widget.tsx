@@ -2,15 +2,15 @@ import {Suspense} from 'react';
 
 import {getTranslations} from 'next-intl/server';
 
-import {GuestbookFormDialog} from './guestbook-form-dialog';
-import {GuestbookList} from './guestbook-list';
 
-import {GuestbookItemDto} from '../_lib/types';
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {PaginationBackAndForth} from '@/components/ui/pagination-back-and-forth';
 import {Separator} from '@/components/ui/separator';
-import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
 import {DEFAULT_PAGE_SIZE} from '@/lib/api/pagination';
+import {GUESTBOOK_LAYOUT_CLASSES} from '@/config';
+import {GuestbookFormDialog} from './guestbook-form-dialog';
+import {GuestbookList} from './guestbook-list';
+import {GuestbookItemDto} from '../_lib/types';
 
 type Props = {
   locale: string;

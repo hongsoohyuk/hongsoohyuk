@@ -1,6 +1,6 @@
+import type {BlogListItem} from '@/lib/content/blog';
 import {BlogPostCard} from './blog-post-card';
 
-import type {BlogListItem} from '@/lib/content/blog';
 
 type Props = {
   posts: BlogListItem[];

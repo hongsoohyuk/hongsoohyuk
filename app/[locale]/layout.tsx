@@ -1,14 +1,14 @@
-import {Footer} from '@/components/layout/footer';
-import {Header} from '@/components/layout/header';
-import {WebViewShell} from '@/components/layout/webview-shell';
-import {baseMetadata, getFontClassNames} from '@/config';
-import {routing} from '@/lib/i18n/routing';
 import {Analytics} from '@vercel/analytics/next';
 import {SpeedInsights} from '@vercel/speed-insights/next';
-import type {Metadata} from 'next';
 import {hasLocale, NextIntlClientProvider} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
 import {ThemeProvider} from 'next-themes';
+import {Footer} from '@/components/layout/footer';
+import {Header} from '@/components/layout/header';
+import {WebViewShell} from '@/components/layout/webview-shell';
+import {routing} from '@/lib/i18n/routing';
+import {baseMetadata, getFontClassNames} from '@/config';
+import type {Metadata} from 'next';
 
 import '../globals.css';
 

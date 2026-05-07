@@ -1,8 +1,8 @@
 'use client';
 
+import type {BlogListItem} from '@/lib/content/blog';
 import {Link} from '@/lib/i18n/routing';
 
-import type {BlogListItem} from '@/lib/content/blog';
 import {CategoryBadges} from './category-badges';
 
 type Props = {

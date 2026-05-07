@@ -2,11 +2,11 @@
 
 import {createContext, use, useRef, type ReactNode} from 'react';
 
-import type {UIMessage} from 'ai';
 import {useChat} from '@ai-sdk/react';
 import {useStore, type StoreApi} from 'zustand';
 
 import {createChatStore, type ChatStore} from './chat-store';
+import type {UIMessage} from 'ai';
 
 type ChatStateValue = {
   messages: UIMessage[];
