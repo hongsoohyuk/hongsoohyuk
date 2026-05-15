@@ -1,11 +1,16 @@
 'use client';
 
 import {usePathname, useSearchParams} from 'next/navigation';
-
-import {ArrowDownNarrowWide, ArrowUp} from 'lucide-react';
+import {ArrowUp} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
-import {Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink} from '@/components/ui/pagination';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+} from '@/components/ui/pagination';
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE, PAGINATION_PARAMETER_PAGE} from '@/lib/api/pagination';
 import {cn} from '@/utils/style';
 
@@ -75,18 +80,9 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
       aria-label="Guestbook navigation"
     >
       <div className="flex min-w-0 items-center gap-3 text-xs text-muted-foreground">
-        <span className="whitespace-nowrap font-medium">
-          {totalCount === 0
-            ? t('totalCount', {count: 0})
-            : t('rangeCount', {start: rangeStart, end: rangeEnd, total: totalCount})}
-        </span>
-        <span aria-hidden className="hidden text-border sm:inline">
-          ·
-        </span>
-        <span className="hidden items-center gap-1.5 whitespace-nowrap sm:inline-flex">
-          <ArrowDownNarrowWide className="size-3.5" aria-hidden />
-          {t('latestSort')}
-        </span>
+        {totalCount === 0
+          ? t('totalCount', {count: 0})
+          : t('rangeCount', {start: rangeStart, end: rangeEnd, total: totalCount})}
       </div>
 
       <Pagination className="mx-0 w-auto justify-end">
