@@ -11,6 +11,10 @@ jest.mock('@/lib/security', () => ({
   getClientFingerprint: jest.fn(),
 }));
 
+jest.mock('@/lib/rate-limit', () => ({
+  rateLimit: jest.fn(),
+}));
+
 jest.mock('@/lib/turnstile/verify', () => ({
   verifyTurnstileToken: jest.fn(),
 }));
@@ -21,6 +25,7 @@ jest.mock('next/cache', () => ({
 
 import {revalidatePath} from 'next/cache';
 import {supabaseAdmin} from '@/lib/api/supabase';
+import {rateLimit} from '@/lib/rate-limit';
 import {getClientFingerprint} from '@/lib/security';
 import {verifyTurnstileToken} from '@/lib/turnstile/verify';
 import type {FormActionResult} from '@/types/form';
@@ -29,6 +34,7 @@ import {submit} from '../actions';
 const mockFrom = supabaseAdmin.from as jest.Mock;
 const mockGetClientFingerprint = getClientFingerprint as jest.Mock;
 const mockVerifyTurnstile = verifyTurnstileToken as jest.Mock;
+const mockRateLimit = rateLimit as jest.Mock;
 
 function createFormData(data: Record<string, string | string[]>): FormData {
   const fd = new FormData();
@@ -47,12 +53,36 @@ const prevState: FormActionResult = {status: 'idle'};
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockRateLimit.mockReturnValue({success: true, remaining: 4});
   mockGetClientFingerprint.mockResolvedValue({ip_hash: 'hash_ip', ua_hash: 'hash_ua'});
   mockVerifyTurnstile.mockResolvedValue({success: true});
   process.env.GUESTBOOK_HMAC_SECRET = 'test-secret';
 });
 
 describe('guestbook submit action', () => {
+  describe('rate limiting', () => {
+    it('rejects before verifying turnstile when rate limit is exceeded', async () => {
+      mockRateLimit.mockReturnValue({success: false, remaining: 0});
+
+      const fd = createFormData({author_name: 'Alice', message: 'Test', turnstile_token: VALID_TOKEN});
+      const result = await submit(prevState, fd);
+
+      expect(result.status).toBe('error');
+      expect(result.issues!.some((i) => i.path === 'rateLimit')).toBe(true);
+      expect(mockVerifyTurnstile).not.toHaveBeenCalled();
+      expect(mockFrom).not.toHaveBeenCalled();
+    });
+
+    it('keys the limiter by hashed IP', async () => {
+      mockFrom.mockReturnValue({insert: jest.fn().mockResolvedValue({error: null})});
+
+      const fd = createFormData({author_name: 'Alice', message: 'Test', turnstile_token: VALID_TOKEN});
+      await submit(prevState, fd);
+
+      expect(mockRateLimit).toHaveBeenCalledWith('guestbook:hash_ip', expect.any(Object));
+    });
+  });
+
   describe('turnstile verification', () => {
     it('returns error when turnstile token is missing', async () => {
       const fd = createFormData({author_name: 'Alice', message: 'Test'});

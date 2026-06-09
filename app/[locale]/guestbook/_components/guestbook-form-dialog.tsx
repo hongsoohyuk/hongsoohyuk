@@ -43,7 +43,7 @@ export function GuestbookFormDialog() {
   const [message, setMessage] = useState('');
 
   const {turnstileToken, turnstileValid, turnstileHandlers, resetTurnstile} = useTurnstileValidation();
-  const {getFieldError} = useFieldError(actionState);
+  const {getFieldError, getFormError} = useFieldError(actionState);
 
   const isFormValid = authorName.trim().length > 0 && message.trim().length > 0 && turnstileValid;
 
@@ -61,6 +61,7 @@ export function GuestbookFormDialog() {
 
   const authorNameError = getFieldError('author_name');
   const messageError = getFieldError('message');
+  const formError = getFormError();
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -122,6 +123,8 @@ export function GuestbookFormDialog() {
                 <Turnstile {...turnstileHandlers} />
               </Field>
             </FieldSet>
+
+            {formError && <FieldError className="text-center">{formError}</FieldError>}
 
             <DialogFooter className="flex flex-row justify-end gap-2">
               <DialogClose asChild>

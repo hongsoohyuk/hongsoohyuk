@@ -27,5 +27,14 @@ export function useFieldError(actionState: FormActionResult) {
     return t(messageKey);
   };
 
-  return {getFieldError};
+  // Form-level errors not tied to a single input (rate limit, bot verification).
+  const getFormError = (): string | null => {
+    if (actionState.status !== 'error') return null;
+    const issue = actionState.issues.find(
+      (entry) => entry.path === 'rateLimit' || entry.path === 'turnstile',
+    );
+    return issue ? t(issue.message) : null;
+  };
+
+  return {getFieldError, getFormError};
 }

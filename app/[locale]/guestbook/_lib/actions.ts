@@ -5,14 +5,32 @@ import console from 'console';
 import {revalidatePath} from 'next/cache';
 
 import {supabaseAdmin} from '@/lib/api/supabase';
+import {rateLimit} from '@/lib/rate-limit';
 import {getClientFingerprint} from '@/lib/security';
 import {verifyTurnstileToken} from '@/lib/turnstile/verify';
 import {FormActionResult} from '@/types/form';
 
 import {schema} from './types';
 
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 60_000;
+
 export async function submit(_prevState: FormActionResult, formData: FormData): Promise<FormActionResult> {
   try {
+    // Rate limit per client (keyed by hashed IP — no raw IP retained)
+    const {ip_hash, ua_hash} = await getClientFingerprint(process.env.GUESTBOOK_HMAC_SECRET!);
+    const {success} = rateLimit(`guestbook:${ip_hash ?? 'unknown'}`, {
+      limit: RATE_LIMIT,
+      windowMs: RATE_WINDOW_MS,
+    });
+
+    if (!success) {
+      return {
+        status: 'error',
+        issues: [{path: 'rateLimit', message: 'Guestbook.formSection.validation.rateLimited'}],
+      };
+    }
+
     // Verify Turnstile token server-side
     const turnstileToken = formData.get('turnstile_token');
 
@@ -51,8 +69,6 @@ export async function submit(_prevState: FormActionResult, formData: FormData): 
     }
 
     const {author_name, message, emotions} = validation.data;
-
-    const {ip_hash, ua_hash} = await getClientFingerprint(process.env.GUESTBOOK_HMAC_SECRET!);
 
     const {error} = await supabaseAdmin.from('guestbook').insert({
       author_name,

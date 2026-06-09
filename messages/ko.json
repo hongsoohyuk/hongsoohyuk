@@ -227,7 +227,8 @@
         "emotionLimit": "느낌은 최대 두 개까지 선택할 수 있어요.",
         "turnstile": "봇 방지 인증을 완료해주세요.",
         "turnstileRequired": "봇 방지 인증이 필요합니다.",
-        "turnstileFailed": "봇 방지 인증에 실패했습니다. 다시 시도해주세요."
+        "turnstileFailed": "봇 방지 인증에 실패했습니다. 다시 시도해주세요.",
+        "rateLimited": "요청이 너무 잦아요. 잠시 후 다시 시도해주세요."
       }
     },
     "form": {
