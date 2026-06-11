@@ -6,6 +6,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Link} from '@/lib/i18n/routing';
+import {JsonLd, personJsonLd, websiteJsonLd} from '@/lib/seo/json-ld';
 import {createPageMetadata} from '@/config';
 
 import {HeroTitle} from './_components/hero-title';
@@ -44,6 +45,7 @@ export default async function Home({params}: Props) {
 
   return (
     <div className="min-h-[calc(100dvh-3rem)] flex flex-col">
+      <JsonLd data={[personJsonLd(), websiteJsonLd()]} />
       {/* Hero Section */}
       <section className="flex-1 flex flex-col justify-center px-4 py-12 md:py-20">
         <div className="max-w-4xl mx-auto w-full">

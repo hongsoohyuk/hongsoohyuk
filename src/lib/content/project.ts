@@ -23,6 +23,7 @@ export type ProjectFrontmatter = {
 
 export type ProjectDetailMeta = {
   title: string;
+  description?: string;
   createdTime?: string;
   lastEditedTime?: string;
 };
@@ -53,6 +54,7 @@ export const getProjectDetail = cache(async function getProjectDetail(slug: stri
   return {
     meta: {
       title: file.frontmatter.title,
+      description: file.frontmatter.description ?? '',
       createdTime: file.frontmatter.createdTime,
       lastEditedTime: file.frontmatter.lastEditedTime,
     },

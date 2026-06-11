@@ -35,8 +35,10 @@ export type BlogFrontmatter = {
 export type BlogDetailResponse = {
   meta: {
     title: string;
+    description: string;
     categories: BlogCategory[];
     keywords: string[];
+    createdTime: string;
     lastEditedTime: string;
   };
   content: string;
@@ -79,8 +81,10 @@ export const getBlogDetail = cache(async function getBlogDetail(slug: string): P
   return {
     meta: {
       title: file.frontmatter.title,
+      description: file.frontmatter.description ?? '',
       categories: file.frontmatter.categories ?? [],
       keywords: file.frontmatter.keywords ?? [],
+      createdTime: file.frontmatter.createdTime,
       lastEditedTime: file.frontmatter.lastEditedTime,
     },
     content: file.content,

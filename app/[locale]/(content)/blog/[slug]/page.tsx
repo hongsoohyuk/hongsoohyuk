@@ -10,6 +10,7 @@ import {getBlogDetail, getBlogList} from '@/lib/content/blog';
 
 import {locales} from '@/lib/i18n/config';
 import {Link} from '@/lib/i18n/routing';
+import {blogPostingJsonLd, breadcrumbJsonLd, JsonLd} from '@/lib/seo/json-ld';
 import {createPageMetadata} from '@/config';
 import {CategoryBadges} from '../_components/category-badges';
 
@@ -63,8 +64,29 @@ export default async function BlogDetailPage({params}: Props) {
     day: 'numeric',
   });
 
+  const basePath = locale === 'ko' ? '' : `/${locale}`;
+  const postPath = `${basePath}/blog/${slug}`;
+
   return (
     <section className="space-y-6">
+      <JsonLd
+        data={[
+          blogPostingJsonLd({
+            title: data.meta.title,
+            description: data.meta.description,
+            path: postPath,
+            // 마크다운 본문은 UI locale과 무관하게 한국어
+            locale: 'ko',
+            datePublished: data.meta.createdTime,
+            dateModified: data.meta.lastEditedTime,
+            keywords: data.meta.keywords.length > 0 ? data.meta.keywords : data.meta.categories,
+          }),
+          breadcrumbJsonLd([
+            {name: t('title'), path: `${basePath}/blog`},
+            {name: data.meta.title, path: postPath},
+          ]),
+        ]}
+      />
       <header className="space-y-3">
         <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <Link href="/blog" className="inline-flex items-center gap-1 hover:underline">

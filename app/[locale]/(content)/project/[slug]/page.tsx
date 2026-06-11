@@ -8,6 +8,7 @@ import {getProjectDetail, getProjectList} from '@/lib/content/project';
 
 import {locales} from '@/lib/i18n/config';
 import {Link} from '@/lib/i18n/routing';
+import {breadcrumbJsonLd, creativeWorkJsonLd, JsonLd} from '@/lib/seo/json-ld';
 import {createPageMetadata} from '@/config';
 
 type Props = {
@@ -63,8 +64,28 @@ export default async function ProjectDetailPage({params}: Props) {
       })
     : null;
 
+  const basePath = locale === 'ko' ? '' : `/${locale}`;
+  const projectPath = `${basePath}/project/${slug}`;
+
   return (
     <div className="space-y-6">
+      <JsonLd
+        data={[
+          creativeWorkJsonLd({
+            title: data.meta.title,
+            description: data.meta.description,
+            path: projectPath,
+            // 마크다운 본문은 UI locale과 무관하게 한국어
+            locale: 'ko',
+            dateCreated: data.meta.createdTime,
+            dateModified: data.meta.lastEditedTime,
+          }),
+          breadcrumbJsonLd([
+            {name: t('title'), path: `${basePath}/project`},
+            {name: data.meta.title, path: projectPath},
+          ]),
+        ]}
+      />
       <header className="space-y-2">
         <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <Link href="/project" className="hover:underline">
