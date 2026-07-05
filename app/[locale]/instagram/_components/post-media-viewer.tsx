@@ -5,22 +5,21 @@ import {useState} from 'react';
 import Image from 'next/image';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 
-
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
 import {InstagramMedia, InstagramMediaChild} from '../_lib/types';
 
 interface MediaDisplayProps {
-  media: {
-    id?: string;
-    media_type?: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
-    media_url?: string;
-    thumbnail_url?: string;
-  };
+  media: InstagramMedia | InstagramMediaChild;
   alt: string;
 }
 
 function MediaDisplay({media, alt}: MediaDisplayProps) {
+  // sync된 feed.json에는 저작권 등의 이유로 media_url이 생략된 항목이 있을 수 있음
+  if (!media.media_url) {
+    return <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">{alt}</div>;
+  }
+
   if (media.media_type === 'VIDEO') {
     const poster = media.thumbnail_url || media.media_url;
     return (
@@ -99,10 +98,7 @@ function CarouselViewer({post, items}: CarouselViewerProps) {
   return (
     <div className="relative">
       <AspectRatio ratio={4 / 5} className="relative w-full bg-muted">
-        <MediaDisplay
-          media={currentItem}
-          alt={`${mediaAlt} - ${currentIndex + 1}/${totalItems}`}
-        />
+        <MediaDisplay media={currentItem} alt={`${mediaAlt} - ${currentIndex + 1}/${totalItems}`} />
 
         {/* Navigation Arrows */}
         <Button
