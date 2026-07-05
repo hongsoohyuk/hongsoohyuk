@@ -1,7 +1,7 @@
 import {readFile} from 'fs/promises';
 import {join} from 'path';
 
-const PROMPTS_DIR = join(process.cwd(), 'src/features/ai-chat/prompts');
+const PROMPTS_DIR = join(process.cwd(), 'app/api/chat/_lib/prompts');
 const CONTEXT_DIR = join(PROMPTS_DIR, 'context');
 
 let cachedStaticPrompt: string | null = null;
