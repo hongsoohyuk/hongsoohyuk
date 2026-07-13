@@ -11,7 +11,7 @@ lastEditedTime: '2026-07-06T00:00:00.000Z'
 | 기간      | 2026.01 - 현재                                                                                                                                      |
 | 역할      | 프론트엔드 (플랫폼 아키텍처 설계, 개발 인프라 구축, CSP별 정산 도메인 개발)                                                                         |
 | 기술 스택 | React 19 + React Compiler, TypeScript, rolldown-vite, TanStack Router/Query v5, Zustand, Tailwind 4 + shadcn/ui, react-hook-form + zod, DuckDB-WASM |
-| 아키텍처  | App(CSP) Registry 패턴, Bulletproof React(단방향 import), Query Key Factory, OpenAPI 타입 자동생성                                                  |
+| 아키텍처  | App(CSP) Registry 패턴, Bulletproof React(단방향 import), Query Key Factory, OpenAPI 타입 자동 생성                                                 |
 | 인프라    | Bitbucket Pipeline(AWS OIDC 키리스 S3 배포 + CloudFront), Vitest + MSW + Playwright, CSP 기준 git worktree + AI 병렬 개발                           |
 
 ---
@@ -23,7 +23,7 @@ lastEditedTime: '2026-07-06T00:00:00.000Z'
 > 📖 **_개발 배경_**
 >
 > - 하나의 코드베이스로 CSP(GCP·Datadog·Alibaba 등)마다 조금씩 다른 대시보드/매입/매출/계약 화면을 서비스해야 한다.
-> - 라우터·컴포넌트·네비게이션 곳곳에 `if (entity === 'gcp')` 분기가 퍼지고, CSP가 늘 때마다 수십 곳을 수정해야 하는 확장 불가능한 구조를 예방하고자한다.
+> - 라우터·컴포넌트·네비게이션 곳곳에 `if (entity === 'gcp')` 분기가 퍼지고, CSP가 늘 때마다 수십 곳을 수정해야 하는 확장 불가능한 구조를 예방하고자 한다.
 > - 향후 10+ CSP 확장을 전제로 한 선언형 구조가 핵심 과제.
 
 > 🔧 **_수행 내용_**
@@ -94,17 +94,17 @@ export const Route = createFileRoute('/$entity/adjustment/')({
 >
 > - **CSP 추가 = `apps/<csp>.ts` 1개 파일 + `EntityId` 유니온에 id 추가**로 축소. 라우팅·네비·가드·코드스플릿이 자동으로 따라옴.
 > - 앱 전역에서 `if (entity === 'x')` 분기 **완전 제거** — 모든 변형이 두 개의 데이터 구조(entity/feature 레지스트리)에 선언적으로 존재.
-> - 닫힌 `EntityId` 유니온 + exhaustive 스위치로 새 CSP/모드가 **컴파일 에러로 surface** → 안전한 확장.
+> - 닫힌 `EntityId` 유니온 + exhaustive 스위치로 새 CSP/모드가 **컴파일 에러로 드러남** → 안전한 확장.
 
 ### Query Key Factory 기반 서버 상태 관리
 
 > 📖 **_개발 배경_**
 >
-> - Repository/DI 패턴 대신, TanStack Query가 캐싱·중복제거·라이프사이클을 담당하는 React-native한 데이터 접근 표준 필요.
+> - Repository/DI 패턴 대신, TanStack Query가 캐싱·중복 제거·라이프사이클을 담당하는 React에 자연스러운 데이터 접근 표준이 필요했다.
 
 > 🔧 **_수행 내용_**
 >
-> - feature별 `api/queries.ts`(계층적 키 팩토리 + `useQuery`)와 `api/mutations.ts`(키 팩토리를 import해 스코프드 무효화) 구조 표준화
+> - feature별 `api/queries.ts`(계층적 키 팩토리 + `useQuery`)와 `api/mutations.ts`(키 팩토리를 import해 스코프별 무효화) 구조 표준화
 > - 테스트는 mock 구현/DI 대신 **MSW**로 네트워크 레벨 모킹
 
 ```ts
@@ -171,16 +171,16 @@ export const NavBadge = ({ labelKey }: { labelKey: CommonTranslationKey }) => {
 
 > 📢 **_개발 성과_**
 >
-> - **비개발자 셀프서브 번역** — PO·운영이 익숙한 스프레드시트에서 직접 카피 수정, PR·JSON 문법·코드 접근 불필요.
-> - 48개 로케일 JSON 전부 생성물화 → **수기 편집 0**, 머지 충돌·언어 desync 제거.
-> - 없는 메뉴/배지 키는 **컴파일 에러** → 레지스트리 기반 네비가 `as any` 없이 정직하게 유지.
+> - **비개발자 셀프서비스 번역** — PO·운영이 익숙한 스프레드시트에서 직접 카피 수정, PR·JSON 문법·코드 접근 불필요.
+> - 48개 로케일 JSON을 모두 생성물로 관리 → **수기 편집 0**, 머지 충돌·언어 desync 제거.
+> - 없는 메뉴/배지 키는 **컴파일 에러** → 레지스트리 기반 네비가 `as any` 없이 타입 안전하게 유지.
 
 ### AI 활용 병렬 개발 인프라 — CSP 기준 worktree + 커스텀 스킬
 
 > 📖 **_개발 배경_**
 >
 > - 여러 CSP·기능을 **다중 AI 에이전트("팀")로 동시에** 개발하려면, 각 작업이 서로의 타입·번역·빌드를 오염시키지 않는 격리가 필수.
-> - 브랜치·PR·Jira·UI 검증 같은 반복 잡무를 자동화해 write-verify 루프를 단축할 필요.
+> - 브랜치·PR·Jira·UI 검증 같은 반복 업무를 자동화해 write-verify 루프를 단축할 필요가 있었다.
 
 > 🔧 **_수행 내용_**
 >
@@ -189,12 +189,12 @@ export const NavBadge = ({ labelKey }: { labelKey: CommonTranslationKey }) => {
 >   - `worktree-setup / rebase / cleanup` — 워크트리 라이프사이클 + "symlink 댄스" 리베이스 자동화
 >   - `jira-doc / jira-description / pr-description` — 커밋 이력에서 Jira Description·PR 본문 자동 생성(markdown→ADF, `ai:assisted` 프로비넌스 라벨)
 >   - `test-create` — Vitest 테스트 생성
-> - **Playwright** 3중 구성: CLI 스킬(실시간 UI 디버깅·요청 모킹), MCP(Canvas/SVG 비주얼), Test Runner(CI, auth state 영속 + `fullyParallel`)
+> - **Playwright** 세 가지 구성: CLI 스킬(실시간 UI 디버깅·요청 모킹), MCP(Canvas/SVG 비주얼), Test Runner(CI, auth state 영속 + `fullyParallel`)
 
 > 📢 **_개발 성과_**
 >
-> - CSP별 SSOT base + symlink 규율로 **다중 에이전트가 서로 다른 CSP를 무충돌 병렬 개발** — 생성 타입·번역이 diff 로 감지 되지 않도록 리베이스.
-> - 멀티스텝 git/워크트리/Jira/PR 잡무를 단일 커맨드로 축약, 문서는 커밋 이력에서 자동 파생 → 개발 속도 향상.
+> - CSP별 SSOT base + symlink 규율로 **다중 에이전트가 서로 다른 CSP를 무충돌 병렬 개발** — 생성 타입·번역이 diff로 감지되지 않도록 리베이스.
+> - 여러 단계의 git/워크트리/Jira/PR 반복 업무를 단일 커맨드로 축약하고, 문서는 커밋 이력에서 자동 파생 → 개발 속도 향상.
 
 ---
 
@@ -210,15 +210,15 @@ export const NavBadge = ({ labelKey }: { labelKey: CommonTranslationKey }) => {
 > 🔧 **_수행 내용_**
 >
 > - 브라우저에서 **DuckDB-WASM을 Web Worker로 구동**해 CSV를 압축 Parquet로 트랜스코딩하고 각 ~5MB **독립(self-contained) 파트**로 분할 → 서버가 파트별로 즉시 인제스트(재조립 불필요)
-> - WASM 번들을 Vite `?url`로 **셀프호스팅**(CDN 미사용, same-origin Worker), `SharedArrayBuffer`/COOP+COEP를 피하려 멀티스레드(coi) 번들 **의도적 제외**
-> - `all_varchar=true`로 **타입 추론 비활성화** — DOUBLE 추론된 금액 컬럼의 부동소수 오차·비결정적 합계(정산 대사 파괴)와 월별 스키마 드리프트 방지, 캐스팅은 Postgres 인제스트로 이연
+> - WASM 번들을 Vite `?url`로 **셀프호스팅**(CDN 미사용, same-origin Worker), `SharedArrayBuffer`/COOP+COEP를 피하기 위해 멀티스레드(coi) 번들 **의도적으로 제외**
+> - `all_varchar=true`로 **타입 추론 비활성화** — DOUBLE 추론된 금액 컬럼의 부동소수 오차·비결정적 합계(정산 대사 파괴)와 월별 스키마 드리프트 방지, 캐스팅은 Postgres 인제스트 단계로 미룸
 > - 분할은 `threads=1` + `preserve_insertion_order=true`로 **결정적 LIMIT/OFFSET** 보장(행 중복/손실 0)
 
 ```ts
 // lib/duckdb/csv-to-parquet.ts — 무손실 VARCHAR 트랜스코드 → 압축 Parquet
 await db.registerFileBuffer(name, new Uint8Array(await file.arrayBuffer())); // worker FileReader NotReadableError 회피
 const conn = await db.connect();
-await conn.query(`SET memory_limit='512MB'`); // 인브라우저 OOM 가드
+await conn.query(`SET memory_limit='512MB'`); // 브라우저 내 OOM 가드
 await conn.query(`SET threads TO 1`);
 await conn.query(
   `COPY (SELECT * FROM read_csv('${name}', all_varchar=true, sample_size=-1)) ` +
@@ -229,20 +229,20 @@ await conn.query(
 > 📢 **_개발 성과_**
 >
 > - 인프라(게이트웨이 한도) 변경 없이 **대용량 빌링 CSV 업로드를 클라이언트에서 해결**. 각 파트가 완결된 Parquet라 서버 재조립 로직 불필요, 다중 pod/LB 안전.
-> - lazy 싱글턴 초기화(첫 업로드 시 1회)로 초기 페이지 로드 영향 최소화, ZSTD 압축 + ≤10MB는 변환 스킵하는 임계 최적화.
+> - lazy 싱글턴 초기화(첫 업로드 시 1회)로 초기 페이지 로드에 미치는 영향을 최소화하고, ZSTD 압축 + ≤10MB는 변환을 스킵하는 임계 최적화.
 
 ### SSO 인증 인프라
 
 > 🔧 **_수행 내용_**
 >
 > - 콜백 URL 해시에서 토큰 추출 → 쿠키 저장 → `/auth/me` 검증, 인증 초기화는 단일 `initPromise`(single-flight)
-> - axios 인터셉터가 요청에 Bearer 주입, **초기화 이후** 401에서만 인증 클리어 + 리다이렉트(체인 정지용 never-resolving promise로 에러 플래시 방지)
+> - axios 인터셉터가 요청에 Bearer 주입, **초기화 이후** 401에서만 인증 정보 삭제 + 리다이렉트(체인 정지용 never-resolving promise로 에러 플래시 방지)
 
 ---
 
 # 요약 — 나의 기여
 
 1. **App(CSP) Registry 패턴 설계·도입** — `if(entity)` 분기를 선언형 레지스트리로 대체, 100+ CSP 확장 기반 마련(라우트/네비/가드/코드스플릿 자동 파생).
-2. **다국어 공용 관리 파이프라인 구축** — 스프레드시트 SSOT + 서비스 계정 자동 pull + 생성 JSON 파생 타입세이프 키(`as any` 제거), 비개발자 셀프서브 번역.
+2. **다국어 공용 관리 파이프라인 구축** — 스프레드시트 SSOT + 서비스 계정 자동 pull + 생성 JSON 파생 타입세이프 키(`as any` 제거), 비개발자 셀프서비스 번역.
 3. **AI 병렬 개발 인프라 구축** — CSP 기준 worktree/SSOT base/symlink 모델 + 워크트리·Jira·PR·검증 커스텀 스킬 → 다중 에이전트 무충돌 병렬 개발.
-4. **DuckDB-WASM 클라이언트 변환 엔진** — API Gateway 10MB 한계를 인브라우저 CSV→Parquet 변환·분할로 우회, 정산 대사 정확성(무손실 VARCHAR·결정적 분할) 보장.
+4. **DuckDB-WASM 클라이언트 변환 엔진** — API Gateway 10MB 한계를 브라우저 내 CSV→Parquet 변환·분할로 우회, 정산 대사 정확성(무손실 VARCHAR·결정적 분할) 보장.

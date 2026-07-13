@@ -14,8 +14,8 @@ lastEditedTime: "2026-03-29T09:18:18.337Z"
 **핵심 요구사항:**
 - 개발자가 아닌 PO가 비개발 도구(Google Spreadsheet)에서 직접 번역을 관리
 - 개발자는 명령어 실행으로 최신 번역을 동기화
-- 키 규칙 위반, 중복 키, 번역 누락을 **스크립트 레벨에서 검증**
-- i18next `t()` 함수에서 **타입 안전한 키 참조** (as any 제로)
+- 키 규칙 위반, 중복 키, 번역 누락을 **스크립트 단계에서 검증**
+- i18next `t()` 함수에서 **타입 안전한 키 참조** (`as any` 0건)
 
 ---
 
@@ -64,7 +64,7 @@ lastEditedTime: "2026-03-29T09:18:18.337Z"
 
 #### Service Account 생성 절차
 1. Google Cloud Console 접속 → 프로젝트 선택
-2. API 및 서비스 → 라이브러리 → `Google Sheets API` + `Google Drive API` 둘 다 사용 설정
+2. API 및 서비스 → 라이브러리 → `Google Sheets API` + `Google Drive API` 모두 사용 설정
 3. IAM 및 관리자 → 서비스 계정 → "서비스 계정 만들기"
 4. 생성된 서비스 계정 클릭 → 키 탭 → "키 추가" → JSON 선택 → 다운로드
 5. PO에게 서비스 계정 이메일 전달 → 시트에 뷰어로 초대
@@ -95,7 +95,7 @@ const client = await auth.getClient()
 const token = await client.getAccessToken()
 ```
 
-### 다운로드 & 파싱
+### 다운로드 및 파싱
 ```javascript
 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=xlsx`
 const res = await fetch(url, {
@@ -201,11 +201,11 @@ type NavChildKeys<NS extends Namespace> =
 ## 회고
 **잘된 점:**
 - PO ↔ 개발자 간 번역 워크플로우가 명확하게 분리됨
-- 키 규칙 검증으로 잘못된 키가 코드에 유입되는 것을 사전 차단
-- `as const` + `CustomTypeOptions`로 별도 코드젠 없이 타입 안전성 확보
+- 키 규칙 검증으로 잘못된 키가 코드에 유입되는 것을 사전에 차단
+- `as const` + `CustomTypeOptions`로 별도 코드 생성 없이 타입 안전성 확보
 
 **아쉬운 점:**
-- static import 방식이라 네임스페이스 추가 시 `i18n.ts`에 수동 등록 필요
+- static import 방식이라서 네임스페이스 추가 시 `i18n.ts`에 수동 등록이 필요하다
 - 번역 키가 많아지면 JSON 파일이 커지므로 네임스페이스 분리 전략이 중요
 
 ---
