@@ -297,7 +297,14 @@
     "vitals": "Web Vitals",
     "empty": "No data collected yet",
     "p75Note": "* Web Vitals values are the 75th percentile (p75), not averages — 75% of visits had a better experience than this value, per the web.dev standard.",
-    "privacyNote": "* No tracking cookies, no IP addresses stored — only anonymous aggregates are shown."
+    "privacyNote": "* No tracking cookies, no IP addresses stored — only anonymous aggregates are shown.",
+    "pageDaily": "Pages by day",
+    "sourceTrend": "Source trend",
+    "landing": "Landing pages",
+    "exitPages": "Exit pages",
+    "blogPosts": "Top blog posts",
+    "worstLcp": "Slowest pages by LCP",
+    "worstLcpNote": "p75, pages with 3+ samples only"
   },
   "Common": {
     "open": "Open",

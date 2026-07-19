@@ -1,10 +1,12 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Link} from '@/lib/i18n/routing';
 import {DailyChart} from './_components/daily-chart';
+import {LineChart} from './_components/line-chart';
+import {PageDayHeatmap} from './_components/page-day-heatmap';
 import {RankList} from './_components/rank-list';
 import {StatCard} from './_components/stat-card';
 import {VitalsPanel} from './_components/vitals-panel';
-import {fillDailySeries} from './_lib/format';
+import {fillDailySeries, pivotDaily, vitalSparkSeries} from './_lib/format';
 import {getStats, parsePeriod, type BeaconStats, type StatsPeriod} from './_lib/queries';
 import type {Metadata} from 'next';
 
@@ -14,6 +16,13 @@ const EMPTY_STATS: BeaconStats = {
   sources: [],
   pages: [],
   vitals: [],
+  pageDaily: [],
+  sourceDaily: [],
+  landing: [],
+  exit: [],
+  blogPosts: [],
+  vitalsDaily: [],
+  worstLcp: [],
 };
 
 type Props = {
@@ -44,6 +53,24 @@ export default async function StatsPage({params, searchParams}: Props) {
   }
 
   const daily = fillDailySeries(stats.daily, period);
+  const pageMatrix = pivotDaily(
+    stats.pageDaily.map((r) => ({day: r.day, key: r.path, value: r.pv})),
+    period,
+  );
+  const sourceMatrix = pivotDaily(
+    stats.sourceDaily.map((r) => ({day: r.day, key: r.source, value: r.sessions})),
+    period,
+  );
+  const sourceSeries = sourceMatrix.rows.map((r) => ({
+    label: r.key,
+    points: sourceMatrix.days.map((day, i) => ({day, value: r.cells[i]})),
+  }));
+  const sparks = Object.fromEntries(
+    [...new Set(stats.vitalsDaily.map((r) => r.metric))].map((m) => [
+      m,
+      vitalSparkSeries(stats.vitalsDaily, m, period),
+    ]),
+  );
   const periods: StatsPeriod[] = [7, 30];
 
   return (
@@ -55,6 +82,7 @@ export default async function StatsPage({params, searchParams}: Props) {
             <Link
               key={d}
               href={d === 7 ? '/stats' : {pathname: '/stats', query: {days: d}}}
+              aria-current={period === d ? 'page' : undefined}
               className={`rounded-md px-3 py-1 ${period === d ? 'bg-muted font-medium' : 'text-muted-foreground'}`}
             >
               {t(d === 7 ? 'period7' : 'period30')}
@@ -75,6 +103,16 @@ export default async function StatsPage({params, searchParams}: Props) {
         <DailyChart data={daily} emptyLabel={t('empty')} />
       </section>
 
+      <section className="mt-8">
+        <h2 className="mb-3 text-lg font-semibold">{t('pageDaily')}</h2>
+        <PageDayHeatmap matrix={pageMatrix} emptyLabel={t('empty')} />
+      </section>
+
+      <section className="mt-8">
+        <h2 className="mb-3 text-lg font-semibold">{t('sourceTrend')}</h2>
+        <LineChart series={sourceSeries} label={t('sourceTrend')} emptyLabel={t('empty')} />
+      </section>
+
       <div className="mt-8 grid gap-8 sm:grid-cols-2">
         <section>
           <h2 className="mb-3 text-lg font-semibold">{t('sources')}</h2>
@@ -86,9 +124,34 @@ export default async function StatsPage({params, searchParams}: Props) {
         </section>
       </div>
 
+      <div className="mt-8 grid gap-8 sm:grid-cols-2">
+        <section>
+          <h2 className="mb-3 text-lg font-semibold">{t('landing')}</h2>
+          <RankList items={stats.landing.map((p) => ({label: p.path, value: p.sessions}))} emptyLabel={t('empty')} />
+        </section>
+        <section>
+          <h2 className="mb-3 text-lg font-semibold">{t('exitPages')}</h2>
+          <RankList items={stats.exit.map((p) => ({label: p.path, value: p.sessions}))} emptyLabel={t('empty')} />
+        </section>
+      </div>
+
+      <section className="mt-8">
+        <h2 className="mb-3 text-lg font-semibold">{t('blogPosts')}</h2>
+        <RankList items={stats.blogPosts.map((p) => ({label: p.path, value: p.pv}))} emptyLabel={t('empty')} />
+      </section>
+
       <section className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">{t('vitals')}</h2>
-        <VitalsPanel vitals={stats.vitals} emptyLabel={t('empty')} />
+        <VitalsPanel vitals={stats.vitals} sparks={sparks} emptyLabel={t('empty')} />
+      </section>
+
+      <section className="mt-8">
+        <h2 className="mb-1 text-lg font-semibold">{t('worstLcp')}</h2>
+        <p className="mb-3 text-xs text-muted-foreground">{t('worstLcpNote')}</p>
+        <RankList
+          items={stats.worstLcp.map((p) => ({label: p.path, value: Math.round(p.p75)}))}
+          emptyLabel={t('empty')}
+        />
       </section>
 
       <footer className="mt-10 space-y-1 border-t pt-4 text-xs text-muted-foreground">
