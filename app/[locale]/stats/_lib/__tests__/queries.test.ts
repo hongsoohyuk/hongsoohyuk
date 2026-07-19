@@ -28,6 +28,13 @@ describe('fetchStats', () => {
         beacon_top_sources: [{source: 'direct', sessions: 4}],
         beacon_top_pages: [{path: '/blog/1', pv: 6}],
         beacon_vitals: [{metric: 'LCP', p75: 1800, good: 8, needs_improvement: 1, poor: 1, total: 10}],
+        beacon_page_daily: [{day: '2026-07-19', path: '/blog/1', pv: 6}],
+        beacon_source_daily: [{day: '2026-07-19', source: 'direct', sessions: 4}],
+        beacon_landing_pages: [{path: '/', sessions: 3}],
+        beacon_exit_pages: [{path: '/blog/1', sessions: 2}],
+        beacon_top_blog_posts: [{path: '/blog/1', pv: 6}],
+        beacon_vitals_daily: [{day: '2026-07-19', metric: 'LCP', p75: 1800}],
+        beacon_worst_lcp_pages: [{path: '/instagram', p75: 3200, samples: 5}],
       }[fn];
       return {data, error: null};
     });
@@ -41,6 +48,36 @@ describe('fetchStats', () => {
     expect(stats.summary.pageviews).toBe(10);
     expect(stats.daily).toHaveLength(1);
     expect(stats.vitals[0].metric).toBe('LCP');
+  });
+
+  it('확장 RPC 7개를 올바른 limit으로 호출해 합성한다', async () => {
+    const stats = await fetchStats(7);
+    expect(mockRpc).toHaveBeenCalledWith('beacon_page_daily', {p_site_id: 'hongsoohyuk.com', p_days: 7, p_limit: 10});
+    expect(mockRpc).toHaveBeenCalledWith('beacon_source_daily', {p_site_id: 'hongsoohyuk.com', p_days: 7, p_limit: 5});
+    expect(mockRpc).toHaveBeenCalledWith('beacon_landing_pages', {
+      p_site_id: 'hongsoohyuk.com',
+      p_days: 7,
+      p_limit: 10,
+    });
+    expect(mockRpc).toHaveBeenCalledWith('beacon_exit_pages', {p_site_id: 'hongsoohyuk.com', p_days: 7, p_limit: 10});
+    expect(mockRpc).toHaveBeenCalledWith('beacon_top_blog_posts', {
+      p_site_id: 'hongsoohyuk.com',
+      p_days: 7,
+      p_limit: 10,
+    });
+    expect(mockRpc).toHaveBeenCalledWith('beacon_vitals_daily', {p_site_id: 'hongsoohyuk.com', p_days: 7});
+    expect(mockRpc).toHaveBeenCalledWith('beacon_worst_lcp_pages', {
+      p_site_id: 'hongsoohyuk.com',
+      p_days: 7,
+      p_limit: 5,
+    });
+    expect(stats.pageDaily[0].path).toBe('/blog/1');
+    expect(stats.sourceDaily[0].source).toBe('direct');
+    expect(stats.landing).toHaveLength(1);
+    expect(stats.exit).toHaveLength(1);
+    expect(stats.blogPosts[0].pv).toBe(6);
+    expect(stats.vitalsDaily[0].metric).toBe('LCP');
+    expect(stats.worstLcp[0].samples).toBe(5);
   });
 
   it('summary가 빈 결과면 0으로 채운다', async () => {

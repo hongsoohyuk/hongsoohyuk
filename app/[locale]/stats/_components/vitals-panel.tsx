@@ -1,9 +1,10 @@
+import {Sparkline} from './sparkline';
 import {formatVitalValue, ratingPercents, sortVitals} from '../_lib/format';
 import type {VitalStat} from '../_lib/queries';
 
-type Props = {vitals: VitalStat[]; emptyLabel: string};
+type Props = {vitals: VitalStat[]; sparks: Record<string, Array<number | null>>; emptyLabel: string};
 
-export function VitalsPanel({vitals, emptyLabel}: Props) {
+export function VitalsPanel({vitals, sparks, emptyLabel}: Props) {
   if (vitals.length === 0) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
 
   return (
@@ -24,6 +25,7 @@ export function VitalsPanel({vitals, emptyLabel}: Props) {
             <p className="mt-1.5 text-xs text-muted-foreground">
               good {pct.good}% · ni {pct.needsImprovement}% · poor {pct.poor}%
             </p>
+            <Sparkline points={sparks[vital.metric] ?? []} />
           </div>
         );
       })}

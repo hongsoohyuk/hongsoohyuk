@@ -296,7 +296,14 @@
     "vitals": "Web Vitals",
     "empty": "아직 수집된 데이터가 없습니다",
     "p75Note": "* Web Vitals 수치는 평균이 아닌 75퍼센타일(p75)입니다 — 방문의 75%가 이 값보다 나은 경험을 했다는 의미로, web.dev 표준 측정 방식입니다.",
-    "privacyNote": "* 추적 쿠키와 IP 주소를 수집하지 않으며, 익명 집계 수치만 표시합니다."
+    "privacyNote": "* 추적 쿠키와 IP 주소를 수집하지 않으며, 익명 집계 수치만 표시합니다.",
+    "pageDaily": "일별 페이지",
+    "sourceTrend": "유입 소스 추이",
+    "landing": "랜딩 페이지",
+    "exitPages": "종료 페이지",
+    "blogPosts": "블로그 글 순위",
+    "worstLcp": "LCP 개선 필요 페이지",
+    "worstLcpNote": "p75 기준, 표본 3회 이상 페이지만"
   },
   "Common": {
     "open": "열기",
