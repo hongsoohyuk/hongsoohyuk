@@ -71,6 +71,9 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      hongsoohyuk-beacon:
+        specifier: ^0.1.0
+        version: 0.1.0
       lucide-react:
         specifier: ^1.7.0
         version: 1.7.0(react@19.2.4)
@@ -3213,6 +3216,9 @@ packages:
 
   headers-polyfill@4.0.3:
     resolution: {integrity: sha512-IScLbePpkvO846sIwOtOTDjutRMWdXdJmXdMvk6gCBHxFO8d+QKOQedyZSxFTTFYRSmlgSTDtXqqq4pcenBXLQ==}
+
+  hongsoohyuk-beacon@0.1.0:
+    resolution: {integrity: sha512-nrriO0TGmHFEwA+GKy5VvJdlMw8OHHHPK6O4pVPLiy75/Vey8VvsHdcpP/yM1fu4KZ65MTHswp8+FEaOb7U9LQ==}
 
   html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
@@ -8583,6 +8589,8 @@ snapshots:
       '@types/hast': 3.0.4
 
   headers-polyfill@4.0.3: {}
+
+  hongsoohyuk-beacon@0.1.0: {}
 
   html-encoding-sniffer@4.0.0:
     dependencies:

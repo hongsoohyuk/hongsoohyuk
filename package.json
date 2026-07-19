@@ -2,6 +2,14 @@
   "name": "hongsoohyuk",
   "version": "0.1.0",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@tailwindcss/oxide",
+      "msw",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
@@ -42,6 +50,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
+    "hongsoohyuk-beacon": "^0.1.0",
     "lucide-react": "^1.7.0",
     "motion": "^12.23.12",
     "next": "16.2.2",
