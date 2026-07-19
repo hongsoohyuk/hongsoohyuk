@@ -55,6 +55,16 @@ describe('POST /api/collect', () => {
     ]);
   });
 
+  it('referrer가 null인 직접 유입 이벤트도 204 (SDK는 리퍼러 없으면 null을 보낸다)', async () => {
+    const batch = {
+      ...validBatch,
+      events: [{...validBatch.events[0], referrer: null}],
+    };
+    const res = await POST(makeRequest(batch));
+    expect(res.status).toBe(204);
+    expect(mockInsert).toHaveBeenCalledWith([expect.objectContaining({referrer: null})]);
+  });
+
   it('JSON이 아닌 body는 400', async () => {
     const res = await POST(makeRequest('not-json'));
     expect(res.status).toBe(400);

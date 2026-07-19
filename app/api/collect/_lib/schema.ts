@@ -9,7 +9,8 @@ export const beaconEventSchema = z.object({
   anonId: z.string().max(64).optional(),
   sessionId: z.string().max(64).optional(),
   url: z.string().max(2048).optional(),
-  referrer: z.string().max(2048).optional(),
+  // SDK는 리퍼러가 없으면 명시적으로 null을 보낸다 — nullish로 수용 (optional만으로는 직접 유입 배치 전체가 400)
+  referrer: z.string().max(2048).nullish(),
   utm: z
     .object({
       source: z.string().max(256).nullable(),
