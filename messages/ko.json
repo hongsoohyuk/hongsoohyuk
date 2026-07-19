@@ -281,6 +281,23 @@
       "music": "요즘 자주 듣는 노래는 뭐야?"
     }
   },
+  "Stats": {
+    "title": "지표",
+    "description": "hongsoohyuk.com 방문·성능 공개 지표",
+    "period7": "최근 7일",
+    "period30": "최근 30일",
+    "pageviews": "페이지뷰",
+    "visitors": "방문자",
+    "sessions": "세션",
+    "clicks": "클릭",
+    "dailyTrend": "일별 페이지뷰",
+    "sources": "유입 경로",
+    "topPages": "인기 페이지",
+    "vitals": "Web Vitals",
+    "empty": "아직 수집된 데이터가 없습니다",
+    "p75Note": "* Web Vitals 수치는 평균이 아닌 75퍼센타일(p75)입니다 — 방문의 75%가 이 값보다 나은 경험을 했다는 의미로, web.dev 표준 측정 방식입니다.",
+    "privacyNote": "* 추적 쿠키와 IP 주소를 수집하지 않으며, 익명 집계 수치만 표시합니다."
+  },
   "Common": {
     "open": "열기",
     "close": "닫기",
