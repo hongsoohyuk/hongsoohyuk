@@ -282,6 +282,23 @@
       "music": "What songs does Soohyuk listen to lately?"
     }
   },
+  "Stats": {
+    "title": "Stats",
+    "description": "Public traffic & performance metrics for hongsoohyuk.com",
+    "period7": "Last 7 days",
+    "period30": "Last 30 days",
+    "pageviews": "Pageviews",
+    "visitors": "Visitors",
+    "sessions": "Sessions",
+    "clicks": "Clicks",
+    "dailyTrend": "Daily pageviews",
+    "sources": "Traffic sources",
+    "topPages": "Top pages",
+    "vitals": "Web Vitals",
+    "empty": "No data collected yet",
+    "p75Note": "* Web Vitals values are the 75th percentile (p75), not averages — 75% of visits had a better experience than this value, per the web.dev standard.",
+    "privacyNote": "* No tracking cookies, no IP addresses stored — only anonymous aggregates are shown."
+  },
   "Common": {
     "open": "Open",
     "close": "Close",

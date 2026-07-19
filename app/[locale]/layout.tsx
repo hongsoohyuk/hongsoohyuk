@@ -3,6 +3,7 @@ import {SpeedInsights} from '@vercel/speed-insights/next';
 import {hasLocale, NextIntlClientProvider} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
 import {ThemeProvider} from 'next-themes';
+import {BeaconProvider} from '@/components/layout/beacon-provider';
 import {Footer} from '@/components/layout/footer';
 import {Header} from '@/components/layout/header';
 import {WebViewShell} from '@/components/layout/webview-shell';
@@ -42,6 +43,7 @@ export default async function LocaleLayout({children, params}: Props) {
         </NextIntlClientProvider>
         <Analytics />
         <SpeedInsights />
+        <BeaconProvider />
       </body>
     </html>
   );
