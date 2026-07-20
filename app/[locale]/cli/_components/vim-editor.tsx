@@ -2,6 +2,9 @@
 
 import {useEffect, useRef, useState, type KeyboardEvent} from 'react';
 
+import {TerminalBar} from './terminal-bar';
+import {TerminalScreen} from './terminal-screen';
+
 import type {VimOpenRequest} from '../_lib/types';
 
 type VimMode = 'NORMAL' | 'INSERT' | 'COMMAND';
@@ -396,23 +399,15 @@ export function VimEditor({request, onSave, onQuit}: Props) {
   const gutterWidth = String(lines.length).length;
 
   return (
-    <div
-      ref={containerRef}
-      onKeyDown={handleKeyDown}
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- role="application"이 키 입력 위임 컨테이너로 설정되어 tabIndex 필요
-      tabIndex={0}
-      role="application"
-      aria-label="Vim editor"
-      className="h-full flex flex-col bg-neutral-950 text-neutral-200 font-mono text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
-    >
+    <TerminalScreen ref={containerRef} onKeyDown={handleKeyDown} aria-label="Vim editor">
       {/* Top bar */}
-      <div className="shrink-0 flex items-center justify-between bg-neutral-800 px-3 py-1 text-neutral-400 text-xs">
+      <TerminalBar>
         <span>
           {request.filePath}
           {modified && ' [+]'}
           {request.readonly && ' [readonly]'}
         </span>
-      </div>
+      </TerminalBar>
 
       {/* Content area */}
       <div ref={contentRef} className="flex-1 overflow-y-auto p-0">
@@ -447,7 +442,7 @@ export function VimEditor({request, onSave, onQuit}: Props) {
       </div>
 
       {/* Status bar */}
-      <div className="shrink-0 bg-neutral-800 px-3 py-1 flex items-center justify-between text-xs">
+      <TerminalBar tone="none">
         <span
           className={
             mode === 'COMMAND'
@@ -462,8 +457,8 @@ export function VimEditor({request, onSave, onQuit}: Props) {
         <span className="text-neutral-500">
           {cursorRow + 1}:{cursorCol + 1}
         </span>
-      </div>
-    </div>
+      </TerminalBar>
+    </TerminalScreen>
   );
 }
 

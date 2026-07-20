@@ -1,5 +1,6 @@
 import {NotionRichText} from '../notion-rich-text';
 
+import {BlockShell} from './block-shell';
 import type {BlockProps, NarrowBlock} from './types';
 
 export function HeadingBlock({block, renderChildren}: BlockProps) {
@@ -26,11 +27,10 @@ export function HeadingBlock({block, renderChildren}: BlockProps) {
   const Tag = `h${level}` as const;
 
   return (
-    <div className="space-y-2">
+    <BlockShell block={block} renderChildren={renderChildren}>
       <Tag id={block.id} className={className}>
         <NotionRichText richText={richText} />
       </Tag>
-      {renderChildren(block)}
-    </div>
+    </BlockShell>
   );
 }

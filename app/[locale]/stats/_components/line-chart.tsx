@@ -1,3 +1,4 @@
+import {Empty, EmptyDescription} from '@/components/ui/empty';
 import {SERIES_STROKE_CLASSES, SERIES_SWATCH_CLASSES} from '../_lib/chart-palette';
 
 type Point = {day: string; value: number};
@@ -12,7 +13,12 @@ const PAD_BOTTOM = 6;
 
 export function LineChart({series, label, emptyLabel}: Props) {
   const max = Math.max(...series.flatMap((s) => s.points.map((p) => p.value)), 0);
-  if (series.length === 0 || max === 0) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
+  if (series.length === 0 || max === 0)
+    return (
+      <Empty variant="inline">
+        <EmptyDescription>{emptyLabel}</EmptyDescription>
+      </Empty>
+    );
 
   const n = series[0].points.length;
   const x = (i: number) => (n === 1 ? W / 2 : PAD_X + (i * (W - PAD_X * 2)) / (n - 1));

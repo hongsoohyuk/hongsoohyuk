@@ -1,5 +1,6 @@
 import {setRequestLocale} from 'next-intl/server';
 
+import {ContentSurface} from '@/components/content/content-surface';
 import {NotionBlocks} from '@/components/notion';
 import {getResumePage} from '@/lib/content/resume';
 
@@ -14,8 +15,8 @@ export default async function ResumePage({params}: Props) {
   const data = await getResumePage(locale);
 
   return (
-    <section className="space-y-6 rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
+    <ContentSurface className="space-y-6">
       {data.blocks.length > 0 && <NotionBlocks blocks={data.blocks} />}
-    </section>
+    </ContentSurface>
   );
 }

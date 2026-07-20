@@ -3,7 +3,17 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {compileMDX} from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 
+import {ContentSurface} from '@/components/content/content-surface';
+import {PageHeader, PageHeaderDescription} from '@/components/layout/page-header';
 import {mdxComponents} from '@/components/mdx-components';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import {getProjectDetail, getProjectList} from '@/lib/content/project';
 
 import {locales} from '@/lib/i18n/config';
@@ -45,10 +55,7 @@ export default async function ProjectDetailPage({params}: Props) {
   const {locale, slug} = await params;
   setRequestLocale(locale);
 
-  const [t, data] = await Promise.all([
-    getTranslations({locale, namespace: 'Project'}),
-    getProjectDetail(slug),
-  ]);
+  const [t, data] = await Promise.all([getTranslations({locale, namespace: 'Project'}), getProjectDetail(slug)]);
 
   const {content} = await compileMDX({
     source: data.content,
@@ -86,21 +93,25 @@ export default async function ProjectDetailPage({params}: Props) {
           ]),
         ]}
       />
-      <header className="space-y-2">
-        <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
-          <Link href="/project" className="hover:underline">
-            {t('title')}
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span className="text-foreground truncate">{data.meta.title}</span>
-        </nav>
+      <PageHeader>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/project">{t('title')}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{data.meta.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <h1 className="text-3xl font-bold tracking-tight">{data.meta.title}</h1>
-        {formattedDate && <p className="text-sm text-muted-foreground">{t('lastEdited', {date: formattedDate})}</p>}
-      </header>
+        {formattedDate && <PageHeaderDescription>{t('lastEdited', {date: formattedDate})}</PageHeaderDescription>}
+      </PageHeader>
 
-      <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
-        {content}
-      </section>
+      <ContentSurface>{content}</ContentSurface>
     </div>
   );
 }

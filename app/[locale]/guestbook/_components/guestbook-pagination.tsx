@@ -1,5 +1,7 @@
 'use client';
 
+import {ReactNode} from 'react';
+
 import {usePathname, useSearchParams} from 'next/navigation';
 import {ArrowUp} from 'lucide-react';
 import {useTranslations} from 'next-intl';
@@ -51,6 +53,33 @@ function getVisiblePages(currentPage: number, totalPages: number, siblings = 1):
   return [1, 'ellipsis-start', ...middleRange, 'ellipsis-end', totalPages];
 }
 
+function PaginationNavLink({
+  href,
+  label,
+  disabled,
+  children,
+}: {
+  href: string;
+  label: string;
+  disabled: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <PaginationLink
+      href={href}
+      size="default"
+      aria-label={label}
+      aria-disabled={disabled || undefined}
+      tabIndex={disabled ? -1 : undefined}
+      prefetch={false}
+      scroll={false}
+      className={cn('h-8 gap-1 px-2.5 text-xs', disabled && 'pointer-events-none opacity-40')}
+    >
+      {children}
+    </PaginationLink>
+  );
+}
+
 type TopProps = {
   currentPage: number;
   totalPages: number;
@@ -88,18 +117,13 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
       <Pagination className="mx-0 w-auto justify-end">
         <PaginationContent>
           <PaginationItem>
-            <PaginationLink
+            <PaginationNavLink
               href={buildHref(searchParams, pathname, prevPage)}
-              size="default"
-              aria-label={tCommon('previous')}
-              aria-disabled={prevDisabled || undefined}
-              tabIndex={prevDisabled ? -1 : undefined}
-              prefetch={false}
-              scroll={false}
-              className={cn('h-8 gap-1 px-2.5 text-xs', prevDisabled && 'pointer-events-none opacity-40')}
+              label={tCommon('previous')}
+              disabled={prevDisabled}
             >
               <span className="hidden sm:block">{tCommon('previous')}</span>
-            </PaginationLink>
+            </PaginationNavLink>
           </PaginationItem>
 
           {visibleItems.map((item) => {
@@ -127,18 +151,13 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
           })}
 
           <PaginationItem>
-            <PaginationLink
+            <PaginationNavLink
               href={buildHref(searchParams, pathname, nextPage)}
-              size="default"
-              aria-label={tCommon('next')}
-              aria-disabled={nextDisabled || undefined}
-              tabIndex={nextDisabled ? -1 : undefined}
-              prefetch={false}
-              scroll={false}
-              className={cn('h-8 gap-1 px-2.5 text-xs', nextDisabled && 'pointer-events-none opacity-40')}
+              label={tCommon('next')}
+              disabled={nextDisabled}
             >
               <span className="hidden sm:block">{tCommon('next')}</span>
-            </PaginationLink>
+            </PaginationNavLink>
           </PaginationItem>
         </PaginationContent>
       </Pagination>
@@ -181,18 +200,13 @@ export function GuestbookPaginationBottom({currentPage, totalPages}: BottomProps
       <Pagination className="mx-0 w-auto">
         <PaginationContent className="gap-2">
           <PaginationItem>
-            <PaginationLink
+            <PaginationNavLink
               href={buildHref(searchParams, pathname, prevPage)}
-              size="default"
-              aria-label={tCommon('previous')}
-              aria-disabled={prevDisabled || undefined}
-              tabIndex={prevDisabled ? -1 : undefined}
-              prefetch={false}
-              scroll={false}
-              className={cn('h-8 gap-1 px-2.5 text-xs', prevDisabled && 'pointer-events-none opacity-40')}
+              label={tCommon('previous')}
+              disabled={prevDisabled}
             >
               {tCommon('previous')}
-            </PaginationLink>
+            </PaginationNavLink>
           </PaginationItem>
           <PaginationItem>
             <span className="px-1 font-medium tabular-nums text-foreground/70">
@@ -200,18 +214,13 @@ export function GuestbookPaginationBottom({currentPage, totalPages}: BottomProps
             </span>
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink
+            <PaginationNavLink
               href={buildHref(searchParams, pathname, nextPage)}
-              size="default"
-              aria-label={tCommon('next')}
-              aria-disabled={nextDisabled || undefined}
-              tabIndex={nextDisabled ? -1 : undefined}
-              prefetch={false}
-              scroll={false}
-              className={cn('h-8 gap-1 px-2.5 text-xs', nextDisabled && 'pointer-events-none opacity-40')}
+              label={tCommon('next')}
+              disabled={nextDisabled}
             >
               {tCommon('next')}
-            </PaginationLink>
+            </PaginationNavLink>
           </PaginationItem>
         </PaginationContent>
       </Pagination>

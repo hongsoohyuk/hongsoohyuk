@@ -4,9 +4,18 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {compileMDX} from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 
+import {ContentSurface} from '@/components/content/content-surface';
+import {PageHeader, PageHeaderDescription, PageHeaderTitle} from '@/components/layout/page-header';
 import {mdxComponents} from '@/components/mdx-components';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import {getBlogDetail, getBlogList} from '@/lib/content/blog';
-
 
 import {locales} from '@/lib/i18n/config';
 import {Link} from '@/lib/i18n/routing';
@@ -87,27 +96,33 @@ export default async function BlogDetailPage({params}: Props) {
           ]),
         ]}
       />
-      <header className="space-y-3">
-        <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
-          <Link href="/blog" className="inline-flex items-center gap-1 hover:underline">
-            <ArrowLeftIcon className="size-3.5" />
-            {t('title')}
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span className="text-foreground truncate">{data.meta.title}</span>
-        </nav>
-        <h1 className="text-3xl font-bold tracking-tight">{data.meta.title}</h1>
+      <PageHeader className="space-y-3">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/blog" className="inline-flex items-center gap-1">
+                  <ArrowLeftIcon className="size-3.5" />
+                  {t('title')}
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{data.meta.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <PageHeaderTitle className="text-3xl font-bold">{data.meta.title}</PageHeaderTitle>
         {data.meta.categories.length > 0 && (
           <div className="flex gap-1.5">
             <CategoryBadges categories={data.meta.categories} />
           </div>
         )}
-        <p className="text-sm text-muted-foreground">{t('lastEdited', {date: formattedDate})}</p>
-      </header>
+        <PageHeaderDescription>{t('lastEdited', {date: formattedDate})}</PageHeaderDescription>
+      </PageHeader>
 
-      <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8">
-        {content}
-      </section>
+      <ContentSurface>{content}</ContentSurface>
     </section>
   );
 }

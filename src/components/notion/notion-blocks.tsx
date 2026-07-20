@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import type {NotionBlockWithChildren} from '@/types/notion';
 import {cn} from '@/utils/style';
 
@@ -44,6 +43,28 @@ function NotionBlock({
   return <Renderer block={block} allBlocks={allBlocks} renderChildren={renderChildren} renderBlocks={renderBlocks} />;
 }
 
+function NotionList({ordered, items}: {ordered: boolean; items: NotionBlockWithChildren[]}) {
+  const Tag = ordered ? 'ol' : 'ul';
+  return (
+    <Tag className={cn(ordered ? 'list-decimal' : 'list-disc', 'pl-4 space-y-2')}>
+      {items.map((it) => (
+        <li key={it.id} className="leading-7">
+          <NotionRichText
+            richText={
+              ordered
+                ? (it as NarrowBlock<'numbered_list_item'>).numbered_list_item.rich_text
+                : (it as NarrowBlock<'bulleted_list_item'>).bulleted_list_item.rich_text
+            }
+          />
+          {Array.isArray(it.children) && it.children.length > 0 ? (
+            <NotionBlocks blocks={it.children} className="mt-2" />
+          ) : null}
+        </li>
+      ))}
+    </Tag>
+  );
+}
+
 function groupListItems(blocks: NotionBlockWithChildren[]): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
 
@@ -51,49 +72,17 @@ function groupListItems(blocks: NotionBlockWithChildren[]): React.ReactNode[] {
     const block = blocks[i];
     if (!block) continue;
 
-    if (block.type === 'bulleted_list_item') {
+    if (block.type === 'bulleted_list_item' || block.type === 'numbered_list_item') {
+      const listType = block.type;
+      const ordered = listType === 'numbered_list_item';
       const items: NotionBlockWithChildren[] = [];
-      while (i < blocks.length && blocks[i]?.type === 'bulleted_list_item') {
+      while (i < blocks.length && blocks[i]?.type === listType) {
         items.push(blocks[i]);
         i++;
       }
       i--;
 
-      nodes.push(
-        <ul key={`ul-${items[0]?.id ?? i}`} className="list-disc pl-4 space-y-2">
-          {items.map((it) => (
-            <li key={it.id} className="leading-7">
-              <NotionRichText richText={(it as NarrowBlock<'bulleted_list_item'>).bulleted_list_item.rich_text} />
-              {Array.isArray(it.children) && it.children.length > 0 ? (
-                <NotionBlocks blocks={it.children} className="mt-2" />
-              ) : null}
-            </li>
-          ))}
-        </ul>,
-      );
-      continue;
-    }
-
-    if (block.type === 'numbered_list_item') {
-      const items: NotionBlockWithChildren[] = [];
-      while (i < blocks.length && blocks[i]?.type === 'numbered_list_item') {
-        items.push(blocks[i]);
-        i++;
-      }
-      i--;
-
-      nodes.push(
-        <ol key={`ol-${items[0]?.id ?? i}`} className="list-decimal pl-4 space-y-2">
-          {items.map((it) => (
-            <li key={it.id} className="leading-7">
-              <NotionRichText richText={(it as NarrowBlock<'numbered_list_item'>).numbered_list_item.rich_text} />
-              {Array.isArray(it.children) && it.children.length > 0 ? (
-                <NotionBlocks blocks={it.children} className="mt-2" />
-              ) : null}
-            </li>
-          ))}
-        </ol>,
-      );
+      nodes.push(<NotionList key={`${ordered ? 'ol' : 'ul'}-${items[0]?.id ?? i}`} ordered={ordered} items={items} />);
       continue;
     }
 

@@ -1,31 +1,23 @@
+import {ContentSurface} from '@/components/content/content-surface';
+import {PageHeader} from '@/components/layout/page-header';
 import {Skeleton} from '@/components/ui/skeleton';
+import {SkeletonText} from '@/components/ui/skeleton-text';
 
 export default function ProjectDetailLoading() {
   return (
     <div className="space-y-6">
-      <header className="space-y-2">
+      <PageHeader>
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-9 w-2/3" />
         <Skeleton className="h-4 w-32" />
-      </header>
+      </PageHeader>
 
-      <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8 space-y-6 h-screen">
-        <div className="space-y-3">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-          <Skeleton className="h-4 w-4/5" />
-        </div>
-        <div className="space-y-3">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
-          <Skeleton className="h-4 w-5/6" />
-        </div>
+      <ContentSurface className="space-y-6 h-screen">
+        <SkeletonText />
+        <SkeletonText />
         <Skeleton className="h-8 w-40" />
-        <div className="space-y-3">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-2/3" />
-        </div>
-      </section>
+        <SkeletonText lines={2} />
+      </ContentSurface>
     </div>
   );
 }
