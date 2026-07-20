@@ -11,6 +11,9 @@ export function ProjectCard({project}: Props) {
   return (
     <Link
       href={`/project/${project.slug}`}
+      data-beacon-event="click"
+      data-beacon-prop-target="project-card"
+      data-beacon-prop-slug={project.slug}
       className="group block py-4 border-b border-border/50 transition-colors hover:border-foreground/20"
     >
       <div className="flex items-baseline justify-between gap-4">
