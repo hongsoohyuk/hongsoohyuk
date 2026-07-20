@@ -15,6 +15,9 @@ export async function Footer() {
             href={SITE_CONFIG.links.github}
             target="_blank"
             rel="noreferrer"
+            data-beacon-event="click"
+            data-beacon-prop-target="external-link"
+            data-beacon-prop-label="github"
             className="text-sm text-foreground/60 hover:text-foreground transition-colors"
           >
             GitHub
@@ -23,6 +26,9 @@ export async function Footer() {
             href={SITE_CONFIG.links.linkedin}
             target="_blank"
             rel="noreferrer"
+            data-beacon-event="click"
+            data-beacon-prop-target="external-link"
+            data-beacon-prop-label="linkedin"
             className="text-sm text-foreground/60 hover:text-foreground transition-colors"
           >
             LinkedIn

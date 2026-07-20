@@ -13,6 +13,9 @@ export function BlogPostCard({post}: Props) {
   return (
     <Link
       href={`/blog/${post.slug}`}
+      data-beacon-event="click"
+      data-beacon-prop-target="blog-card"
+      data-beacon-prop-slug={post.slug}
       className="group block py-4 border-b border-border/50 transition-colors hover:border-foreground/20"
     >
       <div className="flex items-center gap-2 mb-1">
