@@ -1,8 +1,15 @@
+import {Empty, EmptyDescription} from '@/components/ui/empty';
+
 type Item = {label: string; value: number};
 type Props = {items: Item[]; emptyLabel: string};
 
 export function RankList({items, emptyLabel}: Props) {
-  if (items.length === 0) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
+  if (items.length === 0)
+    return (
+      <Empty variant="inline">
+        <EmptyDescription>{emptyLabel}</EmptyDescription>
+      </Empty>
+    );
   const max = Math.max(...items.map((i) => i.value));
 
   return (

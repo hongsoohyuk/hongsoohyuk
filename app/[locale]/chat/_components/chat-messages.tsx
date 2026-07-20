@@ -2,12 +2,11 @@
 
 import {useEffect, useRef} from 'react';
 
-import {Bot} from 'lucide-react';
-
+import {ChatAvatar, ChatBubble, ChatMessage} from './chat-message';
 import {useChatState, useChatStore} from '../_lib/chat-provider';
-import type {ChatMessage} from '../_lib/types';
+import type {ChatMessage as ChatMessageData} from '../_lib/types';
 
-function getTextContent(message: ChatMessage): string {
+function getTextContent(message: ChatMessageData): string {
   return message.parts
     .filter((p): p is {type: 'text'; text: string} => p.type === 'text')
     .map((p) => p.text)
@@ -49,37 +48,20 @@ export function ChatMessages() {
     <div className="py-6">
       <div className="space-y-6">
         {messages.map((message) => (
-          <div key={message.id} className={`chat-message-item flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
-            {message.role === 'assistant' && (
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-background">
-                <Bot className="size-4" />
-              </div>
-            )}
-            <div
-              className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
-                message.role === 'user'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted/50 text-foreground'
-              }`}
-            >
-              {message.role === 'assistant'
-                ? renderTextWithLinks(getTextContent(message))
-                : getTextContent(message)}
-            </div>
-          </div>
+          <ChatMessage key={message.id} role={message.role}>
+            {message.role === 'assistant' ? renderTextWithLinks(getTextContent(message)) : getTextContent(message)}
+          </ChatMessage>
         ))}
         {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
           <div className="flex gap-3">
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-background">
-              <Bot className="size-4" />
-            </div>
-            <div className="bg-muted/50 rounded-2xl px-4 py-3 text-sm">
+            <ChatAvatar />
+            <ChatBubble variant="loading">
               <span className="inline-flex gap-1">
                 <span className="animate-bounce">·</span>
                 <span className="animate-bounce [animation-delay:150ms]">·</span>
                 <span className="animate-bounce [animation-delay:300ms]">·</span>
               </span>
-            </div>
+            </ChatBubble>
           </div>
         )}
       </div>

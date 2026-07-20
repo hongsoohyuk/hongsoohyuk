@@ -1,3 +1,5 @@
+import {Empty, EmptyDescription} from '@/components/ui/empty';
+import {StatTile} from '@/components/ui/stat-tile';
 import {Sparkline} from './sparkline';
 import {formatVitalValue, ratingPercents, sortVitals} from '../_lib/format';
 import type {VitalStat} from '../_lib/queries';
@@ -5,14 +7,19 @@ import type {VitalStat} from '../_lib/queries';
 type Props = {vitals: VitalStat[]; sparks: Record<string, Array<number | null>>; emptyLabel: string};
 
 export function VitalsPanel({vitals, sparks, emptyLabel}: Props) {
-  if (vitals.length === 0) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
+  if (vitals.length === 0)
+    return (
+      <Empty variant="inline">
+        <EmptyDescription>{emptyLabel}</EmptyDescription>
+      </Empty>
+    );
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {sortVitals(vitals).map((vital) => {
         const pct = ratingPercents(vital);
         return (
-          <div key={vital.metric} className="rounded-lg border p-4">
+          <StatTile key={vital.metric}>
             <div className="flex items-baseline justify-between">
               <span className="text-sm font-medium">{vital.metric}</span>
               <span className="text-xl font-semibold tabular-nums">{formatVitalValue(vital.metric, vital.p75)}</span>
@@ -26,7 +33,7 @@ export function VitalsPanel({vitals, sparks, emptyLabel}: Props) {
               good {pct.good}% · ni {pct.needsImprovement}% · poor {pct.poor}%
             </p>
             <Sparkline points={sparks[vital.metric] ?? []} />
-          </div>
+          </StatTile>
         );
       })}
     </div>

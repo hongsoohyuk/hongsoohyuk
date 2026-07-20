@@ -2,6 +2,7 @@ import React from 'react';
 
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Card, CardContent} from '@/components/ui/card';
+import {ItemContent} from '@/components/ui/item';
 import {Skeleton} from '@/components/ui/skeleton';
 import {ProfileStatsSkeleton} from './_components/profile-stats';
 
@@ -11,10 +12,10 @@ export default function InstagramLoading() {
       <Card>
         <CardContent className="flex items-center gap-4">
           <Skeleton className="size-20 shrink-0 rounded-full" />
-          <div className="space-y-2 min-w-0 flex-1">
+          <ItemContent className="gap-2">
             <Skeleton className="w-24 h-5" />
             <ProfileStatsSkeleton />
-          </div>
+          </ItemContent>
         </CardContent>
       </Card>
       <section className={'grid gap-0.5 grid-cols-3 lg:grid-cols-4 '} role="feed">
