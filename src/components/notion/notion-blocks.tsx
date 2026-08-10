@@ -46,7 +46,7 @@ function NotionBlock({
 function NotionList({ordered, items}: {ordered: boolean; items: NotionBlockWithChildren[]}) {
   const Tag = ordered ? 'ol' : 'ul';
   return (
-    <Tag className={cn(ordered ? 'list-decimal' : 'list-disc', 'pl-4 space-y-2')}>
+    <Tag className={cn(ordered ? 'list-decimal' : 'list-disc [&_ul]:list-[circle] [&_ul_ul]:list-[square]', 'pl-4 space-y-2')}>
       {items.map((it) => (
         <li key={it.id} className="leading-7">
           <NotionRichText
