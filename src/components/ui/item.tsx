@@ -24,6 +24,7 @@ const itemVariants = cva(
         default: 'bg-transparent',
         outline: 'border-border',
         muted: 'bg-muted/50',
+        hairline: 'rounded-none border-0 bg-transparent [a]:hover:bg-transparent',
       },
       size: {
         default: 'p-4 gap-4',

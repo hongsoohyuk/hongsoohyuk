@@ -1,4 +1,7 @@
+import React from 'react';
+
 import {Skeleton} from '@/components/ui/skeleton';
+import {StatTile} from '@/components/ui/stat-tile';
 
 interface ProfileStatsProps {
   postsCount?: number;
@@ -6,34 +9,37 @@ interface ProfileStatsProps {
   followingCount?: number;
 }
 
-export function ProfileStats({postsCount, followersCount, followingCount}: ProfileStatsProps) {
-  const stats = [
-    {label: 'posts', value: postsCount},
-    {label: 'followers', value: followersCount},
-    {label: 'following', value: followingCount},
-  ];
-
+function StatRow({stats}: {stats: {label: string; value: React.ReactNode}[]}) {
   return (
     <div className="flex gap-4 text-sm text-muted-foreground" role="list">
       {stats.map(({label, value}) => (
-        <div key={label} className="flex flex-col items-start md:flex-row md:gap-1 md:items-center" role="listitem">
-          <strong className="font-semibold text-foreground">{value?.toLocaleString()}</strong>
+        <StatTile key={label} variant="plain" role="listitem">
+          {value}
           <span className="text-xs md:text-sm">{label}</span>
-        </div>
+        </StatTile>
       ))}
     </div>
   );
 }
 
+export function ProfileStats({postsCount, followersCount, followingCount}: ProfileStatsProps) {
+  const stats = [
+    {label: 'posts', value: postsCount},
+    {label: 'followers', value: followersCount},
+    {label: 'following', value: followingCount},
+  ].map(({label, value}) => ({
+    label,
+    value: <strong className="font-semibold text-foreground">{value?.toLocaleString()}</strong>,
+  }));
+
+  return <StatRow stats={stats} />;
+}
+
 export function ProfileStatsSkeleton() {
-  return (
-    <div className="flex gap-4 text-sm text-muted-foreground" role="list">
-      {['posts', 'followers', 'following'].map((label) => (
-        <div key={label} className="flex flex-col items-start md:flex-row md:gap-1 md:items-center">
-          <Skeleton className="w-8 h-5 md:w-6 md:h-4" />
-          <span className="text-xs md:text-sm">{label}</span>
-        </div>
-      ))}
-    </div>
-  );
+  const stats = ['posts', 'followers', 'following'].map((label) => ({
+    label,
+    value: <Skeleton className="w-8 h-5 md:w-6 md:h-4" />,
+  }));
+
+  return <StatRow stats={stats} />;
 }

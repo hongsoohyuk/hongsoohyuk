@@ -1,3 +1,4 @@
+import {BlockShell} from './block-shell';
 import {extractCaption} from '../utils/rich-text-utils';
 
 import type {BlockProps, NarrowBlock} from './types';
@@ -11,13 +12,12 @@ export function VideoBlock({block, renderChildren}: BlockProps) {
   if (!src) return null;
 
   return (
-    <figure className="space-y-2">
+    <BlockShell as="figure" block={block} renderChildren={renderChildren}>
       {/* eslint-disable-next-line jsx-a11y/media-has-caption -- Notion 비디오는 외부 caption 트랙이 없음 */}
       <video src={src} controls className="max-w-full rounded-md border" preload="metadata">
         Your browser does not support the video tag.
       </video>
       {caption ? <figcaption className="text-sm text-muted-foreground">{caption}</figcaption> : null}
-      {renderChildren(block)}
-    </figure>
+    </BlockShell>
   );
 }

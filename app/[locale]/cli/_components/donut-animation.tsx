@@ -2,6 +2,9 @@
 
 import {useEffect, useRef, useState} from 'react';
 
+import {TerminalBar} from './terminal-bar';
+import {TerminalScreen} from './terminal-screen';
+
 type Props = {
   onQuit: () => void;
 };
@@ -102,20 +105,12 @@ export function DonutAnimation({onQuit}: Props) {
   }
 
   return (
-    <div
-      ref={containerRef}
-      onKeyDown={handleKeyDown}
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- role="application"이 키 입력 위임 컨테이너로 설정되어 tabIndex 필요
-      tabIndex={0}
-      role="application"
-      aria-label="Donut animation"
-      className="h-full flex flex-col bg-neutral-950 text-neutral-200 font-mono text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
-    >
+    <TerminalScreen ref={containerRef} onKeyDown={handleKeyDown} aria-label="Donut animation">
       {/* Top bar */}
-      <div className="shrink-0 flex items-center justify-between bg-neutral-800 px-3 py-1 text-neutral-400 text-xs">
+      <TerminalBar>
         <span>donut.c — 3D Rotating Donut</span>
         <span className="text-neutral-500">Press q or Esc to quit</span>
-      </div>
+      </TerminalBar>
 
       {/* Donut canvas */}
       <div className="flex-1 flex items-center justify-center overflow-hidden">
@@ -123,9 +118,9 @@ export function DonutAnimation({onQuit}: Props) {
       </div>
 
       {/* Status bar */}
-      <div className="shrink-0 bg-neutral-800 px-3 py-1 text-xs text-neutral-500">
+      <TerminalBar layout="plain" tone="subtle">
         Inspired by Andy Sloane&apos;s donut.c
-      </div>
-    </div>
+      </TerminalBar>
+    </TerminalScreen>
   );
 }

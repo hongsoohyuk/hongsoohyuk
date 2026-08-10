@@ -1,10 +1,10 @@
 import Image from 'next/image';
 
 import {Card, CardContent} from '@/components/ui/card';
+import {ItemContent} from '@/components/ui/item';
 import {ProfileStats} from './profile-stats';
 
 import {InstagramProfile} from '../_lib/types';
-
 
 interface ProfileCardProps {
   profile: InstagramProfile;
@@ -22,7 +22,7 @@ export function ProfileCard({profile}: ProfileCardProps) {
           className="rounded-full shrink-0"
           priority
         />
-        <div className="space-y-2 min-w-0 flex-1">
+        <ItemContent className="gap-2">
           <h1 className="text-md font-medium">{profile.username}</h1>
           {profile.biography && (
             <p className="text-muted-foreground text-sm line-clamp-2 hidden md:block">{profile.biography}</p>
@@ -32,7 +32,7 @@ export function ProfileCard({profile}: ProfileCardProps) {
             followersCount={profile.followers_count}
             followingCount={profile.follows_count}
           />
-        </div>
+        </ItemContent>
       </CardContent>
     </Card>
   );

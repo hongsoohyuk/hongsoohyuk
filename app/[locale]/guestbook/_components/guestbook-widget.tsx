@@ -1,5 +1,7 @@
 import {getTranslations} from 'next-intl/server';
 
+import {PageHeader, PageHeaderDescription, PageHeaderTitle} from '@/components/layout/page-header';
+
 import {GuestbookFormDialog} from './guestbook-form-dialog';
 import {GuestbookShell} from './guestbook-shell';
 import type {GuestbookItemDto} from '../_lib/types';
@@ -14,13 +16,15 @@ export async function GuestbookWidget({locale, entries}: Props) {
 
   return (
     <section className="flex flex-col gap-5 px-4 py-6 md:py-8">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">{t('title')}</h1>
-          <p className="text-sm text-muted-foreground">{t('description')}</p>
-        </div>
+      <PageHeader layout="split">
+        <PageHeader layout="inline" asChild>
+          <div>
+            <PageHeaderTitle className="font-bold text-foreground">{t('title')}</PageHeaderTitle>
+            <PageHeaderDescription>{t('description')}</PageHeaderDescription>
+          </div>
+        </PageHeader>
         <GuestbookFormDialog />
-      </header>
+      </PageHeader>
       <GuestbookShell entries={entries} />
     </section>
   );

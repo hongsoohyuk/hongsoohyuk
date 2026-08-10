@@ -1,8 +1,9 @@
+import {ContentSurface} from '@/components/content/content-surface';
 import {Skeleton} from '@/components/ui/skeleton';
 
 export default function ResumeLoading() {
   return (
-    <section className="rounded-lg bg-background/80 backdrop-blur-sm border border-border/50 p-6 md:p-8 space-y-6 h-screen">
+    <ContentSurface className="space-y-6 h-screen">
       <Skeleton className="h-8 w-48" />
       <Skeleton className="h-4 w-24" />
       <div className="space-y-3">
@@ -26,6 +27,6 @@ export default function ResumeLoading() {
         <Skeleton className="h-4 w-2/3" />
         <Skeleton className="h-4 w-4/5" />
       </div>
-    </section>
+    </ContentSurface>
   );
 }

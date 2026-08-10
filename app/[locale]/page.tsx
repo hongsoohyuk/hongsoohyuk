@@ -3,6 +3,7 @@ import {Bot, FolderKanban, Mail, MessageCircle, MessageSquareText, PenLine, Term
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
+import {PageContainer} from '@/components/layout/page-container';
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Link} from '@/lib/i18n/routing';
@@ -48,18 +49,18 @@ export default async function Home({params}: Props) {
       <JsonLd data={[personJsonLd(), websiteJsonLd()]} />
       {/* Hero Section */}
       <section className="flex-1 flex flex-col justify-center px-4 py-12 md:py-20">
-        <div className="max-w-4xl mx-auto w-full">
+        <PageContainer size="wide">
           <HeroTitle />
 
           <p className="text-center text-muted-foreground mt-6 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             {t('contact.description')}
           </p>
-        </div>
+        </PageContainer>
       </section>
 
       {/* Navigation Cards */}
       <section className="px-4 pb-8 md:pb-16">
-        <div className="grid gap-3 md:gap-4 max-w-4xl mx-auto grid-cols-2 sm:grid-cols-3">
+        <PageContainer size="wide" className="grid gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3">
           {(['guestbook', 'project', 'instagram', 'blog', 'cli', 'chat'] as const).map((key) => {
             const href = key === 'cli' ? '/cli' : `/${key}`;
             const Icon = SECTION_ICONS[key];
@@ -81,47 +82,37 @@ export default async function Home({params}: Props) {
               </Link>
             );
           })}
-        </div>
+        </PageContainer>
       </section>
 
       {/* Contact Section */}
       <section className="px-4 py-8 md:py-12">
-        <div className="max-w-4xl mx-auto">
+        <PageContainer size="wide">
           <h2 className="text-lg md:text-xl font-semibold text-center mb-6 flex items-center justify-center gap-2 text-balance">
             <MessageCircle className="size-5" aria-hidden="true" />
             {t('contact.title')}
           </h2>
           <div className="flex flex-wrap justify-center gap-3">
             <Button variant="outline" size="sm" asChild className="text-sm">
-              <a href="mailto:hongsoohyuk@icloud.com" className="flex items-center gap-2">
+              <a href="mailto:hongsoohyuk@icloud.com">
                 <Mail className="size-4" />
                 <span>{t('contact.email')}</span>
               </a>
             </Button>
             <Button variant="outline" size="sm" asChild className="text-sm">
-              <a
-                href="https://github.com/hongsoohyuk"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
+              <a href="https://github.com/hongsoohyuk" target="_blank" rel="noopener noreferrer">
                 <GitHubLogoIcon className="size-4" />
                 <span>{t('contact.github')}</span>
               </a>
             </Button>
             <Button variant="outline" size="sm" asChild className="text-sm">
-              <a
-                href="https://www.linkedin.com/in/soohyuk-hong-569020228/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
+              <a href="https://www.linkedin.com/in/soohyuk-hong-569020228/" target="_blank" rel="noopener noreferrer">
                 <LinkedInLogoIcon className="size-4" />
                 <span>{t('contact.linkedin')}</span>
               </a>
             </Button>
           </div>
-        </div>
+        </PageContainer>
       </section>
     </div>
   );

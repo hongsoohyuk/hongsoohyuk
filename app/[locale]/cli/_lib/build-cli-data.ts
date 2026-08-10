@@ -19,6 +19,9 @@ function blocksToPlainText(blocks: NotionBlockWithChildren[], indent = 0): strin
       case 'heading_3':
         lines.push(`${prefix}### ${richText}`);
         break;
+      case 'heading_4':
+        lines.push(`${prefix}#### ${richText}`);
+        break;
       case 'paragraph':
         lines.push(richText ? `${prefix}${richText}` : '');
         break;

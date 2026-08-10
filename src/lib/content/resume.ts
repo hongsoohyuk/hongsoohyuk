@@ -5,7 +5,7 @@ import {getNotionBlockChildrenRecursive} from '@/lib/api/notion-blocks';
 import type {NotionBlockWithChildren} from '@/types/notion';
 
 const RESUME_PAGE_ID: Record<string, string> = {
-  ko: '33bcc5bea79e80eba8fcf446ce76ce6c',
+  ko: '3aacc5bea79e815fbe89fef77401bf05',
   en: '33bcc5bea79e817393a9df62483b5b58',
 };
 

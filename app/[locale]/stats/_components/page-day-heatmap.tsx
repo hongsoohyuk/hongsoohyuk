@@ -1,10 +1,16 @@
+import {Empty, EmptyDescription} from '@/components/ui/empty';
 import {HEAT_CELL_CLASS} from '../_lib/chart-palette';
 import type {DailyMatrix} from '../_lib/format';
 
 type Props = {matrix: DailyMatrix; emptyLabel: string};
 
 export function PageDayHeatmap({matrix, emptyLabel}: Props) {
-  if (matrix.rows.length === 0) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
+  if (matrix.rows.length === 0)
+    return (
+      <Empty variant="inline">
+        <EmptyDescription>{emptyLabel}</EmptyDescription>
+      </Empty>
+    );
   const max = Math.max(...matrix.rows.flatMap((r) => r.cells), 1);
 
   return (

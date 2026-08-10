@@ -1,5 +1,7 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
+import {PageHeader, PageHeaderDescription, PageHeaderTitle} from '@/components/layout/page-header';
+
 type Props = {
   children: React.ReactNode;
   params: Promise<{locale: string}>;
@@ -12,10 +14,10 @@ export default async function BlogListLayout({children, params}: Props) {
 
   return (
     <article className="flex flex-col gap-4">
-      <header className="space-y-2 shrink-0 flex items-baseline gap-2">
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-sm text-muted-foreground">{t('description')}</p>
-      </header>
+      <PageHeader layout="inline" className="space-y-2 shrink-0 flex-nowrap gap-2">
+        <PageHeaderTitle>{t('title')}</PageHeaderTitle>
+        <PageHeaderDescription>{t('description')}</PageHeaderDescription>
+      </PageHeader>
       {children}
     </article>
   );

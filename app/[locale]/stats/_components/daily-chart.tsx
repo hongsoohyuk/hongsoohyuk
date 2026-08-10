@@ -1,10 +1,16 @@
+import {Empty, EmptyDescription} from '@/components/ui/empty';
 import type {DailyPageviews} from '../_lib/queries';
 
 type Props = {data: DailyPageviews[]; emptyLabel: string};
 
 export function DailyChart({data, emptyLabel}: Props) {
   const max = Math.max(...data.map((d) => d.pv), 0);
-  if (max === 0) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
+  if (max === 0)
+    return (
+      <Empty variant="inline">
+        <EmptyDescription>{emptyLabel}</EmptyDescription>
+      </Empty>
+    );
 
   return (
     <div>

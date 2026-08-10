@@ -40,6 +40,7 @@ function collectHeadings(blocks: NotionBlockWithChildren[]): {id: string; text: 
     if (b.type === 'heading_1') headings.push({id: b.id, text: richTextToPlain((b as NarrowBlock<'heading_1'>).heading_1.rich_text), level: 1});
     else if (b.type === 'heading_2') headings.push({id: b.id, text: richTextToPlain((b as NarrowBlock<'heading_2'>).heading_2.rich_text), level: 2});
     else if (b.type === 'heading_3') headings.push({id: b.id, text: richTextToPlain((b as NarrowBlock<'heading_3'>).heading_3.rich_text), level: 3});
+    else if (b.type === 'heading_4') headings.push({id: b.id, text: richTextToPlain((b as NarrowBlock<'heading_4'>).heading_4.rich_text), level: 4});
   }
   return headings;
 }
