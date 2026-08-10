@@ -22,6 +22,7 @@ export const BLOCK_RENDERERS: Record<string, ComponentType<BlockProps>> = {
   heading_1: HeadingBlock,
   heading_2: HeadingBlock,
   heading_3: HeadingBlock,
+  heading_4: HeadingBlock,
   quote: QuoteBlock,
   divider: DividerBlock,
   code: CodeBlock,

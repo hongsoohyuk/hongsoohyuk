@@ -73,6 +73,21 @@ describe('NotionBlocks', () => {
       const heading = screen.getByRole('heading', {level: 3});
       expect(heading).toHaveTextContent('Heading 3');
     });
+
+    it('renders heading_4', () => {
+      const blocks: NotionBlockWithChildren[] = [
+        createBlock('heading_4', {
+          heading_4: {
+            rich_text: [{plain_text: 'Heading 4'}],
+          },
+        }),
+      ];
+
+      render(<NotionBlocks blocks={blocks} />);
+
+      const heading = screen.getByRole('heading', {level: 4});
+      expect(heading).toHaveTextContent('Heading 4');
+    });
   });
 
   describe('quote', () => {
