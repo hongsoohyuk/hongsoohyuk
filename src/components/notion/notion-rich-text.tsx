@@ -42,7 +42,7 @@ export function NotionRichText({richText}: Props) {
         const href = rt?.href ?? rt?.text?.link?.url ?? null;
 
         let node: React.ReactNode = text;
-        if (isCode) node = <code className="px-1.5 py-0.5 rounded bg-muted border border-border text-sm font-mono">{node}</code>;
+        if (isCode) node = <code className="px-1.5 py-0.5 rounded bg-muted border border-border text-sm font-mono text-[#eb5757]">{node}</code>;
         if (isBold) node = <strong>{node}</strong>;
         if (isItalic) node = <em>{node}</em>;
         if (isUnderline) node = <span className="underline">{node}</span>;
