@@ -100,4 +100,25 @@ describe('getNotionBlockChildrenRecursive', () => {
 
     expect(result).toEqual([]);
   });
+
+  it('follows pagination cursors to fetch all blocks', async () => {
+    mockList.mockResolvedValueOnce({
+      results: [{id: 'b1', type: 'paragraph', has_children: false}],
+      has_more: true,
+      next_cursor: 'cursor-1',
+    });
+    mockList.mockResolvedValueOnce({
+      results: [{id: 'b2', type: 'paragraph', has_children: false}],
+      has_more: false,
+      next_cursor: null,
+    });
+
+    const result = await getNotionBlockChildrenRecursive('page-1');
+
+    expect(result).toHaveLength(2);
+    expect(result[0].id).toBe('b1');
+    expect(result[1].id).toBe('b2');
+    expect(mockList).toHaveBeenCalledTimes(2);
+    expect(mockList).toHaveBeenLastCalledWith(expect.objectContaining({start_cursor: 'cursor-1'}));
+  });
 });
