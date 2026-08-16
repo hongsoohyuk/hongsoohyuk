@@ -1,6 +1,6 @@
 import {expect, test} from '@playwright/test';
 
-const SECTION_HREFS = ['/guestbook', '/project', '/instagram', '/blog', '/cli', '/chat'] as const;
+const SECTION_HREFS = ['/guestbook', '/project', '/instagram', '/blog', '/cli', '/resume', '/chat'] as const;
 
 test.describe('Home Page', () => {
   test.beforeEach(async ({page}) => {
