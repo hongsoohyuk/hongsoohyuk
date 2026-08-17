@@ -17,6 +17,7 @@ import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Link} from '@/lib/i18n/routing';
 import {JsonLd, personJsonLd, websiteJsonLd} from '@/lib/seo/json-ld';
+import {cn} from '@/utils/style';
 import {createPageMetadata} from '@/config';
 
 import {HeroTitle} from './_components/hero-title';
@@ -30,6 +31,26 @@ const SECTION_ICONS = {
   resume: FileText,
   chat: Bot,
 } as const;
+
+const SECTION_KEYS = ['guestbook', 'project', 'instagram', 'blog', 'cli', 'resume', 'chat'] as const;
+
+// 카드는 12칸 그리드 위에 모바일 2열(span 6) / sm 이상 3열(span 4)로 놓인다.
+// 카드 수가 열 수로 나눠떨어지지 않으면 마지막 줄이 왼쪽에 붙어 허전해지므로,
+// 그 줄의 첫 카드를 남는 칸의 절반만큼 밀어 가운데로 맞춘다. (예: 3열에 1개 남으면 col-start-5)
+const LAST_ROW_START: Record<number, Record<number, string>> = {
+  2: {1: 'col-start-4'},
+  3: {1: 'sm:col-start-5', 2: 'sm:col-start-3'},
+};
+
+function lastRowStartClass(index: number, total: number) {
+  return Object.entries(LAST_ROW_START)
+    .map(([columns, starts]) => {
+      const remainder = total % Number(columns);
+      return remainder > 0 && index === total - remainder ? starts[remainder] : null;
+    })
+    .filter(Boolean)
+    .join(' ');
+}
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -70,12 +91,16 @@ export default async function Home({params}: Props) {
 
       {/* Navigation Cards */}
       <section className="px-4 pb-8 md:pb-16">
-        <PageContainer size="wide" className="grid gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3">
-          {(['guestbook', 'project', 'instagram', 'blog', 'cli', 'resume', 'chat'] as const).map((key) => {
+        <PageContainer size="wide" className="grid gap-3 md:gap-4 grid-cols-12">
+          {SECTION_KEYS.map((key, index) => {
             const href = key === 'cli' ? '/cli' : `/${key}`;
             const Icon = SECTION_ICONS[key];
             return (
-              <Link key={key} href={href} className="group">
+              <Link
+                key={key}
+                href={href}
+                className={cn('group col-span-6 sm:col-span-4', lastRowStartClass(index, SECTION_KEYS.length))}
+              >
                 <Card className="h-full transition-shadow duration-200 hover:shadow-md hover:border-foreground/20 dark:hover:bg-input/50 group-focus-visible:ring-2 group-focus-visible:ring-ring">
                   <CardHeader className="pb-2 md:pb-4">
                     <CardTitle className="flex items-center gap-3 text-base md:text-lg">
