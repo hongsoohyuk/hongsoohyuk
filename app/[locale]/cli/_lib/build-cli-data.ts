@@ -78,14 +78,13 @@ function extractRichText(block: NotionBlockWithChildren): string {
 
 type BuildCliDataParams = {
   blogPosts: CliData['blogPosts'];
-  projects: CliData['projects'];
   resumeBlocks: NotionBlockWithChildren[];
 };
 
-export function buildCliData({blogPosts, projects, resumeBlocks}: BuildCliDataParams): CliData {
+export function buildCliData({blogPosts, resumeBlocks}: BuildCliDataParams): CliData {
   const resumeText = resumeBlocks.length > 0
     ? blocksToPlainText(resumeBlocks)
     : '이력서 데이터를 불러올 수 없습니다.\n\n> 웹에서 확인하세요: /resume';
 
-  return {blogPosts, projects, resumeText};
+  return {blogPosts, resumeText};
 }

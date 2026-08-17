@@ -9,11 +9,6 @@
         "description": "View precious messages left by visitors",
         "button": "View Guestbook"
       },
-      "project": {
-        "title": "Project",
-        "description": "Discover my introduction and project experiences",
-        "button": "View Project"
-      },
       "instagram": {
         "title": "Instagram",
         "description": "Sharing small moments from daily life",
@@ -53,10 +48,10 @@
       "home": "Home",
       "resume": "Resume",
       "guestbook": "Guestbook",
-      "project": "Project",
       "instagram": "Instagram",
       "blog": "Blog",
-      "chat": "AI Chat"
+      "chat": "AI Chat",
+      "cli": "CLI"
     },
     "theme": {
       "light": "Light Mode",
@@ -71,15 +66,11 @@
   "Seo": {
     "home": {
       "title": "Soohyuk Hong - Frontend Developer Portfolio",
-      "description": "Portfolio site of frontend developer Soohyuk Hong. Explore projects, blog posts, and resume."
+      "description": "Portfolio site of frontend developer Soohyuk Hong. Explore blog posts, resume, and more."
     },
     "blog": {
       "title": "Blog - Dev Articles & Book Notes",
       "description": "Technical blog by Soohyuk Hong covering frontend development, software architecture, and book reviews."
-    },
-    "project": {
-      "title": "Projects",
-      "description": "Project portfolio of developer Soohyuk Hong. Explore professional and personal projects."
     },
     "resume": {
       "title": "Resume - Frontend Developer Soohyuk Hong",
@@ -246,14 +237,6 @@
     "fun": {"label": "Fun energy"},
     "thank": {"label": "Thank you"}
   },
-  "Project": {
-    "title": "Project",
-    "description": "Share project experiences and records",
-    "listTitle": "Project List",
-    "empty": "No projects found.",
-    "backToList": "Back to List",
-    "lastEdited": "Last edited: {date}"
-  },
   "Blog": {
     "title": "Blog",
     "description": "Development articles and book notes",
@@ -276,7 +259,6 @@
     "suggestions": {
       "whyHire": "Hi, are you a recruiter?",
       "techStack": "What tech stack does Soohyuk use?",
-      "projects": "Tell me about his projects",
       "contact": "How can I contact him?",
       "experience": "What is his work experience?",
       "music": "What songs does Soohyuk listen to lately?"

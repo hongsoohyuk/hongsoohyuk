@@ -23,20 +23,11 @@ async function loadStaticPrompt(): Promise<string> {
 }
 
 export type DynamicContext = {
-  projects?: Array<{title: string; description: string; slug: string}>;
   blogPosts?: Array<{title: string; description: string; categories: string[]}>;
   topTracks?: Array<{name: string; artist: string}>;
   topArtists?: Array<{name: string; genres: string[]}>;
   recentlyPlayed?: Array<{name: string; artist: string}>;
 };
-
-function formatProjects(projects: DynamicContext['projects']): string {
-  if (!projects?.length) return '';
-
-  const list = projects.map((p) => `- ${p.title} (/project/${p.slug})${p.description ? `: ${p.description}` : ''}`).join('\n');
-
-  return `\n## 현재 등록된 프로젝트\n\n${list}`;
-}
 
 function formatBlogPosts(posts: DynamicContext['blogPosts']): string {
   if (!posts?.length) return '';
@@ -79,7 +70,6 @@ export async function buildSystemPrompt(context?: DynamicContext): Promise<strin
   const staticPrompt = await loadStaticPrompt();
 
   const dynamicParts = [
-    formatProjects(context?.projects),
     formatBlogPosts(context?.blogPosts),
     context ? formatMusic(context) : '',
   ].filter(Boolean);

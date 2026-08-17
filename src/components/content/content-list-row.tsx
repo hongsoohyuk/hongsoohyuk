@@ -4,8 +4,8 @@ import {Item} from '@/components/ui/item';
 import {Skeleton} from '@/components/ui/skeleton';
 import {cn} from '@/utils/style';
 
-// Hairline list row shared by the blog and project list cards (previously two byte-identical
-// Link shells) and their loading skeletons. Built on the Item family: the row is an
+// Hairline list row for content list cards (originally extracted from two byte-identical
+// blog/project Link shells) and their loading skeletons. Built on the Item family: the row is an
 // `Item asChild variant="hairline"` so the caller's <Link> becomes the row anchor and inherits
 // the design-system focus ring, while `hairline` strips Item's box chrome (rounded, full border,
 // hover fill) down to a bottom divider.
@@ -15,7 +15,7 @@ import {cn} from '@/utils/style';
 // never drift.
 const contentListRowFrame = 'py-4 border-b border-border/50';
 
-// The original blog/project rows were plain <Link>s that inherited the body type scale
+// The original content rows were plain <Link>s that inherited the body type scale
 // (text-[15px] leading-relaxed md:text-base from globals.css). Wrapping them in Item pulls in
 // Item's base `text-sm`, so we restore the body scale explicitly to preserve visual parity.
 const contentListRowClass = cn(
@@ -35,8 +35,8 @@ function ContentListRow({className, children, ...props}: ContentListRowProps) {
   );
 }
 
-// The title/meta baseline row. Defaults to the blog layout (items-center gap-2); the project
-// layout composes `items-baseline justify-between gap-4` via className.
+// The title/meta baseline row. Defaults to the blog layout (items-center gap-2); callers can
+// compose `items-baseline justify-between gap-4` via className.
 function ContentListRowHeader({className, ...props}: React.ComponentProps<'div'>) {
   return <div data-slot="content-list-row-header" className={cn('flex items-center gap-2', className)} {...props} />;
 }
@@ -55,7 +55,7 @@ function ContentListRowTitle({className, children, ...props}: React.ComponentPro
   );
 }
 
-// Right-aligned cluster for date + hover arrow (project layout).
+// Right-aligned cluster for date + hover arrow.
 function ContentListRowMeta({className, ...props}: React.ComponentProps<'div'>) {
   return (
     <div data-slot="content-list-row-meta" className={cn('flex shrink-0 items-center gap-2', className)} {...props} />

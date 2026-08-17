@@ -18,8 +18,8 @@ export function HeaderNav({siteName}: HeaderNavProps) {
 
   const navigationItems = [
     {name: t('nav.home'), href: '/' as const},
+    {name: t('nav.resume'), href: '/resume' as const},
     {name: t('nav.guestbook'), href: '/guestbook' as const},
-    {name: t('nav.project'), href: '/project' as const},
     {name: t('nav.instagram'), href: '/instagram' as const},
     {name: t('nav.blog'), href: '/blog' as const},
     {name: t('nav.chat'), href: '/chat' as const},

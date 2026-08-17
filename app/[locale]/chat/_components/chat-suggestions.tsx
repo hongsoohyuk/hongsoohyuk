@@ -7,7 +7,6 @@ import {useChatStore} from '../_lib/chat-provider';
 
 const SUGGESTION_KEYS = [
   {key: 'techStack', icon: Code},
-  {key: 'projects', icon: Briefcase},
   {key: 'contact', icon: Mail},
   {key: 'experience', icon: Briefcase},
   {key: 'music', icon: Music},

@@ -2,7 +2,6 @@ import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {getBlogList} from '@/lib/content/blog';
-import {getProjectList} from '@/lib/content/project';
 import {getResumePage} from '@/lib/content/resume';
 import {createPageMetadata} from '@/config';
 import {Terminal} from './_components/terminal';
@@ -29,9 +28,8 @@ export default async function CliPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const [blogData, projectData, resumeData] = await Promise.all([
+  const [blogData, resumeData] = await Promise.all([
     getBlogList().catch(() => ({items: []})),
-    getProjectList().catch(() => ({items: []})),
     getResumePage().catch(() => ({blocks: []})),
   ]);
 
@@ -41,10 +39,6 @@ export default async function CliPage({params}: Props) {
       title: post.title,
       excerpt: '',
       categories: post.categories,
-    })),
-    projects: projectData.items.map((project) => ({
-      slug: project.slug,
-      title: project.title,
     })),
     resumeBlocks: resumeData.blocks,
   });

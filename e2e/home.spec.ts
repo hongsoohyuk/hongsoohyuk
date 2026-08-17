@@ -1,6 +1,6 @@
 import {expect, test} from '@playwright/test';
 
-const SECTION_HREFS = ['/guestbook', '/project', '/instagram', '/blog', '/cli', '/chat'] as const;
+const SECTION_HREFS = ['/guestbook', '/instagram', '/blog', '/resume', '/chat', '/cli'] as const;
 
 test.describe('Home Page', () => {
   test.beforeEach(async ({page}) => {
@@ -35,11 +35,11 @@ test.describe('Home Page', () => {
     await expect(page.locator('a[href*="linkedin.com"]').first()).toBeVisible();
   });
 
-  test('navigates to project page when project card is clicked', async ({page}) => {
-    const projectLink = page.locator('a[href$="/project"]').first();
-    await projectLink.click();
-    await page.waitForURL(/\/project$/);
-    expect(page.url()).toMatch(/\/project$/);
+  test('navigates to blog page when blog card is clicked', async ({page}) => {
+    const blogLink = page.locator('a[href$="/blog"]').first();
+    await blogLink.click();
+    await page.waitForURL(/\/blog$/);
+    expect(page.url()).toMatch(/\/blog$/);
   });
 });
 
@@ -69,6 +69,6 @@ test.describe('Home Page - Localization', () => {
     await expect(page).toHaveTitle(/.+/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     // English section links should be prefixed with /en.
-    await expect(page.locator('a[href$="/en/project"]').first()).toBeVisible();
+    await expect(page.locator('a[href$="/en/blog"]').first()).toBeVisible();
   });
 });

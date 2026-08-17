@@ -317,15 +317,6 @@ function buildInitialFS(data: CliData): DirectoryNode {
     );
   }
 
-  const projChildren: Record<string, FileNode> = {};
-  for (const proj of data.projects) {
-    const name = toFileName(proj.title);
-    projChildren[name] = mkReadonlyFile(
-      name,
-      [`title: ${proj.title}`, '---', '', `> 전체 내용: /project/${proj.slug}`].join('\n'),
-    );
-  }
-
   return {
     type: 'directory',
     name: '~',
@@ -351,7 +342,6 @@ function buildInitialFS(data: CliData): DirectoryNode {
         'resume.txt': mkReadonlyFile('resume.txt', data.resumeText),
       }),
       blog: mkReadonlyDir('blog', blogChildren),
-      project: mkReadonlyDir('project', projChildren),
       guestbook: mkReadonlyDir('guestbook', {
         'info.txt': mkReadonlyFile(
           'info.txt',

@@ -97,7 +97,6 @@ export type TerminalLine = {
 // === CLI Data (from server) ===
 export type CliData = {
   blogPosts: Array<{slug: string; title: string; excerpt: string; categories: string[]}>;
-  projects: Array<{slug: string; title: string}>;
   resumeText: string;
 };
 

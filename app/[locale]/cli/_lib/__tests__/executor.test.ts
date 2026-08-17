@@ -24,7 +24,6 @@ Object.defineProperty(globalThis, 'localStorage', {value: localStorageMock});
 
 const MOCK_DATA: CliData = {
   blogPosts: [{slug: 'hello', title: 'Hello World', excerpt: 'My first post', categories: ['dev']}],
-  projects: [{slug: 'proj1', title: 'Project One'}],
   resumeText: 'Frontend Developer',
 };
 

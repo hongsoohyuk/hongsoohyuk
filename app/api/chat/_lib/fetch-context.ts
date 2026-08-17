@@ -1,6 +1,5 @@
 import {getRecentlyPlayed, getTopArtists, getTopTracks, isSpotifyConfigured} from '@/lib/api/spotify';
 import {getBlogList} from '@/lib/content/blog';
-import {getProjectList} from '@/lib/content/project';
 
 import type {DynamicContext} from './build-prompt';
 
@@ -17,7 +16,6 @@ export async function fetchDynamicContext(): Promise<DynamicContext> {
   const spotifyEnabled = isSpotifyConfigured();
 
   const fetchers: Array<Promise<unknown>> = [
-    getProjectList(),
     getBlogList(),
   ];
 
@@ -30,16 +28,7 @@ export async function fetchDynamicContext(): Promise<DynamicContext> {
   }
 
   const results = await Promise.allSettled(fetchers);
-  const [projectRes, blogRes, topTracksRes, topArtistsRes, recentRes] = results;
-
-  if (projectRes.status === 'fulfilled') {
-    const data = projectRes.value as Awaited<ReturnType<typeof getProjectList>>;
-    context.projects = data.items.map((p) => ({
-      title: p.title,
-      description: p.description,
-      slug: p.slug,
-    }));
-  }
+  const [blogRes, topTracksRes, topArtistsRes, recentRes] = results;
 
   if (blogRes.status === 'fulfilled') {
     const data = blogRes.value as Awaited<ReturnType<typeof getBlogList>>;

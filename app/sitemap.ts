@@ -1,6 +1,5 @@
 
 import {getBlogList} from '@/lib/content/blog';
-import {getProjectList} from '@/lib/content/project';
 import {SITE_CONFIG} from '@/config';
 import type {MetadataRoute} from 'next';
 
@@ -26,13 +25,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.8,
       alternates: {languages: {en: `${SITE_CONFIG.url}/en/blog`}},
-    },
-    {
-      url: `${SITE_CONFIG.url}/project`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-      alternates: {languages: {en: `${SITE_CONFIG.url}/en/project`}},
     },
     {
       url: `${SITE_CONFIG.url}/instagram`,
@@ -65,20 +57,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Continue without blog pages if Notion API fails
   }
 
-  // Dynamic project pages
-  let projectPages: MetadataRoute.Sitemap = [];
-  try {
-    const projectData = await getProjectList();
-    projectPages = projectData.items.map((project) => ({
-      url: `${SITE_CONFIG.url}/project/${project.slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-      alternates: {languages: {en: `${SITE_CONFIG.url}/en/project/${project.slug}`}},
-    }));
-  } catch {
-    // Continue without project pages if Notion API fails
-  }
-
-  return [...staticPages, ...blogPages, ...projectPages];
+  return [...staticPages, ...blogPages];
 }

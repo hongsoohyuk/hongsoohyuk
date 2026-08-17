@@ -8,9 +8,8 @@ import {
   ContentListRowTitle,
 } from '../content-list-row';
 
-// Coverage for the shared list row that replaced the byte-identical blog/project cards.
-// Mirrors the intent of the former project-card.test.tsx now that the row lives here.
-function Row({title, href = '/project/test-project'}: {title: string; href?: string}) {
+// Coverage for the shared list row that replaced the byte-identical content list cards.
+function Row({title, href = '/blog/test-post'}: {title: string; href?: string}) {
   return (
     <ContentListRow>
       <a href={href}>
@@ -34,7 +33,7 @@ describe('ContentListRow', () => {
     render(<Row title="Test Project" />);
 
     const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/project/test-project');
+    expect(link).toHaveAttribute('href', '/blog/test-post');
   });
 
   it('renders the title in an h3 element', () => {

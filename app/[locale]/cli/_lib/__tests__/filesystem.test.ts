@@ -23,7 +23,6 @@ Object.defineProperty(globalThis, 'localStorage', {value: localStorageMock});
 
 const MOCK_DATA: CliData = {
   blogPosts: [{slug: 'hello', title: 'Hello World', excerpt: 'My first post', categories: ['dev']}],
-  projects: [{slug: 'proj1', title: 'Project One'}],
   resumeText: 'Frontend Developer',
 };
 
@@ -40,7 +39,6 @@ describe('VirtualFS', () => {
       expect(root.type).toBe('directory');
       expect(root.children['about.txt']).toBeDefined();
       expect(root.children['blog']).toBeDefined();
-      expect(root.children['project']).toBeDefined();
       expect(root.children['resume']).toBeDefined();
     });
 

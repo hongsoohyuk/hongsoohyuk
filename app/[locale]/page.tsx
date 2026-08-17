@@ -1,5 +1,5 @@
 import {GitHubLogoIcon, InstagramLogoIcon, LinkedInLogoIcon} from '@radix-ui/react-icons';
-import {Bot, FolderKanban, Mail, MessageCircle, MessageSquareText, PenLine, TerminalSquare} from 'lucide-react';
+import {Bot, FileText, Mail, MessageCircle, MessageSquareText, PenLine, TerminalSquare} from 'lucide-react';
 import {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
@@ -12,14 +12,39 @@ import {createPageMetadata} from '@/config';
 
 import {HeroTitle} from './_components/hero-title';
 
-const SECTION_ICONS = {
-  guestbook: MessageSquareText,
-  project: FolderKanban,
-  instagram: InstagramLogoIcon,
-  blog: PenLine,
-  cli: TerminalSquare,
-  chat: Bot,
-} as const;
+// key = HomePage.sections.* 번역 키이자 React key
+const ROUTE_CARDS = [
+  {key: 'guestbook', href: '/guestbook', icon: MessageSquareText},
+  {key: 'instagram', href: '/instagram', icon: InstagramLogoIcon},
+  {key: 'blog', href: '/blog', icon: PenLine},
+  {key: 'resume', href: '/resume', icon: FileText},
+  {key: 'chat', href: '/chat', icon: Bot},
+  {key: 'cli', href: '/cli', icon: TerminalSquare},
+] as const;
+
+async function RouteCardGrid() {
+  const t = await getTranslations('HomePage');
+
+  return (
+    <PageContainer size="wide" className="grid gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3">
+      {ROUTE_CARDS.map(({key, href, icon: Icon}) => (
+        <Link key={key} href={href} className="group">
+          <Card className="h-full transition-shadow duration-200 hover:shadow-md hover:border-foreground/20 dark:hover:bg-input/50 group-focus-visible:ring-2 group-focus-visible:ring-ring">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-base md:text-lg">
+                <Icon className="size-5 md:size-6 shrink-0 text-foreground" aria-hidden="true" />
+                <span className="font-semibold">{t(`sections.${key}.title`)}</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-sm leading-relaxed">{t(`sections.${key}.description`)}</CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+      ))}
+    </PageContainer>
+  );
+}
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -60,29 +85,7 @@ export default async function Home({params}: Props) {
 
       {/* Navigation Cards */}
       <section className="px-4 pb-8 md:pb-16">
-        <PageContainer size="wide" className="grid gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3">
-          {(['guestbook', 'project', 'instagram', 'blog', 'cli', 'chat'] as const).map((key) => {
-            const href = key === 'cli' ? '/cli' : `/${key}`;
-            const Icon = SECTION_ICONS[key];
-            return (
-              <Link key={key} href={href} className="group">
-                <Card className="h-full transition-shadow duration-200 hover:shadow-md hover:border-foreground/20 dark:hover:bg-input/50 group-focus-visible:ring-2 group-focus-visible:ring-ring">
-                  <CardHeader className="pb-2 md:pb-4">
-                    <CardTitle className="flex items-center gap-3 text-base md:text-lg">
-                      <Icon className="size-5 md:size-6 shrink-0 text-foreground" aria-hidden="true" />
-                      <span className="font-semibold">{t(`sections.${key}.title`)}</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <CardDescription className="text-sm leading-relaxed">
-                      {t(`sections.${key}.description`)}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
-        </PageContainer>
+        <RouteCardGrid />
       </section>
 
       {/* Contact Section */}
