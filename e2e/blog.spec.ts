@@ -66,6 +66,50 @@ test.describe('Blog List Page', () => {
     }
   });
 
+  // 글 목록은 전부 정적 마크다운이라 필터링에 서버가 개입할 이유가 없다.
+  // router.push로 되돌아가면 같은 페이로드를 다시 받는 회귀이므로 요청 수로 감시한다.
+  test('filtering makes no server round trip', async ({page}) => {
+    await page.waitForLoadState('networkidle');
+
+    const requests: string[] = [];
+    page.on('request', (request) => {
+      const type = request.resourceType();
+      if (type === 'document' || type === 'fetch' || type === 'xhr') requests.push(request.url());
+    });
+
+    await page.locator('input[type="search"]').first().fill('Vite');
+    await page.waitForFunction(() => window.location.search.includes('q=Vite'));
+    await page.waitForTimeout(800);
+
+    expect(requests).toEqual([]);
+  });
+
+  // 타이핑은 글자마다 되돌아갈 지점이 아니므로 히스토리를 늘리면 안 되고(replaceState),
+  // 카테고리 클릭은 의도적인 동작이라 뒤로가기로 되돌릴 수 있어야 한다(pushState).
+  test('search replaces history while category toggle pushes one entry', async ({page}) => {
+    await page.waitForLoadState('networkidle');
+
+    const lengthBefore = await page.evaluate(() => history.length);
+
+    const searchInput = page.locator('input[type="search"]').first();
+    for (const char of 'Vite') {
+      await searchInput.press(char);
+      await page.waitForTimeout(200);
+    }
+    await page.waitForFunction(() => window.location.search.includes('q=Vite'));
+    await page.waitForTimeout(400);
+
+    expect(await page.evaluate(() => history.length)).toBe(lengthBefore);
+
+    const category = page.getByText('Book', {exact: true}).first();
+    if ((await category.count()) === 0) return;
+
+    await category.click();
+    await page.waitForFunction(() => window.location.search.includes('category=Book'));
+
+    expect(await page.evaluate(() => history.length)).toBe(lengthBefore + 1);
+  });
+
   test('displays English content with /en prefix', async ({page}) => {
     await page.goto('/en/blog');
     await page.waitForLoadState('networkidle');
