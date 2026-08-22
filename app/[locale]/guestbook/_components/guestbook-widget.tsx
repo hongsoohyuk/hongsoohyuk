@@ -1,9 +1,11 @@
+import {Suspense} from 'react';
+
 import {getTranslations} from 'next-intl/server';
 
 import {PageHeader, PageHeaderDescription, PageHeaderTitle} from '@/components/layout/page-header';
 
 import {GuestbookFormDialog} from './guestbook-form-dialog';
-import {GuestbookShell} from './guestbook-shell';
+import {GuestbookShell, GuestbookShellFallback} from './guestbook-shell';
 import type {GuestbookItemDto} from '../_lib/types';
 
 type Props = {
@@ -25,7 +27,9 @@ export async function GuestbookWidget({locale, entries}: Props) {
         </PageHeader>
         <GuestbookFormDialog />
       </PageHeader>
-      <GuestbookShell entries={entries} />
+      <Suspense fallback={<GuestbookShellFallback entries={entries} />}>
+        <GuestbookShell entries={entries} />
+      </Suspense>
     </section>
   );
 }

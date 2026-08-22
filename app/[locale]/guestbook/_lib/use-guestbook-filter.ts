@@ -11,6 +11,11 @@ const EMOTION_PARAM = 'emotion';
 export function useGuestbookFilter() {
   const searchParams = useSearchParams();
 
+  // pagination href 조립에 쓰이는 현재 쿼리 문자열.
+  // 하위 컴포넌트가 각자 useSearchParams를 부르면 정적 렌더에서 전부 이탈하므로
+  // URL 읽기는 이 훅 한 곳으로 모으고 아래로는 값으로 내려보낸다.
+  const search = searchParams?.toString() ?? '';
+
   const rawEmotion = searchParams?.get(EMOTION_PARAM);
   const selectedEmotion =
     rawEmotion && EMOTION_SET.has(rawEmotion as EmotionCode) ? (rawEmotion as EmotionCode) : null;
@@ -54,5 +59,5 @@ export function useGuestbookFilter() {
     });
   };
 
-  return {selectedEmotion, currentPage, toggleEmotion, clearEmotion, goToPage};
+  return {selectedEmotion, currentPage, search, toggleEmotion, clearEmotion, goToPage};
 }

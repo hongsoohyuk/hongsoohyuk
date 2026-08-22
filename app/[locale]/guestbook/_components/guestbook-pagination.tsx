@@ -2,7 +2,7 @@
 
 import {ReactNode} from 'react';
 
-import {usePathname, useSearchParams} from 'next/navigation';
+import {usePathname} from 'next/navigation';
 import {ArrowUp} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 
@@ -16,10 +16,8 @@ import {
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE, PAGINATION_PARAMETER_PAGE} from '@/lib/api/pagination';
 import {cn} from '@/utils/style';
 
-import {useGuestbookFilter} from '../_lib/use-guestbook-filter';
-
-function buildHref(searchParams: URLSearchParams | null, pathname: string, page: number) {
-  const params = new URLSearchParams(searchParams ? searchParams.toString() : '');
+function buildHref(search: string, pathname: string, page: number) {
+  const params = new URLSearchParams(search);
   if (page > DEFAULT_PAGE) params.set(PAGINATION_PARAMETER_PAGE, String(page));
   else params.delete(PAGINATION_PARAMETER_PAGE);
   const query = params.toString();
@@ -34,13 +32,11 @@ function isPlainLeftClick(event: React.MouseEvent) {
   );
 }
 
-function usePageClickHandler() {
-  const {goToPage} = useGuestbookFilter();
-
-  return (page: number) => (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!isPlainLeftClick(event)) return;
+function pageClickHandler(page: number, onPageChange?: (page: number) => void) {
+  return (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!onPageChange || !isPlainLeftClick(event)) return;
     event.preventDefault();
-    goToPage(page);
+    onPageChange(page);
   };
 }
 
@@ -107,14 +103,14 @@ type TopProps = {
   currentPage: number;
   totalPages: number;
   totalCount: number;
+  search: string;
+  onPageChange?: (page: number) => void;
 };
 
-export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: TopProps) {
+export function GuestbookPaginationTop({currentPage, totalPages, totalCount, search, onPageChange}: TopProps) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const t = useTranslations('Guestbook.entries');
   const tCommon = useTranslations('Common.pagination');
-  const handlePageClick = usePageClickHandler();
 
   const prevDisabled = currentPage <= DEFAULT_PAGE;
   const nextDisabled = currentPage >= totalPages;
@@ -142,10 +138,10 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
         <PaginationContent>
           <PaginationItem>
             <PaginationNavLink
-              href={buildHref(searchParams, pathname, prevPage)}
+              href={buildHref(search, pathname, prevPage)}
               label={tCommon('previous')}
               disabled={prevDisabled}
-              onClick={handlePageClick(prevPage)}
+              onClick={pageClickHandler(prevPage, onPageChange)}
             >
               <span className="hidden sm:block">{tCommon('previous')}</span>
             </PaginationNavLink>
@@ -162,12 +158,12 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
             return (
               <PaginationItem key={item}>
                 <PaginationLink
-                  href={buildHref(searchParams, pathname, item)}
+                  href={buildHref(search, pathname, item)}
                   isActive={item === currentPage}
                   size="icon"
                   prefetch={false}
                   scroll={false}
-                  onClick={handlePageClick(item)}
+                  onClick={pageClickHandler(item, onPageChange)}
                   className={cn('size-8 text-xs tabular-nums', item === currentPage && 'pointer-events-none')}
                 >
                   {item}
@@ -178,10 +174,10 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
 
           <PaginationItem>
             <PaginationNavLink
-              href={buildHref(searchParams, pathname, nextPage)}
+              href={buildHref(search, pathname, nextPage)}
               label={tCommon('next')}
               disabled={nextDisabled}
-              onClick={handlePageClick(nextPage)}
+              onClick={pageClickHandler(nextPage, onPageChange)}
             >
               <span className="hidden sm:block">{tCommon('next')}</span>
             </PaginationNavLink>
@@ -195,14 +191,14 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
 type BottomProps = {
   currentPage: number;
   totalPages: number;
+  search: string;
+  onPageChange?: (page: number) => void;
 };
 
-export function GuestbookPaginationBottom({currentPage, totalPages}: BottomProps) {
+export function GuestbookPaginationBottom({currentPage, totalPages, search, onPageChange}: BottomProps) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const t = useTranslations('Guestbook.entries');
   const tCommon = useTranslations('Common.pagination');
-  const handlePageClick = usePageClickHandler();
 
   const prevDisabled = currentPage <= DEFAULT_PAGE;
   const nextDisabled = currentPage >= totalPages;
@@ -229,10 +225,10 @@ export function GuestbookPaginationBottom({currentPage, totalPages}: BottomProps
         <PaginationContent className="gap-2">
           <PaginationItem>
             <PaginationNavLink
-              href={buildHref(searchParams, pathname, prevPage)}
+              href={buildHref(search, pathname, prevPage)}
               label={tCommon('previous')}
               disabled={prevDisabled}
-              onClick={handlePageClick(prevPage)}
+              onClick={pageClickHandler(prevPage, onPageChange)}
             >
               {tCommon('previous')}
             </PaginationNavLink>
@@ -244,10 +240,10 @@ export function GuestbookPaginationBottom({currentPage, totalPages}: BottomProps
           </PaginationItem>
           <PaginationItem>
             <PaginationNavLink
-              href={buildHref(searchParams, pathname, nextPage)}
+              href={buildHref(search, pathname, nextPage)}
               label={tCommon('next')}
               disabled={nextDisabled}
-              onClick={handlePageClick(nextPage)}
+              onClick={pageClickHandler(nextPage, onPageChange)}
             >
               {tCommon('next')}
             </PaginationNavLink>
