@@ -1,8 +1,6 @@
 'use client';
 
-import {startTransition} from 'react';
-
-import {useRouter, useSearchParams} from 'next/navigation';
+import {useSearchParams} from 'next/navigation';
 
 import {DEFAULT_PAGE, PAGINATION_PARAMETER_PAGE} from '@/lib/api/pagination';
 
@@ -11,7 +9,6 @@ import {EMOTION_SET, type EmotionCode} from './emotion';
 const EMOTION_PARAM = 'emotion';
 
 export function useGuestbookFilter() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const rawEmotion = searchParams?.get(EMOTION_PARAM);
@@ -21,6 +18,10 @@ export function useGuestbookFilter() {
   const rawPage = Number(searchParams?.get(PAGINATION_PARAMETER_PAGE));
   const currentPage = Number.isFinite(rawPage) && rawPage > 0 ? Math.floor(rawPage) : DEFAULT_PAGE;
 
+  // 목록 전체가 이미 클라이언트에 있고 서버는 페이지 번호를 읽지 않으므로,
+  // router.push로 네비게이션을 일으키면 방금 가진 것과 동일한 RSC 페이로드를 다시 받게 된다.
+  // 네이티브 history API는 Next 라우터와 동기화되어 useSearchParams를 갱신하면서도
+  // 서버 왕복을 만들지 않는다.
   const updateParams = (updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams?.toString() ?? '');
 
@@ -30,9 +31,7 @@ export function useGuestbookFilter() {
     }
 
     const query = params.toString();
-    startTransition(() => {
-      router.push(query ? `?${query}` : '?', {scroll: false});
-    });
+    window.history.pushState(null, '', query ? `?${query}` : window.location.pathname);
   };
 
   const toggleEmotion = (code: EmotionCode) => {
@@ -49,5 +48,11 @@ export function useGuestbookFilter() {
     });
   };
 
-  return {selectedEmotion, currentPage, toggleEmotion, clearEmotion};
+  const goToPage = (page: number) => {
+    updateParams({
+      [PAGINATION_PARAMETER_PAGE]: page > DEFAULT_PAGE ? String(page) : null,
+    });
+  };
+
+  return {selectedEmotion, currentPage, toggleEmotion, clearEmotion, goToPage};
 }

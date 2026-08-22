@@ -16,12 +16,32 @@ import {
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE, PAGINATION_PARAMETER_PAGE} from '@/lib/api/pagination';
 import {cn} from '@/utils/style';
 
+import {useGuestbookFilter} from '../_lib/use-guestbook-filter';
+
 function buildHref(searchParams: URLSearchParams | null, pathname: string, page: number) {
   const params = new URLSearchParams(searchParams ? searchParams.toString() : '');
   if (page > DEFAULT_PAGE) params.set(PAGINATION_PARAMETER_PAGE, String(page));
   else params.delete(PAGINATION_PARAMETER_PAGE);
   const query = params.toString();
   return query ? `${pathname}?${query}` : pathname;
+}
+
+// href는 새 탭 열기·링크 복사·JS 실패를 위해 그대로 두고, 평범한 좌클릭만 가로채
+// 서버 왕복 없이 페이지를 바꾼다. 보조 클릭과 수정키 조합은 브라우저에 맡긴다.
+function isPlainLeftClick(event: React.MouseEvent) {
+  return (
+    !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+  );
+}
+
+function usePageClickHandler() {
+  const {goToPage} = useGuestbookFilter();
+
+  return (page: number) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isPlainLeftClick(event)) return;
+    event.preventDefault();
+    goToPage(page);
+  };
 }
 
 type PageItem = number | 'ellipsis-start' | 'ellipsis-end';
@@ -57,11 +77,13 @@ function PaginationNavLink({
   href,
   label,
   disabled,
+  onClick,
   children,
 }: {
   href: string;
   label: string;
   disabled: boolean;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   children: ReactNode;
 }) {
   return (
@@ -73,6 +95,7 @@ function PaginationNavLink({
       tabIndex={disabled ? -1 : undefined}
       prefetch={false}
       scroll={false}
+      onClick={onClick}
       className={cn('h-8 gap-1 px-2.5 text-xs', disabled && 'pointer-events-none opacity-40')}
     >
       {children}
@@ -91,6 +114,7 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
   const searchParams = useSearchParams();
   const t = useTranslations('Guestbook.entries');
   const tCommon = useTranslations('Common.pagination');
+  const handlePageClick = usePageClickHandler();
 
   const prevDisabled = currentPage <= DEFAULT_PAGE;
   const nextDisabled = currentPage >= totalPages;
@@ -121,6 +145,7 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
               href={buildHref(searchParams, pathname, prevPage)}
               label={tCommon('previous')}
               disabled={prevDisabled}
+              onClick={handlePageClick(prevPage)}
             >
               <span className="hidden sm:block">{tCommon('previous')}</span>
             </PaginationNavLink>
@@ -142,6 +167,7 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
                   size="icon"
                   prefetch={false}
                   scroll={false}
+                  onClick={handlePageClick(item)}
                   className={cn('size-8 text-xs tabular-nums', item === currentPage && 'pointer-events-none')}
                 >
                   {item}
@@ -155,6 +181,7 @@ export function GuestbookPaginationTop({currentPage, totalPages, totalCount}: To
               href={buildHref(searchParams, pathname, nextPage)}
               label={tCommon('next')}
               disabled={nextDisabled}
+              onClick={handlePageClick(nextPage)}
             >
               <span className="hidden sm:block">{tCommon('next')}</span>
             </PaginationNavLink>
@@ -175,6 +202,7 @@ export function GuestbookPaginationBottom({currentPage, totalPages}: BottomProps
   const searchParams = useSearchParams();
   const t = useTranslations('Guestbook.entries');
   const tCommon = useTranslations('Common.pagination');
+  const handlePageClick = usePageClickHandler();
 
   const prevDisabled = currentPage <= DEFAULT_PAGE;
   const nextDisabled = currentPage >= totalPages;
@@ -204,6 +232,7 @@ export function GuestbookPaginationBottom({currentPage, totalPages}: BottomProps
               href={buildHref(searchParams, pathname, prevPage)}
               label={tCommon('previous')}
               disabled={prevDisabled}
+              onClick={handlePageClick(prevPage)}
             >
               {tCommon('previous')}
             </PaginationNavLink>
@@ -218,6 +247,7 @@ export function GuestbookPaginationBottom({currentPage, totalPages}: BottomProps
               href={buildHref(searchParams, pathname, nextPage)}
               label={tCommon('next')}
               disabled={nextDisabled}
+              onClick={handlePageClick(nextPage)}
             >
               {tCommon('next')}
             </PaginationNavLink>

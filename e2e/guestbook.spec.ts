@@ -44,6 +44,30 @@ test.describe('Guestbook Page', () => {
     await expect(trigger).toBeEnabled();
   });
 
+  // 목록 전체가 이미 클라이언트에 있으므로 페이지 이동은 서버 왕복 없이 끝나야 한다.
+  // <Link> 네비게이션으로 되돌아가면 같은 데이터를 다시 받아오는 회귀이므로 요청 수로 감시한다.
+  test('paginates without any server round trip', async ({page}) => {
+    await page.waitForLoadState('networkidle');
+
+    const secondPage = page.getByRole('link', {name: '2', exact: true}).first();
+    if ((await secondPage.count()) === 0) test.skip(true, '2페이지를 만들 만큼 항목이 없음');
+
+    // href는 새 탭 열기·링크 복사를 위해 유지되어야 한다.
+    await expect(secondPage).toHaveAttribute('href', /page=2/);
+
+    const requests: string[] = [];
+    page.on('request', (request) => {
+      const type = request.resourceType();
+      if (type === 'document' || type === 'fetch' || type === 'xhr') requests.push(request.url());
+    });
+
+    await secondPage.click();
+    await page.waitForFunction(() => window.location.search.includes('page=2'));
+    await page.waitForTimeout(1000);
+
+    expect(requests).toEqual([]);
+  });
+
   test('opens form dialog with name, message inputs and emotion buttons (no submit)', async ({page}) => {
     await page.waitForLoadState('networkidle');
 
