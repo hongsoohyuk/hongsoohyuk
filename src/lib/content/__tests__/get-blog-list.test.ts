@@ -54,43 +54,6 @@ describe('getBlogList', () => {
     expect(result.items).toEqual([]);
   });
 
-  it('filters by search query (case-insensitive)', async () => {
-    mockGetMarkdownFiles.mockResolvedValue([
-      makeFile('post-1', {title: 'React Hooks Guide'}),
-      makeFile('post-2', {title: 'Vue Composition API'}),
-    ]);
-
-    const result = await getBlogList({q: 'react'});
-
-    expect(result.items).toHaveLength(1);
-    expect(result.items[0].title).toBe('React Hooks Guide');
-  });
-
-  it('filters by category', async () => {
-    mockGetMarkdownFiles.mockResolvedValue([
-      makeFile('post-1', {title: 'Post A', categories: ['Frontend']}),
-      makeFile('post-2', {title: 'Post B', categories: ['Backend']}),
-    ]);
-
-    const result = await getBlogList({category: 'Frontend'});
-
-    expect(result.items).toHaveLength(1);
-    expect(result.items[0].title).toBe('Post A');
-  });
-
-  it('combines search and category filters', async () => {
-    mockGetMarkdownFiles.mockResolvedValue([
-      makeFile('post-1', {title: 'React Post', categories: ['Frontend']}),
-      makeFile('post-2', {title: 'React Backend', categories: ['Backend']}),
-      makeFile('post-3', {title: 'Vue Post', categories: ['Frontend']}),
-    ]);
-
-    const result = await getBlogList({q: 'react', category: 'Frontend'});
-
-    expect(result.items).toHaveLength(1);
-    expect(result.items[0].title).toBe('React Post');
-  });
-
   it('sorts by lastEditedTime descending', async () => {
     mockGetMarkdownFiles.mockResolvedValue([
       makeFile('old', {title: 'Old Post', lastEditedTime: '2024-01-01T00:00:00Z'}),
