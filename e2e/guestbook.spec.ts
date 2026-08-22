@@ -18,9 +18,12 @@ test.describe('Guestbook Page', () => {
     // 페이지 자체가 200으로 로드되고 head <title>이 채워졌는지
     await expect(page).toHaveTitle(/.+/);
 
-    // CardTitle/CardDescription은 div이므로 텍스트로 검증
-    await expect(page.getByText('방명록').first()).toBeVisible();
-    await expect(page.getByText('소중한 메시지를 남겨주세요')).toBeVisible();
+    // 헤더 네비에도 '방명록' 링크가 있어 텍스트 검색은 그쪽을 먼저 잡는다.
+    // 페이지 제목/설명은 슬롯으로 직접 겨냥한다.
+    await expect(page.locator('[data-slot="page-header-title"]').first()).toHaveText('방명록');
+    await expect(page.locator('[data-slot="page-header-description"]').first()).toHaveText(
+      '소중한 메시지를 남겨주세요',
+    );
   });
 
   test('renders guestbook entries section (list or empty state)', async ({page}) => {
@@ -100,7 +103,8 @@ test.describe('Guestbook Page - Mobile', () => {
     await page.goto('/guestbook');
     await page.waitForLoadState('networkidle');
 
-    await expect(page.getByText('방명록').first()).toBeVisible();
+    // 데스크톱 네비는 모바일 폭에서 숨겨지므로 텍스트로 찾으면 hidden 요소를 잡는다.
+    await expect(page.locator('[data-slot="page-header-title"]').first()).toBeVisible();
     await expect(page.getByRole('button', {name: '작성하기'}).first()).toBeVisible();
   });
 });
@@ -112,7 +116,7 @@ test.describe('Guestbook Page - Localization', () => {
 
     await expect(page).toHaveTitle(/.+/);
     // en.json: Guestbook.title === "Guestbook"
-    await expect(page.getByText('Guestbook').first()).toBeVisible();
+    await expect(page.locator('[data-slot="page-header-title"]').first()).toHaveText('Guestbook');
     // en.json: Guestbook.formSection.trigger === "Write a note"
     await expect(page.getByRole('button', {name: 'Write a note'}).first()).toBeVisible();
   });
