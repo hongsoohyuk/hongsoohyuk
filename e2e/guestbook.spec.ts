@@ -58,17 +58,22 @@ test.describe('Guestbook Page', () => {
     // href는 새 탭 열기·링크 복사를 위해 유지되어야 한다.
     await expect(secondPage).toHaveAttribute('href', /page=2/);
 
-    const requests: string[] = [];
+    // 방명록 라우트 자체를 다시 받아오는 요청만 금지한다.
+    // 분석 비콘 등 무관한 트래픽까지 세면 프로덕션 빌드에서 거짓 실패가 난다.
+    const listRefetches: string[] = [];
     page.on('request', (request) => {
-      const type = request.resourceType();
-      if (type === 'document' || type === 'fetch' || type === 'xhr') requests.push(request.url());
+      const url = new URL(request.url());
+      const isListRoute = /^\/(?:[a-z]{2}\/)?guestbook$/.test(url.pathname);
+      if (isListRoute && (url.searchParams.has('_rsc') || request.resourceType() === 'document')) {
+        listRefetches.push(request.url());
+      }
     });
 
     await secondPage.click();
     await page.waitForFunction(() => window.location.search.includes('page=2'));
     await page.waitForTimeout(1000);
 
-    expect(requests).toEqual([]);
+    expect(listRefetches).toEqual([]);
   });
 
   test('opens form dialog with name, message inputs and emotion buttons (no submit)', async ({page}) => {

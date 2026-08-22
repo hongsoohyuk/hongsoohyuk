@@ -71,17 +71,23 @@ test.describe('Blog List Page', () => {
   test('filtering makes no server round trip', async ({page}) => {
     await page.waitForLoadState('networkidle');
 
-    const requests: string[] = [];
+    // 목록 라우트 자체를 다시 받아오는 요청만 금지한다. 프로덕션 빌드에서는 필터 결과로
+    // 새로 보이게 된 글 링크의 프리페치(/blog/<slug>?_rsc=)와 분석 비콘이 함께 발생하는데,
+    // 이는 필터링과 무관한 정상 동작이므로 세어서는 안 된다.
+    const listRefetches: string[] = [];
     page.on('request', (request) => {
-      const type = request.resourceType();
-      if (type === 'document' || type === 'fetch' || type === 'xhr') requests.push(request.url());
+      const url = new URL(request.url());
+      const isListRoute = /^\/(?:[a-z]{2}\/)?blog$/.test(url.pathname);
+      if (isListRoute && (url.searchParams.has('_rsc') || request.resourceType() === 'document')) {
+        listRefetches.push(request.url());
+      }
     });
 
     await page.locator('input[type="search"]').first().fill('Vite');
     await page.waitForFunction(() => window.location.search.includes('q=Vite'));
     await page.waitForTimeout(800);
 
-    expect(requests).toEqual([]);
+    expect(listRefetches).toEqual([]);
   });
 
   // 타이핑은 글자마다 되돌아갈 지점이 아니므로 히스토리를 늘리면 안 되고(replaceState),
@@ -167,8 +173,9 @@ test.describe('Blog Detail Page', () => {
     await page.goto(`/blog/${blogSlug}`);
     await page.waitForLoadState('networkidle');
 
-    // Back link uses t('title') as label (블로그/Blog) inside breadcrumb nav
-    const backLink = page.locator('a[href$="/blog"]').first();
+    // 헤더 네비에도 /blog 링크가 있고 모바일 폭에서는 숨겨지므로,
+    // breadcrumb 슬롯으로 뒤로가기 링크를 직접 겨냥한다.
+    const backLink = page.locator('[data-slot="breadcrumb-link"][href$="/blog"]').first();
     await expect(backLink).toBeVisible();
 
     await backLink.click();
