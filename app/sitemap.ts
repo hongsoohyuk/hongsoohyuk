@@ -46,7 +46,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let blogPages: MetadataRoute.Sitemap = [];
   try {
     const blogData = await getBlogList();
-    blogPages = blogData.items.map((post) => ({
+    blogPages = blogData.items
+      .filter((post) => post.visibility === 'public')
+      .map((post) => ({
       url: `${SITE_CONFIG.url}/blog/${post.slug}`,
       lastModified: new Date(post.lastEditedTime),
       changeFrequency: 'weekly' as const,

@@ -9,6 +9,7 @@ import {Badge} from '@/components/ui/badge';
 import {SearchInput} from '@/components/ui/search-input';
 
 import {BLOG_CATEGORIES} from '@/lib/content/blog-categories';
+import type {BlogVisibility} from '@/lib/content/blog';
 import {useStickyDetection} from '../_lib/use-sticky-detection';
 
 const HEADER_HEIGHT = 48;
@@ -20,18 +21,31 @@ const CATEGORY_BUTTON_CLASS = 'shrink-0 focus-visible:ring-ring/50 focus-visible
 type Props = {
   query: string;
   category: string;
+  visibility?: BlogVisibility;
   disabled?: boolean;
   onSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCategoryClick?: (category: string) => void;
+  onVisibilityClick?: () => void;
   onClear?: () => void;
 };
 
-export function BlogFilterBar({query, category, disabled, onSearch, onCategoryClick, onClear}: Props) {
+export function BlogFilterBar({
+  query,
+  category,
+  visibility = 'public',
+  disabled,
+  onSearch,
+  onCategoryClick,
+  onVisibilityClick,
+  onClear,
+}: Props) {
   const t = useTranslations('Blog');
   const filterRef = useRef<HTMLDivElement>(null);
   const {isSticky, isCollapsed, setIsCollapsed} = useStickyDetection(filterRef, HEADER_HEIGHT, disabled);
 
-  const hasActiveFilter = query || category;
+  const isMemoFilter = visibility === 'private';
+  const hasActiveFilter = query || category || isMemoFilter;
+  const activeFilterLabel = isMemoFilter ? t('memoForMyself') : category || query;
 
   return (
     <div
@@ -52,7 +66,7 @@ export function BlogFilterBar({query, category, disabled, onSearch, onCategoryCl
           <span>{t('search')}</span>
           {hasActiveFilter && (
             <Badge variant="secondary" className="text-xs">
-              {category || query}
+              {activeFilterLabel}
             </Badge>
           )}
         </button>
@@ -82,7 +96,7 @@ export function BlogFilterBar({query, category, disabled, onSearch, onCategoryCl
           <div className="relative">
             <div className="flex gap-1.5 overflow-x-auto scrollbar-hide" role="group" aria-label="Category filter">
               <button type="button" onClick={onClear} disabled={disabled} className={CATEGORY_BUTTON_CLASS}>
-                <Badge variant={category === '' ? 'default' : 'outline'} className="cursor-pointer text-xs">
+                <Badge variant={!isMemoFilter && category === '' ? 'default' : 'outline'} className="cursor-pointer text-xs">
                   {t('allCategories')}
                 </Badge>
               </button>
@@ -99,6 +113,16 @@ export function BlogFilterBar({query, category, disabled, onSearch, onCategoryCl
                   </Badge>
                 </button>
               ))}
+              <button
+                type="button"
+                onClick={onVisibilityClick}
+                disabled={disabled}
+                className={CATEGORY_BUTTON_CLASS}
+              >
+                <Badge variant={isMemoFilter ? 'default' : 'outline'} className="cursor-pointer text-xs">
+                  {t('memoForMyself')}
+                </Badge>
+              </button>
             </div>
             <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent" />
           </div>

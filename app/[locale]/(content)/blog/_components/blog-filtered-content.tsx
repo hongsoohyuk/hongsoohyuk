@@ -18,6 +18,7 @@ export function BlogFilteredContent({posts, emptyText}: Props) {
   const filtered = filterBlogPosts(posts, {
     q: searchParams.get('q') ?? undefined,
     category: searchParams.get('category') ?? undefined,
+    visibility: searchParams.get('visibility') === 'private' ? 'private' : 'public',
   });
 
   return <BlogContent posts={filtered} emptyText={emptyText} />;

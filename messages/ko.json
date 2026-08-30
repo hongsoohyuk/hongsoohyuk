@@ -242,6 +242,7 @@
     "empty": "등록된 글이 없습니다.",
     "search": "제목으로 검색",
     "allCategories": "전체",
+    "memoForMyself": "Memo for myself",
     "backToList": "목록으로",
     "lastEdited": "마지막 수정: {date}"
   },

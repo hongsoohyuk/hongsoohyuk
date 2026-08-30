@@ -32,7 +32,10 @@ export async function fetchDynamicContext(): Promise<DynamicContext> {
 
   if (blogRes.status === 'fulfilled') {
     const data = blogRes.value as Awaited<ReturnType<typeof getBlogList>>;
-    context.blogPosts = data.items.slice(0, 10).map((b) => ({
+    context.blogPosts = data.items
+      .filter((b) => b.visibility === 'public')
+      .slice(0, 10)
+      .map((b) => ({
       title: b.title,
       description: b.description,
       categories: b.categories,

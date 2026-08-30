@@ -4,6 +4,8 @@ import {useRef} from 'react';
 
 import {useSearchParams} from 'next/navigation';
 
+import type {BlogVisibility} from '@/lib/content/blog';
+
 type HistoryMode = 'push' | 'replace';
 
 export function useSearchFilterParams() {
@@ -12,6 +14,8 @@ export function useSearchFilterParams() {
 
   const currentQuery = searchParams?.get('q') ?? '';
   const currentCategory = searchParams?.get('category') ?? '';
+  const currentVisibility: BlogVisibility =
+    searchParams?.get('visibility') === 'private' ? 'private' : 'public';
 
   // 글 목록이 전부 클라이언트에 있고 서버는 쿼리를 읽지 않으므로 router.push로
   // 네비게이션을 일으킬 이유가 없다. 네이티브 history API는 Next 라우터와 동기화되어
@@ -46,7 +50,19 @@ export function useSearchFilterParams() {
     updateParams({category: currentCategory === category ? '' : category}, 'push');
   };
 
-  const clearCategory = () => updateParams({category: ''}, 'push');
+  const handleVisibilityClick = () => {
+    updateParams({visibility: currentVisibility === 'private' ? '' : 'private'}, 'push');
+  };
 
-  return {currentQuery, currentCategory, handleSearch, handleCategoryClick, clearCategory};
+  const clearCategory = () => updateParams({category: '', visibility: ''}, 'push');
+
+  return {
+    currentQuery,
+    currentCategory,
+    currentVisibility,
+    handleSearch,
+    handleCategoryClick,
+    handleVisibilityClick,
+    clearCategory,
+  };
 }

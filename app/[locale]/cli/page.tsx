@@ -34,7 +34,9 @@ export default async function CliPage({params}: Props) {
   ]);
 
   const cliData = buildCliData({
-    blogPosts: blogData.items.map((post) => ({
+    blogPosts: blogData.items
+      .filter((post) => post.visibility === 'public')
+      .map((post) => ({
       slug: post.slug,
       title: post.title,
       excerpt: '',

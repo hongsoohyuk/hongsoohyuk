@@ -9,6 +9,8 @@ import type {BlogCategory} from './blog-categories';
 export type {BlogCategory} from './blog-categories';
 export {BLOG_CATEGORIES} from './blog-categories';
 
+export type BlogVisibility = 'public' | 'private';
+
 export type BlogListItem = {
   slug: string;
   title: string;
@@ -16,6 +18,7 @@ export type BlogListItem = {
   categories: BlogCategory[];
   keywords: string[];
   lastEditedTime: string;
+  visibility: BlogVisibility;
 };
 
 export type BlogListResponse = {
@@ -30,6 +33,7 @@ export type BlogFrontmatter = {
   keywords: string[];
   createdTime: string;
   lastEditedTime: string;
+  visibility?: BlogVisibility;
 };
 
 export type BlogDetailResponse = {
@@ -44,6 +48,10 @@ export type BlogDetailResponse = {
   content: string;
 };
 
+function resolveVisibility(visibility: BlogVisibility | undefined): BlogVisibility {
+  return visibility === 'private' ? 'private' : 'public';
+}
+
 export const getBlogList = cache(async function getBlogList(): Promise<BlogListResponse> {
   const files = await getMarkdownFiles<BlogFrontmatter>('blog');
 
@@ -54,6 +62,7 @@ export const getBlogList = cache(async function getBlogList(): Promise<BlogListR
     categories: file.frontmatter.categories ?? [],
     keywords: file.frontmatter.keywords ?? [],
     lastEditedTime: file.frontmatter.lastEditedTime,
+    visibility: resolveVisibility(file.frontmatter.visibility),
   }));
 
   items.sort((a, b) => new Date(b.lastEditedTime).getTime() - new Date(a.lastEditedTime).getTime());

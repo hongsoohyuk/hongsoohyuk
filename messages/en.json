@@ -243,6 +243,7 @@
     "empty": "No posts found.",
     "search": "Search by title",
     "allCategories": "All",
+    "memoForMyself": "Memo for myself",
     "backToList": "Back to List",
     "lastEdited": "Last edited: {date}"
   },

@@ -25,6 +25,7 @@ function makeFile(slug: string, frontmatter: Partial<BlogFrontmatter>) {
       keywords: frontmatter.keywords ?? [],
       createdTime: frontmatter.createdTime ?? '2024-01-01T00:00:00Z',
       lastEditedTime: frontmatter.lastEditedTime ?? '2024-01-01T00:00:00Z',
+      visibility: frontmatter.visibility,
     },
     content: '# Test',
   };
@@ -44,6 +45,25 @@ describe('getBlogList', () => {
     expect(result.items[0].title).toBe('First Post');
     expect(result.items[0].slug).toBe('post-1');
     expect(result.items[0].categories).toEqual(['Frontend']);
+    expect(result.items[0].visibility).toBe('public');
+  });
+
+  it('maps visibility private from frontmatter', async () => {
+    mockGetMarkdownFiles.mockResolvedValue([
+      makeFile('memo', {title: 'Private Memo', visibility: 'private'}),
+    ]);
+
+    const result = await getBlogList();
+
+    expect(result.items[0].visibility).toBe('private');
+  });
+
+  it('defaults missing visibility to public', async () => {
+    mockGetMarkdownFiles.mockResolvedValue([makeFile('post-1', {title: 'No Visibility'})]);
+
+    const result = await getBlogList();
+
+    expect(result.items[0].visibility).toBe('public');
   });
 
   it('returns empty items when no files', async () => {
