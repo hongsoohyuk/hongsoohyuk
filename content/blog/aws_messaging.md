@@ -1,7 +1,7 @@
 ---
-title: 'AWS Certified Developer – Associate (DVA-C02) 필기'
-slug: 'aws_dva_c02_memo'
-description: 'DVA-C02 시험 준비용 개인 메모. 도메인별 키워드와 헷갈리는 포인트를 정리한다.'
+title: 'DVA-C02 messaging'
+slug: 'DVA-C02_messaging'
+description: ''
 categories: ['Study']
 keywords: ['AWS', 'DVA-C02', 'Certified Developer Associate']
 visibility: private
@@ -109,3 +109,61 @@ SQS Access Policies
   - 중복제거. (같은 메세지 중복처리 예방)
   - 대신 한번에 하나씩 처리됨.
   - 그룹으로 묶였다면 다건 처리도 가능하지만, 그룹별 순서는 보장되지 않음( 그룹 내 순서는 보장됨)
+
+## kinesis data streams
+
+## amazon data firehose
+
+kinesis data stream 등 데이터 생산 유입.
+
+firehose
+
+- 람다로 데이터 변형 처리
+- batch 로 버퍼를 비움 (s3, redshift / datadog / http endpoint)
+- failed data -> back up s3
+
+## kinesis data streams vs amazon data firehose
+
+스트리밍 데이터 / 스트리밍 데이터를 s3 / redshift / open search 로 로드
+생산자와 컨슈머 코드 / 매니지드
+실시간 / 거의 실시간
+
+### Amazon managed service for apache Flink
+
+**data streams 프로세스를 위한 프레임워크**
+
+- aws cluster 에 apache flink app 을 실행.
+  - automatic scaling, 병렬 연산
+  - **important Amazon Data Firehose 로 부터 데이터를 읽지 않음**
+
+# sqs vs sns vs kinesis
+
+SQS
+
+- consumer pull data
+- 데이터 소비 후 삭제
+- 원하는 컨슈머 만큼 가질 수 있음
+- throughput(전송량) provision 불필요, auto scaling 활성화 같은 동작 불필요
+- FIFO 큐에서 순서 보장 가능
+- 딜레이 기능
+
+SNS
+
+- 다량의 구독자에게 데이터를 push
+- 12,500,000 개 구독자까지
+- 데이터 유지 불가
+- throughput provision 불필요
+- sqs 와 조합해 fanout 패턴 가능
+- sqs fifo 를 사용해 선입선출 구현 가능
+
+finesis
+
+- pull data
+- 키네시스 데이터 스트림의 용량 제한은 스트림 내의 샤드 수로 정의됨.
+- 1MS/s 의 들어오는 데이터 , 2MB/s 의 나가는 데이터 허용
+
+이 데이터 스트림은 일반적으로 5MB/s의 데이터를 수신하고 8MB/s를 전송합니다. 때때로 트래픽이 최대 2배까지 급증하고 ProvisionedThroughputExceededException 예외가 발생합니다.
+-> 더 많은 샤드 추가
+
+사용자 클릭 순서, 머문 시간, 탐색 등 클릭스트림 데이터 분석을 위해 kinesis 를 사용한다면, 사용자 데이터가 정렬되지 않고 분산될 것. 해결책 -> 각 레코드에대해 사용자 id 를 나타내는 파티션 키 추가.
+사용자 id 를 파티션 키로 사용하면 각 사용자의 데이터가 정렬되어 샤드로 전송.
