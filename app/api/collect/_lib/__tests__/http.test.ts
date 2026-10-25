@@ -15,6 +15,12 @@ describe('corsHeaders', () => {
     expect(corsHeaders('http://localhost:3000')['Access-Control-Allow-Origin']).toBe('http://localhost:3000');
   });
 
+  it('메가밥스 origin을 허용한다', () => {
+    expect(corsHeaders('https://megabobs.vercel.app')['Access-Control-Allow-Origin']).toBe(
+      'https://megabobs.vercel.app',
+    );
+  });
+
   it('허용 목록 밖 origin은 빈 객체를 반환한다', () => {
     expect(corsHeaders('https://evil.example.com')).toEqual({});
     expect(corsHeaders('https://hongsoohyuk.com.evil.com')).toEqual({});
