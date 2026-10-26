@@ -1,4 +1,11 @@
-const ALLOWED_HOSTNAMES = new Set(['hongsoohyuk.com', 'www.hongsoohyuk.com', 'localhost', '127.0.0.1']);
+const ALLOWED_HOSTNAMES = new Set([
+  'hongsoohyuk.com',
+  'www.hongsoohyuk.com',
+  // 메가밥스(site_id: mega-bobs)가 SDK로 직접 전송
+  'megabobs.vercel.app',
+  'localhost',
+  '127.0.0.1',
+]);
 
 function isAllowedOrigin(origin: string): boolean {
   try {
