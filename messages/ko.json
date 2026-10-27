@@ -286,7 +286,15 @@
     "exitPages": "종료 페이지",
     "blogPosts": "블로그 글 순위",
     "worstLcp": "LCP 개선 필요 페이지",
-    "worstLcpNote": "p75 기준, 표본 3회 이상 페이지만"
+    "worstLcpNote": "p75 기준, 표본 3회 이상 페이지만",
+    "site": "사이트",
+    "period": "기간",
+    "siteHongsoohyuk": "hongsoohyuk.com",
+    "siteMegaBobs": "메가밥스",
+    "slackTitle": "Slack 슬래시 커맨드",
+    "slackCalls": "호출",
+    "slackHits": "캐시 적중",
+    "slackHitRate": "캐시 적중률"
   },
   "Common": {
     "open": "열기",

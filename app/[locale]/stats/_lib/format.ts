@@ -1,4 +1,4 @@
-import type {DailyPageviews, VitalStat} from './queries';
+import type {DailyPageviews, SlackDailyRow, VitalStat} from './queries';
 
 const VITAL_ORDER = ['LCP', 'CLS', 'TTFB', 'INP'];
 
@@ -76,4 +76,20 @@ export function vitalSparkSeries(
 ): Array<number | null> {
   const byDay = new Map(rows.filter((r) => r.metric === metric).map((r) => [r.day, r.p75]));
   return dailyKeys(days, todayIso).map((day) => byDay.get(day) ?? null);
+}
+
+export function fillSlackSeries(rows: SlackDailyRow[], days: number, todayIso?: string): SlackDailyRow[] {
+  const byDay = new Map(rows.map((r) => [r.day, r]));
+  return dailyKeys(days, todayIso).map((day) => {
+    const row = byDay.get(day);
+    return {day, calls: row?.calls ?? 0, hits: row?.hits ?? 0};
+  });
+}
+
+/** 캐시 적중률(%). 호출이 없으면 null */
+export function hitRate(rows: SlackDailyRow[]): number | null {
+  const calls = rows.reduce((sum, r) => sum + r.calls, 0);
+  if (calls === 0) return null;
+  const hits = rows.reduce((sum, r) => sum + r.hits, 0);
+  return Math.round((hits / calls) * 1000) / 10;
 }

@@ -2,14 +2,15 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {PageContainer} from '@/components/layout/page-container';
 import {PageHeaderTitle} from '@/components/layout/page-header';
 import {StatTile, StatTileLabel, StatTileValue} from '@/components/ui/stat-tile';
-import {Link} from '@/lib/i18n/routing';
 import {DailyChart} from './_components/daily-chart';
 import {LineChart} from './_components/line-chart';
 import {PageDayHeatmap} from './_components/page-day-heatmap';
 import {RankList} from './_components/rank-list';
+import {SlackPanel} from './_components/slack-panel';
+import {StatsFilter} from './_components/stats-filter';
 import {VitalsPanel} from './_components/vitals-panel';
-import {fillDailySeries, pivotDaily, vitalSparkSeries} from './_lib/format';
-import {getStats, parsePeriod, type BeaconStats, type StatsPeriod} from './_lib/queries';
+import {fillDailySeries, fillSlackSeries, pivotDaily, vitalSparkSeries} from './_lib/format';
+import {getStats, MEGA_BOBS_SITE_ID, parsePeriod, parseSite, STATS_SITE_ID, type BeaconStats} from './_lib/queries';
 import type {Metadata} from 'next';
 
 const EMPTY_STATS: BeaconStats = {
@@ -25,11 +26,12 @@ const EMPTY_STATS: BeaconStats = {
   blogPosts: [],
   vitalsDaily: [],
   worstLcp: [],
+  slackDaily: [],
 };
 
 type Props = {
   params: Promise<{locale: string}>;
-  searchParams: Promise<{days?: string}>;
+  searchParams: Promise<{days?: string; site?: string}>;
 };
 
 export async function generateMetadata({params}: Pick<Props, 'params'>): Promise<Metadata> {
@@ -39,16 +41,17 @@ export async function generateMetadata({params}: Pick<Props, 'params'>): Promise
 }
 
 export default async function StatsPage({params, searchParams}: Props) {
-  const [{locale}, {days}] = await Promise.all([params, searchParams]);
+  const [{locale}, {days, site: siteParam}] = await Promise.all([params, searchParams]);
   setRequestLocale(locale);
 
   const period = parsePeriod(days);
+  const site = parseSite(siteParam);
   const t = await getTranslations('Stats');
 
   // 테이블/RPC 미생성 등 수집 인프라 장애가 페이지 자체를 죽이면 안 됨 — 빈 지표로 렌더
   let stats: BeaconStats;
   try {
-    stats = await getStats(period);
+    stats = await getStats(period, site);
   } catch (error) {
     console.error('[stats] fetch failed:', error);
     stats = EMPTY_STATS;
@@ -73,25 +76,14 @@ export default async function StatsPage({params, searchParams}: Props) {
       vitalSparkSeries(stats.vitalsDaily, m, period),
     ]),
   );
-  const periods: StatsPeriod[] = [7, 30];
+  const slackDaily = fillSlackSeries(stats.slackDaily, period);
 
   return (
     <PageContainer asChild size="content" className="py-8">
       <main>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-bold">{t('title')}</h1>
-          <nav className="flex gap-1 rounded-lg border p-0.5 text-sm">
-            {periods.map((d) => (
-              <Link
-                key={d}
-                href={d === 7 ? '/stats' : {pathname: '/stats', query: {days: d}}}
-                aria-current={period === d ? 'page' : undefined}
-                className={`rounded-md px-3 py-1 ${period === d ? 'bg-muted font-medium' : 'text-muted-foreground'}`}
-              >
-                {t(d === 7 ? 'period7' : 'period30')}
-              </Link>
-            ))}
-          </nav>
+          <StatsFilter site={site} period={period} />
         </div>
 
         <section className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -112,6 +104,23 @@ export default async function StatsPage({params, searchParams}: Props) {
             <StatTileValue>{stats.summary.clicks.toLocaleString()}</StatTileValue>
           </StatTile>
         </section>
+
+        {site === MEGA_BOBS_SITE_ID && (
+          <section className="mt-8">
+            <PageHeaderTitle asChild size="section" className="mb-3">
+              <h2>{t('slackTitle')}</h2>
+            </PageHeaderTitle>
+            <SlackPanel
+              rows={slackDaily}
+              labels={{
+                calls: t('slackCalls'),
+                hits: t('slackHits'),
+                hitRate: t('slackHitRate'),
+                empty: t('empty'),
+              }}
+            />
+          </section>
+        )}
 
         <section className="mt-8">
           <PageHeaderTitle asChild size="section" className="mb-3">
@@ -167,12 +176,14 @@ export default async function StatsPage({params, searchParams}: Props) {
           </section>
         </div>
 
-        <section className="mt-8">
-          <PageHeaderTitle asChild size="section" className="mb-3">
-            <h2>{t('blogPosts')}</h2>
-          </PageHeaderTitle>
-          <RankList items={stats.blogPosts.map((p) => ({label: p.path, value: p.pv}))} emptyLabel={t('empty')} />
-        </section>
+        {site === STATS_SITE_ID && (
+          <section className="mt-8">
+            <PageHeaderTitle asChild size="section" className="mb-3">
+              <h2>{t('blogPosts')}</h2>
+            </PageHeaderTitle>
+            <RankList items={stats.blogPosts.map((p) => ({label: p.path, value: p.pv}))} emptyLabel={t('empty')} />
+          </section>
+        )}
 
         <section className="mt-8">
           <PageHeaderTitle asChild size="section" className="mb-3">

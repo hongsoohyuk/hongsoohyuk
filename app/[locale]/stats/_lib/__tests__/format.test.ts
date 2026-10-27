@@ -1,7 +1,9 @@
 import {
   dailyKeys,
   fillDailySeries,
+  fillSlackSeries,
   formatVitalValue,
+  hitRate,
   pivotDaily,
   ratingPercents,
   sortVitals,
@@ -99,5 +101,29 @@ describe('fillDailySeries', () => {
       {day: '2026-07-18', pv: 5},
       {day: '2026-07-19', pv: 0},
     ]);
+  });
+});
+
+describe('fillSlackSeries', () => {
+  it('빈 날짜를 0으로 채운다', () => {
+    expect(fillSlackSeries([{day: '2026-07-19', calls: 4, hits: 3}], 2, '2026-07-19')).toEqual([
+      {day: '2026-07-18', calls: 0, hits: 0},
+      {day: '2026-07-19', calls: 4, hits: 3},
+    ]);
+  });
+});
+
+describe('hitRate', () => {
+  it('전체 호출 대비 적중 비율을 소수 첫째 자리까지 계산한다', () => {
+    expect(
+      hitRate([
+        {day: '2026-07-18', calls: 2, hits: 1},
+        {day: '2026-07-19', calls: 1, hits: 1},
+      ]),
+    ).toBe(66.7);
+  });
+
+  it('호출이 없으면 null', () => {
+    expect(hitRate([{day: '2026-07-19', calls: 0, hits: 0}])).toBeNull();
   });
 });
