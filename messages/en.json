@@ -287,7 +287,15 @@
     "exitPages": "Exit pages",
     "blogPosts": "Top blog posts",
     "worstLcp": "Slowest pages by LCP",
-    "worstLcpNote": "p75, pages with 3+ samples only"
+    "worstLcpNote": "p75, pages with 3+ samples only",
+    "site": "Site",
+    "period": "Period",
+    "siteHongsoohyuk": "hongsoohyuk.com",
+    "siteMegaBobs": "MegaBobs",
+    "slackTitle": "Slack slash command",
+    "slackCalls": "Calls",
+    "slackHits": "Cache hits",
+    "slackHitRate": "Cache hit rate"
   },
   "Common": {
     "open": "Open",

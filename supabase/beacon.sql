@@ -221,6 +221,19 @@ language sql stable as $$
   order by 2 desc limit p_limit;
 $$;
 
+-- 메가밥스 Slack 슬래시 커맨드: 일별 호출 수 · 메뉴 캐시 적중 수 (props.cache_hit boolean)
+create or replace function beacon_slack_daily(p_site_id text, p_days int)
+returns table (day date, calls bigint, hits bigint)
+language sql stable as $$
+  select (received_at at time zone 'Asia/Seoul')::date,
+         count(*),
+         count(*) filter (where props->>'cache_hit' = 'true')
+  from beacon_events
+  where site_id = p_site_id and event_name = 'slack_bot_call'
+    and received_at >= beacon_window_start(p_days)
+  group by 1 order by 1;
+$$;
+
 -- 함수는 service role로만 호출 (PostgREST가 anon에게 노출하지 않도록)
 revoke execute on function beacon_summary(text, int) from public, anon, authenticated;
 revoke execute on function beacon_daily_pageviews(text, int) from public, anon, authenticated;
@@ -250,3 +263,5 @@ grant execute on function beacon_exit_pages(text, int, int) to service_role;
 grant execute on function beacon_top_blog_posts(text, int, int) to service_role;
 grant execute on function beacon_vitals_daily(text, int) to service_role;
 grant execute on function beacon_worst_lcp_pages(text, int, int) to service_role;
+revoke execute on function beacon_slack_daily(text, int) from public, anon, authenticated;
+grant execute on function beacon_slack_daily(text, int) to service_role;

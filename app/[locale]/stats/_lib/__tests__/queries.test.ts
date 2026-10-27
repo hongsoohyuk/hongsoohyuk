@@ -7,7 +7,7 @@ jest.mock('@/lib/api/supabase', () => ({
   supabaseAdmin: {rpc: (...args: unknown[]) => mockRpc(...args)},
 }));
 
-import {fetchStats, parsePeriod} from '../queries';
+import {fetchStats, parsePeriod, parseSite} from '../queries';
 
 describe('parsePeriod', () => {
   it("'30'만 30, 그 외는 전부 7", () => {
@@ -15,6 +15,15 @@ describe('parsePeriod', () => {
     expect(parsePeriod('7')).toBe(7);
     expect(parsePeriod(undefined)).toBe(7);
     expect(parsePeriod('999')).toBe(7);
+  });
+});
+
+describe('parseSite', () => {
+  it('허용 목록의 사이트만 받고 그 외는 hongsoohyuk.com', () => {
+    expect(parseSite('mega-bobs')).toBe('mega-bobs');
+    expect(parseSite('hongsoohyuk.com')).toBe('hongsoohyuk.com');
+    expect(parseSite(undefined)).toBe('hongsoohyuk.com');
+    expect(parseSite('evil.example.com')).toBe('hongsoohyuk.com');
   });
 });
 
@@ -35,6 +44,7 @@ describe('fetchStats', () => {
         beacon_top_blog_posts: [{path: '/blog/1', pv: 6}],
         beacon_vitals_daily: [{day: '2026-07-19', metric: 'LCP', p75: 1800}],
         beacon_worst_lcp_pages: [{path: '/instagram', p75: 3200, samples: 5}],
+        beacon_slack_daily: [{day: '2026-07-19', calls: 4, hits: 3}],
       }[fn];
       return {data, error: null};
     });
@@ -78,6 +88,30 @@ describe('fetchStats', () => {
     expect(stats.blogPosts[0].pv).toBe(6);
     expect(stats.vitalsDaily[0].metric).toBe('LCP');
     expect(stats.worstLcp[0].samples).toBe(5);
+  });
+
+  it('기본 사이트는 슬랙 집계를 조회하지 않는다', async () => {
+    const stats = await fetchStats(7);
+    expect(mockRpc).not.toHaveBeenCalledWith('beacon_slack_daily', expect.anything());
+    expect(stats.slackDaily).toEqual([]);
+  });
+
+  it('mega-bobs는 같은 RPC를 mega-bobs site_id로 호출하고 슬랙 집계를 더한다', async () => {
+    const stats = await fetchStats(30, 'mega-bobs');
+    expect(mockRpc).toHaveBeenCalledWith('beacon_summary', {p_site_id: 'mega-bobs', p_days: 30});
+    expect(mockRpc).toHaveBeenCalledWith('beacon_slack_daily', {p_site_id: 'mega-bobs', p_days: 30});
+    expect(stats.slackDaily).toEqual([{day: '2026-07-19', calls: 4, hits: 3}]);
+  });
+
+  it('슬랙 RPC가 없어도 나머지 지표는 반환한다', async () => {
+    const base = mockRpc.getMockImplementation()!;
+    mockRpc.mockImplementation(async (fn: string, args: unknown) =>
+      fn === 'beacon_slack_daily' ? {data: null, error: {message: 'missing function'}} : base(fn, args),
+    );
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    const stats = await fetchStats(7, 'mega-bobs');
+    expect(stats.summary.pageviews).toBe(10);
+    expect(stats.slackDaily).toEqual([]);
   });
 
   it('summary가 빈 결과면 0으로 채운다', async () => {
